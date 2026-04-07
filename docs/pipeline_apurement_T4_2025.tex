@@ -1,0 +1,331 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{lmodern}
+
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+
+% Couleurs
+\definecolor{bronze}{RGB}{180, 100, 30}
+\definecolor{silver}{RGB}{90, 120, 160}
+\definecolor{gold}{RGB}{180, 150, 20}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{darkblue}{RGB}{20, 50, 100}
+
+% En-tête / pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small ENEM -- Volet Ménages T4 2025}
+\lhead{\small Pipeline d'apurement}
+\cfoot{\thepage}
+
+% Titre de sections
+\titleformat{\section}{\large\bfseries\color{darkblue}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{silver}}{}{0em}{}
+
+% Commande étape
+\newcommand{\etape}[2]{%
+  \noindent\colorbox{lightgray}{\parbox{\dimexpr\linewidth-2\fboxsep}{%
+    \textbf{#1} \hfill \texttt{\small #2}%
+  }}%
+  \vspace{2pt}%
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=darkblue,
+  urlcolor=silver
+}
+
+% ---------------------------------------------------------------
+\begin{document}
+
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+  {\small\textsc{Institut National de la Statistique -- Côte d'Ivoire}}\\[0.5cm]
+  {\small\textsc{Enquête Nationale sur l'Emploi auprès des Ménages}}\\[2cm]
+  {\LARGE\bfseries\color{darkblue} Pipeline d'Apurement}\\[0.4cm]
+  {\large Volet Ménages -- T4 2025}\\[2cm]
+  \rule{0.5\linewidth}{0.4pt}\\[0.8cm]
+  {\large Documentation technique}\\[0.4cm]
+  {\small Version 1.0 -- Avril 2026}\\[2cm]
+  \vfill
+  {\small Outil : Stata 17 \quad|\quad Collecte : Survey Solutions \quad|\quad Contrôle de version : Git}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ---------------------------------------------------------------
+\section{Vue d'ensemble du pipeline}
+
+Le pipeline d'apurement de l'ENEM-Ménages T4 2025 couvre la \textbf{Phase~5 du GSBPM}
+(traitement statistique). Il s'insère dans une chaîne de production plus large :
+
+\vspace{0.5cm}
+\begin{center}
+\begin{tikzpicture}[
+  node distance=0.4cm,
+  box/.style={rectangle, rounded corners=3pt, draw, minimum width=3.2cm,
+              minimum height=0.9cm, align=center, font=\small},
+  arr/.style={-{Stealth}, thick}
+]
+  \node[box, fill=bronze!20, draw=bronze] (col)
+    {\textbf{Collecte}\\[-2pt]{\tiny ENE\_SUIVI\_COLLECTE}};
+  \node[box, fill=silver!20, draw=silver, right=of col] (apur)
+    {\textbf{Apurement}\\[-2pt]{\tiny T4\_2025\_v}};
+  \node[box, fill=silver!30, draw=silver, right=of apur] (pond)
+    {\textbf{Pondération}\\[-2pt]{\tiny ENE\_SURVEY\_WEIGHTS}};
+  \node[box, fill=gold!20, draw=gold, right=of pond] (ind)
+    {\textbf{Indicateurs}\\[-2pt]{\tiny ENE\_INDICATORS}};
+
+  \draw[arr, bronze] (col) -- (apur);
+  \draw[arr, silver] (apur) -- (pond);
+  \draw[arr, gold]   (pond) -- (ind);
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+
+L'entrée du pipeline est constituée des exports bruts Survey Solutions
+(\texttt{datain/brute/}). La sortie est un ensemble de bases standardisées
+et apurées par section (\texttt{datain/standard/}), prêtes à être fusionnées
+puis transmises au module de pondération.
+
+% ---------------------------------------------------------------
+\section{Architecture des fichiers}
+
+\subsection{Dossiers de données}
+
+\begin{longtable}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Dossier} & \textbf{Contenu} \\
+\midrule
+\texttt{datain/brute/} & 18 fichiers \texttt{.dta} exports Survey Solutions
+  (ménage, membres, revenus, activités, etc.) \\
+\texttt{datain/standard/} & Bases découpées par section après
+  \texttt{standard\_db.do} \\
+\texttt{datatemp/} & Fichiers intermédiaires de codification des emplois \\
+\texttt{dataout/} & Bases finales fusionnées (ménage + individus) \\
+\texttt{document/} & Fichiers Excel d'erreurs exportés lors de l'apurement \\
+\bottomrule
+\end{longtable}
+
+\subsection{Fichiers de programme}
+
+\begin{longtable}{@{}lp{8.5cm}@{}}
+\toprule
+\textbf{Fichier} & \textbf{Rôle} \\
+\midrule
+\texttt{apurement.do} & Orchestrateur principal -- appelle tous les do-files
+  dans l'ordre \\
+\texttt{parentfile.do} & Déclaration des chemins globaux (\texttt{\$datain\_brute},
+  \texttt{\$dofiles}, etc.) \\
+\texttt{Suppression\_entretiens\_T4-2025.do} & Suppression des entretiens invalides
+  (138 clés) sur tous les fichiers bruts \\
+\texttt{01-traitrement\_autres.do} & Recodage des réponses \og{}autres à préciser\fg{} \\
+\texttt{Codification\_T4\_2025.do} & Codification CIAP/CITP des emplois et
+  construction de \texttt{branche1}, \texttt{branche2},
+  \texttt{code\_citp3\_*} \\
+\texttt{Rename\_label\_var.do} & Labellisation des variables binaires
+  issues des questions à choix multiples \\
+\texttt{standard\_db.do} & Découpage de la base brute en fichiers
+  section par section \\
+\texttt{01-QM\_S1} à \texttt{S7} & Apurement des sections ménage \\
+\texttt{01-INDIV\_S1} à \texttt{S14} & Apurement des sections individu \\
+\texttt{Fusion.do / Fusion\_ENE.do} & Fusion des sections en base finale \\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------
+\section{Séquence d'exécution}
+
+Le fichier \texttt{apurement.do} exécute les étapes dans l'ordre suivant :
+
+\vspace{0.3cm}
+\etape{Étape 1}{Suppression\_entretiens\_T4-2025.do}
+
+Suppression de \textbf{138 entretiens invalides} (vides ou en surnombre)
+sur l'ensemble des 18 fichiers \texttt{.dta} de \texttt{datain/brute/}.
+Utilise un \texttt{tempfile} de clés et une boucle \texttt{foreach}
+avec \texttt{merge~m:1~...~keep(master)}.
+
+\vspace{0.2cm}
+\etape{Étape 2}{01-traitrement\_autres.do}
+
+Recodage des champs texte libres (\og{}à préciser\fg{}) en catégories
+numériques standardisées (statut, ethnie, religion, assurance, spécialité).
+
+\vspace{0.2cm}
+\etape{Étape 3}{Codification\_T4\_2025.do}
+
+\begin{itemize}[topsep=2pt, itemsep=1pt]
+  \item Importation des fichiers de codification Excel
+  \item Construction de \texttt{code\_citp\_emp\_principal} (6 positions CITP-08)
+  \item Construction de \texttt{code\_citp3\_emp\_principal} (3 positions, groupe de base)
+  \item Construction de \texttt{branche1} (Agriculture / Industrie / Commerce / Autre service)
+  \item Construction de \texttt{branche2} (Primaire / Secondaire / Tertiaire)
+\end{itemize}
+
+\vspace{0.2cm}
+\etape{Étape 4}{Rename\_label\_var.do}
+
+Labellisation des variables binaires issues des questions à choix multiples
+(0 = Non, 1 = Oui).
+
+\vspace{0.2cm}
+\etape{Étape 5}{standard\_db.do}
+
+Découpage de la base brute unifiée en fichiers section par section :
+\texttt{QM\_S0\_identification}, \texttt{QM\_S7\_logement},
+\texttt{INDIV\_S1} à \texttt{INDIV\_S14}, etc.
+
+\vspace{0.2cm}
+\etape{Étapes 6--12}{01-QM\_S1 à 01-QM\_S7 \quad(sections ménage)}
+
+Apurement des 7 sections ménage.
+
+\vspace{0.2cm}
+\etape{Étapes 13--26}{01-INDIV\_S1 à 01-INDIV\_S14 \quad(sections individu)}
+
+Apurement des 14 sections individu.
+
+% ---------------------------------------------------------------
+\section{Méthodologie d'apurement}
+
+Chaque variable est traitée selon une séquence standard en quatre étapes :
+
+\begin{enumerate}[topsep=3pt, itemsep=2pt]
+  \item \textbf{Valeurs manquantes} : identification des individus éligibles
+    n'ayant pas répondu ; export Excel pour retour enquêteur si nécessaire.
+  \item \textbf{Cohérence des sauts} : vérification que seuls les individus
+    éligibles ont répondu ; annulation des réponses hors cible.
+  \item \textbf{Valeurs permises} : contrôle des plages attendues
+    (ex.~: heures travaillées $\leq$ 168, âge cohérent avec niveau d'éducation).
+  \item \textbf{Vraisemblance} : détection des incohérences inter-variables
+    (ex.~: heures effectives $>$ heures habituelles).
+\end{enumerate}
+
+% ---------------------------------------------------------------
+\section{Stratégie d'imputation par médiane}
+
+Pour les variables continues à valeurs manquantes résiduelles
+(principalement les heures de travail WKT et le loyer L6),
+une imputation par \textbf{médiane stratifiée} est appliquée
+en trois passes successives, du plus fin au plus grossier :
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tabular}{clp{7.5cm}}
+\toprule
+\textbf{Passe} & \textbf{Variables de stratification} & \textbf{Déclencheur} \\
+\midrule
+1 & \texttt{EP3 branche1 code\_citp3 HH12 HH6}
+  & Cellule non vide \\
+2 & \texttt{EP3 branche1 HH12 HH6}
+  & Toujours manquant après passe 1 \\
+3 & \texttt{EP3 branche1}
+  & Toujours manquant après passe 2 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+\begin{description}[topsep=2pt, itemsep=2pt]
+  \item[\texttt{EP3}] Statut dans l'emploi (salarié, indépendant, patron, etc.)
+  \item[\texttt{branche1}] Branche d'activité économique (Agriculture / Industrie /
+    Commerce / Autre service), construite depuis le code CIAP
+  \item[\texttt{code\_citp3}] Code CITP-08 à 3 positions (groupe de base),
+    dérivé du code 6 positions par \texttt{int(code/1000)}
+  \item[\texttt{HH12}] Région administrative
+  \item[\texttt{HH6}] Milieu de résidence (1 = Urbain, 2 = Rural)
+\end{description}
+
+Le repli progressif garantit qu'aucune valeur manquante ne subsiste
+faute de cellule suffisamment peuplée.
+
+% ---------------------------------------------------------------
+\section{Gestion de la qualité}
+
+\subsection{Entretiens supprimés}
+
+\begin{tabular}{lrl}
+\toprule
+\textbf{Motif} & \textbf{Nombre} & \textbf{Critère} \\
+\midrule
+Entretiens problématiques & 6 & Identifiés manuellement \\
+Entretiens vides & 131 & \texttt{HH14 == .} \\
+Entretiens en surnombre & 1 & Excédent selon région/ZD \\
+\midrule
+\textbf{Total} & \textbf{138} & \\
+\bottomrule
+\end{tabular}
+
+\subsection{Traçabilité des erreurs}
+
+Chaque problème identifié est exporté dans un fichier Excel nommé explicitement
+dans \texttt{document/} avant d'être corrigé (ex.~: \texttt{E\_WKT1\_0.xlsx},
+\texttt{SRH4\_Manquants.xlsx}, \texttt{Erreur\_L6\_coh.xls}).
+Cela permet de justifier chaque décision de correction et de retracer
+les anomalies jusqu'à l'enquêteur responsable.
+
+% ---------------------------------------------------------------
+\section{Variables construites}
+
+\begin{longtable}{@{}lp{9.5cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Description} \\
+\midrule
+\texttt{EN\_EMP} & Statut d'emploi agrégé (1 = en emploi, 0 = hors emploi) \\
+\texttt{branche1} & Branche CIAP agrégée, 4 modalités \\
+\texttt{branche2} & Branche CIAP agrégée, 3 secteurs + non classés \\
+\texttt{code\_citp3\_emp\_principal} & Code CITP-08 emploi principal, 3 positions \\
+\texttt{code\_citp3\_emp\_secondaire} & Code CITP-08 emploi secondaire, 3 positions \\
+\texttt{code\_citp3\_pluriactivite1--4} & Codes CITP-08 autres emplois, 3 positions \\
+\texttt{NB\_HEURE\_TRAVAIL\_TOTAL} & Heures totales travaillées toutes activités \\
+\bottomrule
+\end{longtable}
+
+% ---------------------------------------------------------------
+\section{Points d'attention pour la prochaine vague}
+
+\begin{enumerate}[topsep=3pt, itemsep=3pt]
+  \item \textbf{Interface avec la pondération} : le passage de
+    \texttt{T4\_2025\_v} vers \texttt{ENE\_SURVEY\_WEIGHTS} est
+    actuellement manuel (copie de fichiers). Une automatisation
+    via un script de transfert réduirait le risque d'erreur.
+  \item \textbf{Bronze inviolable} : le fichier \texttt{Suppression\_entretiens}
+    écrit dans \texttt{datain/brute/}. Pour une architecture médaillon stricte,
+    les fichiers bruts devraient être en lecture seule et la suppression
+    effectuée à l'entrée de la couche Silver.
+  \item \textbf{Fichiers volumineux} : \texttt{01-traitrement\_autres.do}
+    (562~Ko) et \texttt{Codification\_T4\_2025.do} (542~Ko) contiennent
+    des centaines de \texttt{replace} manuels. Une approche par table de
+    correspondance Excel réduirait la maintenance.
+  \item \textbf{\texttt{01-INDIV\_S15\_disponibilite.do}} : fichier stub,
+    à implémenter ou à retirer définitivement.
+\end{enumerate}
+
+\vspace{1cm}
+\hrule
+\vspace{0.3cm}
+{\small\centering
+  Document généré depuis l'inspection du code source -- Avril 2026\\
+  Pipeline : \texttt{apurement.do} $\rightarrow$ 26 do-files $\rightarrow$
+  \texttt{Fusion.do}
+\par}
+
+\end{document}

@@ -1,0 +1,10027 @@
+
+*********************************************************************************
+*******************RECODAGE DE VARIABLES ****************************************
+*Chargement de la base: 
+
+use "$datain_brute\r_activite_s.dta", clear 
+
+***********PL3_G_Aut
+*export excel PL3_G_Aut using "D:\CAE\fichier exel\PL3_G_aut.xls" if PL3_G_Aut !="", firstrow(variables) replace
+
+*br PL3_G_Aut if PL3_G_Aut!=""
+
+replace   PL3_G=1  if PL3_G_Aut =="MANŒUVRE"
+replace   PL3_G=1  if PL3_G_Aut =="CONTRACTUEL"
+replace   PL3_G=1  if PL3_G_Aut =="SAIGNEUR/ouvrier occasionnel"
+replace   PL3_G=1  if PL3_G_Aut =="TRAVAILLEUR PAYE A LA TACHE"
+replace   PL3_G=1  if PL3_G_Aut =="PAYER UNIQUEMENT LORSQU'IL CONDUIT LE VEHICULE"
+replace   PL3_G=1  if PL3_G_Aut =="IL EST CONTATIER IL SE PAIE SUR LE TERRAIN"
+replace   PL3_G=1  if PL3_G_Aut =="PAIEMENT A LA TACHE"
+replace   PL3_G=1  if PL3_G_Aut =="CONTRACTUEL OCCASIONNEL"
+replace   PL3_G=1  if PL3_G_Aut =="OUVRIERE"
+replace   PL3_G=1  if PL3_G_Aut =="DECHARGEUR"
+replace   PL3_G=1  if PL3_G_Aut =="PERSONNE AIDER A FAIRE LA RECOLTE"
+replace   PL3_G=1  if PL3_G_Aut =="TRAVAILLEURS COLLABORANT AVEC UNE AUTRE PERSONNE"
+replace   PL3_G=1  if PL3_G_Aut =="TRAVAILLEUR OCCASIONNEL"
+replace   PL3_G=1  if PL3_G_Aut =="contratuel"
+replace   PL3_G=1  if PL3_G_Aut =="manoeuvre contractuel"
+replace   PL3_G=1  if PL3_G_Aut =="ouvrier agricole"
+replace   PL3_G=1  if PL3_G_Aut =="MANOEUVRE"
+replace   PL3_G=1  if PL3_G_Aut =="AIDE MACON"
+replace   PL3_G=1  if PL3_G_Aut =="OUVRIER"
+replace   PL3_G=1  if PL3_G_Aut =="AIDE MAÇON"
+replace   PL3_G=1  if PL3_G_Aut =="PAIEMENT A LA TÂCHE"
+replace   PL3_G=1  if PL3_G_Aut =="CONTRATIER"
+replace   PL3_G=3  if PL3_G_Aut =="TRAVAILLEUR INDEPENDANT"
+replace   PL3_G=5  if PL3_G_Aut =="CONSOMMATION DE LA FAMILLE"
+replace   PL3_G=1  if PL3_G_Aut =="PERSONNE TRAVAILLANT EN COLLABORATION AVEC UNE AUTRE PERSONNE"
+replace   PL3_G=3  if PL3_G_Aut =="DEMARCHEUR"
+replace   PL3_G=1  if PL3_G_Aut =="TRAVAILLEUR COLLABORANT AVEC UNE AUTRE PERSONNE"
+replace   PL3_G=1  if PL3_G_Aut =="PERSONNE TRAVAILLANT EN COLLABORATION AVEC UNE AUTRE PERSONNE"
+replace   PL3_G=1  if PL3_G_Aut =="PERSONNE COLLABORANT AVEC UNE AUTRE PERSONNE"
+replace   PL3_G=1  if PL3_G_Aut =="PAYER EN FONCTION DU TRAVAIL PRODUIT"
+replace   PL3_G=1  if PL3_G_Aut =="MANOEUVRE"
+replace   PL3_G=1  if PL3_G_Aut == "PAYER EN FONCTION DU TRAVAIL FAIT"
+replace PL3_G=1 if PL3_G_Aut=="PAYER PAR PERIODE DE TRAVAIL"
+replace PL3_G=1 if PL3_G_Aut=="PAIEMENT PAR TACHE"
+replace PL3_G=5 if PL3_G_Aut=="PERSONNE AIDANT UN AMI DANS SON EMPLOI"
+replace PL3_G=2 if PL3_G_Aut=="CONTACTÉ EN CAS DE BESOIN"
+replace PL3_G=8 if PL3_G_Aut=="APPRENTI PAYE"
+replace   PL3_G=1  if PL3_G_Aut =="MANOEUVRE AGRICOLE"
+replace   PL3_G=1  if PL3_G_Aut =="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace PL3_G=1 if PL3_G_Aut=="PAYE EN FONCTION DE LA TACHE"
+replace PL3_G=1 if PL3_G_Aut=="CONTRACTUEL (OCCASIONNELLEMENT)"
+replace PL3_G=1 if PL3_G_Aut=="PERSONNE TRAVAILLANT POUR UNE AUTRE PERSONNE"
+replace PL3_G=1 if PL3_G_Aut=="CONTRACTUEL TEMPORAIRE"
+replace PL3_G=1 if PL3_G_Aut=="POURBOIRE"
+replace PL3_G=1 if PL3_G_Aut=="PARTENAIRE COMMERCIAL A LENTREPRISE"
+replace PL3_G=1 if PL3_G_Aut=="BENEVOLAT"
+replace PL3_G=1 if PL3_G_Aut=="BENEVOLE"
+replace PL3_G=1 if PL3_G_Aut=="PAYE EN FONCTION DE LA TACHE EFFECTUE"
+replace PL3_G=1 if PL3_G_Aut=="PAYER EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace PL3_G= 1 if PL3_G_Aut == "ouvrier"
+replace PL3_G= 1 if PL3_G_Aut == "MANŒUVRE PAYÉ"
+replace PL3_G= 3 if PL3_G_Aut == "travailleur indépendant"
+replace PL3_G= 1 if PL3_G_Aut == "PAYE EN FONCTION DU TRAVAIL EFFECTUE"
+replace PL3_G= 1 if PL3_G_Aut == "CONTRAT A LA TACHE"
+replace PL3_G = 5 if PL3_G_Aut == "PAS A LA VENTE"
+replace PL3_G = 1 if PL3_G_Aut == "CONTRACTUELLE"
+replace PL3_G = 3 if PL3_G_Aut == "POUR LA CONSOMMATION"
+replace PL3_G = 5 if PL3_G_Aut == "POUR NOURRIR LA FAMILLE"
+replace PL3_G = 5 if PL3_G_Aut == "POUR LA CONSOMMATION"
+replace PL3_G = 5 if PL3_G_Aut == "PERSONNE AIDANT QUELQU'UN QUI TRAVAILLE DANS SON EMPLOI PRINCIPAL"
+replace PL3_G = 8 if PL3_G_Aut == "APPRENTI PAYÉ"
+replace PL3_G = 5 if PL3_G_Aut == "PAS A LA VENTE"
+replace PL3_G = 5 if PL3_G_Aut == "POUR LA CONSOMMATION"
+replace PL3_G = 5 if PL3_G_Aut == "POUR LA CONSOMMATION"
+replace PL3_G = 5 if PL3_G_Aut == "PAS A LA VENTE"
+replace PL3_G = 5 if PL3_G_Aut == "PAS A LA VENTE"
+replace PL3_G = 5 if PL3_G_Aut == "PAS A LA CONSOMMATION"
+
+
+
+***Vider la variable
+replace PL3_G_Aut = "" if !inlist(PL3_G,.,.a,10) 
+
+
+*AUTRES A PRECISER 
+*PAS A LA VENTE , POUR LA CONSOMMATION, POUR NOURRIR LA FAMILLE
+
+
+*************************************************************
+
+save "$datain_brute\r_activite_s.dta", replace
+
+**********************************************
+*Chargement de la base: 
+use "$datain_brute\emigration.dta", clear 
+
+*export excel ME8_Aut using "D:\CAE\fichier exel\ME8_Aut.xls" if ME8_Aut!="", firstrow(variables) replace
+
+
+*br ME8_Aut if ME8_Aut!=""
+
+*******ME8_Aut 
+replace ME8=1  if ME8_Aut =="REJOINDRE MON MARI"
+replace ME8=1  if ME8_Aut =="SUIVRE SA GÉNITRICE"
+replace ME8=4  if ME8_Aut =="POUR LE TRAVAIL"
+replace ME8=4 if ME8_Aut =="FOOTBALLEUR"
+replace ME8=6 if ME8_Aut =="PROBLEME DE SANTE"
+replace ME8=4 if ME8_Aut =="FOOTBALLEUR"
+replace ME8=1 if ME8_Aut=="MARIAGE"
+replace ME8=1 if ME8_Aut=="ASSISTER SES PARENTS"
+replace ME8=1 if ME8_Aut=="DEPART POUR CAUSE DE DECES DE SA MERE"
+replace ME8=7 if ME8_Aut=="PESENTEUR CULTURELLE"
+
+
+***Vider la variable
+replace ME8_Aut ="" if !inlist(ME8,.,.a,9) 
+
+
+
+********* ME9_Aut RAS
+
+save "$datain_brute\emigration.dta", replace
+
+
+***********************************************
+
+*Chargement de la base: 
+use "$datain_brute\membres.dta", clear 
+
+*export excel M21_Aut using "D:\CAE\fichier exel\M21_Aut.xls" if M21_Aut!="", firstrow(variables) replace
+
+***///////////////M21 Quelle est l’ethnie
+*br M21_Aut if M21_Aut!=""
+replace M21 = 47 if M21_Aut == "BISSA"
+replace M21 = 47 if M21_Aut == "MARAKA"
+replace M21 = 59 if M21_Aut == "MOSSI"
+replace M21 = 47 if M21_Aut == "ODIENEKA"
+replace M21 = 62 if M21_Aut == "TAGBANAN"
+replace M21 = 62 if M21_Aut == "TAGBANA"
+replace M21 = 47 if M21_Aut == "odieneka"
+replace M21=47 if M21_Aut=="ODIENEKA" 
+replace M21=47 if M21_Aut=="Odieneka" 
+replace M21=56 if M21_Aut=="WAN" 
+replace M21=73 if M21_Aut=="PEUL"
+replace M21 = 47 if M21_Aut == "ODIENNECA"
+replace M21 = 47 if M21_Aut == "ODIENNEKA" 
+replace M21 = 56 if M21_Aut == "OUAN"
+replace M21 = 14 if M21_Aut == "BAOULE"
+replace M21 = 60 if M21_Aut == "SENOUFO"
+replace M21 = 60 if M21_Aut == "BARBOR"
+replace M21= 4 if M21_Aut == "BRON"
+replace M21 = 47 if M21_Aut == "NOUMOU"
+replace M21 = 47 if M21_Aut == "MANIGAN"
+replace M21 = 60 if M21_Aut == "BARABOR"
+
+***********Vider la variable:
+replace M21_Aut = "" if !inlist(M21,.,.a,98) 
+
+
+* AUTRES A PRECISER : "MORE" "GOUSSI" "DAGUARI" "DJASSARAGA" "BOUNIGA" "more" "KLAH" "Refus de donner" , Klah, Anoh
+
+
+***///////////////M22 Quelle est la réligion
+*br M22_Aut if M22_Aut!=""
+
+replace M22 = 3 if M22_Aut == "BETHEL"
+replace M22 = 6 if M22_Aut == "AIME TON PROCHAIN"
+replace M22 = 2 if M22_Aut == "ADVENTISTE DU 7E JOUR" 
+replace M22 = 14 if M22_Aut =="DISCIPLES DE KAKOU PHILIPPE"
+replace M22 = 8 if M22_Aut == "RELIGION AFRICAINE"
+replace M22 = 6 if M22_Aut == "MISSION MONDIALE EVENGELICO ( FONDATION JOKEIRROCHER)"
+replace M22 = 6 if M22_Aut == "CHRISTIANISTE"
+replace M22 = 6 if M22_Aut == "MECIANIQUE"
+replace M22 = 6 if M22_Aut == "MECIANIQUE COTE DIVOIRE"
+replace M22 = 8 if M22_Aut == "POROMANE" 
+
+***Vider la variable 
+replace M22_Aut = "" if !inlist(M22,.,.a,9998) 
+
+***Autres à preciser 
+* FRANC MACON , GRAND COMMISSIONN , MAIKARI sont des vrais autres a preciser
+
+****/////////////// M24B: M24B_Aut. Veuillez préciser l'autre Couverture en Assurance maladie
+
+*export excel M24B_Aut using "D:\CAE\fichier exel\M24B_Aut.xls" if M24B_Aut!="", firstrow(variables) 
+
+replace M24C__2 = 1 if M24B_Aut == "ASSURANCE CONJOINT"
+replace M24C__3 = 1 if M24B_Aut == "ASSURANCE PARENT" 
+replace M24C__3 = 1 if M24B_Aut == "IIPS" & M4 == 3
+replace M24C__2 = 1 if M24B_Aut == "IIPS" & M4 == 2
+replace M24C__1 = 1 if M24B == 98 & M24B_Aut == "IIPS" & M4 == 1
+replace M24C__1 = 1 if M24B == 98 & M24B_Aut == "MUGEFCI" & M4 == 1
+replace M24C__2 = 1 if M24B_Aut == "2IPS"
+****
+replace M24C__3=1 if M24B_Aut=="IVOIRE SANTE"
+replace M24C__3=1 if M24B_Aut=="MUPENETCI"
+replace M24C__3=1 if M24B_Aut=="MUPEMENET"
+replace M24C__3=1 if M24B_Aut=="MUGEFCI"
+replace M24C__3=1 if M24B_Aut=="DIPS"
+replace M24C__3=1 if M24B_Aut=="FONDS DE PRÉVOYANCE MILITAIRE"
+***
+replace M24C__2=1 if M24B_Aut=="ASSURANCE CONJOINT"
+replace M24C__2=1 if M24B_Aut=="ASSURANCE PARENTS"
+replace M24C__2=1 if M24B_Aut=="ASSURANCE PARENT"
+***
+replace M24C__2=1 if M24B_Aut== "2IPS"
+replace M24C__2=1 if M24B_Aut== "SOGEMAD"
+replace M24C__2=1 if M24B_Aut== "AGEMAS"
+replace M24C__3=1 if M24B_Aut== "MUGEBCI"
+replace M24C__3=1 if M24B_Aut== "MUGEPCI"
+
+replace M24C__3=1 if M24B_Aut== "CNPS"
+replace M24C__3=1 if M24B_Aut== "MUPNET"
+replace M24C__3=1 if M24B_Aut== "ASTA, IVOIRE SANTE"
+replace M24C__3=1 if M24B_Aut== "IVOIRE SANTE, ASTA"
+replace M24C__2=1 if M24B_Aut== "VITALIS"
+replace M24C__2=1 if M24B_Aut== "VITALIX  FIDRA"
+replace M24C__2=1 if M24B_Aut== "IPS"
+replace M24C__2=1 if M24B_Aut== "VITALIX FIDRA"
+
+replace M24C__4 =1 if M24B_Aut == "MUPNEPCI"
+replace M24C__4 =1 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__4 =1 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__4 =1 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__4 =1 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__2 =1 if M24B_Aut == "SAINT RAPHAEL"
+replace M24C__2 =1 if M24B_Aut == "ASSURANCE DU GHANA"
+replace M24C__2 =1 if M24B_Aut == "BANASUR"
+replace M24C__2 =1 if M24B_Aut == "OGMAD"
+
+
+*** Autres a preciser
+replace M24C__7=0 if M24B_Aut == "ASSURANCE CONJOINT"
+replace M24C__7=0 if M24B_Aut == "ASSURANCE PARENT" 
+replace M24C__7=0 if M24B_Aut == "IIPS" & M4 == 3
+replace M24C__7=0 if M24B_Aut == "IIPS" & M4 == 2
+replace M24C__7=0 if M24B_Aut == "IIPS" & M4 == 1
+replace M24C__7=0 if M24B_Aut == "MUGEFCI" & M4 == 1
+replace M24C__7=0 if M24B_Aut == "2IPS"
+replace M24C__7=0 if M24B_Aut=="IVOIRE SANTE"
+replace M24C__7=0 if M24B_Aut=="MUPENETCI"
+replace M24C__7=0 if M24B_Aut=="MUPEMENET"
+replace M24C__7=0 if M24B_Aut=="MUGEFCI"
+replace M24C__7=0 if M24B_Aut=="DIPS"
+replace M24C__7=0 if M24B_Aut=="FONDS DE PRÉVOYANCE MILITAIRE"
+replace M24C__7=0 if M24B_Aut=="ASSURANCE CONJOINT"
+replace M24C__7=0 if M24B_Aut=="ASSURANCE PARENTS"
+replace M24C__7=0 if M24B_Aut=="ASSURANCE PARENT"
+replace M24C__7=0 if M24B_Aut== "SOGEMAD"
+replace M24C__7=0 if M24B_Aut== "AGEMAS"
+replace M24C__7=0 if M24B_Aut== "MUGEBCI"
+replace M24C__7=0 if M24B_Aut== "MUGEPCI"
+replace M24C__7=0 if M24B_Aut== "ASTA, IVOIRE SANTE"
+replace M24C__7=0 if M24B_Aut== "IVOIRE SANTE, ASTA"
+replace M24C__7=0 if M24B_Aut== "VITALIS"
+replace M24C__7=0 if M24B_Aut== "VITALIX  FIDRA"
+replace M24C__2=1 if M24B_Aut== "IPS"
+
+replace M24C__7=0 if M24B_Aut == "MUPNEPCI"
+replace M24C__7=0 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__7=0 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__7=0 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__7=0 if M24B_Aut == "MUGEPCI (IVOIRE SANTÉ)"
+replace M24C__7=0 if M24B_Aut == "SAINT RAPHAEL"
+replace M24C__7=0 if M24B_Aut == "ASSURANCE DU GHANA"
+replace M24C__7=0 if M24B_Aut == "BANASUR"
+replace M24C__7=0 if M24B_Aut == "OGMAD"
+
+*
+replace M24C__8=1 if M24B_Aut== "CNPS"
+replace M24C__8=1 if M24B_Aut== "MUPNET"
+**** Vider les variables
+replace M24B_Aut = "" if M24C__2 == 1 & regexm(lower(trim(M24B_Aut)), "^(assurance conjoint|assurance parents|assurance parent)$")
+replace M24B_Aut = "" if M24C__2 == 1 &regexm(lower(trim(M24B_Aut)), "^(assurance conjoint|iips|2ips)$") & M4 == 2
+
+
+
+replace M24B_Aut = "" if M24C__2 == 1 
+replace M24B_Aut = "" if M24C__3 == 1
+
+replace M24B_Aut = "" if M24C__3 == 1 &regexm(lower(trim(M24B_Aut)), "ivoire sante|mupenetci|mupemenet|mugefci|dips|fonds de pr[eé]voyance militaire")
+replace M24B_Aut = "" if M24C__3 == 1 &regexm(lower(trim(M24B_Aut)), "^(assurance parent|iips)$") & M4 == 3
+
+replace M24B_Aut = "" if M24C__1 == 1 & regexm(lower(trim(M24B_Aut)), "^(iips|mugefc)$") & M4 == 1
+
+replace M24B_Aut = "" if M24C__8 == 0 & regexm(lower(trim(M24B_Aut)), "^(assurance conjoint|assurance parent|iips|2ips|ivoire sante|mupenetc|mupe|mugefc|dips|fonds de prevoyance militaire)$") & (M4 == 2 | M4 == 3) | (M24B == 98 & regexm(lower(trim(M24B_Aut)), "^(iips|mugefc)$") & M4 == 1)
+
+replace M24B_Aut = "" if M24C__1==1|M24C__2==1|M24C__3==1|M24C__4==1
+
+
+/////// EF4_3_AUT. AUTRE SPÉCIALITÉ
+*export excel  EF4_3_AUT using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EF4_3_AUT using "D:\CAE\fichier exel\EF4_3_AUT.xls" if EF4_3_AUT!="", firstrow(variables)
+
+replace   EF4_3=65  if EF4_3_AUT =="LITTÉRATURE"
+replace   EF4_3=187  if EF4_3_AUT =="SERIE D"
+replace   EF4_3=65  if EF4_3_AUT =="LETTRE MODERNE"
+replace   EF4_3=80  if EF4_3_AUT =="SCIENCE SOCIALE"
+replace   EF4_3=73  if EF4_3_AUT =="LICENCE PSYCHOLOGIQUE"
+replace   EF4_3=65  if EF4_3_AUT =="SERIE A2"
+replace   EF4_3=65  if EF4_3_AUT =="A1"
+replace   EF4_3=65  if EF4_3_AUT =="LITTERATURE"
+replace   EF4_3=187  if EF4_3_AUT =="BAC D"
+replace   EF4_3=187  if EF4_3_AUT =="BAC SERIE D"
+replace   EF4_3=65  if EF4_3_AUT =="BAC SERIE A2"
+replace   EF4_3=80  if EF4_3_AUT =="CRIMINOLOGIE"
+replace   EF4_3=80  if EF4_3_AUT =="SICOPEDAGOGIE"
+replace   EF4_3=65  if EF4_3_AUT =="LANGUES LITTERATURE ET CIVILISATION"
+replace   EF4_3=0  if EF4_3_AUT =="AUCUNE"
+
+replace EF4_3 = 57 if inlist(EF4_3_AUT, "ART DU SPECTACLE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "ART DU SPECTACLE")
+replace EF4_3 = 102 if inlist(EF4_3_AUT, "BANQUE FINANCE ET ASSURANCE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "BANQUE FINANCE ET ASSURANCE")
+replace EF4_3 = 117 if inlist(EF4_3_AUT, "communication")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "communication")
+replace EF4_3 = 9 if inlist(EF4_3_AUT, "EDUCATION", "ENSEIGNEMENT GENERAL", "ESPAGNOL")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "EDUCATION", "ENSEIGNEMENT GENERAL", "ESPAGNOL")
+replace EF4_3 = 235 if inlist(EF4_3_AUT, "ELECTROMECANICIEN")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "ELECTROMECANICIEN")
+replace EF4_3 = 235 if inlist(EF4_3_AUT, "CRIMINOLOGIE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "CRIMINOLOGIE")
+replace EF4_3 = 65 if inlist(EF4_3_AUT, "LITTÉRAIRE", "LETTRE MODERNE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "LITTÉRAIRE", "LETTRE MODERNE")
+replace EF4_3 = 18 if inlist(EF4_3_AUT, "SCIENTIFIQUE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "SCIENTIFIQUE")
+replace EF4_3 = 113 if inlist(EF4_3_AUT, "communication")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "communication")
+replace EF4_3 = 185 if inlist(EF4_3_AUT, "GESTION DE L'ENVIRONNEMENT  ET DES RESSOURCES  NATURELS")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "GESTION DE L'ENVIRONNEMENT  ET DES RESSOURCES  NATURELS")
+replace EF4_3 = 0 if inlist(EF4_3_AUT, "AUCUNE SPECIALITE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "AUCUNE SPECIALITE")
+replace EF4_3 = 18 if inlist(EF4_3_AUT, "BACCALAURÉAT   SCIENTIFIQUE", "BACCALAURÉAT SCIENTIFIQUE")
+replace EF4_3_AUT = "" if inlist(EF4_3_AUT, "BACCALAURÉAT   SCIENTIFIQUE", "BACCALAURÉAT SCIENTIFIQUE")
+
+****
+replace EF4_3=180 if EF4_3_AUT=="GÉOGRAPHIE"
+replace EF4_3=69 if EF4_3_AUT=="SCIENCES ECONOMIQUES"
+replace EF4_3=69  if EF4_3_AUT=="SCIENCES  ÉCONOMIQUES ET DES GESTION"
+replace EF4_3=9  if EF4_3_AUT=="GENERAL"
+replace EF4_3=9 if EF4_3_AUT=="ÉDUCATION"
+replace EF4_3=9  if EF4_3_AUT=="GÉNÉRALE"
+replace EF4_3=9 if EF4_3_AUT=="GÉNÉRERAL"
+replace EF4_3=138  if EF4_3_AUT=="SECRÉTARIAT"
+replace EF4_3=335 if EF4_3_AUT=="MACONNERIE"
+replace EF4_3= 185 if EF4_3_AUT=="PROTECTION DE L ENVIRONNEMENT  ET DES VÉGÉTAUX"
+replace EF4_3=181 if EF4_3_AUT=="TECHNICIEN SUPERIEUR DE L'ENVIRONNEMENT"
+replace EF4_3=363 if EF4_3_AUT=="AQUACULTURE"
+***
+replace EF4_3= 268 if EF4_3_AUT=="TRANSFORMATION ET STABILISATION STOCKAGE D'ENGRAIS"
+replace EF4_3= 65 if EF4_3_AUT=="LETTRE"
+replace EF4_3= 9 if EF4_3_AUT == "GÉNÉRAL" 
+replace EF4_3= 9 if EF4_3_AUT =="GENERALE" 
+replace EF4_3= 9 if EF4_3_AUT == "SECONDAIRE" 
+replace EF4_3= 233 if EF4_3_AUT == "ELECTRONIQUE" 
+replace EF4_3= 18 if EF4_3_AUT == "BACCALAUREAT SERIE D" 
+replace EF4_3= 65 if EF4_3_AUT == "ALLEMAND"
+replace EF4_3= 65 if EF4_3_AUT == "SERIE A"
+replace EF4_3= 383 if EF4_3_AUT == "AUXILIAIRE DES  SOINS"
+replace EF4_3= 18 if EF4_3_AUT == "SCIENCE"
+replace EF4_3= 194 if EF4_3_AUT == "Maintenance de système"
+replace EF4_3= 290 if EF4_3_AUT == "COIFFURE"
+replace EF4_3= 176 if EF4_3_AUT == "BIO DIVERSITE"
+replace EF4_3 = 65 if EF4_3_AUT =="LETTRES"
+replace EF4_3 = 245 if EF4_3_AUT =="MECANIQUE"
+replace EF4_3 = 121 if EF4_3_AUT =="GESTION COMMERCIALE"
+replace EF4_3 = 403 if EF4_3_AUT =="HÔTELLERIE"
+replace EF4_3 = 140 if EF4_3_AUT =="Secrétariat bureautique"
+replace EF4_3 = 9 if EF4_3_AUT =="enseignement général"
+replace EF4_3 = 65 if EF4_3_AUT =="LITTERAIRE"
+replace EF4_3 = 376 if EF4_3_AUT =="SANTE ANIMAL"
+replace EF4_3 = 110 if EF4_3_AUT =="HISTOIRE ET RELATION INTERNATIONALE"
+replace EF4_3 = 403 if EF4_3_AUT =="HOTELLERIE"
+replace EF4_3 = 386 if EF4_3_AUT =="TECHNOLOGIE DE LA SANTE BIOMEDICAL"
+replace EF4_3 = 378 if EF4_3_AUT =="ANESTHESISTE"
+replace EF4_3=180 if EF4_3_AUT =="GEOGRAPHIE"
+
+replace EF4_3 = 140 if EF4_3_AUT == "BUREAUTIQUE"
+replace EF4_3 = 18 if EF4_3_AUT == "SERIE B"
+replace EF4_3 = 69 if EF4_3_AUT == "ÉCONOMIQUE"
+replace EF4_3 = 21 if EF4_3_AUT == "HISTOIRE GEO"
+replace EF4_3 = 140 if EF4_3_AUT == "SECRETARIAT"
+replace EF4_3 = 394 if EF4_3_AUT == "SANITAIRE SOCIAL"
+replace EF4_3 = 9 if EF4_3_AUT == "ENSEIGNEMENT"
+replace EF4_3 = 9 if EF4_3_AUT == "ENSEIGNEMENT GÉNÉRAL"
+replace EF4_3 = 88 if EF4_3_AUT == "GESTION ET COMMUNICATION"
+replace EF4_3 = 176 if EF4_3_AUT == "TECHNICIEN DE BIOLOGIE MÉDICALE"
+replace EF4_3 = 21 if EF4_3_AUT == "HISTOIRE GEOGRAPHIE"
+replace EF4_3 = 205 if EF4_3_AUT == "SÉCURITÉ ET ADMINISTRATION DES SYSTÈMES"
+replace EF4_3 = 96 if EF4_3_AUT == "COMPTABILITE"
+replace EF4_3 = 69 if EF4_3_AUT == "SCIENCES ÉCONOMIQUES"
+replace EF4_3 = 247 if EF4_3_AUT == "MAINTENANCE AUTOMOBILE"
+
+
+
+***Vider la variable
+replace EF4_3_AUT = "" if !inlist(EF4_3,.,.a,-1) 
+
+
+
+//// EF5_AUTRE
+
+
+
+
+
+
+
+
+
+
+********//////////////FP2: Qui a principalement formé
+*Exprtation des variables sur excel 
+*export excel FP2 FP2_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel FP2_Aut using "D:\CAE\fichier exel\FP2_Aut.xls" if FP2_Aut!="", firstrow(variables) replace
+
+replace FP2 = 7 if FP2_Aut=="MÉCANIQUE"
+replace FP2 = 7 if FP2_Aut=="COUTURE"
+replace FP2 = 7 if FP2_Aut=="APPRENTISSAGE CHAUFFEUR"
+replace FP2 = 7 if FP2_Aut=="COIFFURE"
+replace FP2 = 7 if FP2_Aut=="TAPICIER"
+replace FP2 = 7 if FP2_Aut=="MECANIQUE"
+replace FP2 = 7 if FP2_Aut=="PATISSERIE"
+replace FP2 = 7 if FP2_Aut=="MAÇONNERIES"
+replace FP2 = 7 if FP2_Aut=="MACONNERIE"
+replace FP2 = 7 if FP2_Aut=="MENUISERIE GENERALE"
+replace FP2 = 7 if FP2_Aut=="TOLERIE"
+replace FP2 = 7 if FP2_Aut=="ELECTRICITE"
+replace FP2 = 7 if FP2_Aut=="COIFFURE DAME"
+replace FP2 = 7 if FP2_Aut=="APPRENTISSAGE D’INSTALLATION DE CANAL"
+replace FP2 = 7 if FP2_Aut=="MENUISERIE"
+replace FP2 = 7 if FP2_Aut=="LA COUTURE"
+replace FP2 = 7 if FP2_Aut=="MECANIQUE AUTO"
+replace FP2 = 7 if FP2_Aut=="SOUDURE"
+replace FP2 = 7 if FP2_Aut=="CHAUFFEUR"
+replace FP2 = 7 if FP2_Aut=="FERRAILLEUR"
+replace FP2 = 7 if FP2_Aut=="FERRAILLEUR EN BATIMENT"
+replace FP2 = 1 if FP2_Aut=="SANTE"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="FORGERON"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="MAÇONNERIE"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="PLOMBERIE"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="APPRENTISSAGE DE CONDUITE"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="VULGARISATION"
+replace FP2 = 7 if FP2 ==13 &  FP2_Aut=="ÉLECTRICIEN ET PLOMBIER EN BATIMENT"
+replace   FP2=7  if FP2_Aut =="CONDUITE"
+replace   FP2=11  if FP2_Aut =="MEDECINE CHINOISE"
+replace   FP2=11  if FP2_Aut =="SANTE"
+replace   FP2=11  if FP2_Aut =="ELEVAGE"
+replace   FP2=11  if FP2_Aut =="ÉLEVAGE DES PETITS ET GRANDS RUMINANTS" | FP2_Aut =="Artisanat" | FP2_Aut =="couture"
+
+replace   FP2=11  if FP2_Aut =="MENUISIER"
+replace   FP2=11  if FP2_Aut =="APPREND LA COUTURE AUPRES DE QUELQUN"
+replace   FP2=7  if FP2_Aut =="APPRENTISSAGE DE CONDUITE DE MACHINE"
+replace   FP2=7  if FP2_Aut =="MACON"
+replace   FP2=7  if FP2_Aut =="COUTURE DAME"
+replace   FP2=7  if FP2_Aut =="COUTURE DAME ET ENFANT"
+replace   FP2=7  if FP2_Aut =="COUTURE HOMME, DAME ET ENFANT"
+replace   FP2=11  if FP2_Aut =="FERONNIER"
+replace   FP2=7  if FP2_Aut =="MECANIQUE  AUTO"
+replace   FP2=7  if FP2_Aut =="MECANIQUE MOTO"
+replace   FP2=7  if FP2_Aut =="MÉCANIQUE DE MOTO"
+replace   FP2=11  if FP2_Aut == "FORMER SUR LE TAS PAR UN PARTICULIER EN ELECTRICITE"
+replace   FP2=7  if FP2_Aut =="RÉPARATEUR DE PORTABLE"
+replace   FP2=7  if FP2_Aut =="maçonnerie"
+replace   FP2=7  if FP2_Aut =="SALON DE COUTURE"
+replace   FP2=7  if FP2_Aut =="soudure"
+replace   FP2=7  if FP2_Aut =="PÂTISSERIE, ORGANISATRICE, EVERNEMENTIEL ET DÉCORATRICE"
+ 
+replace   FP2=7  if FP2_Aut =="PLOMBERIE"
+replace   FP2=7  if FP2_Aut =="MAÇONNERIES"
+replace   FP2=7  if FP2_Aut =="COUTURE"
+replace   FP2=7  if FP2_Aut =="MENUISERIE"
+replace   FP2=7  if FP2_Aut =="PATISSERIE"
+replace   FP2=7  if FP2_Aut =="COIFFURE FEMME"
+replace   FP2=7  if FP2_Aut =="MACONNERIE"
+replace   FP2=7  if FP2_Aut =="FORMATION D EPS"
+replace   FP2=7  if FP2_Aut =="ARTISAN"
+replace   FP2=7  if FP2_Aut =="PATISESERIE"
+replace   FP2=7  if FP2_Aut =="ÉLEVAGE"
+replace   FP2=7  if FP2_Aut =="LA SOUDURE"
+replace   FP2=7  if FP2_Aut =="FERRONNERIE"
+replace   FP2=7  if FP2_Aut =="TAPISSERIE"
+replace   FP2=7  if FP2_Aut =="MÉCANIQUE MOTO"
+replace   FP2=11  if FP2_Aut =="PLOMBERIE"
+replace   FP2=13  if FP2_Aut =="MAÇONNERIES"
+replace   FP2=13  if FP2_Aut =="MAÇONNERIES"
+replace   FP2=11  if FP2_Aut =="COUTURE"
+replace   FP2=7  if FP2_Aut =="MENUISERIE"
+replace   FP2=11  if FP2_Aut =="PATISSERIE"
+replace   FP2=11  if FP2_Aut =="COIFFURE FEMME"
+replace   FP2=1  if FP2_Aut =="MACONNERIE"
+replace   FP2=13  if FP2_Aut =="FORMATION D EPS"
+replace   FP2=13  if FP2_Aut =="TEINTURE DE PAGNE INDIGO"
+replace   FP2=2  if FP2_Aut =="PATISESERIE"
+replace   FP2=8  if FP2_Aut =="ÉLEVAGE"
+replace   FP2=2  if FP2_Aut =="LA SOUDURE"
+replace   FP2=2  if FP2_Aut =="FERRONNERIE"
+replace   FP2=11  if FP2_Aut =="MÉCANIQUE MOTO"
+****
+replace FP2=7  if FP2_Aut =="PEINTRE"
+replace FP2=7 if FP2_Aut =="MECANIQUE DE MOTO"
+replace FP2=7 if FP2_Aut =="MECANIQUE DE MOTO"
+replace FP2=7  if FP2_Aut =="MÉCANIQUE AUTOMOBILE"
+replace FP2=2 if FP2_Aut=="ÉLECTRONIQUE"
+replace FP2=11  if FP2_Aut =="COIFFEURE"
+replace FP2=11  if FP2_Aut =="MANICURE PÉDICURE"
+replace FP2=2  if FP2_Aut =="BATIMENT TRAVAUX PRATIQUES"
+replace FP2=2  if FP2_Aut =="INFORMATIQUE"
+replace FP2=6 if FP2_Aut =="SÉCURITÉ"
+replace FP2=7  if FP2_Aut =="PLOMBERIE ET ELECTRICITE"
+replace FP2=7 if FP2_Aut=="CHARPENTIER"
+***
+replace FP2=1 if FP2_Aut== "FORMATION GESTION DE PROJET"
+replace FP2=7  if FP2_Aut == "MECANIQUE AUTOMOBILE"
+replace FP2=7  if FP2_Aut == "MECANICIEN"
+replace FP2=7  if FP2_Aut == "LA MÉCANIQUE DE MOTO"
+replace FP2=7  if FP2_Aut == "REPARATION TELE ET RADIO"
+replace FP2=7  if FP2_Aut == "APPRENTI CHAUFFEUR"
+replace FP2=7  if FP2_Aut == "MECANIQUE VELO"
+replace FP2=11  if FP2_Aut == "coiffure dame"
+replace FP2=11  if FP2_Aut == "COIFFEUSE"
+replace FP2=11  if FP2_Aut == "COUTURE HOMME"
+replace FP2=11  if FP2_Aut == "la couture"
+replace FP2=11  if FP2_Aut == "REPARATION TELE ET RADIO" 
+replace FP2=11  if FP2_Aut == "DANS UN SALON DE COIFFURE"
+replace FP2=11  if FP2_Aut == "Chez une personne tierce"
+replace FP2=11  if FP2_Aut == "CHEZ UN PARTICULIER"
+**
+
+replace FP2=11  if FP2_Aut == "TRESSE"
+replace FP2=11  if FP2_Aut == "COIFFURE, PÉDICURE ET MANICURE"
+replace FP2=11  if FP2_Aut == "COUTURIERE"
+replace FP2=6  if FP2_Aut == "LA CONDUITE"
+replace FP2=10  if FP2_Aut == "CHEZ UNE TIERCE PERSONNE"
+replace FP2=11  if FP2_Aut == "DANS LA RUE AUPRES UN MAITRE METIER"
+replace FP2=6  if FP2_Aut == "NTIC"
+
+replace FP2 = 7 if FP2_Aut =="PEINTRES BATIMENT"
+replace FP2 = 3 if FP2_Aut =="CAISSIERE"
+replace FP2 = 7 if FP2_Aut =="STYLISTE"
+replace FP2 = 2 if FP2_Aut =="MAINTENANCE ELECTRONIQUE"
+
+replace FP2 = 7 if FP2_Aut == "ÉLEVAGE DE VOLAILLES ET PORCS"
+replace FP2 = 7 if FP2_Aut == "FERRAIL"
+replace FP2 = 7 if FP2_Aut == "TÔLERIE"
+replace FP2 = 7 if FP2_Aut == "ESTHÉTIQUE"
+replace FP2 = 7 if FP2_Aut == "ARTISANAT"
+replace FP2 = 6 if FP2_Aut == "CONDUITE CAMION"
+replace FP2 = 11 if FP2_Aut == "COUTURE SUR MESURE"
+replace FP2 = 7 if FP2_Aut == "MECANICIEN MOTO"
+replace FP2 = 1 if FP2_Aut == "ELECTRICITE EN BATIMENT"
+replace FP2 = 7 if FP2_Aut == "MAÇONNERIES"
+
+
+**Vider la variable: 
+replace FP2_Aut= "" if FP2==7 & (FP2_Aut=="PLOMBERIE"|FP2_Aut=="MAÇONNERIES"|FP2_Aut=="COUTURE"|FP2_Aut=="AUTRE FILIÈRE"|FP2_Aut=="AUTRES FILIERES"|FP2_Aut=="autres filière"|FP2_Aut=="MENUISERIE"|FP2_Aut=="PATISSERIE"|FP2_Aut=="COIFFURE FEMME"|FP2_Aut=="MACONNERIE"|FP2_Aut=="FORMATION D EPS"|FP2_Aut=="ARTISAN"|FP2_Aut=="TEINTURE DE PAGNE INDIGO"|FP2_Aut=="PATISESERIE"|FP2_Aut=="ÉLEVAGE"|FP2_Aut=="LA SOUDURE"|FP2_Aut=="FERRONNERIE"|FP2_Aut=="TAPISSERIE"|FP2_Aut=="MÉCANIQUE MOTO"|FP2_Aut=="MAÇONNERIES")
+
+***Vider la variable
+replace FP2_Aut = "" if !inlist(FP2,.,.a,16,13)
+
+**Autre a preciser
+* Autre filière
+
+
+
+*****/////////FP3_Aut
+*export excel FP3_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel FP3_Aut using "D:\CAE\fichier exel\FP3_Aut.xls" if FP3_Aut!="", firstrow(variables) replace
+
+replace FP3=15 if FP3_Aut=="SAIGNEUR D’HEVEA" |FP3_Aut=="HEVEACULTURE"
+replace FP3=168 if FP3_Aut=="ESTHETICIENNE"	|FP3_Aut=="FABRICATION DE SAVONS"|FP3_Aut=="FABRICATION DE SAVON"
+replace FP3= 220 if  FP3_Aut=="GESTION ECONOMIE"	
+replace   FP3=437  if FP3_Aut =="CONDUITE"
+replace   FP3=25  if FP3_Aut =="viennoiserie"
+replace   FP3=437  if FP3_Aut =="APPRENTI DE GROS CAMION"
+replace   FP3=441  if FP3_Aut =="MECANIQUE AUTOMOBILE"
+replace   FP3=441  if FP3_Aut =="MECANIQUE AUTO"
+replace   FP3=441  if FP3_Aut =="MÉCANIQUE BICYCLETTE"
+replace   FP3=437  if FP3_Aut =="CHAUFFEUR DE CAR"
+replace   FP3=441  if FP3_Aut =="MECANICIEN"
+replace   FP3=441  if FP3_Aut =="MECANIQUE"
+replace   FP3=25  if FP3_Aut =="PATISSERIE"
+replace   FP3=441  if FP3_Aut =="MECANIQUE DE VELO"
+replace   FP3=25  if FP3_Aut =="BOULANGERIE"
+replace   FP3=441  if FP3_Aut =="MECANIQUE MOTO"
+replace   FP3=470  if FP3_Aut =="HOTELERIE"
+replace   FP3=19  if FP3_Aut =="PISCICULTURE"
+replace   FP3=441  if FP3_Aut =="construction métallique"
+replace   FP3=25  if FP3_Aut =="moulinier"
+replace   FP3=441  if FP3_Aut =="MÉTALLURGIE"
+replace   FP3=441  if FP3_Aut =="ELECTROMECANIQUE"
+replace   FP3=441  if FP3_Aut =="MÉCANIQUE AUTO"
+replace   FP3=441  if FP3_Aut =="MÉCANIQUE"
+
+replace   FP3=441  if FP3_Aut =="FERRONNERIE"
+replace   FP3=25  if FP3_Aut =="TAPISSERIE"
+replace   FP3=441  if FP3_Aut =="SOUDURE METALIQUE"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICITÉ"
+replace   FP3=441  if FP3_Aut =="SOUDURE"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE BATIMENT"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE-BATIMENT"
+replace   FP3=168  if FP3_Aut =="COIFFURE ET ESTHETIQUE"
+replace   FP3=437  if FP3_Aut =="CONDUCTEUR DE PELTEUSE"
+replace   FP3=441  if FP3_Aut =="FERRAILLEUR"
+replace   FP3=607  if FP3_Aut =="AIDE SOIGNANTE"
+replace   FP3=607  if FP3_Aut =="AIDE SOIXANTE"
+replace   FP3=168  if FP3_Aut =="ESTHÉTICIENNE"
+replace   FP3=25  if FP3_Aut =="pâtisserie"
+replace   FP3=441  if FP3_Aut =="mécanique"
+replace   FP3=441  if FP3_Aut =="FERRONNIERIE"
+replace   FP3=441  if FP3_Aut =="FERONIER"
+replace   FP3=437  if FP3_Aut =="CONDUITE D’ENGINS LOURDES"
+replace   FP3=238  if FP3_Aut =="ELECTRIQUE BATIMENT"
+replace   FP3=238  if FP3_Aut =="ÉLECTRONIQUE"
+replace   FP3=607  if FP3_Aut =="AIDE  SOIGNANTE"
+replace   FP3=15  if FP3_Aut =="TECHNICIEN AGRICOLE"
+replace   FP3=15  if FP3_Aut =="CONSEILLÉ AGRICOLE À L’ANADER"
+replace   FP3=437  if FP3_Aut =="la conduite"
+replace   FP3=15  if FP3_Aut =="APICULTURE"
+replace   FP3=15  if FP3_Aut =="LA SAIGNE D HEVEA"
+replace   FP3=441  if FP3_Aut =="SOUDEUR"
+replace   FP3=607  if FP3_Aut =="sanitaire"
+replace   FP3=437  if FP3_Aut =="CHAUFFEUR DE MASSA"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICITÉ ET PLOMBERIE"
+replace   FP3=441  if FP3_Aut =="MÉCANIQUE MOTO"
+replace   FP3=238  if FP3_Aut =="ELECTRICIEN"
+replace   FP3=25  if FP3_Aut =="TAPISSIER"
+replace   FP3=441  if FP3_Aut =="MÉCANIQUE MOTOS"
+replace   FP3=607  if FP3_Aut =="AIDE SOIGNANT"
+replace   FP3=441  if FP3_Aut =="SOUDURE ET MENUISERIE METALLIQUE"
+replace   FP3=29  if FP3_Aut =="MENUISIERIE"
+replace   FP3=26  if FP3_Aut =="MENUISERIE"
+replace   FP3=25  if FP3_Aut =="FABRICATION D’ATTIEKE"
+replace   FP3=26  if FP3_Aut =="MENUISIER COFFREUR"
+replace   FP3=26  if FP3_Aut =="MENUISIER"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE RESEAU"
+replace   FP3=26  if FP3_Aut =="EBENISTERIE"
+replace   FP3=168  if FP3_Aut =="COIFFURE ET SOINS DE BEAUTE"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE EN BATIMENT"
+replace   FP3=238  if FP3_Aut =="ELECTRICIEN PLOMBIER"
+replace   FP3=15  if FP3_Aut =="AFFÛTEUR"
+replace   FP3=441  if FP3_Aut =="FERRAILLEUR EN BATIMENT"
+replace   FP3=26  if FP3_Aut =="SCIEUR"
+replace   FP3=15  if FP3_Aut =="SEIGNEUR D ’HÉVÉA"
+replace   FP3=437  if FP3_Aut =="CONDUITE DE TRACTEURS"
+replace   FP3=15  if FP3_Aut =="SEIGNEUR  D HÉVÉA"
+replace   FP3=441  if FP3_Aut =="SOUDURE (OUVRAGE METALLIQUE )"
+replace   FP3=15  if FP3_Aut =="CONSEIL CAFÉ CACAO"
+replace   FP3=607  if FP3_Aut =="aide soignant"
+replace   FP3=437  if FP3_Aut =="CONDUCTEUR"
+replace   FP3=437  if FP3_Aut =="CONDUCTEUR DE VEHICULES"
+replace   FP3=607  if FP3_Aut =="AIDE INFIRMIERE"
+replace   FP3=441  if FP3_Aut =="CONSTRUCTION METALLIQUE"
+replace   FP3=441  if FP3_Aut =="TÔLERIE"
+*****
+replace   FP3=1  if FP3_Aut =="PINTRE"
+replace   FP3=437  if FP3_Aut =="CONDUITE"
+replace   FP3=1  if FP3_Aut =="COUTURE"
+replace   FP3=168  if FP3_Aut =="COIFFURE"
+replace   FP3=437  if FP3_Aut =="CONDUITE ENGIN POCLIN"
+replace   FP3=441  if FP3_Aut =="MENUISERIE"
+replace   FP3=441  if FP3_Aut =="FERRAILLEUR"
+replace   FP3=168  if FP3_Aut =="COIFFURE DAME"
+replace   FP3=526  if FP3_Aut =="MÉCANIQUE AUTOMOBILE"
+replace   FP3=256  if FP3_Aut =="FOOTBALLEUR"
+replace   FP3=441  if FP3_Aut =="COUTURE DAME"
+replace   FP3=1  if FP3_Aut =="COUTURE DAME"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICIEN BATIMENT"
+replace   FP3=410  if FP3_Aut =="EDUCATION"
+replace   FP3=441  if FP3_Aut =="SCIEUR DE BOIS"
+replace   FP3=51  if FP3_Aut =="PAYSAGISTE"
+replace   FP3=441  if FP3_Aut =="TISSERAND"
+replace   FP3=475  if FP3_Aut =="STAFF"
+replace   FP3=14  if FP3_Aut =="RECENSEMENT DE LA POPULATION"
+replace   FP3=1  if FP3_Aut =="COUTURE SUR MESURE"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE BATIMENT"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICITÉ BATIMENT"
+replace   FP3=526  if FP3_Aut =="ENTRETIEN ET REPARATION DE PNEU"
+replace   FP3=25  if FP3_Aut =="pâtissière"
+replace   FP3=25  if FP3_Aut =="CUISINE"
+replace   FP3=25  if FP3_Aut =="PATISSERIE"
+replace   FP3=476  if FP3_Aut =="RESPONSABLE COMMERCIAL"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE PLOMBERIE"
+replace   FP3=441  if FP3_Aut =="MACONNERIE"
+replace   FP3=168  if FP3_Aut =="COIFFURE HOMME"
+replace   FP3=441  if FP3_Aut =="CARRELAGE"
+replace   FP3=410  if FP3_Aut =="CAFOP"
+replace   FP3=437  if FP3_Aut =="Conducteur de chariots porte conteneur"
+replace   FP3=454  if FP3_Aut =="CONSTRUCTION MÉTALLIQUE"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE-PLOMBIERIE"
+replace   FP3=25  if FP3_Aut =="BOULANGERIE"
+replace   FP3=238  if FP3_Aut =="ÉLECTRONIQUE"
+replace   FP3=509  if FP3_Aut =="secourisme"
+replace   FP3=441  if FP3_Aut =="REBOBINEUR"
+replace   FP3=238  if FP3_Aut =="ELECTRICITE"
+replace   FP3=441  if FP3_Aut =="BRODERIE  ARTISANALE"
+replace   FP3=441  if FP3_Aut =="MENUISIER"
+replace   FP3=437  if FP3_Aut =="CONDUCTEUR AUTOMOBILE"
+replace   FP3=15  if FP3_Aut =="AGRICOLE"
+replace   FP3=441  if FP3_Aut =="PLOMBERIE"
+replace   FP3=441  if FP3_Aut =="SOUDURE"
+replace   FP3=441  if FP3_Aut =="SCIEUR"
+replace   FP3=526  if FP3_Aut =="MECANIQUE AUTO"
+replace   FP3=441  if FP3_Aut =="TAPISSERIE"
+replace   FP3=441  if FP3_Aut =="FERRONNIER"
+replace   FP3=256  if FP3_Aut =="FOOTBALL"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICITÉ PLOMBERIE"
+replace   FP3=526  if FP3_Aut =="MECANIQUE MOTO"
+replace   FP3=410  if FP3_Aut =="INSTITUTEUR DE L’ENSEIGNEMENT PRIMAIRE"
+replace   FP3=526  if FP3_Aut =="MECANIQUE VELO"
+replace   FP3=441  if FP3_Aut =="FERRONNERIE"
+replace   FP3=441  if FP3_Aut =="MENUISIER CHARPENTIER"
+replace   FP3=240  if FP3_Aut =="ELECTRONICIEN"
+replace   FP3=490  if FP3_Aut =="INFORMATIQUE"
+replace   FP3=437  if FP3_Aut =="CONDUCTEUR D’ENGIN  LOURD"
+replace   FP3=441  if FP3_Aut =="FERONIER"
+replace   FP3=441  if FP3_Aut =="FRIGORISTE"
+replace   FP3=122  if FP3_Aut =="MILLITAIRE"
+replace   FP3=437  if FP3_Aut =="MACHINISTE"
+replace   FP3=238  if FP3_Aut =="ÉLECTRICITÉ  BATIMENT"
+replace   FP3=441  if FP3_Aut =="FABRICANT DE BRIQUES"
+replace   FP3=168  if FP3_Aut =="LA COIFFURE"
+replace   FP3=225  if FP3_Aut =="PASTORALE"
+replace   FP3=526  if FP3_Aut =="MECANICIEN"
+replace   FP3=1  if FP3_Aut =="CULTURE SUR MESURE"
+replace   FP3=1  if FP3_Aut =="PEINTURE BATIMENT"
+replace   FP3=526  if FP3_Aut =="DECORATION AUTOMOBILE"
+replace   FP3=441  if FP3_Aut =="LA SOUDURE"
+replace   FP3=441  if FP3_Aut =="TAPISSIERIE"
+replace   FP3=441  if FP3_Aut =="FORGERON"
+replace   FP3=441  if FP3_Aut =="CARRELEUR"
+**
+replace FP3 =441 if FP3_Aut=="MAÇONNERIE"
+replace FP3=1 if FP3_Aut=="PEINTURE"
+replace FP3 =441 if FP3_Aut=="TRICOTAGE"
+replace FP3 =441 if FP3_Aut=="menuiserie"
+replace   FP3=441  if FP3_Aut =="FROID FRIGORISTE"
+replace FP3 =441 if FP3_Aut=="CARREAULEUR"
+replace FP3 =15 if FP3_Aut=="ELEVAGE"
+replace FP3=60 if FP3_Aut=="PHOTOGRAPHIE"
+replace   FP3=122  if FP3_Aut =="POLICE MUNICIPAL"
+replace FP3=330 if FP3_Aut=="Télédétection isystème géographique"
+
+**
+replace   FP3=441  if FP3_Aut == "CAREAULEUR"
+replace   FP3=441  if FP3_Aut == "ARTISANAT"
+replace   FP3=441  if FP3_Aut == "ARTISANAT"
+replace   FP3=441  if FP3_Aut == "CARROLEUR"
+replace   FP3=441  if FP3_Aut == "MARÇON"
+replace   FP3=441  if FP3_Aut == "TOLIER"
+replace   FP3=441  if FP3_Aut == "CHARPENTIER"
+replace   FP3=441  if FP3_Aut == "ARTISANT FORGERON"
+replace   FP3=441  if FP3_Aut == "LA FERRAILLE"
+replace   FP3=441  if FP3_Aut == "SOURDURE"
+replace   FP3=238  if FP3_Aut == "PLOMBERIE ET ELECTRICITE"
+replace   FP3=238  if FP3_Aut == "ELECTRICITE PLOMBIER BATIMENT"
+replace   FP3=441  if FP3_Aut == "TAPISSERIE GENERALE"
+replace   FP3=441  if FP3_Aut == "CHARPENTIER"
+replace FP3=441 if FP3_Aut== "maçonnerie"
+replace FP3 =441 if FP3_Aut== "CORDONNERIE"
+replace FP3 =441 if FP3_Aut== "FROID"
+replace FP3=441 if FP3_Aut== "CORDONNIER"
+replace FP3=441 if FP3_Aut=="MENUISIRIE"
+replace FP3=441 if FP3_Aut=="CONSTRUCTION"
+replace FP3=410 if FP3_Aut== "ENSEIGNEMENT"
+replace FP3=410 if FP3_Aut== "AUTORISATION D ENSEIGNEMENT"
+replace FP3=225 if FP3_Aut=="FORMATION PASTORALE"
+replace FP3=225 if FP3_Aut=="PASTEUR"
+replace FP3=246 if FP3_Aut=="ELAVAGE POULET"
+replace FP3=25 if FP3_Aut=="GASTRONOMIE"
+replace FP3=25 if FP3_Aut=="PÂTISSERIE"
+replace FP3=25 if FP3_Aut=="BOULANGER"
+replace FP3=246 if FP3_Aut=="ELEVAGE DE PORC" 
+
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE MOTO ET VELO"
+replace FP3=526 if FP3_Aut=="ELECTRICITE AUTO"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE VELO"
+replace FP3=526 if FP3_Aut=="mécanique auto"
+replace FP3=526 if FP3_Aut=="VILGANISATEUR"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE SYSTÈME DE FREINAGE AUTOMOBILE"
+replace FP3=526 if FP3_Aut=="MECANICIEN AUTO"
+replace FP3=526 if FP3_Aut=="ELECTRICITE AUTO"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE MOTO"
+replace FP3=526 if FP3_Aut== "MÉCANIQUE ÉLECTRONIQUE"
+replace FP3=526 if FP3_Aut=="mécanique auto"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE VELO"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE MOTO ET VELO"
+replace FP3=526 if FP3_Aut=="MÉCANIQUE DE MOTO"
+replace FP3=526 if FP3_Aut=="MECANICIEN AUTO"
+
+replace FP3=168 if FP3_Aut== "COIFFEUSE"
+replace FP3=168 if FP3_Aut== "COIFFURE DAME ET SOINS DE BEAUTE"
+replace FP3=168 if FP3_Aut== "COIFFURE DAME ET SOINS DE BEAUTÉ"
+replace FP3=168 if FP3_Aut== "COIFFURE ET DE BEAUTÉ"
+replace FP3=168 if FP3_Aut== "COIFFURE ET SOINS DE BEAUTÉ"
+replace FP3=168 if FP3_Aut== "TRESSE FEMME"
+replace FP3=168 if FP3_Aut== ""
+replace FP3=238 if FP3_Aut== "ÉLECTRICIEN EN BATIMENT ET PLOMBIER"
+replace FP3=238 if FP3_Aut== "ELECTRONIQUE"
+
+replace FP3=1 if FP3_Aut== "COUTURE DAMES"
+replace FP3=1 if FP3_Aut== "COUTURIÈRE"
+replace FP3=1 if FP3_Aut== "LA Couture"
+replace FP3=1 if FP3_Aut== "LA COUTURE"
+replace FP3=556 if FP3_Aut=="PEINTRES BATIMENT"
+replace FP3=556 if FP3_Aut=="PEINTURE ET CALIGRAPHIE"
+
+replace FP3=437 if FP3_Aut=="CHAUFFEUR"
+replace FP3=437 if FP3_Aut=="CHAUFFEUR DE GROS CAMION"
+replace FP3=437 if FP3_Aut=="CONDUCTEUR  DE GROS CAMION"
+replace FP3=437 if FP3_Aut=="CONDUITE D'ENGINS"
+replace FP3=437 if FP3_Aut=="CONDUITE DE MACHINE"
+replace FP3=437 if FP3_Aut=="APPRENTIS CONDUCTEUR POIDS LOURD"
+replace FP3=437 if FP3_Aut=="TRANSPORT DE MARCHANDISES"
+replace FP3=437 if FP3_Aut=="TRANSPORT"
+
+replace FP3=509 if FP3_Aut=="TRADI PRATICIEN"
+replace FP3=42 if FP3_Aut=="IMPRIMERIE"
+replace FP3=388 if FP3_Aut=="SOINS INFIRMIERS"
+replace FP3=388 if FP3_Aut=="AUXILIAIRE DE SOINS"
+
+replace FP3=159 if FP3_Aut=="COMPTABILITE GENERAL ET FISCALITE"
+replace FP3=333 if FP3_Aut=="GESTIONNAIRE DE STOK"
+replace FP3=333 if FP3_Aut=="CAISSIERE"
+replace FP3=333 if FP3_Aut=="CAISSIÈRE"
+replace FP3=333 if FP3_Aut=="CAISSE"
+
+replace FP3=539 if FP3_Aut=="NUTRITION ET DEVELOPPEMENT DE LA PETITE ENFANCE"
+replace FP3=608 if FP3_Aut=="Agent d’hygiène"
+
+****
+replace FP3=1 if FP3_Aut=="COUTOURE"
+replace FP3=1 if FP3_Aut=="couture"
+replace FP3=1 if FP3_Aut=="COUTURIER"
+
+replace   FP3=441  if FP3_Aut =="QUALIGRAPHE"
+replace   FP3=441  if FP3_Aut =="MARCONNERIE"
+replace   FP3=441  if FP3_Aut =="MACON"
+replace   FP3=441  if FP3_Aut =="SCIAGE DE BOIS"
+replace   FP3=441  if FP3_Aut =="Ferrailleur"
+replace   FP3=526  if FP3_Aut =="VULGARISATEUR"
+replace   FP3=454 if FP3_Aut =="CONSTRUCTION ET URBANISME"
+replace   FP3=25 if FP3_Aut =="PATISSIERE"
+
+
+replace FP3=18 if FP3_Aut=="FILATURE, TISSAGE ET ENNOBLISSEMENT DE TEXTILE"
+replace FP3=18 if FP3_Aut=="SAIGNEUR"
+replace FP3=18 if FP3_Aut=="CACAO CULTURE"
+replace FP3=18 if FP3_Aut=="ANADER"
+replace FP3=18 if FP3_Aut=="Culture hors sol"
+
+replace FP3=246 if FP3_Aut=="ELEVAGE DES VOLAILLE"
+replace FP3=168 if FP3_Aut=="coiffure"
+replace FP3=168 if FP3_Aut=="TRESSE"
+replace FP3=168 if FP3_Aut=="SOINS ET TRAITEMENTS CAPILLAIRES"
+replace FP3=168 if FP3_Aut=="ESTHÉTIQUE"
+replace FP3=168 if FP3_Aut=="HYGIÈNE ET ESTHÉTIQUE"
+
+replace FP3=145 if FP3_Aut=="COMMERCE"
+replace FP3=388 if FP3_Aut=="CAISSIERE  EN PHARMACIE"
+replace FP3=388 if FP3_Aut=="AUXILLIAIRE EN PHARMACIE"
+replace FP3=388 if FP3_Aut=="AUXILIAIRE EN PHARMACIE"
+replace FP3=437 if FP3_Aut=="CONDUITE DE CHARIAU"
+replace FP3=437 if FP3_Aut=="CONDUIRE DE CAMIONS"
+replace FP3=437 if FP3_Aut=="LOGISTIQUE"
+replace FP3=437 if FP3_Aut=="Chauffeur de gros camion"
+replace FP3=437 if FP3_Aut=="CONDUITE D’ENGINS"
+replace FP3=437 if FP3_Aut=="CARISTE"
+replace FP3=410 if FP3_Aut=="ENSEIGNEMENT PRIMAIRE"
+
+
+*** AUTRES A PRECIISER : AGENT DE SECURITE, AUXILIAIRE EN PHARMACIE, FABRICATION DE SAVON TRADITIONNEL , SERVICE DE SECURITE
+
+**nel
+replace FP3 = 561 if FP3_Aut =="CAISSES ET AUXILIAIRE EN PHARMACIE"
+replace FP3 = 504 if FP3_Aut =="FERRONERIE"
+replace FP3 = 504 if FP3_Aut =="TOLERIE"
+replace FP3 = 301 if FP3_Aut =="INTENSITÉ BATIMENT"
+replace FP3 = 238 if FP3_Aut =="ÉLECTRICITÉ EN BÂTIMENT"
+replace FP3 = 301 if FP3_Aut =="STAPHEUR"
+replace FP3 = 441 if FP3_Aut =="scieur"
+replace FP3 = 168 if FP3_Aut =="COIFFEUSE DAME"
+replace FP3 = 25 if FP3_Aut =="boulangerie"
+replace FP3 = 236 if FP3_Aut =="MECANICIEN ELECTRICITE"
+replace FP3 = 301 if FP3_Aut =="TECHNICIEN EN BÂTIMENT"
+replace FP3 = 15 if FP3_Aut =="PRODUCTEUR RELAI"
+replace FP3 = 540 if FP3_Aut =="MATRONE"
+replace FP3 = 437 if FP3_Aut =="CONDUCTEUR D'ENGINS"
+replace FP3 = 556 if FP3_Aut =="PEINTRE EN BATIMENT"
+replace FP3 = 441 if FP3_Aut =="LA MENUISERIE"
+replace FP3 = 399 if FP3_Aut =="RÉPARATION DE TÉLÉPHONE"
+replace FP3 = 467 if FP3_Aut =="HOTELLERIE"
+replace FP3 = 1 if FP3_Aut =="COUTURIERE"
+replace FP3 = 301 if FP3_Aut =="VITRIER"
+replace FP3 = 238 if FP3_Aut =="ÉLECTRICIEN EN BATIMENT ET PLOMBERIE"
+replace FP3 = 238 if FP3_Aut =="PLOMBERIE-ELECTRICITE"
+replace FP3 = 437 if FP3_Aut =="CONDUCTEUR D ENGINS"
+replace FP3 = 168 if FP3_Aut =="L’ONGLERIE"
+replace FP3 = 1 if FP3_Aut =="PEINTRES"
+replace FP3 = 238 if FP3_Aut =="ELECTRICIEN BATIMENT"
+replace FP3 = 467 if FP3_Aut =="Hôtellerie"
+replace FP3 = 240 if FP3_Aut =="ÉLECTRONIQUES"
+replace FP3 = 246 if FP3_Aut =="ELEVAGE DE POULETS"
+replace FP3 = 269 if FP3_Aut =="COMPTABILITE"
+replace FP3 = 437 if FP3_Aut =="CONDUITE AUTOMOBILE"
+replace FP3 = 437 if FP3_Aut =="CONDUITE DE GROS, ENGINS"
+replace FP3 = 1 if FP3_Aut =="COUTURE FEMME"
+replace FP3 = 168 if FP3_Aut =="COIFFURE HOMME ET ENFANT"
+replace FP3 = 441 if FP3_Aut =="ÉBÉNISTERIE"
+replace FP3 = 1 if FP3_Aut =="styliste"
+replace FP3 = 168 if FP3_Aut =="BEAUTE"
+replace FP3 = 168 if FP3_Aut =="ONGLERIE"
+replace FP3 = 673 if FP3_Aut =="SÉCURITÉ INCENDIE"
+replace FP3 = 168 if FP3_Aut =="SOINS DE BEAUTÉ"
+replace FP3 = 168 if FP3_Aut =="SOINS ESTHÉTIQUES ET HYGIÉNIQUES DE LA CHEVELURE"
+replace FP3 = 441 if FP3_Aut =="LA MAÇONNERIE"
+replace FP3 = 168 if FP3_Aut =="Coiffure"
+replace FP3 = 168 if FP3_Aut =="PÉDICURE"
+replace FP3 = 467 if FP3_Aut =="HAUTELERIE"
+replace FP3 = 441 if FP3_Aut =="SCIERIE"
+replace FP3 = 1 if FP3_Aut =="INFOGRAPHIE"
+replace FP3 = 504 if FP3_Aut =="CONSTRUCTION MÉTALLIQUES"
+replace FP3 = 441 if FP3_Aut =="FERAILLEUR"
+replace FP3 = 238 if FP3_Aut =="ÉLECTRICITÉ BÂTIMENT"
+replace FP3 = 324 if FP3_Aut =="TRAVAUX DE MINES"
+replace FP3 = 437 if FP3_Aut =="CONDUCTEUR DE BULLDOZER"
+replace FP3 = 437 if FP3_Aut =="OPERTEUR DE BULLDOZER"
+replace FP3 = 1 if FP3_Aut =="COUTURE ENFANTS"
+replace FP3 = 441 if FP3_Aut =="MAÇONNERIE 1"
+replace FP3 = 388 if FP3_Aut =="ASSISTANT MEDICAL"
+
+**Pechoux
+replace FP3=458 if FP3_Aut=="GESTION DES RESSOURCES HUMAINES"
+replace FP3=500 if FP3_Aut=="MECANIQUE DE PETIT ENGINS"
+replace FP3=301 if FP3_Aut=="CONSTRUCTION BATIMENT"
+replace FP3=500 if FP3_Aut=="TECHNICIEN MECANIQUE"
+replace FP3=437 if FP3_Aut=="CONDUITE DE VÉHICULE DE TRANSPORT DE MARCHANDISES"
+replace FP3=168 if FP3_Aut=="coiffure Dame"
+replace FP3=556 if FP3_Aut=="PEINTRE"
+replace FP3=179 if FP3_Aut=="COUTURE IFEF"
+replace FP3=702 if FP3_Aut=="CADRAGE, CAMERAMAN, PHOTOGRAPHIE"
+replace FP3=246 if FP3_Aut=="ELEVAGE DE POULET ET LAPIN"
+replace FP3=501 if FP3_Aut=="MÉCANICIEN DE VOITURE"
+replace FP3=168 if FP3_Aut=="COIFFURE PEDICURE MANICURE"
+replace FP3=415 if FP3_Aut=="ÉDUCATION DE L'ENSEIGNEMENT PRIMAIRE"
+replace FP3=673 if FP3_Aut=="VIGILE"
+replace FP3=673 if FP3_Aut=="POLICIERE"
+replace FP3=673 if FP3_Aut=="SÉCURITÉ À LA PERSONNE"
+replace FP3=673 if FP3_Aut=="gendarmerie nationale"
+replace FP3=673 if FP3_Aut=="GENDARMERIE"
+replace FP3=673 if FP3_Aut=="POLICE"
+
+replace FP3 = 1 if FP3_Aut == "GRAPHIQUE ET DYSANG"
+replace FP3 = 1 if FP3_Aut == "PEINT BATIMENT"
+replace FP3 = 1 if FP3_Aut == "COUTURE HOMME"
+replace FP3 = 1 if FP3_Aut == "LA PEINTURE"
+replace FP3 = 1 if FP3_Aut == "LA PEINTURE"
+replace FP3 = 1 if FP3_Aut == "COUTURE HOMMES ET DAMES"
+replace FP3 = 1 if FP3_Aut == "CALLIGRAPHIE"
+replace FP3 = 1 if FP3_Aut == "BRODERIE"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR D HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR DE HEVEA"
+replace FP3 = 15 if FP3_Aut == "la saignée d’hévéa"
+replace FP3 = 15 if FP3_Aut == "SAIGNÉ D'HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR ARBRE DE CAOUTCHOUC"
+replace FP3 = 15 if FP3_Aut == "SAIGNÉ D'HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR DE HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR D'HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR D'HEVEA"
+replace FP3 = 15 if FP3_Aut == "TECHNIQUE EN ELEVAGE"
+replace FP3 = 15 if FP3_Aut == "ELEVAGE VOLAILLE"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR ARBRE D HEVEA"
+replace FP3 = 15 if FP3_Aut == "SAIGNEUR ARBRE D HEVEA"
+replace FP3 = 15 if FP3_Aut == "Poulayer"
+replace FP3 = 15 if FP3_Aut == "ELEVAGE DU PORC"
+replace FP3 = 15 if FP3_Aut == "ACQUAGRICULTURE"
+replace FP3 = 25 if FP3_Aut == "CUISINIER"
+replace FP3 = 168 if FP3_Aut == "COIFFURE ET ESTHÉTIQUE"
+replace FP3 = 168 if FP3_Aut == "COIFFURE ET MAKEUP UP"
+replace FP3 = 168 if FP3_Aut == "COIFFURE ET ESTHÉTIQUE"
+replace FP3 = 168 if FP3_Aut == "COIFFURE ET ESTHÉTIQUE"
+replace FP3 = 168 if FP3_Aut == "COIFFURE HOMMES"
+replace FP3 = 168 if FP3_Aut == "TRESSEUSE"
+replace FP3 = 238 if FP3_Aut == "ÉLECTRICITÉ AUTO"
+replace FP3 = 238 if FP3_Aut == "PLOMBERIE ET ÉLECTRICITÉ BÂTIMENT"
+replace FP3 = 238 if FP3_Aut == "ELECTRICITE  BATIMENT"
+replace FP3 = 238 if FP3_Aut == "ÉLECTRICITÉ BÂTIMENT ET PLOMBERIE"
+replace FP3 = 238 if FP3_Aut == "ÉLECTRICITÉ BATIMENT ET PLOMBERIE"
+replace FP3 = 238 if FP3_Aut == "ÉLECTRICITÉ BÂTIMENT ET PLOMBIERIE"
+replace FP3 = 238 if FP3_Aut == "plomberie"
+replace FP3 = 238 if FP3_Aut == "PLOMBERIE ET BATIMENT"
+replace FP3 = 301 if FP3_Aut == "Construction bâtiment"
+replace FP3 = 301 if FP3_Aut == "VITRIERS"
+replace FP3 = 301 if FP3_Aut == "BATIMENT TRAVAUX PRATIQUES"
+replace FP3 = 301 if FP3_Aut == "BATIMENT"
+replace FP3 = 333 if FP3_Aut == "CAISIERE"
+replace FP3 = 410 if FP3_Aut == "ENSEIGNEMENT GÉNÉRAL"
+replace FP3 = 410 if FP3_Aut == "FORMATION D’ENSEIGNANT"
+replace FP3 = 437 if FP3_Aut == "CHAUFFEUR POIDS LOURDS"
+replace FP3 = 437 if FP3_Aut == "LA CONDUITE"
+replace FP3 = 437 if FP3_Aut == "Cariste"
+replace FP3 = 437 if FP3_Aut == "CONDUITE DE CAMION"
+replace FP3 = 437 if FP3_Aut == "STOKIST LOGISTIQUE"
+replace FP3 = 437 if FP3_Aut == "CONDUCTEUR DE CAMION"
+replace FP3 = 437 if FP3_Aut == "CHAUFFEUR DE CAMION"
+replace FP3 = 437 if FP3_Aut == "CONDUCTEUR DE MACHINES"
+replace FP3 = 437 if FP3_Aut == "CHAUFFEUR DE POIDS LOURD"
+replace FP3 = 437 if FP3_Aut == "CONDUIRE"
+replace FP3 = 437 if FP3_Aut == "AVIATION"
+replace FP3 = 437 if FP3_Aut == "apprenti camion"
+replace FP3 = 437 if FP3_Aut == "APPRENTI CHAUFFEUR"
+replace FP3 = 441 if FP3_Aut == "CHARPENTE"
+replace FP3 = 441 if FP3_Aut == "FROID CLIMATISATION"
+replace FP3 = 441 if FP3_Aut == "ELECTRICIEN FRIGORISTE"
+replace FP3 = 441 if FP3_Aut == "Maçonnerie"
+replace FP3 = 441 if FP3_Aut == "Tapisserie"
+replace FP3 = 441 if FP3_Aut == "TISSERANDS"
+replace FP3 = 441 if FP3_Aut == "CARRELAGES"
+replace FP3 = 441 if FP3_Aut == "MAÇONNERIES"
+replace FP3 = 441 if FP3_Aut == "MENUISERIE DU BOIS"
+replace FP3 = 441 if FP3_Aut == "MENUISERIE ET EBENISTERIE"
+replace FP3 = 441 if FP3_Aut == "MENUSIER COFFREUR"
+replace FP3 = 441 if FP3_Aut == "CHARPENTERIE"
+replace FP3 = 441 if FP3_Aut == "MAÇONNERIES"
+replace FP3 = 441 if FP3_Aut == "REBOBINAGE"
+replace FP3 = 458 if FP3_Aut == "RESSOURCES HUMAINES"
+replace FP3 = 466 if FP3_Aut == "RESTAURATION"
+replace FP3 = 467 if FP3_Aut == "AUTOLERIE"
+replace FP3 = 476 if FP3_Aut == "AGENT COMMERCIAL"
+replace FP3 = 501 if FP3_Aut == "AUTO ECOLE"
+replace FP3 = 501 if FP3_Aut == "MAINTENANCE AUTOMOBILE"
+replace FP3 = 504 if FP3_Aut == "ferronnier"
+replace FP3 = 504 if FP3_Aut == "OUVRAGE MÉTALLIQUE"
+replace FP3 = 504 if FP3_Aut == "FERRAILLAGE"
+replace FP3 = 504 if FP3_Aut == "FERRAILLE"
+replace FP3 = 504 if FP3_Aut == "FERRAILLE"
+replace FP3 = 504 if FP3_Aut == "FERRAILLE"
+replace FP3 = 509 if FP3_Aut == "FORMATION DE TRADI-PRATICIEN"
+replace FP3 = 526 if FP3_Aut == "vilganisateur"
+replace FP3 = 526 if FP3_Aut == "VULCANISATION"
+replace FP3 = 607 if FP3_Aut == "SANITAIRE SOCIALE"
+replace FP3 = 609 if FP3_Aut == "SANTÉ"
+replace FP3 = 609 if FP3_Aut == "AGENT DE SANTE"
+replace FP3 = 609 if FP3_Aut == "DELEGUE MEDICAL"
+
+
+
+****Vider la variable
+replace FP3_Aut = "" if !inlist(FP3,.,.a,0) 
+
+
+
+
+***********EP27B_Aut: RAS
+*export excel EP27B_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+***********//// IM5_Aut 
+*br IM5_Aut if IM5_Aut!=""
+replace   IM5=36  if IM5_Aut =="CAMEROUN"
+replace   IM5=36  if IM5_Aut =="YAOUNDE"
+
+
+***Vider la variable
+replace IM5_Aut = "" if !inlist(IM5,.,.a,28,36,41,44,47,48) 
+
+************//// IM8: Pourquoi %rostertitle% est-il venu dans cette localité ?
+
+*br IM8_Aut if IM8_Aut!=""
+
+
+***REJOINDRE LA FAMILLE
+replace   IM8__1=1  if  IM8_Aut =="REJOINDRE MON MARI"
+replace   IM8__1=1  if  IM8_Aut =="POUR REJOINDRE SON MARI"
+replace   IM8__1=1  if  IM8_Aut =="REJOINDRE MON MARI"
+replace   IM8__1=1  if  IM8_Aut =="POUR REJOINDRE SON MARI"
+replace   IM8__1=1  if  IM8_Aut =="REJOINDRE SON MARI"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE MON MARI"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SA TANTE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE MA MÈRE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE MA TANTE"
+replace IM8__1=1 if IM8_Aut=="POUR REJOINDRE SON MARI"
+replace IM8__1=1 if IM8_Aut=="POUR VENIR SOIGNER MON ENFANTS"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON MARI"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON EPOUX"
+replace IM8__1=1 if IM8_Aut=="A L'ISSUE DE LA MORT DE MON PERE MA GRANDE SŒUR M'A ENVOYÉ EN CÔTE D'IVOIRE VU QU'ELLE VIVAIT ICI"
+replace   IM8__1=1 if IM8_Aut =="SUITE  A MON MARIAGE"
+replace   IM8__1=1 if IM8_Aut =="SE MARIER"
+replace   IM8__1=1 if IM8_Aut =="ACCAMPAGNER SA MERE"
+replace   IM8__1=1 if IM8_Aut =="MARIAGE"
+replace   IM8__1=1 if IM8_Aut =="POUR SE MARIER"
+replace   IM8__1=1 if IM8_Aut =="REJOINDRE SON DOMICILE"
+**
+replace   IM8__1=1 if IM8_Aut =="REJOINDRE SA GRANDE MERE"
+replace   IM8__1=1 if IM8_Aut =="REJOINDRE  MON MARI"
+replace   IM8__1=1 if IM8_Aut =="POUR  REJOINDRE  MON MARI"
+replace   IM8__1=1 if IM8_Aut =="L’ENQUÊTÉ DIT QU’IL EST VENU CONNAÎTRE LA FAMILLE DE SON PÈRE BIOLOGIQUE"
+replace   IM8__1=1 if IM8_Aut =="L’ENQUÊTÉ EST VENU AVEC SA MAMAN"
+replace   IM8__1=1 if IM8_Aut =="MARIAGE"
+replace   IM8__1=1 if IM8_Aut =="mariage"
+replace   IM8__1=1 if IM8_Aut =="POUR SE MARIER"
+replace   IM8__1=1 if IM8_Aut =="JOINDRE SON TUTEUR APRES LA MORT DE SON PERE"
+replace   IM8__1=1 if IM8_Aut =="REJOINDRE SON TUTEUR APRES LA MORT DE SON PERE"
+replace IM8__1=1 if IM8_Aut=="VENU AVEC SA MERE"
+replace IM8__1=1 if IM8_Aut=="APRES LA SEPARATION D AVEC SON MARIE"
+replace IM8__1=1 if IM8_Aut=="L’ENQUÊTÉ DIT QU’IL EST VENU CONNAÎTRE LA FAMILLE DE SON PÈRE BIOLOGIQUE"
+replace IM8__1=1 if IM8_Aut=="CONGE DE MATERNITÉ"
+replace IM8__1=1 if IM8_Aut=="SITUATION DE VEUVAGE"
+replace IM8__1=1 if IM8_Aut=="DECES DU CONJOINT"
+
+***
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON GRAND PERE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE MON MARI APRÈS LE MARIAGE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON CONJOINT"
+replace IM8__1=1 if IM8_Aut=="SUITE À SON MARIAGE"
+replace IM8__1=1 if IM8_Aut=="VENIR SE METTRE EN COUPLE"
+replace IM8__1=1 if IM8_Aut=="Pour le mariage"
+replace IM8__1=1 if IM8_Aut=="POUR SE MARIÉ"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE MON MARI APRÈS LE MARIAGE"
+replace IM8__1=1 if IM8_Aut=="POUR LE MARIAGE"
+replace IM8__1=1 if IM8_Aut=="Mariage"
+replace IM8__1=1 if IM8_Aut=="POUR POUR LE MARIAGE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON AMI"
+replace IM8__1=1 if IM8_Aut=="SUITE AU DECES DE SON PERE"
+replace IM8__1=1 if IM8_Aut=="SUITE A UNE MESAVENTURE CONJUGALE"
+***
+replace IM8__1=1 if IM8_Aut=="POUR SE MARIE"
+replace IM8__1=1 if IM8_Aut=="REJOINDRE SON COMPAGNON"
+replace IM8__1=1 if IM8_Aut=="SE MARIE"
+replace IM8__1=1 if IM8_Aut=="CONJOINTE DE MONSIEUR DONC DÉMÉNAGEMENT AVEC LA FAMILLE"
+replace IM8__1=1 if IM8_Aut=="SUITE AU DECES DE SA TUTRICE"
+replace IM8__1=1 if IM8_Aut=="DIVORCE"
+
+***SUIVRE DES ETUDES***
+replace IM8__2=1 if IM8_Aut=="SUIVRE UNE FORMATION"
+replace IM8__2=1 if IM8_Aut=="STAGE"
+replace IM8__2=1 if IM8_Aut=="FAIRE DES ETUDES CORANIQUES"
+replace IM8__2=1 if IM8_Aut=="FAIRE UNE FORMATION"
+**
+replace IM8__2=1 if IM8_Aut=="SUIVRE UNE  FORMATION"
+replace IM8__2=1 if IM8_Aut=="SUIVRE UNE FORMATION    CORANIQUE"
+replace IM8__2=1 if IM8_Aut=="SUIVRE LA FORMATION EN MACONNERIE"
+replace IM8__2=1 if IM8_Aut=="APPRENDRE UN METIER"
+replace IM8__2=1 if IM8_Aut=="STAGIAIRE"
+replace IM8__2=1 if IM8_Aut=="L ECOLE"
+***
+replace IM8__2=1 if IM8_Aut=="FORMATION EN JARDINADE ET CULTURE MARECHERE"
+replace IM8__2=1 if IM8_Aut=="SUIVRE UN STAGE DE PERFECTIONNEMENT"
+*
+replace IM8__2=1 if IM8_Aut=="POUR FAIRE LA MÉCANIQUE"
+
+ ***CHERCHER UN EMPLOI***
+replace   IM8__3=1  if  IM8_Aut =="POUR TRAVAILLER"
+replace IM8__3=1 if IM8_Aut=="A QUITTÉ LA GUINÉE POUR VENIR TRAVAILLER DANS L'ENTREPRISE FAMILIALE EN COTE D'IVOIRE"
+replace IM8__3=1 if IM8_Aut=="POUR TRAVAILLER"
+replace   IM8__3=1 if IM8_Aut =="A QUITTÉ LA GUINÉE POUR VENIR TRAVAILLER DANS L’ENTREPRISE FAMILIALE EN COTE D’IVOIRE"
+**
+replace   IM8__3=1 if IM8_Aut =="POUR LE FOOT"
+replace  IM8__3=1 if IM8_Aut=="CREER MON ENTREPRISES" 
+***
+replace  IM8__3=1 if IM8_Aut== "POUR FAIRE LE COMMERCE"
+replace  IM8__3=1 if IM8_Aut== "CHERCHER UN EMPLOI"
+replace  IM8__3=1 if IM8_Aut== "DESTRUCTION DU GARAGE"
+replace  IM8__3=1 if IM8_Aut== "LANCER UNE ACTIVITÉ RÉMUNÉRATRICE"
+replace IM8__3=1 if IM8_Aut=="VENIR TRAVAILLER A ADZOPE POUR SON PROPRE COMPTE"
+replace IM8__3=1 if IM8_Aut=="TRAVAILLER A SON PROPRE COMPTE"
+replace IM8__3=1 if IM8_Aut=="TRAVAILLER AVEC SON EPOUX"
+
+*** AFFECTATION**
+replace   IM8__4=1 if IM8_Aut =="MUTATION"
+replace   IM8__4=1 if IM8_Aut =="VENIR DANS LE CADRE DE SON TRAVAIL"
+replace   IM8__4=1  if  IM8_Aut =="PERMUTATION"
+replace   IM8__4=1  if  IM8_Aut =="AFFECTION"
+**
+replace   IM8__4=1  if  IM8_Aut =="LIEU AFFECTATION"
+replace   IM8__4=1  if  IM8_Aut =="PROJET"
+replace   IM8__4=1  if  IM8_Aut =="SUITE À UNE AFFECTATION DE SES PARENTS"
+***
+replace   IM8__4=1  if  IM8_Aut =="JE SUIS VENU POUR MON TRAVAIL DE MAÇONNERIE"
+replace   IM8__4=1  if  IM8_Aut =="POUR FAIRE UN TRAVAIL DE MAÇONNERIE"
+replace   IM8__4=1  if  IM8_Aut =="EXERCER SA FONCTION"
+
+***CONFLITS***
+replace   IM8__5=1 if IM8_Aut =="REFUGIE"
+replace   IM8__5=1 if IM8_Aut =="APRES DEGUERPISSEMENT DES PLANTATIONS PAR LA POLICE FORESTIÈRE À SASSANDRA"
+*
+replace IM8__5=1 if IM8_Aut=="FUIR LES DIFFICULTÉS A GAGNOA"
+
+***VISITE/TOURISME
+replace IM8__7=1 if IM8_Aut=="POUR SE REPOSER"
+**
+replace IM8__7=1 if IM8_Aut=="Venir occupé notre maison construite"
+replace IM8__7=1 if IM8_Aut=="Pour occuper la construction des parents"
+replace IM8__7=1 if IM8_Aut=="OCCUPER MA MAISON CONSTRUUTE"
+replace IM8__7=1 if IM8_Aut=="OCCUPER LA MAISON DE MON FILS"
+
+
+***SOINS MEDICAUX***
+replace   IM8__6=1 if IM8_Aut =="SANTE DE LA MAMAN DE L ENQUETE"
+*
+replace IM8__6=1 if IM8_Aut=="POUR ACCOUCHER"
+replace IM8__6=1 if IM8_Aut=="SUIT A UNE MALADIE"
+replace IM8__6=1 if IM8_Aut=="GROSSESSE"
+**
+replace IM8__6=1 if IM8_Aut=="VENIR ACCOUCHER"
+replace IM8__6=1 if IM8_Aut=="SUIT AUX SOINS MEDICAUX DE SON CONJOINT"
+replace IM8__6=1 if IM8_Aut=="SUITE A UNE GROSSESSE"
+
+*** ACTIVITE AGRICOLE***
+replace   IM8__8=1  if  IM8_Aut =="AIDER SON PERE DANS LES TRAVAUX CHAMPETRES"
+replace IM8__8=1 if IM8_Aut=="ELEVAGE"
+replace IM8__8=1 if IM8_Aut=="ÉLEVAGE"
+
+**N
+replace IM8__5=1 if IM8_Aut =="SUITE À DEGUERPISSEMENT"
+replace IM8__1=1 if IM8_Aut =="SON ONCLE LUI A DIT DE RENTRER AU VILLAGE"
+replace IM8__3=1 if IM8_Aut =="PERTE DE SON EMPLOI"
+replace IM8__1=1 if IM8_Aut =="VENU SE MARIER"
+replace IM8__1=1 if IM8_Aut =="S'OCCUPER DE SES PARENTS"
+replace IM8__1=1 if IM8_Aut =="REJOINDRE SON FIANCE"
+replace IM8__1=1 if IM8_Aut =="VENU SE MARIE"
+replace IM8__1=1 if IM8_Aut =="ELLE EST RESTÉE AVEC SA BELLE-MÈRE APRÈS SON ACCOUCHEMENT"
+replace IM8__2=1 if IM8_Aut =="POUR SUIVRE UNE FORMATION"
+replace IM8__1=1 if IM8_Aut =="SE FIANCER"
+replace IM8__1=1 if IM8_Aut =="NOUVEAU NÉ"
+replace IM8__2=1 if IM8_Aut =="APPRENDRE LA CALLIGRAPHIE ET LA PEINTURE"
+replace IM8__3=1 if IM8_Aut =="CHERCHER DU TRAVAILLE"
+replace IM8__6=1 if IM8_Aut =="FAIRE SOIGNER MA FILLE"
+replace IM8__1=1 if IM8_Aut =="NÉ EN CÔTE D'IVOIRE"
+replace IM8__1=1 if IM8_Aut =="SEPARATION AVEC SON CONJOINT"
+replace IM8__5=1 if IM8_Aut =="CONFLIT AVEC SON FRERE"
+replace IM8__1=1 if IM8_Aut =="POUR REJOINDRE MON MARI"
+replace IM8__1=1 if IM8_Aut =="NOUVELLE NAISSANCE"
+replace IM8__5=1 if IM8_Aut =="CONFLIT FAMILIAL ET EXPULSION"
+replace IM8__5=1 if IM8_Aut =="RETOUR DANS NOTRE MAISON APRÈS LA CRISE DE 2010"
+replace IM8__1=1 if IM8_Aut =="VENIR AIDER UNE AUTRE FAMILLE"
+replace IM8__4=1 if IM8_Aut =="SURVEILLER LES ENFANTS QUI VONT A L ECOLE"
+replace IM8__1=1 if IM8_Aut =="VENU POUR SE MARIER"
+replace IM8__6=1 if IM8_Aut =="A CAUSE DE LA MALADIE DE MA MERE"
+replace IM8__6=1 if IM8_Aut =="PRENDRE SOIN DE SON PÈRE MALADE"
+replace IM8__1=1 if IM8_Aut =="REJOINDRE MON CONJOINT"
+replace IM8__2=1 if IM8_Aut =="Formation"
+replace IM8__1=1 if IM8_Aut =="POUR REJOINDRE SON FOYER"
+replace IM8__1=1 if IM8_Aut =="REJOINDRE SON MARIE"
+*
+
+
+replace IM8__1=1 if IM8_Aut == "AVEC SA MERE"
+replace IM8__2=1 if IM8_Aut == "FAIRE DES ÉTUDES CORANIQUE"
+replace IM8__2=1 if IM8_Aut == "FAIRE DES ETUDES CORANIQUE"
+replace IM8__3=1 if IM8_Aut == "TRAVAIL"
+replace IM8__4=1 if IM8_Aut == "AFFECTATION"
+replace IM8__4=1 if IM8_Aut == "AFFECTATION"
+replace IM8__1=1 if IM8_Aut == "SUITE AU DECES DE SON CONJOINT"
+replace IM8__4=1 if IM8_Aut == "POUR LE TRAVAIL"
+replace IM8__1=1 if IM8_Aut == "DÉCÈS DU CONJOINT"
+replace IM8__1=1 if IM8_Aut == "LE MARIAGE"
+replace IM8__1=1 if IM8_Aut == "S'OCCUPER DE SON MARI MALADE"
+replace IM8__4=1 if IM8_Aut == "TRANSFERT POUR LES TRAVAUX DE ROUTE"
+replace IM8__5=1 if IM8_Aut == "Suite à une crise sociaux politiques"
+replace IM8__2=1 if IM8_Aut == "FAIRE UN STAGE"
+replace IM8__1=1 if IM8_Aut == "DÉCÈS DU PÈRE"
+replace IM8__6=1 if IM8_Aut == "SOINS MEDICAUX DE SA MERE"
+replace IM8__4=1 if IM8_Aut == "PIUR UNE MISSION D’ÉVANGÉLISATION"
+replace IM8__1=1 if IM8_Aut == "SUITE A LA SEPARATION D'AVEC SON CONJOINT"
+replace IM8__1=1 if IM8_Aut == "NOUVELLE NEE DANS LA FAMILLE"
+
+
+
+
+
+*** AUTRES A PRECISER***
+replace   IM8__9=0  if  IM8_Aut =="POUR TRAVAILLER"
+replace   IM8__9=0  if  IM8_Aut =="AFFECTION"
+replace   IM8__9=0  if  IM8_Aut =="REJOINDRE MON MARI"
+replace   IM8__9=0  if  IM8_Aut =="PERMUTATION"
+replace   IM8__9=0  if  IM8_Aut =="POUR REJOINDRE SON MARI"
+replace   IM8__9=0  if  IM8_Aut =="REJOINDRE MON MARI"
+replace   IM8__9=0  if  IM8_Aut =="POUR REJOINDRE SON MARI"
+replace   IM8__9=0  if  IM8_Aut =="REJOINDRE SON MARI"
+replace   IM8__9=0  if  IM8_Aut =="AIDER SON PERE DANS LES TRAVAUX CHAMPETRES"
+replace IM8__9=0 if IM8_Aut=="SUIVRE UNE FORMATION"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE MON MARI"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE SA TANTE"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE MA MÈRE"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE MA TANTE"
+replace IM8__9=0 if IM8_Aut=="POUR REJOINDRE SON MARI"
+replace IM8__9=0 if IM8_Aut=="STAGE"
+replace IM8__9=0 if IM8_Aut=="FAIRE DES ETUDES CORANIQUES"
+replace IM8__9=0 if IM8_Aut=="A QUITTÉ LA GUINÉE POUR VENIR TRAVAILLER DANS L'ENTREPRISE FAMILIALE EN COTE D'IVOIRE"
+replace IM8__9=0 if IM8_Aut=="POUR VENIR SOIGNER MON ENFANTS"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE SON MARI"
+replace IM8__9=0 if IM8_Aut=="POUR TRAVAILLER"
+replace IM8__9=0 if IM8_Aut=="FAIRE UNE FORMATION"
+replace IM8__9=0 if IM8_Aut=="REJOINDRE SON EPOUX"
+replace IM8__9=0 if IM8_Aut=="A L'ISSUE DE LA MORT DE MON PERE MA GRANDE SŒUR M'A ENVOYÉ EN CÔTE D'IVOIRE VU QU'ELLE VIVAIT ICI"
+****
+replace   IM8__9=0 if IM8_Aut =="REJOINDRE SA GRANDE MERE"
+replace   IM8__9=0 if IM8_Aut =="REJOINDRE  MON MARI"
+replace   IM8__9=0 if IM8_Aut =="POUR  REJOINDRE  MON MARI"
+replace   IM8__9=0 if IM8_Aut =="L’ENQUÊTÉ DIT QU’IL EST VENU CONNAÎTRE LA FAMILLE DE SON PÈRE BIOLOGIQUE"
+replace   IM8__9=0 if IM8_Aut =="L’ENQUÊTÉ EST VENU AVEC SA MAMAN"
+replace   IM8__9=0 if IM8_Aut =="MARIAGE"
+replace   IM8__9=0 if IM8_Aut =="mariage"
+replace   IM8__9=0 if IM8_Aut =="POUR SE MARIER"
+replace   IM8__9=0 if IM8_Aut =="JOINDRE SON TUTEUR APRES LA MORT DE SON PERE"
+replace   IM8__9=0 if IM8_Aut =="REJOINDRE SON TUTEUR APRES LA MORT DE SON PERE"
+replace IM8__9=0 if IM8_Aut=="VENU AVEC SA MERE"
+replace IM8__9=0 if IM8_Aut=="APRES LA SEPARATION D AVEC SON MARIE"
+
+replace IM8__9=0 if IM8_Aut=="SUIVRE UNE  FORMATION"
+replace IM8__9=0 if IM8_Aut=="SUIVRE UNE FORMATION    CORANIQUE"
+replace IM8__9=0 if IM8_Aut=="SUIVRE LA FORMATION EN MACONNERIE"
+replace IM8__9=0 if IM8_Aut=="APPRENDRE UN METIER"
+replace IM8__9=0 if IM8_Aut=="STAGIAIRE"
+replace IM8__9=0 if IM8_Aut =="POUR LE FOOT"
+replace IM8__9=0  if  IM8_Aut =="LIEU AFFECTATION"
+replace IM8__9=0  if  IM8_Aut =="PROJET"
+replace IM8__9=0  if  IM8_Aut =="SUITE À UNE AFFECTATION DE SES PARENTS"
+replace  IM8__9=0 if IM8_Aut=="CREER MON ENTREPRISES" 
+replace IM8__9=0 if IM8_Aut=="POUR ACCOUCHER"
+
+replace IM8__9=0 if IM8_Aut =="SUITE À DEGUERPISSEMENT"
+replace IM8__9=0 if IM8_Aut =="SON ONCLE LUI A DIT DE RENTRER AU VILLAGE"
+replace IM8__9=0 if IM8_Aut =="PERTE DE SON EMPLOI"
+replace IM8__9=0 if IM8_Aut =="VENU SE MARIER"
+replace IM8__9=0 if IM8_Aut =="S'OCCUPER DE SES PARENTS"
+replace IM8__9=0 if IM8_Aut =="REJOINDRE SON FIANCE"
+replace IM8__9=0 if IM8_Aut =="VENU SE MARIE"
+replace IM8__9=0 if IM8_Aut =="ELLE EST RESTÉE AVEC SA BELLE-MÈRE APRÈS SON ACCOUCHEMENT"
+replace IM8__9=0 if IM8_Aut =="POUR SUIVRE UNE FORMATION"
+replace IM8__9=0 if IM8_Aut =="SE FIANCER"
+replace IM8__9=0 if IM8_Aut =="NOUVEAU NÉ"
+replace IM8__9=0 if IM8_Aut =="APPRENDRE LA CALLIGRAPHIE ET LA PEINTURE"
+replace IM8__9=0 if IM8_Aut =="CHERCHER DU TRAVAILLE"
+replace IM8__9=0 if IM8_Aut =="FAIRE SOIGNER MA FILLE"
+replace IM8__9=0 if IM8_Aut =="NÉ EN CÔTE D'IVOIRE"
+replace IM8__9=0 if IM8_Aut =="SEPARATION AVEC SON CONJOINT"
+replace IM8__9=0 if IM8_Aut =="CONFLIT AVEC SON FRERE"
+replace IM8__9=0 if IM8_Aut =="POUR REJOINDRE MON MARI"
+replace IM8__9=0 if IM8_Aut =="NOUVELLE NAISSANCE"
+replace IM8__9=0 if IM8_Aut =="CONFLIT FAMILIAL ET EXPULSION"
+replace IM8__9=0 if IM8_Aut =="RETOUR DANS NOTRE MAISON APRÈS LA CRISE DE 2010"
+replace IM8__9=0 if IM8_Aut =="VENIR AIDER UNE AUTRE FAMILLE"
+replace IM8__9=0 if IM8_Aut =="SURVEILLER LES ENFANTS QUI VONT A L ECOLE"
+replace IM8__9=0 if IM8_Aut =="VENU POUR SE MARIER"
+replace IM8__9=0 if IM8_Aut =="A CAUSE DE LA MALADIE DE MA MERE"
+replace IM8__9=0 if IM8_Aut =="PRENDRE SOIN DE SON PÈRE MALADE"
+replace IM8__9=0 if IM8_Aut =="REJOINDRE MON CONJOINT"
+replace IM8__9=0 if IM8_Aut =="Formation"
+replace IM8__9=0 if IM8_Aut =="POUR REJOINDRE SON FOYER"
+replace IM8__9=0 if IM8_Aut =="REJOINDRE SON MARIE"
+
+
+replace IM8__9=0 if IM8_Aut == "AVEC SA MERE"
+replace IM8__9=0 if IM8_Aut == "FAIRE DES ÉTUDES CORANIQUE"
+replace IM8__9=0 if IM8_Aut == "FAIRE DES ETUDES CORANIQUE"
+replace IM8__9=0 if IM8_Aut == "TRAVAIL"
+replace IM8__9=0 if IM8_Aut == "AFFECTATION"
+replace IM8__9=0 if IM8_Aut == "AFFECTATION"
+replace IM8__9=0 if IM8_Aut == "SUITE AU DECES DE SON CONJOINT"
+replace IM8__9=0 if IM8_Aut == "POUR LE TRAVAIL"
+replace IM8__9=0 if IM8_Aut == "DÉCÈS DU CONJOINT"
+replace IM8__9=0 if IM8_Aut == "LE MARIAGE"
+replace IM8__9=0 if IM8_Aut == "S'OCCUPER DE SON MARI MALADE"
+replace IM8__9=0 if IM8_Aut == "TRANSFERT POUR LES TRAVAUX DE ROUTE"
+replace IM8__9=0 if IM8_Aut == "Suite à une crise sociaux politiques"
+replace IM8__9=0 if IM8_Aut == "FAIRE UN STAGE"
+replace IM8__9=0 if IM8_Aut == "DÉCÈS DU PÈRE"
+replace IM8__9=0 if IM8_Aut == "SOINS MEDICAUX DE SA MERE"
+replace IM8__9=0 if IM8_Aut == "PIUR UNE MISSION D’ÉVANGÉLISATION"
+replace IM8__9=0 if IM8_Aut == "SUITE A LA SEPARATION D'AVEC SON CONJOINT"
+replace IM8__9=0 if IM8_Aut == "NOUVELLE NEE DANS LA FAMILLE"
+
+
+
+
+***Vider les variables 
+replace IM8_Aut = "" if IM8__1 == 1 & regexm(lower(trim(IM8_Aut)), "rejoindre.*mari|pour.*rejoindre.*mari|rejoindre.*son.*mari|rejoindre.*sa.*tante|rejoindre.*ma.*mère|rejoindre.*ma.*tante|pour.*venir.*soigner.*mon.*enfants|rejoindre.*son.*epoux|suite.*a.*mon.*mariage|se.*marier|accampagner.*sa.*mere|mariage|pour.*se.*marier|rejoindre.*son.*domicile|rejoindre.*sa.*grande.*mere|l’enquête.*père.*biologique|l’enquête.*sa.*maman|joindre.*son.*tuteur.*apres.*mort.*père|venu.*avec.*sa.*mere|apres.*separation.*avec.*son.*marie")
+replace IM8_Aut = "" if IM8__1 == 1 & regexm(lower(trim(FP3_Aut)), "")
+replace IM8_Aut = "" if IM8__1 == 1 & regexm(lower(trim(IM8_Aut)), "l’enquete dit qu’il est venu connaitre la famille de son pere biologique")
+replace IM8_Aut = "" if IM8__1 == 1 & regexm(lower(trim(IM8_Aut)), "deces du conjoint")
+
+
+replace IM8_Aut = "" if IM8__2 == 1 & regexm(lower(trim(IM8_Aut)), "suivre.*formation|stage|faire des etudes coraniques|apprendre un metier|stagiaire|maconnerie")
+replace IM8_Aut = "" if IM8__2 == 1 & regexm(lower(trim(IM8_Aut)), "l ecole")
+replace IM8_Aut = "" if IM8__2 == 1 & regexm(lower(trim(IM8_Aut)), ///
+"(formation en jardinade et culture maréchère|suivre un stage de perfectionnement)")
+replace IM8_Aut = "" if IM8__2 == 1 & regexm(lower(trim(IM8_Aut)), "formation en jardinade et culture marechere")
+
+
+replace IM8_Aut = "" if IM8__3 == 1 & regexm(lower(trim(IM8_Aut)), "pour.*travailler|quitte.*guinee.*venir travailler|foot|creer mon entreprises")
+replace IM8_Aut = "" if IM8__3 == 1 & regexm(lower(trim(IM8_Aut)),"venir travailler a adzope pour son propre compte")
+replace IM8_Aut = "" if IM8__3 == 1 & regexm(lower(trim(IM8_Aut)), ///
+"(pour faire le commerce|chercher un emploi|destruction du garage|lancer une activité rémunératrice|venir travailler a adzope pour son propre compte|travailler a son propre compte|travailler avec son epoux)")
+
+replace IM8_Aut = "" if IM8__3 == 1 &regexm(lower(trim(IM8_Aut)), "faire du commerce")
+replace IM8_Aut = "" if IM8__3 == 1 & IM8_Aut == "LANCER UNE ACTIVITÉ RÉMUNÉRATRICE"
+
+
+replace IM8_Aut = "" if IM8__4 == 1 & regexm(lower(trim(IM8_Aut)), "mutation|venir dans le cadre de son travail|permutation|affection|lieu affectation|projet|suite à une affectation de ses parents")
+
+replace IM8_Aut = "" if IM8__4 == 1 & regexm(lower(trim(IM8_Aut)), ///
+"je suis venu pour mon travail de maçonnerie|pour faire un travail de maçonnerie|exercer sa fonction")
+
+replace IM8_Aut = "" if IM8__4 == 1 &IM8_Aut == "JE SUIS VENU POUR MON TRAVAIL DE MAÇONNERIE"
+
+replace IM8_Aut = "" if IM8__4 == 1 &IM8_Aut == "POUR FAIRE UN TRAVAIL DE MAÇONNERIE"
+
+replace IM8_Aut = "" if IM8__5 == 1 & regexm(lower(trim(FP3_Aut)), "refugie")
+
+replace IM8_Aut = "" if IM8__6 == 1 & regexm(lower(trim(IM8_Aut)), "sante.*maman.*enquete|pour.*accoucher")
+replace IM8_Aut = "" if IM8__6 == 1 & regexm(lower(trim(IM8_Aut)), "suit a une maladie")
+replace IM8_Aut = "" if IM8__6 == 1 & regexm(lower(trim(IM8_Aut)), "grossesse")
+replace IM8_Aut = "" if IM8__6 == 1 & regexm(lower(trim(IM8_Aut)), "suit aux soins medicaux de son conjoint")
+
+replace IM8_Aut = "" if IM8__6 == 1 & regexm(lower(trim(IM8_Aut)), ///
+"(venir accoucher|suit aux soins médicaux de son conjoint|suite à une grossesse)")
+
+replace IM8_Aut = "" if IM8__7 == 1 & regexm(lower(trim(IM8_Aut)), "pour se reposer")
+
+replace IM8_Aut = "" if IM8__8 == 1 & regexm(lower(trim(IM8_Aut)), "aider.*pere.*travaux.*champetres")
+replace IM8_Aut = "" if IM8__8 == 1 & regexm(lower(trim(IM8_Aut)), "elevage")
+
+replace IM8_Aut = "" if IM8__9 == 0 & regexm(lower(trim(IM8_Aut)), "pour.*travailler|affection|rejoindre.*mari|aider son pere.*travaux champetres|suivre.*formation|stage|faire.*etudes coraniques|quitte.*guinee.*venir travailler|pour.*venir.*soigner.*enfants|rejoindre.*epoux|a l’issue.*mort.*pere.*grande soeur.*envoi.*cote d’ivoire|rejoindre.*grande mere|enquete.*familiarite.*pere biologique|mariage|joindre.*tuteur.*apres.*mort.*pere|venu.*avec.*mère|apres.*separation.*marie|sui.*formation.*coranique|sui.*formation.*maconnerie|apprendre.*metier|stagiaire|pour.*le.*foot|lieu.*affectation|projet|suite.*affectation.*parents|creer.*entreprises|pour.*accoucher")
+
+replace IM8_Aut = "" if IM8__1 == 1 & inlist(IM8_Aut, ///
+  "POUR SE MARIE", "REJOINDRE SON COMPAGNON", "SE MARIE", ///
+  "CONJOINTE DE MONSIEUR DONC DÉMÉNAGEMENT AVEC LA FAMILLE", ///
+  "SUITE AU DECES DE SA TUTRICE", "DIVORCE")
+
+replace IM8_Aut = "" if IM8__2 == 1 & IM8_Aut == "POUR FAIRE LA MÉCANIQUE"
+
+replace IM8_Aut = "" if IM8__7 == 1 & inlist(IM8_Aut, ///
+  "Venir occupé notre maison construite", ///
+  "Pour occuper la construction des parents", ///
+  "OCCUPER MA MAISON CONSTRUUTE")
+  
+replace IM8_Aut = "" if IM8__7 == 1 & IM8_Aut == "OCCUPER LA MAISON DE MON FILS"
+
+replace IM8_Aut = ""  if IM8__7 == 1& IM8_Aut == "FUIR LES DIFFICULTÉS A GAGNOA"
+
+
+replace IM8_Aut = "" if IM8__1 == 1 & inlist( IM8_Aut,"SON ONCLE LUI A DIT DE RENTRER AU VILLAGE", "VENU SE MARIER", "S'OCCUPER DE SES PARENTS", "REJOINDRE SON FIANCE", "VENU SE MARIE","ELLE EST RESTÉE AVEC SA BELLE-MÈRE APRÈS SON ACCOUCHEMENT")
+replace IM8_Aut = "" if IM8__1 == 1 & inlist( IM8_Aut,"SE FIANCER", "NOUVEAU NÉ","NÉ EN CÔTE D'IVOIRE","SEPARATION AVEC SON CONJOINT","POUR REJOINDRE MON MARI")
+replace IM8_Aut = "" if IM8__1 == 1 & inlist( IM8_Aut,"NOUVELLE NAISSANCE","VENIR AIDER UNE AUTRE FAMILLE","VENU POUR SE MARIER","REJOINDRE MON CONJOINT","POUR REJOINDRE SON FOYER","REJOINDRE SON MARIE" )
+
+replace IM8_Aut = "" if IM8__2 == 1 & inlist(IM8_Aut,"POUR SUIVRE UNE FORMATION", "APPRENDRE LA CALLIGRAPHIE ET LA PEINTURE", "Formation")
+
+replace IM8_Aut = "" if IM8__3 == 1 & inlist(IM8_Aut, "PERTE DE SON EMPLOI","CHERCHER DU TRAVAILLE")
+
+replace IM8_Aut = "" if IM8__4 == 1 & IM8_Aut == "SURVEILLER LES ENFANTS QUI VONT A L ECOLE"
+
+replace IM8_Aut = "" if IM8__5 == 1 & inlist(IM8_Aut, ///
+"SUITE À DEGUERPISSEMENT", ///
+"CONFLIT AVEC SON FRERE", ///
+"CONFLIT FAMILIAL ET EXPULSION", ///
+"RETOUR DANS NOTRE MAISON APRÈS LA CRISE DE 2010")
+
+replace IM8_Aut = "" if IM8__6 == 1 & inlist(IM8_Aut, ///
+"FAIRE SOIGNER MA FILLE", ///
+"A CAUSE DE LA MALADIE DE MA MERE", ///
+"PRENDRE SOIN DE SON PÈRE MALADE")
+
+/*IM8
+1.	Regroupement familial
+2.	Suivre des études
+3.	Recherche d'emploi
+4.	Affectation de travail
+5.	Conflit armée/communautaires
+6.	Soins médicaux
+7.	Visite/tourisme
+8.	Activité agricole
+9.	Pour commencer un nouvel emploi
+10.	Autres à préciser______
+
+*/
+
+replace IM8__8=1 if IM8_Aut=="S'OCCUPER DE LA PLANTATION"
+replace IM8__5=1 if IM8_Aut=="DEPLACÉ DE GUERRE"
+
+*Vider 
+replace IM8_Aut="" if IM8__8==1 & IM8_Aut=="S'OCCUPER DE LA PLANTATION"
+
+replace IM8_Aut="" if IM8__5==1 & IM8_Aut=="DEPLACÉ DE GUERRE"
+
+
+
+***Autre a preciser
+*Changer de lieu d'habitation, Lieu d'habitation , lieu de naissance et déménagement
+
+**********//////// DIF3 :  %rostertitle% utilise-t-il/elle un équipement ou reçoit-il/elle de l’aide pour se déplacer : ?
+
+*br DIF3_Aut if DIF3_Aut!=""
+
+replace DIF3__5 = 1 if  DIF3_Aut == "OEIL ARTIFICIEL GAUCHE"
+
+replace DIF3__6 = 1  if DIF3_Aut =="LE PIEDS GAUCHE ET LE BRAS GAUCHE SONT PARALYSÉS À CAUSE DE L’AVC, DIFFICULTÉ POUR SE DÉPLACER"
+**
+replace DIF3__6 = 1  if DIF3_Aut=="ELLE S ASSOIT SUR UN TABOURET ET ON LA DEPLACE"
+replace DIF3__6 = 1  if DIF3_Aut=="ACCIDENT"
+**
+replace DIF3__6 = 1  if DIF3_Aut=="VICTIME D’UN AVC, ENTRAÎNANT UNE PARALYSIE D’UN CÔTÉ"
+replace DIF3__6 = 1  if DIF3_Aut=="L’ENQUÊTÉ DIT QU’IL A SUBIT  UNE OPÉRATION AU NIVEAU DU VENTRE DONC IL EST DIFFICILE POUR LUI DE SOULEVER LES OBJECTIFS LOURD."
+
+replace DIF3__7 = 1 if DIF3_Aut == "IL A DU MAL À SE DÉPLACER À CAUSE DE L'AVC"
+replace DIF3__7 = 1 if DIF3_Aut == "TRAORE BRAHIMA EST PARALISE PAR LA TENSION IL NE PEUT SE DEPLACE ET N'A PAS D'EQUIPEMENT DE SE DEPLACER"
+replace DIF3__7 = 1 if DIF3_Aut == "DOULEUR A LA HANCHE"
+replace DIF3__7 = 1 if DIF3_Aut =="MAL AUX PIEDS"
+replace DIF3__7 = 1 if DIF3_Aut == "MAL AUX PIEDS"
+**
+replace DIF3__7 = 1 if DIF3_Aut=="IL A LA LEPRE A LA MAINS DROITE, ET NE PEUT PAS PARLER"
+replace DIF3__7 = 1 if DIF3_Aut=="UN SOUCIS AU PIEDS DU A LA POLIO"
+replace DIF3__7 = 1 if DIF3_Aut=="elle est atteinte de la maladie de eléphantiasis"
+replace DIF3__7 = 1 if DIF3_Aut=="FACTURE AU PIEDS"
+
+***
+replace DIF3__7 = 1 if DIF3_Aut=="HANDICAP AU PIED"
+*
+replace DIF3__8 = 1 if DIF3_Aut == "ASMATIQUES"
+replace DIF3__8 = 1 if DIF3_Aut == "MALADIE DE LA HANCHE"
+replace DIF3__8 = 1 if DIF3_Aut == "MAUX DE VENTRE"
+replace DIF3__8 = 1 if DIF3_Aut == "MAL DE EPAUL"
+replace DIF3__8 = 1 if DIF3_Aut == "TENSIONNAIRE"
+replace DIF3__8 = 1 if DIF3_Aut == "DOULEUR A LA HANCHE"
+replace DIF3__8 = 1 if DIF3_Aut == "MAL A LA HANCHE"
+replace DIF3__8 = 1 if DIF3_Aut == "HANDICAP SUR LE BRAS DROIT"
+replace DIF3__8 = 1 if DIF3_Aut =="MALADIE DE LA HANCHE"
+replace DIF3__8 = 1 if DIF3_Aut =="MAL A HANCHE"
+replace DIF3__8 = 1 if DIF3_Aut == "ASMATIQUES"
+**
+replace DIF3__8 = 1 if DIF3_Aut =="MAL DE FREQUENT"
+replace DIF3__8 = 1 if DIF3_Aut =="MAL DE TETE FREQUENT"
+replace DIF3__8 = 1 if DIF3_Aut =="MAL DE VENTRE FREQUENT"
+replace DIF3__8 = 1 if DIF3_Aut =="SOUCIS AU NIVEAU DU PIEDS DROIT MAIS MARCHE CORRECTEMENT LORSQUE LA DOULEUR DIMINUE"
+replace DIF3__8 = 1 if DIF3_Aut =="DOULEURS DANS LES OS"
+**
+replace DIF3__8 = 1 if DIF3_Aut =="BOITE LÉGÈREMENT"
+replace DIF3__8 = 1 if DIF3_Aut =="DIABETIQUE"
+**
+replace DIF3__8 = 1 if DIF3_Aut =="BOITE"
+replace DIF3__8 = 1 if DIF3_Aut =="ELLE A MAL AU PIED, ELLE BOITE"
+replace DIF3__8 = 1 if DIF3_Aut =="SOUCIS AUX PIEDS : LES NERFS"
+replace DIF3__8 = 1 if DIF3_Aut =="PAS DE HANDICAP MAIS UN PEU AVANCÉE EN AGE"
+replace DIF3__5=1 if DIF3_Aut =="PROTEZE AU PIED"
+
+
+replace DIF3__7=1 if DIF3_Aut == "mal de gorge"
+replace DIF3__7=1 if DIF3_Aut == "SOUCIS AU PIEDS DU A UNE PLAIE"
+replace DIF3__1=1 if DIF3_Aut == "JAMBE LOURDE RENDE LA MARCHE DIFFICILE"
+replace DIF3__7=1 if DIF3_Aut == "MARCHE DIFFICILEMENT"
+replace DIF3__8=1 if DIF3_Aut == "BOSSU"
+replace DIF3__8=1 if DIF3_Aut == "MALADE MENTAL"
+replace DIF3__8=1 if DIF3_Aut == "TROUBLES MENTAUX"
+replace DIF3__7=1 if DIF3_Aut == "VUE TROUBLÉ"
+replace DIF3__8=1 if DIF3_Aut == "MAL DE DOS"
+replace DIF3__1=1 if DIF3_Aut == "A DES DIFFICULTES POUR MARCHER"
+
+
+
+
+
+
+replace   DIF3__9 = 0  if DIF3_Aut =="LE PIEDS GAUCHE ET LE BRAS GAUCHE SONT PARALYSÉS À CAUSE DE L’AVC, DIFFICULTÉ POUR SE DÉPLACER"
+replace   DIF3__9 = 0  if DIF3_Aut =="IL A DU MAL À SE DÉPLACER À CAUSE DE L’AVC"
+replace   DIF3__9 = 0 if  DIF3_Aut == "OEIL ARTIFICIEL GAUCHE"
+replace DIF3__9 = 0 if DIF3_Aut =="MAL DE FREQUENT"
+replace DIF3__9 = 0 if DIF3_Aut =="MAL DE TETE FREQUENT"
+replace DIF3__9 = 0 if DIF3_Aut =="MAL DE VENTRE FREQUENT"
+replace DIF3__9 = 0 if DIF3_Aut =="SOUCIS AU NIVEAU DU PIEDS DROIT MAIS MARCHE CORRECTEMENT LORSQUE LA DOULEUR DIMINUE"
+replace DIF3__9= 0 if DIF3_Aut =="DOULEURS DANS LES OS"
+replace DIF3__9 = 0 if DIF3_Aut=="IL A LA LEPRE A LA MAINS DROITE, ET NE PEUT PAS PARLER"
+replace DIF3__9 = 0 if DIF3_Aut=="UN SOUCIS AU PIEDS DU A LA POLIO"
+replace DIF3__9 = 0 if DIF3_Aut=="elle est atteinte de la maladie de eléphantiasis"
+replace DIF3__9 = 0 if DIF3_Aut=="FACTURE AU PIEDS"
+replace DIF3__9 = 0  if DIF3_Aut=="ELLE S ASSOIT SUR UN TABOURET ET ON LA DEPLACE"
+replace DIF3__9 = 0  if DIF3_Au=="ACCIDENT"
+*
+replace DIF3__9 = 0 if DIF3_Aut =="BOITE LÉGÈREMENT"
+replace DIF3__9 = 0 if DIF3_Aut =="DIABETIQUE"
+replace DIF3__9 = 0  if DIF3_Aut=="VICTIME D’UN AVC, ENTRAÎNANT UNE PARALYSIE D’UN CÔTÉ"
+replace DIF3__9 = 0  if DIF3_Aut=="L’ENQUÊTÉ DIT QU’IL A SUBIT  UNE OPÉRATION AU NIVEAU DU VENTRE DONC IL EST DIFFICILE POUR LUI DE SOULEVER LES OBJECTIFS LOURD."
+
+replace DIF3__9 = 0 if DIF3_Aut=="HANDICAP AU PIED"
+*
+replace DIF3__9 = 0 if DIF3_Aut =="BOITE"
+replace DIF3__9 = 0 if DIF3_Aut =="ELLE A MAL AU PIED, ELLE BOITE"
+replace DIF3__9 = 0 if DIF3_Aut =="SOUCIS AUX PIEDS : LES NERFS"
+replace DIF3__9 = 0 if DIF3_Aut =="PAS DE HANDICAP MAIS UN PEU AVANCÉE EN AGE"
+replace DIF3__9=0 if DIF3_Aut =="PROTEZE AU PIED"
+
+
+replace DIF3__9=0 if DIF3_Aut == "mal de gorge"
+replace DIF3__9=0 if DIF3_Aut == "SOUCIS AU PIEDS DU A UNE PLAIE"
+replace DIF3__9=0 if DIF3_Aut == "JAMBE LOURDE RENDE LA MARCHE DIFFICILE"
+replace DIF3__9=0 if DIF3_Aut == "MARCHE DIFFICILEMENT"
+replace DIF3__9=0 if DIF3_Aut == "BOSSU"
+replace DIF3__9=0 if DIF3_Aut == "MALADE MENTAL"
+replace DIF3__9=0 if DIF3_Aut == "TROUBLES MENTAUX"
+replace DIF3__9=0 if DIF3_Aut == "VUE TROUBLÉ"
+replace DIF3__9=0 if DIF3_Aut == "MAL DE DOS"
+replace DIF3__9=0 if DIF3_Aut == "A DES DIFFICULTES POUR MARCHER"
+
+
+
+**** Vider les variables
+replace DIF3_Aut = "" if DIF3__9==0
+
+replace DIF3_Aut = "" if DIF3__5 == 1 & regexm(lower(trim(DIF3_Aut)), "oeil artificiel gauche|proteze au pied")
+
+replace DIF3_Aut = "" if DIF3__6 == 1 & regexm(lower(trim(DIF3_Aut)), "(le pieds gauche et le bras gauche sont paralysés à cause de l’avc, difficulté pour se déplacer.*|elle s assoit sur un tabouret et on la deplace.*|accident.*)")
+
+replace DIF3_Aut = "" if DIF3__6 == 1 & DIF3_Aut =="VICTIME D’UN AVC, ENTRAÎNANT UNE PARALYSIE D’UN CÔTÉ"
+
+replace DIF3_Aut = "" if DIF3__6 == 1 & DIF3_Aut =="L’ENQUÊTÉ DIT QU’IL A SUBIT  UNE OPÉRATION AU NIVEAU DU VENTRE DONC IL EST DIFFICILE POUR LUI DE SOULEVER LES OBJECTIFS LOURD."
+
+replace DIF3_Aut = "" if DIF3__7 == 1 &regexm(lower(trim(DIF3_Aut)), "(il a du mal à se déplacer à cause de l’avc.*|traore brahima est paralise par la tension il ne peut se deplace et n'a pas d'equipement de se deplacer.*|douleur a la hanche.*|mal aux pieds.*|mal aux pieds.*|il a la lepre a la mains droite, et ne peut pas parler.*|un soucis au pieds du a la polio.*|elle est atteinte de la maladie de éléphantiasis.*|facture au pieds.*)")
+
+replace DIF3_Aut = "" if DIF3__8 == 1 &regexm(lower(trim(DIF3_Aut)), "(asmatiques.*|maladie de la hanche.*|maux de ventre.*|mal de epaule.*|tensionnaire.*|douleur a la hanche.*|mal a la hanche.*|handicap sur le bras droit.*|maladie de la hanche.*|mal a hanche.*|mal de frequent.*|mal de tete frequent.*|mal de ventre frequent.*|soucis au niveau du pieds droit mais marche correctement lorsque la douleur diminue.*|douleurs dans les os.*)")
+
+replace DIF3_Aut = "" if DIF3__8 == 1 &DIF3_Aut == "BOITE LÉGÈREMENT"
+replace DIF3_Aut = "" if DIF3__8 == 1 &DIF3_Aut == "DIABETIQUE"
+
+replace DIF3_Aut = "" if DIF3__9 == 0  & regexm(lower(trim(DIF3_Aut)), "le pied.*bras.*gauche.*paralysee.*avc|mal.*frequent|mal.*de.*tete.*frequent|mal.*de.*ventre.*frequent|soucis.*pieds.*droit.*marche.*correctement.*douleur.*diminue|douleurs.*os|il.*lepra.*mains.*droite|soucis.*pieds.*polio|elephantiasis.*maladie|facture.*pieds|assoit.*tabouret.*deplace|accident")
+
+replace DIF3_Aut = "" if DIF3__9 == 0  & regexm(lower(trim(DIF3_Aut)),"elle est atteinte de la maladie de eléphantiasis")
+
+replace DIF3_Aut = "" if DIF3__8 == 1 & inlist(DIF3_Aut, ///
+    "BOITE", ///
+    "ELLE A MAL AU PIED, ELLE BOITE", ///
+    "SOUCIS AUX PIEDS : LES NERFS", ///
+    "PAS DE HANDICAP MAIS UN PEU AVANCÉE EN AGE")
+
+replace DIF3_Aut = "" if DIF3__7 == 1 & DIF3_Aut == "HANDICAP AU PIED"
+
+
+/*
+A. Canne ou bâton de marche
+B. Déambulateur 
+C. Béquilles 
+D. Fauteuil roulant ou scooter électrique
+E. Membre artificiel (jambe/pied) ?
+F. L'aide d'une autre personne ?
+G. Aucun équipement ou aide malgré son handicap
+H. Aucun Handicap physique inférieur
+X. Autre (veuillez préciser)
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////// EF5. Pourquoi %rostertitle% n'a pas été à l'école (raisons principales)?
+*export excel EF5_AUTRE using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EF5_AUTRE using "D:\CAE\fichier exel\EF5_AUTRE.xls" if EF5_AUTRE!="", firstrow(variables)
+
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYENS FINANCIERS"
+*replace   EF5=6  if EF5_AUTRE =="FRANCO-ARABE"
+replace   EF5=9  if EF5_AUTRE =="INSUFFISANCE DE MOYENS FINANCIERS"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN FINANCIER"
+*replace   EF5=6  if EF5_AUTRE =="école CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="FAIRE MADRASSA"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYENS"
+*replace   EF5=6  if EF5_AUTRE =="J’AI FAIT L’ÉCOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="J’AI FRÉQUENTÉ L’ÉCOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE FRANCO-ARABE"
+*replace   EF5=6  if EF5_AUTRE =="MADRASSA"
+*replace   EF5=6  if EF5_AUTRE =="J’AI FAIT L’ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="IL A FAIT L ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="ELLE A FAIT L ECOLE CORANIQUE"
+replace   EF5=14  if EF5_AUTRE =="EN CE TEMPS IL Y AVAIT PAS D ECOLE DANS LA LOCALITÉ"
+*replace   EF5=6  if EF5_AUTRE =="FRANCO ARABE"
+*replace   EF5=6  if EF5_AUTRE =="FRANCO"
+*replace   EF5=6  if EF5_AUTRE =="IL FREQUENTE L’ECOLE ARABE"
+*replace   EF5=6  if EF5_AUTRE =="IL FREQUENTE L’ECOLE CORANIQUE"
+replace   EF5=14  if EF5_AUTRE =="L’ÉCOLE N’EST EXISTE PAS ENCORE"
+*replace   EF5=6  if EF5_AUTRE =="FREQUENTE  L ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="EXOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="MOYEN FINANCIER"
+***
+*replace   EF5=6  if EF5_AUTRE =="FORMATION MADARASSA"
+*replace   EF5=6  if EF5_AUTRE =="ecole coranique"
+replace   EF5=9  if EF5_AUTRE =="PROBLEME DE MOYENS"
+replace   EF5=9  if EF5_AUTRE =="PROBLEME FINANCIER"
+*replace   EF5=6  if EF5_AUTRE =="ÉCOLE CORANIQUE"
+replace   EF5=6  if EF5_AUTRE =="NEGLIGEANCE DES PARENTS"
+replace   EF5=6  if EF5_AUTRE =="NEGLIGEANCE  PARENTALE"
+*replace EF5=6  if EF5_AUTRE =="DECISION PERSONNEL"
+*replace EF5=6  if EF5_AUTRE =="NEGLIGEANCE  DES PARENTS"
+replace EF5=4  if EF5_AUTRE =="IL IRA A L'ECOLE CETTE RENTREE SCOLAIRE"
+replace EF5=6  if EF5_AUTRE =="DECES DU PERE ET INSSUFFISANCE DE MOYEN FINANCIER DE LA MERE"
+*replace EF5=6  if EF5_AUTRE =="ECOLE CORANNIQUE"
+*replace EF5=6  if EF5_AUTRE =="ELLE FAIT UNE ECOLE CORANNIQUE"
+*replace EF5=6  if EF5_AUTRE =="ELLE FAIT ECOLE CORANNIQUE"
+*replace EF5=6  if EF5_AUTRE =="ETUDE CORANIQUE"
+replace EF5=11  if EF5_AUTRE =="Sourd-muet"
+*replace EF5=6  if EF5_AUTRE =="Ecole arabe"
+replace EF5=6  if EF5_AUTRE =="CHOIX PARENTAL"
+replace EF5=6  if EF5_AUTRE =="volonté des parents"
+replace EF5=6  if EF5_AUTRE =="volonte des parents"
+replace EF5=9  if EF5_AUTRE =="INSUFISANCE FINANCIERE DES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="PROGRAMME MADRASSA"
+replace EF5=5  if EF5_AUTRE =="ELLE N'A PAS ETE A L'ECOLE POUR PRENDRE SOIN DE SA MAISON SON EPOUX ET SES ENFANTS"
+replace EF5=6  if EF5_AUTRE =="LES PARENTS ONT REFUSÉ DE LE SCOLARISER"
+*replace EF5=6  if EF5_AUTRE =="MANDRASSA UNIQUEMENT"
+*replace EF5=6  if EF5_AUTRE =="UNIQUEMENT MANDRASSA"
+*replace EF5=6  if EF5_AUTRE =="franco_ arabe"
+replace EF5=9  if EF5_AUTRE =="N'AYANT PLUS SES PARENTS, IL N' Y AVAIT PERSONNE POUR LA SCOLARISER"
+replace EF5=4  if EF5_AUTRE =="ORPHELINE DE PERE A BAS AGE DONC ELLE N EST PAS FREQUENTE"
+replace EF5=7  if EF5_AUTRE =="SANS ACTE DE NAISSANCE"
+replace EF5=4  if EF5_AUTRE =="ELLE N'a que 2 ans"
+replace EF5=6  if EF5_AUTRE =="refus des parents"
+replace EF5=10  if EF5_AUTRE =="PAS D'ECOLE"
+replace EF5=1  if EF5_AUTRE =="DEVAIT S'OCCUPER DE SON PERE QUI ETAIT AVEUGLE"
+*replace EF5=6  if EF5_AUTRE =="ÉCOLE CORANIQUE, VU QU'IL PERDU SON PÈRE"
+replace EF5=6  if EF5_AUTRE =="REFUS DE PARTIR"
+replace EF5=6  if EF5_AUTRE =="ECOLE CORANIQUE PREFERENCE DES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="FRANCO ARABE AU MALI"
+replace EF5=6  if EF5_AUTRE =="CHOIX PERSONEL PARENTAL"
+replace EF5=6  if EF5_AUTRE =="LE’PÈRE N’AVAIT PAS CONNAISSANCE DE L’IMPORTANCE DE L’ECOLE"
+replace EF5=6  if EF5_AUTRE =="DECISION DU PERE"
+replace EF5=7  if EF5_AUTRE =="EXTRAIT N'ETAIT PAS DISPONIBLE"
+replace EF5=6  if EF5_AUTRE =="maitre marabou"
+replace EF5=2  if EF5_AUTRE =="CULTUVATRICE"
+replace EF5=2  if EF5_AUTRE =="CULTIVATEUR"
+*replace EF5=6  if EF5_AUTRE =="ECOLE FRANCO ARABE"
+*replace EF5=6  if EF5_AUTRE =="FORMATION DOUGOUMAKALAN"
+*replace EF5=6  if EF5_AUTRE =="IL FAIT L’ÉCOLE CORANIQUE MADRASSA"
+*replace EF5=6  if EF5_AUTRE =="ELLE FAIT L’ÉCOLE CORANIQUE MADRASSA"
+replace EF5=6  if EF5_AUTRE =="LA VOLONTE DES PARENTS"
+replace EF5=6  if EF5_AUTRE =="PAS INSCRIT"
+*replace EF5=6  if EF5_AUTRE =="CORANIQUE"
+*replace EF5=6  if EF5_AUTRE =="Madrassa, Dougoumakalan"
+*replace EF5=6  if EF5_AUTRE =="FREANQUENTER LECOLE ARABE"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN FINACIER"
+*replace EF5=6  if EF5_AUTRE =="franco arabe"
+*replace EF5=6  if EF5_AUTRE =="MATRASA"
+*replace EF5=6  if EF5_AUTRE =="CHOIX DES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="LES PARENTS N'ONT PAS VOULU LA METTRE A L'ECOLE"
+replace EF5=4  if EF5_AUTRE =="refus de la famille"
+replace EF5=1  if EF5_AUTRE =="POUR LES TRAVEAUX CHAMPETRES"
+replace EF5=1  if EF5_AUTRE =="AIDE SON MARI A TRAVAILLER DANS SON CHAMPS"
+replace EF5=4  if EF5_AUTRE =="ELLE N'AVAIS ENCORE L'AGE D'ALLEE A L'ECOLE MAIS ELLE Y SERA CETTE ANNEE"
+*replace EF5=6  if EF5_AUTRE =="franco arrabe"
+replace EF5=4  if EF5_AUTRE =="ENCORE UN BEBE"
+replace EF5=4  if EF5_AUTRE =="PAS LAGE POUR L'ECOLE"
+replace EF5=10  if EF5_AUTRE =="PAS D ECOLE"
+*replace EF5=6  if EF5_AUTRE =="ECOLE MANDRASSA"
+replace EF5=6  if EF5_AUTRE =="NE VIVAIT PAS AVEC LES PARENTS"
+replace EF5=6  if EF5_AUTRE =="ELLE A REFUSEE DALLER A LECOLE"
+replace EF5=6  if EF5_AUTRE =="LE CM IGNORE LA RAISON"
+replace EF5=4  if EF5_AUTRE =="ENCORE UN BEBE NE VA PAS A L'ECOLE"
+replace EF5=5  if EF5_AUTRE =="POUR DES RAISONS TRADITIONNELLES, LA FILLE N'AVAIT PAS LE DROIT D'ALLER A L'ÉCOLE"
+replace EF5=10  if EF5_AUTRE =="PAS ECOLE   DANS LE VILLAGE"
+replace EF5=10  if EF5_AUTRE =="A CETTE EPOQUE IL Y AVAIT QUE L ECOLE CORANIQUE DANS SA LOCALITE"
+replace EF5=6  if EF5_AUTRE =="REFUS DE PARENTS"
+replace EF5=9  if EF5_AUTRE =="PAS MANQUES DE MOYENS DE SA MERE APRES LE DECES DU PERE"
+replace EF5=6  if EF5_AUTRE =="SON PAPA N'A PAS VOULU L INSCRIRE A L'ECOLE"
+replace EF5=6  if EF5_AUTRE =="CONNAITRE MIEUX LA RELIGION"
+replace EF5=6  if EF5_AUTRE =="CONNAITRE BIEN LA RELIGION POUR ETRE UNE BONNE EPOUSE"
+replace EF5=6  if EF5_AUTRE =="MES PARENTS ONT REFUSER DE METTRE A L'ECOLE"
+replace EF5=4  if EF5_AUTRE =="ELLE N'A PAS ENCORE L'AGE D'ALLER A L'ECOLE"
+replace EF5=5  if EF5_AUTRE =="SON PERE A REFUSE DE LUI METTRE A L ECOLE CAR POUR LUI LES FEMLMES NE RESUITENT PAS L ECOLE"
+replace EF5=9  if EF5_AUTRE =="manque de Moyen financier"
+replace EF5=6  if EF5_AUTRE =="LA NON CONNAISSANCE DE L'IMPORTANCE DE L'ECOLE PAR LES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="FRANCO ARABE POUR MAITRISE L ISLAM"
+*replace EF5=6  if EF5_AUTRE =="FRANCO ARABE POUR CONNAITRE L ISLAM"
+replace EF5=16  if EF5_AUTRE =="POUR APPRENDRE UN METIER"
+*replace EF5=6  if EF5_AUTRE =="INSCRITE A L'ECOLE CORANIQUE"
+replace EF5=4  if EF5_AUTRE =="ENCORE PETITE"
+replace EF5=6  if EF5_AUTRE =="DECISION DU PÈRE"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN FINANCIER DES PARENTS"
+replace EF5=4  if EF5_AUTRE =="pas lage"
+replace EF5=5  if EF5_AUTRE =="COUTUME"
+replace EF5=4  if EF5_AUTRE =="EN DESSOUS DE L4AGE"
+replace EF5=6  if EF5_AUTRE =="LE PERE A PREFERE L'ECOLE CORANIQUE"
+replace EF5=4  if EF5_AUTRE =="LES PARENTS N'AAIMAIENT PAS L'ECOLE"
+replace EF5=4  if EF5_AUTRE =="LES PARENTS N'AIMAIENT PAS L'ECOLE"
+replace EF5=4  if EF5_AUTRE =="LE CM A PREFERE LINSCRIRE A LECOLE MANDRASSA"
+*replace EF5=4  if EF5_AUTRE =="LE CM PREFERE MANDRASSA POUR SON FILS CAR LUI EST IMAM"
+replace EF5=4  if EF5_AUTRE =="IL N YAVAIT PAS D ECOLE LA OU J'AI FAIT MON ENFANCE"
+replace EF5=1  if EF5_AUTRE =="PRENDRE SOIN DE SON PERE QUI ETAIT AVEUGLE"
+replace EF5=5  if EF5_AUTRE =="LES PARENTS ONT REFUSÉ"
+replace EF5=6  if EF5_AUTRE =="A REFUSER D’ALLER A L’ECOLE"
+replace EF5=6  if EF5_AUTRE =="PAR NEGLIGENCE"
+replace EF5=9  if EF5_AUTRE =="J’AI PERDU MON PÈRE, J’AVAIS PERSONNE POUR ME SCOLARISER"
+replace EF5=6  if EF5_AUTRE =="LES PARENTS L'ONT PAS MIS A L'ECOLE"
+replace EF5=5  if EF5_AUTRE =="LES PARENTS ONT REFUSE DE LA METTRE A L'ECOLE"
+replace EF5=4  if EF5_AUTRE =="ELLE IRA A L'ECOLE CETTE ANNEE"
+*replace EF5=6  if EF5_AUTRE =="A FAIT JUSTE LA MADRASSA"
+replace EF5=6  if EF5_AUTRE =="REFUS DES PARENTS DE METTRE LES FILLES A L'ECOLE"
+replace EF5=6  if EF5_AUTRE =="FAUTE DE PARENTS"
+*replace EF5=6  if EF5_AUTRE =="A FAIRE MADRASSA"
+*replace EF5=6  if EF5_AUTRE =="IL A FAIT L'ECOLE FRANCO ARABE"
+replace EF5=9  if EF5_AUTRE =="manque de moyens financier"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE RESSOURCE FINANCIERE DES PARENTS"
+replace EF5=9  if EF5_AUTRE =="INSUFFISANCE DE RESSOURCE FINANCIERE DES PARENTS"
+replace EF5=6  if EF5_AUTRE =="REFUS D'ALLER A L'ECOLE"
+replace EF5=5  if EF5_AUTRE =="GRANDI DANS UNE FAMILLE QUI L'A PAS SCOLARISE"
+replace EF5=10  if EF5_AUTRE =="INDISPONIBILITE DE L'ECOLE DANS LA ZONE"
+replace EF5=6  if EF5_AUTRE =="LES PARENTS ETAIENT CONTRE L'ECOLE"
+*replace EF5=6  if EF5_AUTRE =="ECOLE MADRASSA"
+replace EF5=4  if EF5_AUTRE =="ECOLE EST UNITIL POUR LES JEUNES FILLES"
+*replace EF5=6  if EF5_AUTRE =="FRANCO  ARABE"
+replace EF5=9  if EF5_AUTRE =="PROBLEME DE MOYEN"
+replace EF5=10  if EF5_AUTRE =="IL N'Y AVAIT PAS D'ECOLE"
+*replace EF5=6  if EF5_AUTRE =="ELLE EST AU MADRASSA"
+replace EF5=9  if EF5_AUTRE =="PAS DE MOYEN FINANCIER"
+replace EF5=6  if EF5_AUTRE =="PERE NE VOULAIT PAS"
+replace EF5=4  if EF5_AUTRE =="PAS ENCORE L'AGE"
+*replace EF5=6  if EF5_AUTRE =="ECOLE CORNANIQUE"
+replace EF5=6  if EF5_AUTRE =="VOLONTE DES  PARENTS"
+replace EF5=4  if EF5_AUTRE =="A 3 ANS"
+replace EF5=10  if EF5_AUTRE =="L'ECOLE N'ETAIT A PROXIMITE"
+replace EF5=6  if EF5_AUTRE =="LE CHOIX DES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="FRANCO ARABE POUR CONNAITRE LA RELIGION ET APPRENDRE LE FRANCAIS"
+replace EF5=9  if EF5_AUTRE =="PAR INSUFFISANCE DE MOYENS FINANCIERS"
+*replace EF5=6  if EF5_AUTRE =="SUIVRE LES COURS FRANCO ARABE"
+replace EF5=1  if EF5_AUTRE =="POUR FAIRE DES TRAVAUX CHAMPETRE"
+*replace EF5=6  if EF5_AUTRE =="ECOLE MANDRASSA PRIVILEGE DANS SON PAYS DE NAISSANCE"
+replace EF5=10  if EF5_AUTRE =="L ECOLE N EXISTAIT PAS A SON TEMPS"
+replace EF5=10  if EF5_AUTRE =="PAS D ECOLE EXIXTANT EN CE MOMENT"
+*replace EF5=6  if EF5_AUTRE =="Madrassa"
+replace EF5=9  if EF5_AUTRE =="manque des moyens"
+replace EF5=10  if EF5_AUTRE =="manque d'école"
+*replace EF5=6  if EF5_AUTRE =="NON INSCRITE PAS LES PARENTS"
+replace EF5=9  if EF5_AUTRE =="PAS DE PRISE EN CHARGE APRES LE DECES DE SON PERE"
+replace EF5=6  if EF5_AUTRE =="REFUS DU PERE DE LA SCOLARISER"
+replace EF5=9  if EF5_AUTRE =="DECES DU PERE A EMPECHER LA MISE A L'ECOLE"
+replace EF5=6  if EF5_AUTRE =="Fait madrassa"
+replace EF5=10  if EF5_AUTRE =="PAS D ECOLE A CETTE EPOQUE DANS SA LOCALITE"
+replace EF5=10  if EF5_AUTRE =="A CETTE EPOQUE IL Y AVAIT PAS D ECOLE DANS LA LOCALITÉ"
+replace EF5=6  if EF5_AUTRE =="LES PARENTS NE L'ONT PAS SCOLARISES"
+replace EF5=4  if EF5_AUTRE =="TROP PETIT"
+replace EF5=4  if EF5_AUTRE =="TROP JEUNE"
+replace EF5=6  if EF5_AUTRE =="LES PARENTS N'ACCORDAIENT PAS D'IMPORTANCE A L'ÉCOLE"
+replace EF5=6  if EF5_AUTRE =="CHOIX PARENT"
+replace EF5=5  if EF5_AUTRE =="A CE TEMPS L""ECOLE N'ETAIT PAS POUR LES FILLE"
+*replace EF5=6  if EF5_AUTRE =="IL A JUSTE FAIT LA MADRASSA"
+replace EF5=9  if EF5_AUTRE =="DECES DU PARENTS ET MANQUE DE MOYENS FIANCIERS"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN FINANCIER DEPARENTS"
+replace EF5=4  if EF5_AUTRE =="ageé de 3 ans"
+replace EF5=9  if EF5_AUTRE =="Manque de moyen financiers"
+replace EF5=4  if EF5_AUTRE =="ORPHELIN DE PERE ET DE MERE AVANT L'AGE D'ALLER A L'ECOLE"
+replace EF5=6  if EF5_AUTRE =="la volonté des parents"
+replace EF5=6  if EF5_AUTRE =="PAS INSCRIT A L'ECOLE"
+replace EF5=9  if EF5_AUTRE =="APRES LE DECES DE CA MERE REFUS DE L'ENVOYER A L'ECOLE"
+replace EF5=6  if EF5_AUTRE =="REUS DES PARENTS"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE MOYENS FIN"
+*replace EF5=6  if EF5_AUTRE =="IL FAIT UNE FORMATION MADARASSA"
+*replace EF5=6  if EF5_AUTRE =="SON PAPA NE L'A PAS MIS A L'ECOLE PARCE QU'IL ETAIT BASE SUR L'ECOLE CORANIQUE"
+replace EF5=9  if EF5_AUTRE =="J’AI PERDU MON PÈRE, PERSONNE POUR ME SCOLARISER"
+replace EF5=10  if EF5_AUTRE =="A SON EPOQUE IL Y AVAIT D ECOLE"
+replace EF5=9  if EF5_AUTRE =="MANQUE D'ARGENT"
+*replace EF5=6  if EF5_AUTRE =="LES PARENTS VOULAIENT L'ECOLE ARABE POUR LUI"
+replace EF5=9  if EF5_AUTRE =="Insuffisance de moyens financiers"
+replace EF5=9  if EF5_AUTRE =="ORPHELINE ET ELLE N'A PAS D'EXTRAIT NI LES MOYENS D'ÊTRE SCOLARISÉ"
+*replace EF5=6  if EF5_AUTRE =="L' enfant à fait Madrassa"
+*replace EF5=6  if EF5_AUTRE =="Il a fait Madrassa"
+*replace EF5=6  if EF5_AUTRE =="franco arrab"
+*replace EF5=6  if EF5_AUTRE =="FORMATIOJN DOUGOUMAKALAN"
+*replace EF5=6  if EF5_AUTRE =="ELLE FAIT L'ECOLE FRANCO-ARABE"
+replace EF5=9  if EF5_AUTRE =="PAS MANQUE DE MOYEN DES PARENTS"
+replace EF5=9  if EF5_AUTRE =="difficulte financiere"
+*replace EF5=6  if EF5_AUTRE =="IL FAIT LE PROGRAMME MADRASSA"
+replace EF5=6  if EF5_AUTRE =="REFUS DU PERE"
+replace EF5=6  if EF5_AUTRE =="REFUS DE L'INSCRIRE"
+replace EF5=11  if EF5_AUTRE =="PROBLEMES PSYCHIQUES"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE  MOYEN"
+replace EF5=9  if EF5_AUTRE =="INSUFISSANCE FINANCIERE DES PARENTS"
+*replace EF5=6  if EF5_AUTRE =="ÉCOLE FRANCO-ARABE"
+*replace EF5=6  if EF5_AUTRE =="POUR MIEUX MAITRISER SA RELIGION"
+*replace EF5=6  if EF5_AUTRE =="FRANCO ARABE POUR MIEUX CONNAITRE SA RELIGION"
+replace EF5=9  if EF5_AUTRE =="manque de moyen"
+replace EF5=6  if EF5_AUTRE =="NÉGLIGENCE"
+replace EF5=9  if EF5_AUTRE =="J’AI PERDU MON PÈRE"
+replace EF5=9  if EF5_AUTRE =="DECES DU GÉNITEUR"
+replace EF5=4  if EF5_AUTRE =="AGE INSUIFISSANT SELON LE CHEF DE MENAGE"
+replace EF5=9  if EF5_AUTRE =="GRANDIT ORPHELIN"
+replace EF5=10  if EF5_AUTRE =="PAS D'ÉCOLE EN SON TEMPS"
+replace EF5=5  if EF5_AUTRE =="pesanteur culturelle"
+replace EF5=6  if EF5_AUTRE =="DÉCISION VOLONTAIRE DU PÈRE"
+replace EF5=6  if EF5_AUTRE =="IL A FAIRE LE FRANCO ARABE"
+replace EF5=9  if EF5_AUTRE =="MANQUES DE MOYENS FINANCIERS"
+*replace EF5=6  if EF5_AUTRE =="PROGRAMME ARABE"
+replace EF5=9  if EF5_AUTRE =="manque de moyen financier"
+*replace EF5=6  if EF5_AUTRE =="coranique"
+replace EF5=9  if EF5_AUTRE =="manque de moyen finacier"
+replace EF5=6  if EF5_AUTRE =="choix parental"
+replace EF5=6  if EF5_AUTRE =="Volonté des parents"
+replace EF5=6 if EF5_AUTRE =="VOLONTE DES PARENTS"
+replace EF5=2 if EF5_AUTRE =="TRAVAUX FORCER "
+replace EF5=6  if EF5_AUTRE =="REFUS DES PARENTS"
+replace EF5=9  if EF5_AUTRE =="MANQUE DE MOYENS FINANCIER"
+replace EF5=9  if EF5_AUTRE =="Ecole coranique"
+replace EF5=9  if EF5_AUTRE =="FRANCO ARRABE"
+*replace EF5=6  if EF5_AUTRE =="École CORANIQUE"
+*
+replace   EF5=9  if EF5_AUTRE =="manque de moyens financiers"
+replace   EF5=10  if EF5_AUTRE =="IL N Y AVAIT PAS ECOLE"
+*replace   EF5=6  if EF5_AUTRE =="FAIRE ECOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="DECES DES PARENTS"
+replace   EF5=6  if EF5_AUTRE =="PAS INSCRITE"
+*replace   EF5=6  if EF5_AUTRE =="PROGRAMME CORANIQUE"
+replace   EF5=6  if EF5_AUTRE =="PAS INSCRIT A L ’ECOLE"
+replace   EF5=9  if EF5_AUTRE =="DECES DU PERE"
+*replace   EF5=6  if EF5_AUTRE =="ELLE FAIT LECOLE CORANIQUE"
+replace   EF5=10  if EF5_AUTRE =="PAS D'ECOLE DANS SA ZONE"
+replace   EF5=9  if EF5_AUTRE =="ARRET SUITE AU DECES DE SON PERE"
+*replace   EF5=6  if EF5_AUTRE =="CORANNIQUE"
+replace  EF5=6  if EF5_AUTRE =="PARENTS ONT NEGLIGE"
+*replace   EF5=6  if EF5_AUTRE =="JE FREQUENTAIS A L ECOLE CORANIQUE"
+replace   EF5=6  if EF5_AUTRE =="NEGLIGENCE DES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE  CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="PRÉFÉRENCE DES PARENTS POUR L'ECOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="MANQUE MOYENS FINANCIERS"
+*replace   EF5=6  if EF5_AUTRE =="ARABE"
+replace   EF5=9  if EF5_AUTRE =="deces du pere donc absence de moyen"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE COURANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE FRANCOARABE"
+replace   EF5=6  if EF5_AUTRE =="PAS INSCRIT A L’ECOLE"
+replace   EF5=6  if EF5_AUTRE =="DÉCISION DES PARENTS ET PRÉFÉRENCE POUR ECOLE CORANIQUE"
+replace   EF5=6  if EF5_AUTRE =="LES PARENTS ETAIENT CONTRTE L'ECOLE"
+replace   EF5=6  if EF5_AUTRE =="ECOLE CORNAIQUE"
+replace   EF5=10  if EF5_AUTRE =="PAS D’ECOLE"
+replace   EF5=6  if EF5_AUTRE =="JE FAIS L’ÉCOLE CORANIQUE"
+replace   EF5=1  if EF5_AUTRE =="PRIS EN CHARGE PAR UN AUTRE MEMBRE DE LA FAMILLE"
+replace   EF5=6  if EF5_AUTRE =="LE PERE VOUDRAIT QUE SA FILLE SUIT LA RELIGION MUSULMANE"
+replace   EF5=9  if EF5_AUTRE =="PAR MANQUE DE MOYENS FINANCIERS"
+replace   EF5=9  if EF5_AUTRE =="volonte des parents (manque de moyen financier)"
+*replace   EF5=6  if EF5_AUTRE =="INSCRITE A L'ECOLE COURANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="J’AI VOULU ALLER À L'ÉCOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="IL FAIRE L ECOLE CORANIQUE"
+replace   EF5=5  if EF5_AUTRE =="SCOLARISER LES GARCONS PAR RAPPORT AUX FILLES"
+*replace   EF5=6  if EF5_AUTRE =="FRANCO- ARABE"
+replace   EF5=6  if EF5_AUTRE =="PAS SCOLARISE PAR LES PARENTS"
+replace   EF5=6  if EF5_AUTRE =="ARABE UNIQUEMENT"
+*replace   EF5=6  if EF5_AUTRE =="PROGRAMME FRANCO-ARABE"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE ARABE"
+*replace   EF5=6  if EF5_AUTRE =="LES PARENTS ONT PRÉFERER L ECOLE FRANCO ARABE"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN // DECES DE SES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="Franco-arabe"
+replace   EF5=9  if EF5_AUTRE =="PAS INSCRITE À CAUSE DU DÉCÈS DES PARENTS"
+replace   EF5=5  if EF5_AUTRE =="LECOLE EST UNITILE POUR LA FEMME"
+replace   EF5=11  if EF5_AUTRE =="SON PERE ETAIT AVEUGLE ET IL Y AVAIT PERSONNE POUR LE SCOLARISE"
+replace   EF5=6  if EF5_AUTRE =="PAS INSCRITE PAR LES PARENTS"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN SUITE AU DECES DE SON PERE"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE CORANIQUE MADRASSA"
+replace   EF5=6  if EF5_AUTRE =="DESICIONS DES PARENTS"
+replace   EF5=6  if EF5_AUTRE =="DECISION PARENTALE"
+replace   EF5=9  if EF5_AUTRE =="PAR MANQUE DE MOYENS"
+*replace   EF5=6  if EF5_AUTRE =="Inscrit à l'école coranique"
+*replace   EF5=6  if EF5_AUTRE =="INSCRITE À L’ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="INSCRIT À L’ECOLE FRANCO ARABE"
+*replace   EF5=6  if EF5_AUTRE =="madrassa"
+*replace   EF5=6  if EF5_AUTRE =="POUR SUIVRE UNE FORMATION RELIGIEUSE"
+replace   EF5=6  if EF5_AUTRE =="REFUS PARENTS"
+replace   EF5=9  if EF5_AUTRE =="PAR MANQUES DE MOYENS DES PARENTS"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOYEN FINANCIEN SUITE AU DECES DE SON PERE"
+*replace   EF5=6  if EF5_AUTRE =="RAISON CULTURELLE"
+replace   EF5=9  if EF5_AUTRE =="MANQUES DE MOYENS DES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="FAIRE ECOLE CORANIQUE PRÉFÉRENCE DE LA MÈRE"
+*replace   EF5=6  if EF5_AUTRE =="ecole koraniquue"
+replace   EF5=1  if EF5_AUTRE =="AIDER LA MERE DANS LES TRAVAUX MENAGERS"
+*replace   EF5=6  if EF5_AUTRE =="SUIVRE LES COURS ECOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="FAUTE DE MOYEN FINANCIER"
+*replace   EF5=6  if EF5_AUTRE =="POUR FAIRE L ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="LE PERE VOULAIT QUE SON FILS SUIT LES COURS COURANIQUES"
+*replace   EF5=6  if EF5_AUTRE =="IL NA PAS VOULU FAIRE L ECOLE"
+replace   EF5=11  if EF5_AUTRE =="PROBLEME MENTAL"
+*replace   EF5=6  if EF5_AUTRE =="LES PARENTS REFUSAIENT QUE LES FILLES PARTENT A ÉCOLE"
+*replace   EF5=6  if EF5_AUTRE =="JE FAIT L’ÉCOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="POUR FREQUENTER L ECOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="probleme financier"
+*replace   EF5=6  if EF5_AUTRE =="PREFERENCE ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="FORMATION  MADARASSA"
+*replace   EF5=6  if EF5_AUTRE =="REFUS DESPARENTS"
+*replace   EF5=6  if EF5_AUTRE =="DECISION DES PARENTS"
+replace   EF5=1  if EF5_AUTRE =="LES PARENTS ONT PREFERE LES TRAVAUX CHAMPETRES"
+*replace   EF5=6  if EF5_AUTRE =="LE PERE NE VOULAIT PAS QU'ELLE PARTE A L'ECOLE"
+replace   EF5=9  if EF5_AUTRE =="MANQUE DE MOEYENS"
+replace   EF5=9  if EF5_AUTRE =="problème financier"
+replace   EF5=9  if EF5_AUTRE =="problème  financier"
+*replace   EF5=6  if EF5_AUTRE =="MADASSA FRANCO-ARABE"
+replace   EF5=9  if EF5_AUTRE =="PAS INSCRITE A CAUSE DU DÉCÈS DE MON PÈRE"
+*replace   EF5=6  if EF5_AUTRE =="Dougoumakalan"
+replace   EF5=6  if EF5_AUTRE =="VOLONTE  DES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="PREFERENCE DE L'ECOLE CORANIQUE"
+replace   EF5=9  if EF5_AUTRE =="MANQUE  DE MOYEN"
+*replace   EF5=6  if EF5_AUTRE =="LES PARENTS NE L 'ON PAS SCOLARISÉS"
+*replace   EF5=6  if EF5_AUTRE =="FAIT L ECOLE CORANIQUE"
+replace   EF5=6  if EF5_AUTRE =="VOLONTÉ DES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="PRÉFÉRENCE POUR L'ECOLE CORANIQUE"
+*replace   EF5=6  if EF5_AUTRE =="IL EST INSCRIT AUPRÈS D’UN MAÎTRE AFIN D’APPRENDRE LE CORAN"
+replace   EF5=9  if EF5_AUTRE =="INSUFFISANCE DE MOYENS FINANCIERS DES PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE MARABOUT"
+replace   EF5=9  if EF5_AUTRE =="PAR MANQUES DE MOYENS"
+replace   EF5=9  if EF5_AUTRE =="PERTE DES DEUX PARENTS"
+*replace   EF5=6  if EF5_AUTRE =="ECOLE CORONIQUE"
+
+
+*replace    EF5=6  if  EF5_AUTRE =="MATRASSA"
+replace    EF5=11  if  EF5_AUTRE =="LUI MEME QUI VOULAIS PAS"
+replace    EF5=10  if  EF5_AUTRE =="PAS D ECOLE DANS LA ZONE DU MALI OU ELLE ETAIT"
+replace    EF5=10  if  EF5_AUTRE =="PAS D ECOLE EN CE MOMENT"
+replace    EF5=9  if  EF5_AUTRE =="PAS MANQUE DE MOYENS"
+replace    EF5=11  if  EF5_AUTRE =="PROBLEME DE SANTE DES PERE"
+*replace    EF5=6  if  EF5_AUTRE =="préférence des parents pour l'école coranique"
+*replace    EF5=6  if  EF5_AUTRE =="CHOIX POUR ECOLE CORANIQUE"
+replace    EF5=9  if  EF5_AUTRE =="Manque de moyen"
+replace    EF5=9  if  EF5_AUTRE =="PAS DE MOYENS FINANCIERS"
+replace    EF5=10  if  EF5_AUTRE =="L’ECOLE EST TROP LOIN"
+*replace    EF5=6  if  EF5_AUTRE =="DANS UN MADRASSA"
+*replace    EF5=6  if  EF5_AUTRE =="INSCRITE A L'ÉCOLE CORANIQUE"
+*replace    EF5=6  if  EF5_AUTRE =="INSCRIT A L'ÉCOLE CORANIQUE"
+
+****
+replace  EF5=9  if  EF5_AUTRE=="JE N'AI PAS ETE A L'ECOLE PARCE QUE J'AI PERDU MES PARENTS ETANT PETIT DU COUP JE N'AI EU PERSONNE POUR ME SCOLARISE"
+replace  EF5=9  if  EF5_AUTRE=="DECES DE LA MERE"
+replace  EF5=9  if  EF5_AUTRE=="DÉCÈS DU PÈRE"
+replace  EF5=9  if  EF5_AUTRE=="PROBLEME DE MOYEN FINANCIER"
+replace  EF5=9  if  EF5_AUTRE=="NE SE TROUVAIT PAS AVEC SON PERE"
+replace  EF5=9  if  EF5_AUTRE=="Manque de moyens financiers"
+
+replace  EF5=9  if  EF5_AUTRE =="DÉCÈS DU GÉNITEUR"
+replace  EF5=9  if  EF5_AUTRE =="ELLE NA PAS GRANDIT AVEC LES PARENTS"
+replace  EF5=9  if  EF5_AUTRE =="ORPHELINES DE PERE E5 ET DE MERES"
+replace  EF5=9  if  EF5_AUTRE=="MANQUE  DE MOYEN FINANCIER"
+
+replace  EF5=9  if  EF5_AUTRE =="ELLE NA PAS VECU AVEC SES PARENTS"
+replace  EF5=9  if  EF5_AUTRE =="ELLE N'A PAS PU ALLER A L'ECOLE A CAUSE DE LA SEPARATION DE SES PARENTS ELLE FESSAI LA NAVETTE CHEZ SONT ET CHEZ SA MERE"
+replace  EF5=9 if  EF5_AUTRE =="PERSONNE POUR S OCCUPER DE SON ECOLE APRES LE DECES DE SES PARENTS"
+replace  EF5=9  if  EF5_AUTRE =="DECESS DES PARENTS"
+replace  EF5=9  if  EF5_AUTRE =="PAS INSCRITE A L’ECOLE"
+replace  EF5=9  if  EF5_AUTRE =="DECES DU PERE ."
+replace EF5=9 if EF5_AUTRE=="VA DEBUTER L ANNEE PROCHAINE"
+replace EF5=9 if EF5_AUTRE=="SEPARATION DES PARENTS"
+replace  EF5=9  if  EF5_AUTRE =="PAS DE MOYENS"
+replace  EF5=9  if  EF5_AUTRE =="INSUFFISANCE DE MOYEN FINANCIER"
+replace  EF5= 6 if  EF5_AUTRE =="REFUS DES PÄRENTS"
+replace  EF5=6  if  EF5_AUTRE =="PAS INSCRITE PAR SES PARENTS"
+replace  EF5=6 if  EF5_AUTRE =="IGNORE"
+replace  EF5=6 if  EF5_AUTRE =="ELLE N'A PAS VOULU ALLER A L'ECOLE"
+replace  EF5=6 if  EF5_AUTRE =="LE CHEF DE MENAGE NE SAIT PAS POURQUOI"
+replace  EF5=6 if  EF5_AUTRE =="la volonte des parents"
+replace  EF5=6  if  EF5_AUTRE =="VOLONTE DES PAENTS"
+replace  EF5=6  if  EF5_AUTRE =="LE CM IGNORE"
+replace  EF5=6  if  EF5_AUTRE =="REFUS D ALLER A L ECOLE"
+replace  EF5=6  if  EF5_AUTRE =="FAUTE DES PARENTS QUI ON REFUSÉ DE LA SCOLARISÉ" 
+replace  EF5=6  if  EF5_AUTRE =="REFUS"
+replace  EF5=6  if  EF5_AUTRE =="LES PARENTS L'ONT PAS MIS EN L'ECOLE"
+replace  EF5=6  if  EF5_AUTRE =="FAUTE DES PARENTS"
+replace  EF5=6  if  EF5_AUTRE =="NE SAIS PAS"
+replace  EF5=6  if  EF5_AUTRE =="NE SAIT PAS"
+replace  EF5=6  if  EF5_AUTRE =="VOLONJTE DES PARENTS"
+replace  EF5=6  if  EF5_AUTRE =="ENFANT DE SON FRERE NE SAIS PAS POURQUOI ELLE N'A PAS ETE A L'ECOLE"
+replace  EF5=11  if  EF5_AUTRE =="RAISON DE SANTE"
+replace  EF5=11  if  EF5_AUTRE =="PROBLÈME  DE SANTE"
+replace  EF5=11  if  EF5_AUTRE =="LE CHEF DE MENAGE EST UN SOURD-MUET"
+replace  EF5=11  if  EF5_AUTRE =="PROBLEME DE SANTE"
+replace  EF5=11  if  EF5_AUTRE=="HANDICAP CAR ELLE EST ANORMALE"
+replace  EF5=11  if  EF5_AUTRE =="DIFFICULTE A APPRENDRE"
+
+***
+replace EF5=6 if EF5_AUTRE== "PARENTS NE L'ONT PAS SCOLARISÉ"
+replace EF5=6 if EF5_AUTRE== "NE CONNAISSAIT PAS L'IMPORTANCE DE L'ÉCOLE"
+replace EF5=6 if EF5_AUTRE== "DECISION FAMILIALE"
+replace EF5=6 if EF5_AUTRE== "N'A PAS EU L'OCCASION"
+replace EF5=6 if EF5_AUTRE== "FAUTE DU PERE"
+replace EF5=6 if EF5_AUTRE== "SOUCIS FAMILLIAUX"
+replace EF5=6 if EF5_AUTRE== "PAS INSCRIT PAR LES PARENTS"
+replace EF5=6 if EF5_AUTRE== "MESENTENTE ENTRE LES PARENTS"
+replace EF5=6 if EF5_AUTRE== "volonte personnelle"
+replace EF5=6 if EF5_AUTRE== "REFUS PERSONNEL"
+replace EF5=6 if EF5_AUTRE== "NE PERE NE VOULAIT"
+replace EF5=6 if EF5_AUTRE== "REFUS CATEGORIQUE DY ALLER"
+replace EF5=6 if EF5_AUTRE== "DÉCISION DES PARENTS"
+replace EF5=6 if EF5_AUTRE== "PRÉFÈRE COMMERCE QUE ECOLE" 
+replace EF5=6 if EF5_AUTRE== "CHOIX DU PERE" 
+replace EF5=6 if EF5_AUTRE== "aucune idée" 
+replace EF5=6 if EF5_AUTRE== "DÉCISION DES PARENTS"  
+replace EF5=6 if EF5_AUTRE== "PREFERENCE DES PARENTS" 
+replace EF5=6 if EF5_AUTRE== "Pas inscrite par les parents" 
+replace EF5=6 if EF5_AUTRE== "VOLONTGE DES PARENTS" 
+replace EF5=6 if EF5_AUTRE== "NON SCOLARISÉ" 
+replace EF5=6 if EF5_AUTRE== "les parents ont refusé de la scolariser" 
+replace EF5=6 if EF5_AUTRE== "IGNORE LA RAISON POUR LAQUELLE ELLE N' PAS FRERQUENTE"
+replace EF5=6 if EF5_AUTRE== "PAS ETE SCOLARISÉE"
+replace EF5=6 if EF5_AUTRE== "PAS SCOLARISER PAR LES PARENTS"
+replace EF5=6 if EF5_AUTRE=="Décision des parents"
+replace EF5=6 if EF5_AUTRE== "REFUS DU PÈRE"
+replace EF5=6 if EF5_AUTRE== "PAS SCOLARISER PAR LES PARENTS"
+replace EF5=6 if EF5_AUTRE== "PAS ETE SCOLARISÉE"
+
+replace EF5=9 if EF5_AUTRE== "RAISONS FAMILLIALES"
+replace EF5=9 if EF5_AUTRE== "RAISONS FAMILLIALEs"
+replace EF5=9 if EF5_AUTRE== "RAISONS FAMILLIALES"
+replace EF5=9 if EF5_AUTRE== "IL A REJOINT LA FAMILLE"
+replace EF5=9 if EF5_AUTRE== "ELLE ETAIT PAS AVEC SON PERE"
+replace EF5=9 if EF5_AUTRE== "DÉCÈS DE LA GÉNITRICE"
+replace EF5=9 if EF5_AUTRE== "DÉCÈS DES PARENTS UN PEU TÔT"
+replace EF5=9 if EF5_AUTRE== "MANQUE DE MOYENS FIANCIERS" 
+replace EF5=9 if EF5_AUTRE== "PAS MANQUE DE MOYEN FINANCIER" 
+replace EF5=9 if EF5_AUTRE== "MANQUE"
+replace EF5=9 if EF5_AUTRE== "MANQUE FINACIER"
+replace EF5=9 if EF5_AUTRE== "ATTEND LA RENTREE SCOLAIRE 2025-2026 POUR LE SCOLARISER"
+replace EF5=9 if EF5_AUTRE== "j’ai perdu mes parents"
+replace EF5=9 if EF5_AUTRE== "EN ATTENTE POUR L'AN PROCHAIN"
+replace EF5=9 if EF5_AUTRE== "PAS DE MOYEN"
+replace EF5=9 if EF5_AUTRE== "ORPHELINE"
+replace EF5=9 if EF5_AUTRE== "DECES DU PARENT"
+replace EF5=9 if EF5_AUTRE== "orphelin"
+replace EF5=9 if EF5_AUTRE== "MANDE DE MOYENS FINANCIERS"
+replace EF5=9 if EF5_AUTRE== "DIFFICULTES FAMILIALS"
+replace EF5=9 if EF5_AUTRE== "MANQUE DE MOEYNS FINANCIERS"
+replace EF5=9 if EF5_AUTRE== "PROBLÈME DEPLACEMENT"
+
+replace EF5=11 if EF5_AUTRE== "MALADE"
+replace EF5=11 if EF5_AUTRE== "ANDICAP IL A DU MAL A PARLER"
+replace EF5=11 if EF5_AUTRE== "PROBEME DE SANTE A CETTE EPOQUE"
+replace EF5=11 if EF5_AUTRE== "SOUFFRANT"
+***
+replace EF5=6 if EF5_AUTRE=="CHOIX DES PARENT"
+replace EF5=6 if EF5_AUTRE=="LA FAUTE AUX PARENTS SINON NE SAIT PAS"
+replace EF5=6 if EF5_AUTRE=="LES PARENTS NE M’ONT PAS SCOLAIRISES"
+replace EF5=6 if EF5_AUTRE=="NON SCOLARISE"
+replace EF5=6 if EF5_AUTRE=="Non scolarisé par les parents"
+replace EF5=6 if EF5_AUTRE=="pas scolarisé par ces parents"
+replace EF5=6 if EF5_AUTRE=="IGNORE LA RAISON"
+replace EF5=6 if EF5_AUTRE=="choix de"
+
+replace EF5=9 if EF5_AUTRE=="ABSENT DE MOYEN FINANCIER"
+replace EF5=9 if EF5_AUTRE=="EN ATTENTE POUR LA PROCHAINE RENTREE"
+replace EF5=9 if EF5_AUTRE=="GRANDI LOIN DES PARENTS"
+replace EF5=9 if EF5_AUTRE=="MANQUE D’ARGENT"
+replace EF5=9 if EF5_AUTRE=="Manque de moyen financier"
+replace EF5=9 if EF5_AUTRE=="PERTE DES PARENTS"
+replace EF5=9 if EF5_AUTRE=="Difficultés familiales"
+
+replace EF5=10 if EF5_AUTRE=="PAS D'ECOLE DANS LA ZONE"
+replace EF5=10 if EF5_AUTRE=="PAD D'ECOLE"
+replace EF5=10 if EF5_AUTRE=="pas d'école dans son village"
+
+replace EF5=12 if EF5_AUTRE=="PAS INSCRIT A CAUSE DE MALADIE"
+replace EF5=13 if EF5_AUTRE=="GROSSESSE DE LA MERE"
+
+replace EF5=16 if EF5_AUTRE=="APPRENTISSAGE DE MÉCANIQUE"
+
+**Vider la variable
+replace EF5_AUTRE = "" if !inlist(EF5,.,.a,20) 
+
+*** Autre a preciser
+* Ecole coranique, crise, madrassa
+
+replace EF5 = 5 if EF5_AUTRE =="LES PRÉJUGÉS SUR LE GENRE"
+replace EF5 = 14 if EF5_AUTRE =="PAS ENCORE INSCRIT"
+replace EF5 = 6 if EF5_AUTRE =="LES PARENTS NE VOULAIENT PAS"
+replace EF5 = 9 if EF5_AUTRE =="MANQUE DE MOIN FINANCIER"
+replace EF5 = 9 if EF5_AUTRE =="MANQUE DE MOINS FINANCIER"
+replace EF5 = 5 if EF5_AUTRE =="LA JEUNE FILLE N'AVAIT PAS DROITE A L'ECOLE"
+replace EF5 = 6 if EF5_AUTRE =="Non connaissance de l'importance de l'ecole"
+replace EF5 = 6 if EF5_AUTRE =="Non volonte"
+replace EF5 = 9 if EF5_AUTRE =="INSUFFISANCE DE MOYENS"
+
+replace EF5=9 if EF5_AUTRE=="Manque de moyens"
+replace EF5=9 if EF5_AUTRE=="PAR MANQUES DE MOYENS FINANCIERS"
+replace EF5=9 if EF5_AUTRE=="PAS ASSEZ DE MOYENS FINANCIERS"
+
+replace EF5=16 if EF5_AUTRE=="APPRENDRE UN METIER"
+replace EF5=5 if EF5_AUTRE=="LE PAPA S'EST CONCENTRE SUR LES GARCONS"
+replace EF5=5 if EF5_AUTRE=="LE PERE A PREFERE ENVOYER LES HOMMES A L'ECOLE"
+replace EF5=6 if EF5_AUTRE=="Ne connaissait pas l'importance de l'ecole"
+replace EF5=7 if EF5_AUTRE=="PAS INSCRIT LE PERE REFUSE DE DONNER CES DOSSIERS"
+replace EF5=11 if EF5_AUTRE=="PROBLEME DE SANTE MENTAL"
+replace EF5=11 if EF5_AUTRE=="PROBLÈME DE SANTÉ MENTALE"
+replace EF5=14 if EF5_AUTRE=="MANQUE DE PLACE"
+
+
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETE"
+replace EF5 = 10 if EF5_AUTRE == "MANQUE  D'ETABLISSEMENT"
+replace EF5 = 10 if EF5_AUTRE == "PAS D'ETABLISSEMENT SCOLAIRE"
+replace EF5 = 9 if EF5_AUTRE == "PAUVRETÉ"
+replace EF5 = 9 if EF5_AUTRE == "DEFAUT DE MOYEN FINANCIER"
+replace EF5 = 10 if EF5_AUTRE == "L'ECOLE EST LOIN"
+replace EF5 = 10 if EF5_AUTRE == "L'ECOLE EST LOIN"
+replace EF5 = 10 if EF5_AUTRE == "L'ECOLE EST LOIN"
+replace EF5 = 2 if EF5_AUTRE == "APPRENDRE UN MÉTIER"
+replace EF5 = 11 if EF5_AUTRE == "SOUDE-MUET"
+
+
+
+/// Vider la variable
+replace EF5_AUTRE = "" if !inlist(EF5,.,.a,20)
+
+ 
+****************EF9_Aut
+*export excel EF9_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EF9_Aut using "D:\CAE\fichier exel\EF9_Aut.xls" if EF9_Aut!="", firstrow(variables)
+
+replace   EF9=9  if EF9_Aut =="INSUFFISANCE DE MOYENS FINANCIERS"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN FINANCIER"
+replace   EF9=1  if EF9_Aut =="POUR S’OCCUPER DE SA FAMILLE"
+replace   EF9=16  if EF9_Aut =="FAIRE MADRASSA"
+replace   EF9=9  if EF9_Aut =="PAS MANQUES DE MOYENS"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN"
+replace   EF9=9  if EF9_Aut =="MORT DU PERE DONC PERSONNE POUR PAYER SES  COURS"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYENS"
+replace   EF9=11  if EF9_Aut =="SOUFFRANTE"
+replace   EF9=9  if EF9_Aut =="PROBLEME DE MOYENS"
+replace   EF9=9  if EF9_Aut =="MOYEN FINANCIEN"
+replace   EF9=9  if EF9_Aut =="MANQUE  DE MOYEN"
+replace   EF9=9  if EF9_Aut =="MANQUE  DE FINANCE"
+replace   EF9=1  if EF9_Aut =="OCCUPATIONS FAMILLIALES"
+replace   EF9=9  if EF9_Aut =="la tutrice était malade donc elle n'avait pas les moyens de la mettre à l'école"
+replace   EF9=16  if EF9_Aut =="SUIVRE L'ECOLE FRANCO ARABE"
+replace   EF9=11  if EF9_Aut =="a cause de COVID-19"
+replace   EF9=9  if EF9_Aut =="MANQUE DES MOYENS FINANCIERS"
+replace   EF9=9  if EF9_Aut =="SUITE A LA PERTE DE SON PERE ET SA MERE"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN DES PARENTS POUR LA SCOLARISÉ"
+replace   EF9=9  if EF9_Aut =="DECES DES PARENTS"
+replace   EF9=9  if EF9_Aut =="Manque de moyens financiers"
+replace   EF9=9  if EF9_Aut =="MOYEN FINANCIER"
+replace   EF9=9  if EF9_Aut =="J’AI PERDU MES PARENTS"
+replace   EF9=9  if EF9_Aut =="DECEE DU PERE"
+replace   EF9=2  if EF9_Aut =="POUR CHERCHER DU TRAVAILLE"
+replace   EF9=9  if EF9_Aut =="après le decès de sa maman"
+replace   EF9=9  if EF9_Aut =="Après le décès de son oncle qui assurait sa scolarité"
+replace   EF9=9  if EF9_Aut =="PAPA A PERDUT SON TRAVAIL DONC NOUS NOUS SOMMES RETOUNER TOUS"
+replace   EF9=9  if EF9_Aut =="LES DEMARCHES POUR LE TRANSFERT N'ONT PAS VITE ETE ENTAME."
+replace   EF9=9  if EF9_Aut =="DÉCÈS DE PARENT"
+replace   EF9=2  if EF9_Aut =="ENQUETE D EMPLOI"
+replace   EF9=9  if EF9_Aut =="DECES DU PERE"
+replace   EF9=9  if EF9_Aut =="PAS MANQUE DE MOYEN"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN DES PARENTS"
+replace   EF9=9  if EF9_Aut =="LA PERTE DE SON PERE"
+replace   EF9=9  if EF9_Aut =="PERTE DES DEUX PARENTS PERE ET MERE"
+replace   EF9=9  if EF9_Aut =="REFUS DE MOYENS FINANCIERS"
+replace   EF9=9  if EF9_Aut =="PROBLEME FINANCIER"
+replace   EF9=9  if EF9_Aut =="DÉFAUT DE MOYEN FINANCIER"
+replace   EF9=2  if EF9_Aut =="TRAVAIL"
+replace   EF9=11  if EF9_Aut =="MALADIE"
+replace   EF9=9  if EF9_Aut =="décès des parents"
+replace   EF9=9  if EF9_Aut =="J’AI PERDU MON PÈRE, IL N’A PERSONNE POUR ME SCOLARISER"
+replace   EF9=9  if EF9_Aut =="PAR MANQUE DE MOYENS"
+replace   EF9=9  if EF9_Aut =="PAS MANQUES DE MOYENS DES PARENTS"
+replace   EF9=9  if EF9_Aut =="IL N Y AVAIT PERSONNE POUR LE SCOLARISER"
+replace   EF9=9  if EF9_Aut =="PAS MANQUE DE MOYENS"
+replace   EF9=11  if EF9_Aut =="PROBLEMES DE SANTE"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYENS FINACIERS"
+replace   EF9=9  if EF9_Aut =="DECES DU GENITEUR"
+replace   EF9=9  if EF9_Aut =="manque de moyens financier"
+replace   EF9=2  if EF9_Aut =="RECHERCHE D EMPLOI"
+replace   EF9=16  if EF9_Aut =="APPRENDRE UN METIER"
+replace   EF9=9  if EF9_Aut =="PROBLEME DE MOYEN FINANCIER"
+replace   EF9=9  if EF9_Aut =="MALADIE DU PÈRE"
+replace   EF9=9  if EF9_Aut =="manque de moyen"
+replace   EF9=9  if EF9_Aut =="manque de moyen financier"
+replace   EF9=9  if EF9_Aut =="manque de moyens financiers"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYENS FINANCIERS"
+
+**
+replace   EF9=9  if EF9_Aut =="manque de moyens de financiers"
+replace   EF9=1  if EF9_Aut =="IL ACCOMPAGNE SA MERE POUR LES SOINS"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN SUITE AU DECES DE SA MAMAN"
+replace   EF9=9  if EF9_Aut =="arrêt suite au décès de son père"
+replace   EF9=9  if EF9_Aut =="ARRET SUITE AU DECES DE SES PARENTS"
+replace   EF9=9  if EF9_Aut =="EXCLU  POUR  MANQUE  DE MOYEN"
+replace   EF9=9  if EF9_Aut =="INSUFFISANCE DE MOYENS FINACIERS"
+replace   EF9=9  if EF9_Aut =="Insuffisance de moyens financiers"
+replace   EF9=1  if EF9_Aut =="Décès des parents plus personnes pour s'occuper de ses frais scolaires"
+replace   EF9=9  if EF9_Aut =="MANQUE D'ARGENT"
+replace   EF9=9  if EF9_Aut =="PROBLÈME FINANCIER"
+replace   EF9=1  if EF9_Aut =="S OCCUPAIT DE SON FOYER"
+replace   EF9=9  if EF9_Aut =="DECE DU PERE DONC MANQUE DE MOYEN"
+replace   EF9=9  if EF9_Aut =="Décès du père"
+replace   EF9=9  if EF9_Aut =="PROBLEMES D ARGENT"
+replace   EF9=6  if EF9_Aut =="INSCRIT A L’ECOLE FRANCOARABE"
+replace   EF9=9  if EF9_Aut =="ABSENCE DE MOYEN FINANCIER"
+replace   EF9=11  if EF9_Aut =="IL EST MALADE"
+replace   EF9=1  if EF9_Aut =="POUR EFFECTUER LES TÂCHES MÉNAGÈRES"
+replace   EF9=11  if EF9_Aut =="ACCIDENT DE LA CIRCULATION"
+replace   EF9=9  if EF9_Aut =="MANQUE  DE MOYENS  FINANCIERS"
+replace   EF9=13  if EF9_Aut =="SUITE A SA GROSSESSSE"
+replace   EF9=9  if EF9_Aut =="PERE DECEDE DU COUP IL N'A PAS PU CONTINUE L'ECOLE"
+replace   EF9=16  if EF9_Aut =="POUR APPRENDRE UN MÉTIER"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN FINANCIEN / IL A ARRETE L'ECOLE TRES TOT APRES LE DECES DE LA MERE"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYEN FINANCIEN"
+replace   EF9=9  if EF9_Aut =="MANQUES DE MOYENS"
+replace   EF9=9  if EF9_Aut =="MANQUE DE MOYENS FINANCIÈRES"
+replace   EF9=9  if EF9_Aut =="MANQUES DE MOYENS DES PARENTS"
+replace   EF9=6  if EF9_Aut =="FRANCO ARABE"
+replace   EF9=9  if EF9_Aut =="PERE DECEDE"
+replace   EF9=9  if EF9_Aut =="DECES DU PERE DE L ENQUETE ET LE MANQUE DE MOYEN FINANCIER"
+replace   EF9=10  if EF9_Aut =="PAS D'ECOLE"
+replace   EF9=6  if EF9_Aut =="CHOIX DU FRANCO ARABE"
+replace   EF9=11  if EF9_Aut =="RAISON DE SANTE"
+replace   EF9=9  if EF9_Aut =="INSUFFISANCE DE MOYEN FINANCIER"
+replace   EF9=9  if EF9_Aut =="MANQUE DE  MOYEN"
+
+replace   EF9=9  if EF9_Aut =="MANQUE D AIDE"
+replace   EF9=9  if EF9_Aut =="PAR MANQUES DE MOYENS FINANCIERS"
+replace   EF9=9  if EF9_Aut =="PAR MANQUE DE MOYENS FINANCIERS"
+
+****
+replace EF9=9  if EF9_Aut =="MANQUE DE FINANCIER"
+replace EF9=9  if EF9_Aut =="PAR MANQUES DE MOYENS"
+replace EF9=9  if EF9_Aut =="DECCEE DU PÈRE"
+replace EF9=9  if EF9_Aut =="DECCES DU PERE DE L ENQUETE"
+replace EF9=9  if EF9_Aut =="DÉCÈS DU GÉNITEUR"
+replace EF9=9  if EF9_Aut =="MANQUE DE MOYENS FINANCIER"
+replace EF9=9  if EF9_Aut =="MANQUE  DE MOYENS"
+replace EF9=9  if EF9_Aut =="FAUTE DE MOYENS"
+replace EF9=9  if EF9_Aut =="PLUS DE MOYEN FINANCIER POUR CONTINUER"
+replace EF9=9  if EF9_Aut =="DECES DE SON PAPA"
+replace EF9=9 if EF9_Aut== "PROBLEMES D ARGENT POUR POURSUIVRE LES COURS"
+
+replace EF9=2  if EF9_Aut =="ACQUERIR DE L'EXPERIENCE DANS LE DOMAINE PROFESSIONNEL"
+replace EF9=2  if EF9_Aut =="EN QUETE D’EMPLOI"
+replace EF9=2  if EF9_Aut =="FAIRE LE MÉNAGE"
+replace EF9=2  if EF9_Aut =="PRÉFÈRE PASSER LES CONCOURS POUR TRAVAILLER"
+replace EF9=2  if EF9_Aut =="POUR PASSER DES CONCOURS"
+replace EF9=2  if EF9_Aut =="ELLE EST A LA RECHERCHE DUN EMPLOI"
+replace EF9=2 if EF9_Aut=="MÉNAGÈRE"
+replace EF9=2 if EF9_Aut=="POUR PASSER UN CONCOURS"
+replace EF9=2 if EF9_Aut=="PRÉFÈRE PASSER LES CONCOURS POUR TRAVAILLER"
+replace EF9=2 if EF9_Aut=="EN RECHERCHE DE BOULOT"
+replace EF9=2 if EF9_Aut=="RECHERCHE D UN STAGE"
+replace EF9=2 if EF9_Aut=="FAIRE LA MÉCANIQUE AUTOMOBILE"
+replace EF9=2 if EF9_Aut=="MÉNAGÈRE"
+replace EF9=2 if EF9_Aut=="STAGE"
+replace EF9=16 if EF9_Aut=="POUR  APRENDRE UN MÉTIER"
+replace EF9=16 if EF9_Aut=="POUR SUIVRE UNE FORMATION"
+replace EF9=10 if EF9_Aut=="ZONE DE TRAVAIL ELOIGNE DE LUNIVERSITE"
+replace EF9=12 if EF9_Aut=="MARIAGE"
+replace EF9=12 if EF9_Aut=="POUR SE MARIER"
+replace EF9=13 if EF9_Aut=="S'OCCUPE D'ENFANT"
+replace EF9=6 if EF9_Aut=="MANQUE DE COMPRÉHENSION DE LA PART DE LA FAMMILLE"
+replace EF9=6 if EF9_Aut=="VOLONTE DES PARENTS"
+replace EF9=6 if EF9_Aut=="CHOIX PARENTAL"
+replace EF9=6 if EF9_Aut=="REFUS DES PARENTS"
+
+*
+replace EF9=11 if EF9_Aut=="ACCIDENTE DE MOTO DONC IL EST HANDICAPE"
+replace EF9=2 if EF9_Aut=="PASSER UN CONCOURS"
+replace EF9=9 if EF9_Aut=="MANQUE DE MOYENS FIANCIERS"
+replace EF9=15 if EF9_Aut=="FIN DE SON PARCOURS UNIVESITAIRE"
+replace EF9=15 if EF9_Aut=="REPOS"
+***
+replace EF9=1 if EF9_Aut=="IL A REJOINT LA FAMILLE"
+replace EF9=1 if EF9_Aut=="MERE ETAIT GRAVEMENT SOUFFRANTE AU DEBUT DE L ANNEE SCOLAIRE ET PAR MANQUE DE MOYEN IL N A PAS ETE SCOLARISE"
+replace EF9=1 if EF9_Aut=="JE M OCCUPE DE MON PERE QUI EST MALADE"
+replace EF9=1 if EF9_Aut=="POUR SURVEILLER SON PETIT FRÈRE ISMAEL"
+
+replace EF9=16 if EF9_Aut=="APPRENDRE UN MÉTIER"
+replace EF9=16 if EF9_Aut=="POUR APPRENDRE UN METIER"
+replace EF9=2 if EF9_Aut=="OPPORTUNITE DE TRAVAIL"
+replace EF9=2 if EF9_Aut=="RECHERCHE EMPLOI"
+replace EF9=2 if EF9_Aut=="EN STAGE"
+
+replace EF9=6 if EF9_Aut=="NE SAIT PAS"
+replace EF9=6 if EF9_Aut=="VIVAIT CHEZ SA TANTE QUI NE L'A PAS INSCRITE"
+replace EF9=6 if EF9_Aut=="NEGLIGEANCE DES PARENTS"
+replace EF9=6 if EF9_Aut=="volonte des parents"
+replace EF9=6 if EF9_Aut=="MANQUE D'ENCADREMENT"
+replace EF9=6 if EF9_Aut== "NÉGLIGENCE DES PARENTS"
+
+
+replace EF9=11 if EF9_Aut== "DEMINAGEMENT POUR RAISON DE SANTE DU PERE"
+replace EF9=11 if EF9_Aut== "ORPHELIN"
+
+replace EF9=9 if EF9_Aut== "MANQUES DE MOYENS FINANCIER"
+replace EF9=9 if EF9_Aut== "RETARD DE L INSCRIPTION DU A L ECOLE"
+replace EF9=9 if EF9_Aut== "MANQUE DE FINANCE"
+replace EF9=9 if EF9_Aut== "MANQUE ET PERTE DE PARENTS"
+
+replace EF9=9 if EF9_Aut== "PARENTS DÉCÉDÉ TRES TOP,PERSONNE POUR LA METTRE A L ECOLE A GRANDIR CHEZ SA GRANDE MÈRE"
+
+replace EF9=6 if EF9_Aut== "PAS MIS A L’ÉCOLE PAR LA FAMILLE"
+replace EF9=6 if EF9_Aut== "Ne sait pas"
+replace EF9=2 if EF9_Aut== "PRESENTE LES CONCOURS"
+replace EF9=13 if EF9_Aut== "ELLE VIENT DACCOUCHER"
+replace EF9=1 if EF9_Aut=="mariage"
+
+
+**
+replace EF9 = 2 if EF9_Aut =="POUR CHERCHER UN EMPLOI"
+replace EF9 = 6 if EF9_Aut =="Non importance de l'école"
+replace EF9 = 1 if EF9_Aut =="RESPONSABILITÉS MÉNAGÈRES"
+replace EF9 = 16 if EF9_Aut =="POUR LE STAGE"
+replace EF9 = 9 if EF9_Aut =="FAUTE DE MOYEN FINANCIER"
+replace EF9 = 9 if EF9_Aut =="Manque de moyens"
+replace EF9 = 16 if EF9_Aut =="CONCOURS"
+replace EF9 = 9 if EF9_Aut =="DIFFICULTÉ FINANCIÈRE"
+replace EF9 = 9 if EF9_Aut =="pas de moyens financiers"
+replace EF9 = 16 if EF9_Aut =="POUR PRESENTER DES CONCOURS"
+replace EF9 = 2 if EF9_Aut =="RECHERCHE D'EMPLOI"
+replace EF9 = 16 if EF9_Aut =="Pour apprendre un metier"
+replace EF9 = 1 if EF9_Aut =="POUR S’OCCUPÉ DE LA FAMILLE"
+
+replace EF9=11 if EF9_Aut=="maladie"
+replace EF9=9 if EF9_Aut=="MANQUE DE MOYENS CAR LE PERE N'ETAIT PLUS"
+replace EF9=16 if EF9_Aut=="POUR APPRENDRE MÉTIER"
+replace EF9=9 if EF9_Aut=="PAS DE FINANCE"
+replace EF9=9 if EF9_Aut=="PAS DE MOYEN FINANCIER"
+replace EF9=11 if EF9_Aut=="SUITE À UNE MALADIE"
+replace EF9=9 if EF9_Aut=="MANQUE MOYENS"
+replace EF9=9 if EF9_Aut=="J'AI PERDU MES DEUX PARENTS, PERSONNE POUR ME SCOLARISER"
+replace EF9=7 if EF9_Aut=="IL Y AVAIT ABSENCE DE CERTAIN PAPIER"
+replace EF9=9 if EF9_Aut=="PAS DE MOYENS"
+
+replace EF9 = 9 if EF9_Aut == "MANQUE DE MOYEN FINANCIERS"
+replace EF9 = 16 if EF9_Aut == "STAGIAIRE"
+replace EF9 = 9 if EF9_Aut == "manque de moyens"
+replace EF9 = 16 if EF9_Aut == "FORMATION"
+replace EF9 = 16 if EF9_Aut == "EN FORMATION"
+replace EF9 = 9 if EF9_Aut == "Manque de moyen financier"
+replace EF9 = 9 if EF9_Aut == "Manque de moyen financier"
+replace EF9 = 9 if EF9_Aut == "manque de moyens"
+replace EF9 = 9 if EF9_Aut == "ABSENCE DE MOYEN"
+replace EF9 = 11 if EF9_Aut == "VISION FLOUE"
+replace EF9 = 9 if EF9_Aut == "Manque de moyen financier"
+replace EF9 = 16 if EF9_Aut == "En stage"
+replace EF9 = 9 if EF9_Aut == "MANQUE DE MOYEN/CHOMAGE DU PÈRE"
+
+
+
+*Vider la variable
+replace EF9_Aut = "" if !inlist(EF9,.,.a,20) 
+
+********//////////////////////////EF15_Aut
+*export excel EF15_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EF15_Aut using "D:\CAE\fichier exel\EF15_Aut.xls" if EF15_Aut!="", firstrow(variables)
+
+replace   EF15=9  if EF15_Aut =="MANQUES DE MOYENS"
+replace   EF15=9  if EF15_Aut =="MANQUES DES MOYENS DES PARENTS"
+replace   EF15=9  if EF15_Aut =="PAS DE MOYENS FINANCIERS POUR CONTINUER"
+replace   EF15=9  if EF15_Aut =="INSUFFISANCE DE MOYEN FINANCIER"
+replace   EF15=9  if EF15_Aut =="manque de financier"
+replace   EF15=9  if EF15_Aut =="PROBLEME DE MOYEN"
+replace   EF15=10  if EF15_Aut =="ECOLE TROP ÉLOIGNÉ"
+replace   EF15=9  if EF15_Aut =="MANQUE D AIDE"
+replace   EF15=9  if EF15_Aut =="PAR MANQUES DE MOYENS FINANCIERS"
+replace   EF15=9  if EF15_Aut =="PAR MANQUE DE MOYENS FINANCIERS"
+
+replace   EF15=9  if EF15_Aut =="INSUFFISANCE DE MOYENS FINANCIERS"
+replace   EF15=6 if EF15_Aut =="INSCRIT A L’ECOLE FRANCOARABE"
+replace   EF15=16  if EF15_Aut =="ECOLE CORANIQUE"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN FINANCIER"
+replace   EF15=16  if EF15_Aut =="FRANCO-ARABE"
+replace   EF15=1  if EF15_Aut =="POUR S’OCCUPER DE SA FAMILLE"
+replace   EF15=11  if EF15_Aut =="SANTE DEFAILLANTE"
+replace   EF15=16  if EF15_Aut =="FAIRE MADRASSA"
+replace   EF15=9  if EF15_Aut =="PAS MANQUES DE MOYENS"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS"
+replace   EF15=9  if EF15_Aut =="PROBLEME FINANCIER"
+replace   EF15=9  if EF15_Aut =="MOYEN FINANCIEN"
+replace   EF15=9  if EF15_Aut =="MANQUE  DE MOYEN"
+replace   EF15=10  if EF15_Aut =="PAS D'ECOLE MATERNELLE DANS LA LOCALITE"
+replace   EF15=9  if EF15_Aut =="la tutrice était malade donc elle n'avait pas les moyens de la mettre à l'école"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS FINANCIER"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN FINACIER"
+replace   EF15=9  if EF15_Aut =="SUITE A LA PERTE DESON PERE ET SA MERE"
+replace   EF15=9  if EF15_Aut =="POUR DES RAISONS FINANCIERES"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS FINANCIERS"
+replace   EF15=9  if EF15_Aut =="MOYEN FINANCIER"
+replace   EF15=10  if EF15_Aut =="IL N Y A PAS DE PRESCOLAIRE"
+replace   EF15=2  if EF15_Aut =="ENQUETE D EMPLOI"
+replace   EF15=9  if EF15_Aut =="DECES DU PERE"
+replace   EF15=9  if EF15_Aut =="PAS MANQUE DE MOYEN"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN DES PARENTS"
+replace   EF15=9  if EF15_Aut =="LA PERTE DE SON PERE"
+replace   EF15=9  if EF15_Aut =="PERTE DES DEUX PARENTS PERE ET MERE"
+replace   EF15=10  if EF15_Aut =="PAS DE CLASSE DE MATERNELLE"
+replace   EF15=9  if EF15_Aut =="LA PERSONNE QUI AIDAIT A ETE ENFERME"
+replace   EF15=9  if EF15_Aut =="DÉFAUT DE MOYEN FINANCIER"
+replace   EF15=2  if EF15_Aut =="TRAVAIL"
+replace   EF15=9  if EF15_Aut =="décès des parents"
+replace   EF15=9  if EF15_Aut =="J’AI PERDU MON PÈRE, IL N’A PERSONNE POUR ME SCOLARISER"
+replace   EF15=9  if EF15_Aut =="PAR MANQUES DE MOYENS"
+replace   EF15=9  if EF15_Aut =="PAS MANQUES DE MOYENS DES PARENTS"
+replace   EF15=9  if EF15_Aut =="IL N Y AVAIT PERSONNE POUR LE SCOLARISER"
+replace   EF15=9  if EF15_Aut =="PAS MANQUE DE MOYENS"
+replace   EF15=11  if EF15_Aut =="PROBLEME DE SANTE"
+replace   EF15=10  if EF15_Aut =="PAS D'ECOLE MARTENELLE DE LEUR LOCALITE"
+replace   EF15=10  if EF15_Aut =="PAS D'ECOLE MARTENELLE DANS LEUR LOCALITE"
+replace   EF15=16  if EF15_Aut =="APPRENDRE UN METIER"
+replace   EF15=9  if EF15_Aut =="PROBLEME DE MOYEN FINANCIER"
+replace   EF15=11  if EF15_Aut =="MALADIE DU PERE"
+replace   EF15=9  if EF15_Aut =="Manque de moyens financiers"
+replace   EF15=9  if EF15_Aut =="manque de moyen"
+replace   EF15=9  if EF15_Aut =="manque de moyen financier"
+replace   EF15=9  if EF15_Aut =="manque de moyens"
+replace   EF15=9  if EF15_Aut =="manque de moyens financiers"
+
+replace   EF15=9  if EF15_Aut =="DECES DU PERE DE L ENQUETE ET LE MANQUE DE MOYEN FINANCIER"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN FINANCIER"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN FINANCIEN / IL A ARRETE L'ECOLE TRES TOT APRES LE DECES DE LA MERE"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN FINANCIEN"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS FINANCIERS"
+replace   EF15=1  if EF15_Aut =="IL ACCOMPAGNE SA MERE POUR LES SOINS"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN SUITE AU DECES DE SA MAMAN"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYEN"
+replace   EF15=9  if EF15_Aut =="arrêt suite au décès de son père"
+replace   EF15=9  if EF15_Aut =="ARRET SUITE AU DECES DE SES PARENTS"
+replace   EF15=1  if EF15_Aut =="RESPONSABILITES MENAGERES"
+replace   EF15=9  if EF15_Aut =="MOYEN FINANCIER"
+replace   EF15=1  if EF15_Aut =="POUR EFFECTUER LES TÂCHES MÉNAGÈRES"
+replace   EF15=9  if EF15_Aut =="PROBLEME DE MOYEN FINANCIER"
+replace   EF15=11  if EF15_Aut =="RAISON DE SANTE"
+replace   EF15=9  if EF15_Aut =="Insuffisance de moyens financiers"
+replace   EF15=9  if EF15_Aut =="DECES DES PARENTS"
+replace   EF15=9  if EF15_Aut =="INSUFFISANCE DE MOYENS FINACIERS"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS FINACIERS"
+replace   EF15=16  if EF15_Aut =="POUR APPRENDRE UN METIER"
+replace   EF15=9  if EF15_Aut =="DECES DU PERE ET DE LA MERE"
+replace   EF15=9  if EF15_Aut =="Décès des parents plus personnes pour s'occuper de ses frais scolaires"
+replace   EF15=9  if EF15_Aut =="PROBLÈME FINANCIER"
+replace   EF15=9  if EF15_Aut =="Décès du père"
+replace   EF15=12  if EF15_Aut =="MARIAGE"
+replace   EF15=6  if EF15_Aut =="INSCRIT A L'ECOLE FRANCOARABE"
+replace   EF15=1  if EF15_Aut =="S OCCUPAIT DE SON FOYER"
+replace   EF15=11  if EF15_Aut =="IL EST MALADE"
+replace   EF15=11  if EF15_Aut =="ACCIDENT DE LA CIRCULATION"
+replace   EF15=9  if EF15_Aut =="PAS MANQUE DE MOYEN"
+replace   EF15=9  if EF15_Aut =="PAS MANQUE DE MOYENS"
+replace   EF15=13  if EF15_Aut =="SUITE A SA GROSSESSE"
+replace   EF15=9  if EF15_Aut =="PERE DECEDE DU COUP IL N'A PAS PU CONTINUE L'ECOLE"
+replace   EF15=9  if EF15_Aut =="ABSENCE DE MOYEN FINANCIER"
+replace   EF15=9  if EF15_Aut =="MANQUE DE MOYENS FINANCIÈRES"
+replace   EF15=6  if EF15_Aut =="CHOIX DU FRANCO ARABE"
+replace   EF15=9  if EF15_Aut =="PAR MANQUES DE MOYENS"
+replace   EF15=9  if EF15_Aut =="PERE DECEDE"
+replace   EF15=6  if EF15_Aut =="FRANCO ARABE"
+replace   EF15=12  if EF15_Aut =="POUR MARIAGE"
+replace   EF15=16  if EF15_Aut =="APPRENDRE UN METIER"
+replace   EF15=9  if EF15_Aut =="INSUFFISANCE DE MOYENS FINANCIERS"
+replace   EF15=9  if EF15_Aut =="Manque de moyens financiers"
+replace   EF15=9  if EF15_Aut =="manque de moyen financier"
+replace   EF15=9  if EF15_Aut =="manque de moyens financiers"
+****
+replace EF15=9 if EF15_Aut=="MANQUE  DE MOYENS"
+replace EF15=9 if EF15_Aut=="FAUTE DE MOYEN FINANCIER"
+replace EF15=9 if EF15_Aut=="FAUTE DE MOYEN"
+replace EF15=9 if EF15_Aut=="DECEE DU PÈRE"
+replace EF15=9 if EF15_Aut=="DECCES DU PERE DE L ENQUETE"
+replace EF15=9 if EF15_Aut=="DÉCÈS DU GÉNITEUR"
+replace EF15=9 if EF15_Aut=="MANQUES DE MOYENS DES PARENTS"
+replace EF15=9 if EF15_Aut=="MANQUE DE MOYENS FIANCIERS"
+replace EF15=9 if EF15_Aut=="PLUS DE MOYEN FINANCIER POUR CONTINUE"
+replace EF15=9 if EF15_Aut=="PAS DE MOYEN FINANCIER"
+replace EF15=9 if EF15_Aut=="DECES DU GENITEUR"
+replace EF15=10 if EF15_Aut=="ZONE DE TRAVAIL ELOIGNE DE LUNIVERSITE"
+replace EF15=11 if EF15_Aut=="CAS DE MALADIE"
+replace EF15=12 if EF15_Aut=="mariage"
+replace EF15=12 if EF15_Aut=="POUR SE MARIER"
+replace EF15=15 if EF15_Aut=="FIN DE SON PARCOURS UNIVESITAIRE"
+replace EF15=16 if EF15_Aut=="Pour APRENDRE UN MÉTIER"
+replace EF15=16 if EF15_Aut=="FAIRE LA MÉCANIQUE AUTOMOBILE"
+replace EF15=2 if EF15_Aut=="EN QUETE D’EMPLOI"
+replace EF15=2 if EF15_Aut=="FAIRE LE MÉNAGE"
+replace EF15=2 if EF15_Aut=="PRÉFÈRE PASSER LES CONCOURS POUR TRAVAILLER"
+replace EF15=2 if EF15_Aut=="POUR PASSER DES CONCOURS"
+replace EF15=2 if EF15_Aut=="MÉNAGÈRE"
+replace EF15=2 if EF15_Aut=="POUR PASSER CONCOURS"
+replace EF15=2 if EF15_Aut=="EN RECHERCHE DE BOULOT"
+replace EF15=2 if EF15_Aut=="PASSER UN CONCOURS"
+replace EF15=6 if EF15_Aut=="VOLONTE DES PARENTS"
+replace EF15=6 if EF15_Aut=="MANQUE DE COMPRÉHENSION  DE LA PART DE LA FAMILLE"
+replace EF15=6 if EF15_Aut=="CHOIX PARENTAL"
+replace EF15=6 if EF15_Aut=="REFUS DES PARENTS"
+***
+replace EF15=1 if EF15_Aut== "IL A REJOINT LA FAMILLE"
+
+replace EF15=1 if EF15_Aut=="IL A REJOINT LA FAMILLE"
+replace EF15=1 if EF15_Aut== "JE M OCCUPE DE MON PERE QUI EST MALADE" 
+replace EF15=1 if EF15_Aut== "POUR SURVEILLER SON PETIT FRÈRE ISMAEL"
+replace EF15=1 if EF15_Aut== "S'OCCUPE DES ENFANTS"
+
+replace EF15=2 if EF15_Aut== "OPPORTUNITE DE TRAVAIL"
+replace EF15=2 if EF15_Aut== "EN STAGE"
+replace EF15=2 if EF15_Aut== "RECHERCHE EMPLOI"
+replace EF15=2 if EF15_Aut== "RESPONSABILITÉ MÉNAGÈRE"
+replace EF15=16 if EF15_Aut== "APPRENDRE UN MÉTIER"
+
+replace EF15=6 if EF15_Aut== "NE SAIT PAS"
+replace EF15=6 if EF15_Aut== "PAS INSCRITE"
+replace EF15=6 if EF15_Aut== "Ne sait pas"
+replace EF15=6 if EF15_Aut== "VIVAIT CHEZ SA TANTE QUI NE L'A PAS INSCRITE"
+replace EF15=6 if EF15_Aut== "NEGLIGEANCE DES PARENTS"
+replace EF15=6 if EF15_Aut=="volonte des parents"
+replace EF15=6 if EF15_Aut=="MANQUE D'ENCADREMENT"
+
+replace EF15=9 if EF15_Aut=="MANQUE ET PERTE DE PARENTS"
+replace EF15=9 if EF15_Aut=="MANQUE DE FINANCE"
+replace EF15=9 if EF15_Aut=="ORPHELIN"
+replace EF15=9 if EF15_Aut=="deces des parents"
+replace EF15=9 if EF15_Aut=="MANQUES  DE MOYENS"
+replace EF15=9 if EF15_Aut=="ANNEE BLANCHE"
+replace EF15=9 if EF15_Aut=="PAS INSCRITE"
+replace EF15=11 if EF15_Aut=="DEMINAGEMENT POUR RAISON DE SANTE DU PERE"
+***
+replace EF15=1 if EF15_Aut=="IL A DU ARRETER L'ECOLE POUR S'OCCUSER DE SES PARENTS"
+
+replace EF15=6 if EF15_Aut=="CHOIX DU PERE"
+replace EF15=6 if EF15_Aut=="LE CM IGNORE"
+replace EF15=6 if EF15_Aut=="REFUS DE LE DIRE"
+
+replace EF15=9 if EF15_Aut=="manque de moyen de financier"
+replace EF15=9 if EF15_Aut=="manque moyen financier"
+replace EF15=9 if EF15_Aut=="PERTE DES PARENTS"
+
+replace EF15=16 if EF15_Aut=="PAR PASSER UN CONCOURS"
+replace EF15=16 if EF15_Aut=="EN FORMATION"
+replace EF15=19 if EF15_Aut=="ARRETE DE LUI MEME"
+
+replace EF15 = 9 if EF15_Aut =="MANQUE DE SOUTIEN"
+replace EF15 = 2 if EF15_Aut =="POUR CHERCHER UN EMPLOI"
+replace EF15 = 6 if EF15_Aut =="Non importance de l'école"
+replace EF15 = 6 if EF15_Aut =="REFUS DE POURSUITE VENANT DU PERE"
+replace EF15 = 2 if EF15_Aut =="A LA RECHERCHE D'EMPLOI"
+replace EF15 = 1 if EF15_Aut =="RESPONSABILITÉS MÉNAGÈRES"
+replace EF15 = 1 if EF15_Aut =="POUR S’OCCUPER DE LA FAMILLE"
+replace EF15 = 9 if EF15_Aut =="J’AI PERDU MES DEUX PARENTS, PERSONNE POUR ME SCOLARISER"
+replace EF15 = 14 if EF15_Aut =="MANQUE D'INSTITUTEUR"
+replace EF15 = 9 if EF15_Aut =="DIFFICULTÉ FINANCIÈRE"
+replace EF15 = 9 if EF15_Aut =="LES PARENTS N AVAIT PAS LES MOYENS POUR QU IL CONTINU LES COURS"
+replace EF15 = 16 if EF15_Aut =="POUR SUIVRE UNE FORMATION"
+replace EF15 = 9 if EF15_Aut =="pas de moyen financier"
+replace EF15 = 9 if EF15_Aut =="pas moyens financiers"
+replace EF15 = 16 if EF15_Aut =="POUR PRESENTER DES CONCOURS"
+replace EF15 = 2 if EF15_Aut =="RECHERCHE D'EMPLOI"
+replace EF15 = 16 if EF15_Aut =="Pour apprendre un metier"
+replace EF15 = 1 if EF15_Aut =="POUR S’OCCUPÉ DE LA FAMILLE"
+
+replace EF15=16 if EF15_Aut=="POUR APPRENDRE MÉTIER"
+replace EF15=9 if EF15_Aut=="PAS  DE MOYEN FINANCIER"
+replace EF15=11 if EF15_Aut=="SUITE À UNE MALADIE"
+
+replace EF15 = 9 if EF15_Aut == "MANQUE DE MOYEN FINANCIERS"
+replace EF15 = 9 if EF15_Aut == "Manque de moyen financier"
+replace EF15 = 9 if EF15_Aut == "Manque de moyen financier"
+replace EF15 = 11 if EF15_Aut == "VISION FLOUE"
+replace EF15 = 9 if EF15_Aut == "Manque de moyens"
+replace EF15 = 9 if EF15_Aut == "MANQUE DES MOYENS FINANCIERS"
+replace EF15 = 9 if EF15_Aut == "MANQUE DES MOYENS FINANCIERS"
+replace EF15 = 9 if EF15_Aut == "MANQUE DE MOYEN/CHOMAGE DU PÈREMANQUE DE MOYEN/CHOMAGE DU PÈRE"
+
+***Vider la variable: 
+replace EF15_Aut = "" if !inlist(EF15,.,.a,20) 
+
+
+
+/*/////EF16E_Aut :
+br EF16E_Aut if EF16E_Aut!=""
+
+****EF16E_Aut
+replace   EF16E__3=1  if EF16E_Aut =="DIOULA" 
+replace   EF16E__3=1  if EF16E_Aut =="PEULH"
+replace   EF16E__3=1  if EF16E_Aut =="MOSSI"
+replace   EF16E__3=1  if EF16E_Aut =="MALINKE"
+replace   EF16E__3=1  if EF16E_Aut =="MOORE"
+replace   EF16E__3=1  if EF16E_Aut =="WOBE"
+replace   EF16E__3=1  if EF16E_Aut =="GUERE"
+replace   EF16E__3=1  if EF16E_Aut =="BAOULE"
+replace   EF16E__3=1  if EF16E_Aut =="ALLADJAN"
+replace   EF16E__3=1  if EF16E_Aut =="AGNI"
+replace   EF16E__3=1  if EF16E_Aut =="KOULANGO"
+replace   EF16E__3=1  if EF16E_Aut =="MORE"
+replace   EF16E__3=1  if EF16E_Aut =="ASHANTI"
+replace   EF16E__3=1  if EF16E_Aut =="MORÉ"
+replace   EF16E__3=1  if EF16E_Aut =="HAOUSSA"
+replace   EF16E__3=1  if EF16E_Aut =="LE FON"
+replace   EF16E__3=1  if EF16E_Aut =="ZAMALAMA"
+replace   EF16E__3=1  if EF16E_Aut =="BAMBARA"
+replace   EF16E__3=1  if EF16E_Aut =="SENOUFO"
+replace   EF16E__3=1  if EF16E_Aut =="ABRON"
+replace   EF16E__3=1  if EF16E_Aut =="DIDA"
+replace   EF16E__3=1  if EF16E_Aut =="BURKINABE"
+replace   EF16E__3=1  if EF16E_Aut =="PEUL"
+replace   EF16E__3=1  if EF16E_Aut =="MAURITANIEN"
+replace   EF16E__3=1  if EF16E_Aut =="MOSI"
+replace   EF16E__3=1  if EF16E_Aut =="YACOUBA"
+replace   EF16E__3=1  if EF16E_Aut =="ANGLAIS"
+
+replace   EF16E__3=1  if EF16E_Aut =="ALLMAND"
+replace   EF16E__3=1  if EF16E_Aut =="LA LANGUE GUINEENNE"
+replace   EF16E__3=1  if EF16E_Aut =="TOUAREG"
+replace   EF16E__3=1  if EF16E_Aut =="PEULE"
+replace   EF16E__3=1  if EF16E_Aut =="GROUSSI"
+replace   EF16E__3=1  if EF16E_Aut =="BETE"
+replace   EF16E__3=1  if EF16E_Aut =="KROUMEN"
+replace   EF16E__3=1  if EF16E_Aut =="GUEBIE"
+replace   EF16E__3=1  if EF16E_Aut =="ATTIE"
+replace   EF16E__3=1  if EF16E_Aut =="RAS"
+replace   EF16E__3=1  if EF16E_Aut =="YURUBA"
+replace   EF16E__3=1  if EF16E_Aut =="LES SIGNES"
+replace   EF16E__3=1  if EF16E_Aut =="WOLOF"
+replace   EF16E__3=1  if EF16E_Aut =="ALLAND"
+replace   EF16E__3=1  if EF16E_Aut =="PEULS"
+replace   EF16E__3=1  if EF16E_Aut =="NIGALA"
+replace   EF16E__3=1  if EF16E_Aut =="MARACA"
+replace   EF16E__3=1  if EF16E_Aut =="DJIMINI"
+replace   EF16E__3=1  if EF16E_Aut =="TAGOUANA"
+replace   EF16E__3=1  if EF16E_Aut =="CHINOIS"
+replace   EF16E__3=1  if EF16E_Aut =="ESPAGNOL"
+replace   EF16E__3=1  if EF16E_Aut =="ALLEMAND"
+replace   EF16E__3=1  if EF16E_Aut =="ESPAGNOL"
+replace   EF16E__3=1  if EF16E_Aut =="ESPAGNOL"
+replace   EF16E__3=1  if EF16E_Aut =="espagnole"
+replace   EF16E__3=1  if EF16E_Aut =="ESPAGNOL,  PORTUGAIS,  ITALIEN ET DIOULA"
+replace   EF16E__3=1  if EF16E_Aut =="KOYOKA"
+replace   EF16E__3=1  if EF16E_Aut =="dida"
+replace   EF16E__3=1  if EF16E_Aut =="dioula"
+replace   EF16E__3=1  if EF16E_Aut =="BOBO"
+replace   EF16E__3=1  if EF16E_Aut =="dida"
+replace   EF16E__3=1  if EF16E_Aut =="dida"
+replace   EF16E__3=1  if EF16E_Aut =="YOROUBA"
+replace   EF16E__3=1  if EF16E_Aut =="EBRIE"
+replace   EF16E__3=1  if EF16E_Aut =="WORODOUGOUKA"
+replace   EF16E__3=1  if EF16E_Aut =="allemand"
+replace   EF16E__3=1  if EF16E_Aut =="espagnol"
+
+**Vider la variable
+*replace   EF16E_Aut ="" if EF16E__3==1
+
+****Vider la variable:
+replace EF16E_Aut = "" if   EF16E__3==1 & (EF16E_Aut =="DIOULA"|EF16E_Aut =="PEULH"|EF16E_Aut =="MOSSI"|EF16E_Aut =="MALINKE"|EF16E_Aut =="MOORE"|EF16E_Aut =="ESPAGNOL"|EF16E_Aut =="WOBE"|EF16E_Aut =="GUERE"|EF16E_Aut =="BAOULE"|EF16E_Aut =="ALLADJAN"|EF16E_Aut =="AGNI"|EF16E_Aut =="KOULANGO"|EF16E_Aut =="MORE"|EF16E_Aut =="ASHANTI"|EF16E_Aut =="MORÉ"|EF16E_Aut =="HAOUSSA"|EF16E_Aut =="ALLEMAND"|EF16E_Aut =="LE FON"|EF16E_Aut =="ZAMALAMA"|EF16E_Aut =="BAMBARA"|EF16E_Aut =="SENOUFO"|EF16E_Aut =="ESPAGNOLE"|EF16E_Aut =="ABRON"|EF16E_Aut =="DIDA"|EF16E_Aut =="BURKINABE"|EF16E_Aut =="PEUL"|EF16E_Aut =="MAURITANIEN"|EF16E_Aut =="MOSI"|EF16E_Aut =="YACOUBA"|EF16E_Aut =="ANGLAIS"|EF16E_Aut =="ALLMAND"|EF16E_Aut =="LA LANGUE GUINEENNE"|EF16E_Aut =="TOUAREG"|EF16E_Aut =="ARABE"|EF16E_Aut =="PEULE"|EF16E_Aut =="GROUSSI"|EF16E_Aut =="BETE"|EF16E_Aut =="KROUMEN"|EF16E_Aut =="GUEBIE"|EF16E_Aut =="ATTIE"|EF16E_Aut =="RAS"|EF16E_Aut =="ELLE SAIT LIRE, ECRIRE, COMPRENDRE"|EF16E_Aut =="YURUBA"|EF16E_Aut =="LES SIGNES"|EF16E_Aut =="WOLOF"|EF16E_Aut =="ALLAND"|EF16E_Aut =="PEULS"|EF16E_Aut =="NIGALA"|EF16E_Aut =="MARACA"|EF16E_Aut =="L'allemand"|EF16E_Aut =="dioula"|EF16E_Aut =="peul"|EF16E_Aut =="peule"|EF16E_Aut =="DJIMINI"|EF16E_Aut =="TAGOUANA" |EF16E_Aut =="CHINOIS"|EF16E_Aut =="ESPAGNOL"|EF16E_Aut =="ALLEMAND"|EF16E_Aut =="ESPAGNOL"|EF16E_Aut =="ESPAGNOL"|EF16E_Aut =="espagnole"|EF16E_Aut =="ESPAGNOL,  PORTUGAIS,  ITALIEN ET DIOULA"|EF16E_Aut =="KOYOKA"|EF16E_Aut =="dida"|EF16E_Aut =="dioula"|EF16E_Aut =="BOBO"|EF16E_Aut =="dida"|EF16E_Aut =="dida"|EF16E_Aut =="YOROUBA")
+
+
+replace   EF16E__3=1  if EF16E_Aut =="DJOULA"|EF16E_Aut=="DOUILA"
+replace   EF16E__3=1  if EF16E_Aut =="ABBEY"
+replace   EF16E__3=1  if EF16E_Aut =="ADJOUKROU"|EF16E_Aut =="adjoukrou"
+replace   EF16E__3=1  if EF16E_Aut =="Espagnol" |EF16E_Aut == "espagnol" | EF16E_Aut== "L'ESPAGNOL"
+replace   EF16E__3=1  if EF16E_Aut =="GOURO"
+replace   EF16E__3=1  if EF16E_Aut =="L'ANGLAIS" 
+replace   EF16E__3=1  if EF16E_Aut =="peulh" 
+replace   EF16E__3=1  if EF16E_Aut =="TOURA" 
+replace   EF16E__3=1  if EF16E_Aut =="TOGOLAIS" 
+replace   EF16E__3=1  if EF16E_Aut =="FON" 
+replace   EF16E__3=1  if EF16E_Aut =="MENDARIN" 
+replace   EF16E__3=1  if EF16E_Aut =="allemand" 
+replace EF16E__3=1 if EF16E_Aut =="L'ESPAGNOL"
+
+replace EF16E_Aut = "" if   EF16E__3==1 & (EF16E_Aut =="DJOULA"|EF16E_Aut=="DOUILA"|EF16E_Aut =="ABBEY"| EF16E_Aut =="ADJOUKROU"|EF16E_Aut =="adjoukrou"|  EF16E_Aut =="Espagnol" |EF16E_Aut == "espagnol" | EF16E_Aut== "L'ESPAGNOL" |EF16E_Aut =="GOURO"|EF16E_Aut =="L'ANGLAIS" |EF16E_Aut =="peulh"|EF16E_Aut =="TOURA"|EF16E_Aut =="TOGOLAIS" |EF16E_Aut =="FON"|EF16E_Aut =="MENDARIN" |EF16E_Aut =="allemand")
+*/
+
+
+///////EF18_aut
+*br EF18_aut if EF18_aut!=""
+
+replace EF18 = 73 if EF18_aut == "PEULH"
+replace EF18 = 47 if EF18_aut == "ODIENEKA "
+replace EF18 = 47 if EF18_aut == "ODIENNEKA"
+replace EF18 = 60 if EF18_aut == "TAGBANAN"
+replace EF18 = 4  if EF18_aut == "BRON"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 47 if EF18_aut == "NOUMOU"
+replace EF18 = 60 if EF18_aut == "BABÔRÔ"
+replace EF18 = 60 if EF18_aut == "BABÔRÔ"
+replace EF18 = 60 if EF18_aut == "BARABOR"
+
+** 
+
+replace EF18_aut = "" if !inlist(EF18,.,.a,98) 
+
+////////////// Q1_5_aut : RAS
+
+////////////// Q1_8_aut  : pas d'observations
+
+////////////// Q1_10_aut : RAS
+//////////////Q1_13_aut : RAS
+
+
+////////////// EP2j_aut:  Précisez l'autre mode d'obtention de votre travail?
+
+*export excel EP2j_au using "D:\CAE\fichier exel\EP2j_au.xls" if EP2j_au!="", firstrow(variables)
+
+replace   EP2j=1  if EP2j_au =="GRACE A MON MARI"
+replace   EP2j=1  if EP2j_au =="AIDE FAMILIALE"
+replace   EP2j=1  if EP2j_au =="AIDE SA MAMAN"
+***
+replace   EP2j=1  if EP2j_aut =="HERITAGE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="HERITAGE"
+replace   EP2j=1  if EP2j_aut =="GRACE A MON MARI"
+replace   EP2j=8 if EP2j_aut =="PAR RECRUTEMENT"
+replace   EP2j=1  if EP2j_aut =="GRACE MON MARI"
+replace   EP2j=3  if EP2j_aut =="APPEL A CANDIDATURE"
+replace   EP2j=1  if EP2j_aut =="TRAVAILLE AVEC SON MARI"
+replace   EP2j=9  if EP2j_aut =="PROPORE MOYEN"
+replace   EP2j=1  if EP2j_aut =="AIDE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="transmis par les parents"
+replace   EP2j=1  if EP2j_aut =="BELLE MÈRE"
+replace   EP2j=1  if EP2j_aut =="CHAMPS DE FAMILLE"
+replace   EP2j=1  if EP2j_aut =="HÉRITAGE"
+replace   EP2j=1  if EP2j_aut =="HERITAGE FAMILIAL"
+replace   EP2j=9  if EP2j_aut =="activités personnelles"
+replace   EP2j=9  if EP2j_aut =="JE LOUE"
+replace   EP2j=9  if EP2j_aut =="LOCATION DE PARCELLE"
+replace   EP2j=1  if EP2j_aut =="AIDE SON MARI AU CHAMP"
+replace   EP2j=1  if EP2j_aut =="POTION DE TERRE HERITE DES PARENTS"
+replace   EP2j=1  if EP2j_aut =="PAR LE BIAIS DE SON MARI"
+replace   EP2j=1  if EP2j_aut =="ASSOCIATION"
+replace   EP2j=1  if EP2j_aut =="PARCELLE DU CHEF DE MENAGE"
+replace   EP2j=1  if EP2j_aut =="ENTREPRISE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="epoux"
+replace   EP2j=9  if EP2j_aut =="achat des terrains pour la réalisation de la culture d'anacarde"
+replace   EP2j=9  if EP2j_aut =="ACHETER LA FORET"
+replace   EP2j=1  if EP2j_aut =="TRAVAILLE AVEC SON PAPA"
+replace   EP2j=1 if EP2j_aut =="AIDE SON PERE DANS SON CHAMP"
+replace   EP2j=1  if EP2j_aut =="AIDE LE CHEF DE MENAGE DANS LE CHAMP"
+replace   EP2j=1  if EP2j_aut =="AIDE MON MARI AU CHAMP"
+replace   EP2j=1  if EP2j_aut =="TRAVAIL DANS LE CHAMPS DE MON FRERE"
+replace   EP2j=1  if EP2j_aut =="AIDE SON EPOUX DANS SON CHAMPS D'ANACARDE"
+replace   EP2j=7  if EP2j_aut =="Autres programmes et projets privés d’appui"
+replace   EP2j=1  if EP2j_aut =="INITIATIVE PARENTALE"
+replace   EP2j=9  if EP2j_aut =="PROPRE INITIATIVE"
+replace   EP2j=1  if EP2j_aut =="viens en aide à son mari"
+replace   EP2j=1  if EP2j_aut =="viens en aide a son père"
+replace   EP2j=1  if EP2j_aut =="C'EST L’ÉCOLE OU IL A FRÉQUENTÉ"
+replace   EP2j=1  if EP2j_aut =="AVEC SON MARI"
+replace   EP2j=1  if EP2j_aut =="INITIATIVE DES PARENTS"
+
+replace   EP2j=2  if EP2j_aut =="ETUDE DE DOSSIER"
+replace   EP2j=2  if EP2j_aut =="RECRUTEMENT"
+replace   EP2j=2  if EP2j_aut =="PAR RECRUTEMENT"
+replace   EP2j=1  if EP2j_aut =="ENTREPRISE FAMILLIALE"
+replace   EP2j=1  if EP2j_aut =="GRACE A MON MARI"
+replace   EP2j=2  if EP2j_aut =="RECRUTEMENT DIRECT DANS LE CENTRE DE FORMATION"
+replace   EP2j=1  if EP2j_aut =="PLANTATION FAMILLIALE"
+
+**
+replace   EP2j=1  if EP2j_aut =="PLANTATION DU PERE"
+replace   EP2j=1  if EP2j_aut =="CHAMP DU PÈRE"
+replace   EP2j=1  if EP2j_aut =="FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="HÉRITAGE FAMILIAL"
+replace   EP2j=1  if EP2j_aut =="OFFERT PAR LE MARI"
+replace   EP2j=1  if EP2j_aut =="AIDE DANS L ENTREPRISE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="AIDE DANS UNE ENTREPRISE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="A LA MAISON, ENTREPRISE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="A TRAVERS LA FAMILLE"
+replace   EP2j=8  if EP2j_aut =="RECRUTEMENT NATIONAL"
+replace   EP2j=8  if EP2j_aut =="ORIENTER A L ENS"
+replace   EP2j=8  if EP2j_aut =="TEST"
+replace   EP2j=8  if EP2j_aut =="TEST DE RECRUTEMENT"
+replace   EP2j=8  if EP2j_aut =="CONCOURS PROFESSIONNEL"				
+replace   EP2j=9  if EP2j_aut =="fond propre"
+replace   EP2j=9  if EP2j_aut =="propre compte"
+replace   EP2j=9  if EP2j_aut =="APPLE DU SEIGNEUR"
+replace   EP2j=9  if EP2j_aut =="APPEL DE DIEU"
+replace   EP2j=9  if EP2j_aut =="ACTIVITES RELIGIEUSES"
+
+replace   EP2j=7  if EP2j_aut =="AFFECTION APRES LA FORMATION"
+replace   EP2j=7  if EP2j_aut =="STAGE FORMATION"
+replace   EP2j=7  if EP2j_aut =="SUITE A UNE FORMATION"
+replace   EP2j=1  if EP2j_aut =="CRÉÉ PAR SON MARI"
+
+replace   EP2j=2  if EP2j_aut =="RECRUTEMENT DIRECT"
+replace   EP2j=2  if EP2j_aut =="Recrutement"
+replace   EP2j=1  if EP2j_aut =="HERITAGE PARENTAL"
+replace   EP2j=1  if EP2j_aut =="INITIAVE DU CONJOINT"
+replace   EP2j=1  if EP2j_aut =="AIDE A L'ENTREPRISE FAMILIALE"
+
+replace   EP2j=1  if EP2j_aut =="ERITAGE"
+replace   EP2j=1  if EP2j_aut =="PAR LE CONJOINT"
+** 
+replace   EP2j=9  if EP2j_aut =="ORIENTATION"
+replace   EP2j=9  if EP2j_aut =="APPEL SARCERDOTAL"
+replace   EP2j=9  if EP2j_aut =="PAR EVANGELISATION"
+replace   EP2j=9  if EP2j_aut =="CONSECRATION"
+
+replace EP2j = 7 if EP2j_aut =="RECRUTEMENT DEROGATOIRE"
+replace EP2j = 1 if EP2j_aut =="CÉDÉ PAR LE CONJOINT"
+replace EP2j = 1 if EP2j_aut =="PAR CONJOINT"
+replace EP2j = 2 if EP2j_aut =="recrutement"
+replace EP2j = 1 if EP2j_aut =="PAR SON CONJOINT"
+replace EP2j = 9 if EP2j_aut =="PAS MES PROPRES MOYENS"
+replace EP2j = 8 if EP2j_aut =="AFFECTATION PAR L ETAT"
+replace EP2j = 8 if EP2j_aut =="TITULARISATION DE L'ETAT"
+replace EP2j = 8 if EP2j_aut =="RECRUTEMENT DE L'ETAT"
+replace EP2j = 1 if EP2j_aut =="CONJOINT"
+
+replace   EP2j=1  if EP2j_aut =="TRAVAILLEUR DANS L ENTREPRISE FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="SON CONJOINT"
+replace   EP2j=1  if EP2j_aut =="MON MARI"
+replace   EP2j=1  if EP2j_aut =="MON CONJOINT"
+replace   EP2j=1  if EP2j_aut =="CHAMPS FAMILIALE"
+replace   EP2j=1  if EP2j_aut =="J'AIDE MON PERE DANS SA PLANTATION"
+replace   EP2j=2  if EP2j_aut =="TEXTE  DE RECRUTEMENT"
+replace   EP2j=2  if EP2j_aut =="TRAVAILLANT POUR UNE TIERS PERSONNE"
+replace   EP2j=8  if EP2j_aut =="L’ ETAT"
+replace   EP2j=8  if EP2j_aut =="L ETAT"
+
+
+***Vider la variable
+replace EP2j_aut = "" if !inlist(EP2j,.,.a,12) 
+
+
+*********
+
+
+////////////// EP15_aut:  
+
+*br P15_Aut if P15_Aut!=""
+
+replace   P15=3  if P15_Aut =="ACTIVITE DE VACANCES"
+replace   P15=3  if P15_Aut =="TRAVAIL DE VACANCE"
+replace P15=3 if P15_Aut== "FIN DU CONTRAT"
+replace P15=4 if P15_Aut== "JUSQU'A L’OBTENTION D’UN MEILLEUR EMPLOI"
+**
+replace P15=3 if P15_Aut== "Fin de contrat"
+replace P15=3 if P15_Aut== "L’ENQUÉTÉ AFFIRME QUE SON CONTRAT DEVRAIT PRENDRE FIN À LA FIN DU CHANTIER"
+
+replace P15 = 7 if P15_Aut =="L ENQUETE DIT QU’ELLE ETAIT SERVANTE POUR UNE PÉRIODE PRECISE"
+replace P15=3 if P15_Aut == "LE CONTRAT ÉTAIT RENOUVELLE CHAQUE 6 MOIS"
+
+replace P15=3 if P15_Aut == "JOB DE VACANCES"
+replace P15=3 if P15_Aut == "JOB DE VACANCES"
+replace P15=7 if P15_Aut == "BÉNÉVOLAT"
+*replace P15=1 if P15_Aut == "POUR TRAVAILLER A MON COMPTE"
+*replace P15__3=1 if P15_Aut == "JUSTE UN CONTRAT A DUREE DETERMINEE"
+
+
+*Vider la variable 
+replace P15_Aut = "" if !inlist(P15,.,.a,9) 
+
+////////////// C12c_aut : Pas d'observations 
+*export excel C12c_aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+//////////////C12d_Aut 
+*br C12d_Aut if C12d_Aut!=""
+replace C12d= 1 if C12d_Aut=="NE SAIS PAS ENCORE RENSEIGNE"
+replace C12d = 3 if C12d_Aut=="JUSTE QUE JE NE SUIS PAS QUALIFIE"
+replace C12d = 3 if C12d_Aut=="QUELLE EST TROP AGEE"
+***
+replace C12d = 3 if C12d_Aut== "LA STRUCTURE A REFUSÉ DE L’INSCRIRE"
+
+replace C12d = 3 if C12d_Aut== "OCCUPÉ PAR LE STAGE"
+replace C12d = 1 if C12d_Aut== "NE SAIT PAS OU TROUVER UNE TELLE STRUCTURE"
+*
+replace C12d = 1 if C12d_Aut=="AUCUNE STRUCTURE N’EXISTE DANS LA LOCALITE OÙ JE SUIS ACTUELLEMENT"
+replace C12d = 1 if C12d_Aut=="CES STRUCTURES N’EXISTENT PAS ICI"
+
+*vider les variables
+replace C12d_Aut="" if inlist(C12d,1,3)
+
+///////////*********P20_Aut
+*export excel P20_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel P20_Aut using "D:\CAE\fichier exel\P20_Aut.xls" if P20_Aut!="", firstrow(variables) replace
+
+replace   P20=4  if P20_Aut =="LES VACANCES  SCOLAIRES"
+replace   P20=7  if P20_Aut =="LA DISTANCE VU QU’ELLE N’HABITE PLUS LA COMMUNE"
+replace   P20=3  if P20_Aut =="MEILLEUR ENVIRONNEMENT"
+replace   P20=3  if P20_Aut =="LE DEBORDEMENT DANS NOTRE LIEU TRAVAILLE"
+replace   P20=3  if P20_Aut =="TRAVAIL FATIGUANT"
+replace   P20=17  if P20_Aut =="ELLE REMPLACAIT SA TANTE"
+replace   P20=3  if P20_Aut =="TRES FATIGUANT AVEC  L AGE IL ETAIT DIFFICILE DE CONTINUER"
+replace   P20=17  if P20_Aut =="FRACTURE AU PIEDS"
+replace   P20=4  if P20_Aut =="FIN DE CONTRAT"
+replace   P20=4  if P20_Aut =="BASSE SAISON"
+replace   P20=4  if P20_Aut =="FIN SAISON"
+replace   P20=4  if P20_Aut =="TRAVAIL TEMPORAIRE"
+replace   P20=1  if P20_Aut =="LES REVENU ETAIENT PEU"
+replace   P20=4  if P20_Aut =="FIN DE SAISON"
+replace   P20=3  if P20_Aut =="C’EST TRÈS ÉPUISANT"
+replace   P20=4  if P20_Aut =="PAUSE TEMPORAIRE"
+replace   P20=17  if P20_Aut =="MALADIE"
+replace   P20=4  if P20_Aut =="TRAVAIL  SAISONNIERE"
+replace   P20=4  if P20_Aut =="LA REPRISE  DES COURS"
+replace   P20=4  if P20_Aut =="FIN  SAISON"
+
+replace   P20=8  if P20_Aut =="REPRIS  DES COURS"
+replace   P20=5  if P20_Aut =="POUR DES RAISONS DE MATERNITÉS"
+replace   P20=13  if P20_Aut =="TROP AGE"
+replace   P20=13  if P20_Aut =="PREPARER LA RETRAITE"
+replace   P20=8  if P20_Aut =="RAISON DE RÉSULTAT SCOLAIRE"
+replace   P20=17  if P20_Aut =="FATIGUE"
+replace   P20=17  if P20_Aut =="PROBLEME HANDICAP"
+replace   P20=4  if P20_Aut =="FIN DE CONTRAT"
+replace   P20=6  if P20_Aut =="SUITE AU DÉCÈS DE MES ENFANTS"
+replace   P20=1  if P20_Aut =="MIS A LA DISPOSITION DE LA FONCTION PUBLICS"
+replace   P20=14  if P20_Aut =="CONFLIT COMMUNAUTAIRE"
+replace   P20=17  if P20_Aut =="LA VIELLESSE"
+replace   P20=17  if P20_Aut =="PERSONNE ÂGÉE"
+replace   P20=13  if P20_Aut =="REPOS"
+replace   P20=6  if P20_Aut =="PARTIR POUR  S'OCCUPER  DE PERSONNES  MALADE"
+replace   P20=14  if P20_Aut =="déguerpir par l'état"
+replace   P20=6  if P20_Aut =="SON MARI ETAIT MALADE"
+replace   P20=6  if P20_Aut =="A CAUSE DE LA SANTE SA MAMAN"
+replace   P20=1  if P20_Aut =="MANQUE DE FINANCIER"
+replace   P20=6  if P20_Aut =="DEUIL DE MON FILS"
+replace   P20=3  if P20_Aut =="MAUVAISE CONDITION DE TRAVAIL"
+replace   P20=13  if P20_Aut =="RETRAITE  ANTICIPEE"
+replace   P20=8  if P20_Aut =="LA REPRIS  DE COURS"
+replace   P20=17  if P20_Aut =="TROP ÂGÉ"
+replace   P20=17  if P20_Aut =="TROP ÂGÉ POUR TRAVAILLER"
+
+replace   P20=3  if P20_Aut =="L EMPLOYEUR S EST FOUTU DE MOI"
+replace   P20=6  if P20_Aut =="PROBLEME FAMILIALE"
+replace   P20=6  if P20_Aut =="SUIVRE L’EPOUX ET REJOINDRE LA FAMILLE SUITE A SA RETRAITE"
+replace   P20=14  if P20_Aut =="déguerpir par l’état"
+replace   P20=1  if P20_Aut =="DEMISSINNER DE LUI MEME"
+replace   P20=1  if P20_Aut =="PARTI DE LUI MEME"
+replace   P20=1  if P20_Aut =="PARTIR DE LUI MEME"
+replace   P20=1  if P20_Aut =="CHANGEMENT DE POSTE"
+replace   P20=8  if P20_Aut =="J'AI REPRIS LES ÉTUDES"
+replace   P20=17  if P20_Aut =="POUR DES RAISONS DE SANTÉ"
+replace   P20=1  if P20_Aut =="la rémunération ne me convenait pas"
+****
+replace P20=1 if P20_Aut=="ME LANCER DANS MES PROPRES AFFAIRES"
+replace P20=1 if P20_Aut=="CREATION DE SA PROPRE PLANTATION"
+replace P20=1 if P20_Aut=="PARTI VOLONTAIREMENT"
+replace P20=1 if P20_Aut=="PARTIR POUR EMPLOI PERSONNEL"
+replace P20=1 if P20_Aut=="PARTI POUR CREER LUI MEME SON PROPRE CHAMPS"
+replace P20=2 if P20_Aut=="CHASSER PAR LA SODFOR"
+replace P20=3 if P20_Aut=="MESSENTENTE AVEC LE GERANT"
+replace P20=3 if P20_Aut=="TRAVAIL DIFFICILE"
+replace P20=3 if P20_Aut=="TRAVAIL DIFFICILE ET MANQUE DE PERSONNES POUR AIDER"
+replace P20=3 if P20_Aut=="TROP DE PRESSION"
+replace P20=3 if P20_Aut=="MANQUE DE MOYENS FINANCIERS"
+replace P20=3 if P20_Aut=="PAIEMENT NON REGULIER"
+replace P20=3 if P20_Aut=="TRAVAIL TRES FATIGANT"
+replace P20=3 if P20_Aut=="ACTIVITE DIFFICILE ET MOINS RENTABLE"
+replace P20=3 if P20_Aut=="MANQUE DE PERSONNES POUR M’AIDER"
+replace P20=3 if P20_Aut=="MANQUE DE PERSONNES POUR AIDER"
+replace P20=4 if P20_Aut=="PARTIR POUR LES FÊTES  DE FIN D’ ANNÉE"
+replace P20=4 if P20_Aut=="EN ATTENTE DE LA SAISON DE CULTURE"
+replace P20=4 if P20_Aut=="LA REPRIS DES COURS"
+replace P20=4 if P20_Aut=="REPRIS DES COURS"
+replace P20=4 if P20_Aut=="ATTENTE DE LA SAISON AGRICOLE"
+replace P20=4 if P20_Aut=="FIN DE LA SAISON"
+replace P20=4 if P20_Aut=="LA SECHERESSE"
+replace P20=4 if P20_Aut=="ATTENDRELA SAISON DES PLUIES"
+replace P20=4 if P20_Aut=="FIN DE LA SAISON  DES CULTURE"
+replace P20=4 if P20_Aut=="TRAVAIL SAISONNIER"
+replace P20=4 if P20_Aut=="SECHERESSE"
+replace P20=4 if P20_Aut=="FIN DE SAISON,PROBLÈME D EAU"
+replace P20=4 if P20_Aut=="BASSE SAISON AGRICOLES"
+replace P20=4 if P20_Aut=="FIN DE STAGE"
+replace P20=4 if P20_Aut=="BASSE SAISON  AGRICOLE"
+replace P20=4 if P20_Aut=="LA TERRE N EST PLUS BONNE"
+replace P20=4 if P20_Aut=="FIN DE SAISON AGRICOLE" 
+replace P20=4 if P20_Aut=="BASSE SAISON"
+replace P20=4 if P20_Aut=="FIN DE CONTRAT"
+replace P20=4 if P20_Aut=="FIN DE SAISON"
+replace P20=4 if P20_Aut=="DECES DE L’EPOUX"
+replace P20=6 if P20_Aut=="REJOINDRE MON ONCLE A NIARALA"
+replace P20=6 if P20_Aut=="POUR REJOINDRE MA FAMILLE"
+replace P20=6 if P20_Aut=="VOIRE  LA FAMILLE"
+replace P20=6 if P20_Aut=="ALLER AU COTE DE SA MÈRE AU VILLAGE POUR L'AIDER"
+replace P20=6 if P20_Aut=="DECEE D UN PARENT (GRAND PÈRE)"
+replace P20=6 if P20_Aut=="ARRETER POUR SE MARIER"
+replace P20=6 if P20_Aut=="DECES DE PARTENAIRE"
+replace P20=6 if P20_Aut=="MARIAGE"
+replace P20=6 if P20_Aut=="APRES DÉCÈS DE MON MARI"
+replace P20=6 if P20_Aut=="DIVORCE AVEC SON EX MARI"
+replace P20=6 if P20_Aut=="POUR DES RAISONS FAMILIALES"
+replace P20=6 if P20_Aut=="RAISON PERSONNELLE"
+replace P20=6 if P20_Aut=="RAISON DE SANTÉ DU PÈRE DE L’ENQUÊTÉ"
+replace P20=6 if P20_Aut=="POUR SE MARIER"
+replace P20=6 if P20_Aut=="IL YA EU DES HISTOIRES AVEC SON CONJOINT  ."
+replace P20=6 if P20_Aut=="APRES LE DECES DE MA FEMME"
+replace P20=6 if P20_Aut=="mariage"
+replace P20=6 if P20_Aut=="ARRET POUR DES RAISONS DE MARIAGES"
+replace P20=6 if P20_Aut=="POUR CULTUVER ET NOURIR SON PERE"
+replace P20=6 if P20_Aut=="DECES DU CONJOINT"
+
+replace P20=7 if P20_Aut=="DÉMÉNAGEMENT DU PROPRIÉTAIRE DU MAGASIN"
+replace P20=7 if P20_Aut=="VENIR M’INSTALLER EN COTE D’IVOIRE"
+
+replace P20=10 if P20_Aut=="CESSATION DE SON ACTIVITE POUR REJOINDRE SON MARI EN COTE D IVOIRE"
+replace P20=10 if P20_Aut=="IL A LAISSÉ LE CHAMP A SES PARENTS"
+
+replace P20=13 if P20_Aut=="Arrêt délibéré"
+replace P20=13 if P20_Aut=="ARRET VOLONTAIRE"
+replace P20=13 if P20_Aut=="SE CONSACRER A LA RELIGIEUX,  ETRE IMAME"
+replace P20=14 if P20_Aut=="DEGUERPISSEMENT PAR LA POLICE FORESTIÈRE"
+replace P20=15 if P20_Aut=="ON NE GAGNE PLUS DE  POISSONS ET N AS PERSONNE POUR ALLER SUR L’EAU"
+replace P20=15 if P20_Aut=="INCENDIE DE MAGASIN"
+replace P20=15 if P20_Aut=="LA MALADIE DU CHOLLEN CHUTE A DETRUIT MON CHAMP"
+replace P20=15 if P20_Aut=="PAS DE CLIENTS"
+replace P20=15 if P20_Aut=="ABATTAGE DES ANIMAUX PAR L ETAT A CAUSE DE LA GRIPPE PORCINE"
+replace P20=15 if P20_Aut=="AUGMENTATION D HUILE"
+replace P20=15 if P20_Aut=="lNCENDIE"
+replace P20=15 if P20_Aut=="CAUSE DE LA COVID 19 LES PARTENAIRES ONT  QUITTE LE PAYS"
+replace P20=15 if P20_Aut=="MANQUE"
+replace P20=15 if P20_Aut=="LE VEHICULE EST ENTREE AU GARAGE"
+replace P20=15 if P20_Aut=="DESTRUCTION DU MAGASIN"
+replace P20=15 if P20_Aut=="PERTE DE LA RECOLTE DU AU MAUVAISE ETAT DE LA TERRE"
+replace P20=15 if P20_Aut=="MANQUE DE MOYENS FINANCIERS POUR RELANCER L’ACTIVITE"
+replace P20=15 if P20_Aut=="MALADIE DE CACAYER CHOULENECHOUTE"
+replace P20=15 if P20_Aut=="PERTE DE ANIMAUX"
+replace P20=15 if P20_Aut=="ÇA NE MARCHAIT PAS"
+replace P20=15 if P20_Aut=="MANQUE DE MOYENS POUR RELANCER"
+replace P20=15 if P20_Aut=="MOINS BENEFIQUE"
+replace P20=15 if P20_Aut=="MANQUE DE MAIN D'ŒUVRE"
+replace P20=15 if P20_Aut=="DESTRUCTION DE L  ENTREPRISES ( CONFLIT POLITIQUE)"
+
+replace P20=16 if P20_Aut=="POUR LES ACTIVITÉS AGRICOLES"
+
+replace P20=17 if P20_Aut=="TROP AGÉ POUR TRAVAILLER"
+replace P20=17 if P20_Aut=="TROP AGE"
+replace P20=17 if P20_Aut=="VIEILLESSE ET RAISON DE SANTÉ"
+replace P20=17 if P20_Aut=="TROP AGE POUR TRAVAILLER"
+replace P20=17 if P20_Aut=="VIEILLESSE"
+replace P20=17 if P20_Aut=="TROP AGÉ"
+replace P20=17 if P20_Aut=="TROP ÂGÉ POUR TRAVAILLER"
+replace P20=17 if P20_Aut=="TROP VIEUX"
+replace P20=17 if P20_Aut=="TROP VIEILLE"
+***
+replace P20=1 if P20_Aut=="PARTIR POUR TRAVAILLER POUR L’ENTREPRISE FAMILIALE"
+replace P20=1 if P20_Aut=="MAUVAIS TRAITEMENT SALARIAL"
+replace P20=1 if P20_Aut=="AVOIR SON PROPRE CHAMPS"
+replace P20=1 if P20_Aut=="CRISE DE 2011"
+replace P20=1 if P20_Aut=="CREER SA PROPRE PLANTATION"
+replace P20=1 if P20_Aut=="POUR ENTREPRENDRE"
+replace P20=1 if P20_Aut=="LA PAIE N'ÉTAIT PAS BONNE"
+replace P20=1 if P20_Aut== "PARTI POUR SALAIRE INSUFFISANT"
+replace P20=1 if P20_Aut== "A STOPPER VOLONTAIREMENT POUR SE LANCER DANS UNE AUTRE ACTIVITÉ"
+replace P20=1 if P20_Aut== "PARTIR POUR TRAVAILLER A SON PROPRE COMPTE"
+replace P20=1 if P20_Aut== "POUR ME CONSACRER A MA PROPRE ACTIVITE"
+replace P20=1 if P20_Aut== "J'AI TROUVÉ MIEUX"
+replace P20=1 if P20_Aut== "CHANGEMENT D'EMPLOI"
+replace P20=1 if P20_Aut== "TRAVAILLER A SON PROPRE COMPTE"
+replace P20=1 if P20_Aut== "POUR UN EMPLOI"
+replace P20=1 if P20_Aut== "DEVELOPPER MES PROJETS AVICOLES"
+replace P20=1 if P20_Aut== "NON RENTABLE"
+replace P20=1 if P20_Aut== "PARTI POUR TRAVAILLER A SON COMPTE"
+replace P20=1 if P20_Aut== "DEMISSION"
+replace P20=1 if P20_Aut=="CHANGER DE SECTEUR D ACTIVITE"
+replace P20=1 if P20_Aut=="DÉMISSION"
+
+
+replace P20=3 if P20_Aut== "RAISONS PERSONNELLES"
+replace P20=3 if P20_Aut== "TROP DE SOUCIS LIEE A L'ACTIVITÉ  , SODECI ,CONTROLEUR ET AUTRES"
+replace P20=3 if P20_Aut== "VOLONTAIREMENT"
+replace P20=3 if P20_Aut== "IL N’Y A PAS EU D’ENTENTE ENTRE LUI ET SON GRAND FRÈRE AVEC QUI IL ETAIT ASSOCIÉ.  IL A DONC LAISSÉ LE CHAMPS A SON FRÈRE"
+replace P20=3 if P20_Aut== "TRAVAIL EPUISANT"
+replace P20=3 if P20_Aut== "TRAVAUX DIFFICILES"
+replace P20=3 if P20_Aut== "A CAUSE DES ACTIVITES CHAMPETRES"
+replace P20=3 if P20_Aut== "TRAVAUX AGRICOLES DIFFICILES"
+
+replace P20=4 if P20_Aut== "Produit saisonnier"
+replace P20=4 if P20_Aut== "FAIBLE PRODUCTION"
+replace P20=4 if P20_Aut== "MANQUE DE GINGEMBRE"
+replace P20=4 if P20_Aut== "SAISONNIERE"
+replace P20=4 if P20_Aut== "NOUS N’AV0NS PAS ENCORE EU DE CHANTIER"
+replace P20=4 if P20_Aut== "MANQUE DE LAIT"
+replace P20=4 if P20_Aut== "FIN DE CHANTIER"
+replace P20=4 if P20_Aut== "IL N'Y A PLUS DE BANANES PLANTAINS. ÇA MANQUE"
+replace P20=4 if P20_Aut== "FIN DU CONTRAT"
+replace P20=4 if P20_Aut== "TRAVAIL OCCASIONNEL"
+
+replace P20=6 if P20_Aut== "LA MORT DE MON MARI"
+replace P20=6 if P20_Aut== "MES ENFANTS M’ONT DEMANDÉ D’ARRETER"
+replace P20=6 if P20_Aut== "SE MARIER"
+replace P20=6 if P20_Aut== "MES ENFANTS M'ONT DEMANDÉ DE ME REPOSER À CAUSE DE L'ÂGE"
+replace P20=6 if P20_Aut== "DEMISSINNER POUR S OCCUPER DU CHAMP DE SON FRERE"
+replace P20=6 if P20_Aut== "POUR SE MARIER DANS UNE AUTRE LOCALITÉ"
+replace P20=6 if P20_Aut== "décès de son premier mari"
+replace P20=6 if P20_Aut== "PARTI POUR LE MARIAGE"
+replace P20=6 if P20_Aut== "REJOINDRE LA FAMILLE"
+replace P20=6 if P20_Aut== "AIDER A FAMILLE"
+replace P20=6 if P20_Aut== "REJOINDRE MON MARI"
+replace P20=6 if P20_Aut== "POUR AIDER SON ONCLE"
+replace P20=6 if P20_Aut== "VENIR REJOINDRE MON FRERE"
+replace P20=6 if P20_Aut== "A CAUSE DE LA MORT DE PAPA"
+replace P20=6 if P20_Aut== "ABANDON SUITE AU DÉCÈS DE MA GRANDE SOEUR"
+replace P20=6 if P20_Aut== "POUR LE MARIAGE"
+replace P20=6 if P20_Aut== "DÉCÈS"
+replace P20=6 if P20_Aut== "POUR VENIR CHEZ SON MARI"
+
+replace P20=8 if P20_Aut=="CONCOURS PROFESSIONNEL"
+replace P20=8 if P20_Aut=="PASSER LE CONCOURS CAFOP"
+replace P20=7 if P20_Aut=="ELLE A QUITTÉ LE PAYS"
+replace P20=7 if P20_Aut=="ELLE A QUITTÉ LE PAYS"
+replace P20=7 if P20_Aut=="DEPLACER DE GUERRE"
+replace P20=10 if P20_Aut=="DÉPART DE L’EMPLOYEUR"
+replace P20=10 if P20_Aut=="CONFLIT ARMEE"
+replace P20=10 if P20_Aut=="LA CRISE"
+replace P20=10 if P20_Aut=="CESSATION DE L'ACTIVITÉ DÛ À LA CRISE"
+replace P20=10 if P20_Aut=="LA CRISE"
+replace P20=10 if P20_Aut=="DECES DU PATRON"
+replace P20=10 if P20_Aut=="la crise socio-politique"
+replace P20=10 if P20_Aut=="La crise poste électorale"
+replace P20=10 if P20_Aut=="LA CRISE DE 2011"
+replace P20=10 if P20_Aut=="LA CRISE"
+replace P20=10 if P20_Aut=="CRISE 2002"
+replace P20=10 if P20_Aut=="CRISE SOCIO-POLITIQUE"
+replace P20=7 if P20_Aut=="VENUE EN COTE D’IVOIRE"
+replace P20=7 if P20_Aut== "L’ENQUÉTÉ ÊTRE VENU SE RÉFUGIÉ EN CÔTE D'IVOIRE À CAUSE DU TERRORISME AU BURKINA FASO"
+replace P20=10 if P20_Aut== "Démolition de l’endroit"
+replace P20=10 if P20_Aut== "LA CLINIQUE A FERMEE"
+replace P20=10 if P20_Aut== "GUERRE 2002"
+
+
+replace P20=13 if P20_Aut== "J’AI PRIS DE L’AGE"
+replace P20=13 if P20_Aut== "se considère trop âgé"
+replace P20=13 if P20_Aut== "AGE AVANCÉ, NE PEUT PLUS FAIRE LE TRAVAIL DE SERVANTE"
+replace P20=13 if P20_Aut== "AVANCÉE DE L'ÂGE"
+replace P20=13 if P20_Aut== "SUITE A L’APPEL DE DIEU"
+replace P20=13 if P20_Aut== "OCCUPATIONS RELIGIEUSES"
+replace P20=13 if P20_Aut== "PESANTEUR DE L AGE"
+replace P20=13 if P20_Aut== "PERSONNE ÂGÉE,  RETRAITE"
+replace P20=13 if P20_Aut== "RAISON RELIGIEUSE"
+replace P20=13 if P20_Aut== "LAISSEZ LA GESTION DU CHAMP AUX ENFANTS APRES LE DÉCÈS DE MON MARI"
+replace P20=13 if P20_Aut== "trop âgée"
+replace P20=13 if P20_Aut=="LA FATIGUE (L 'AGE AVANCÉ)"
+replace P20=13 if P20_Aut=="ATTRIBUER LA VENTE A SON FILS"
+
+replace P20=14 if P20_Aut== "DEGUERPISSEMENT A CAUSE DE LA CRISE POSTE ELECTORALE"
+
+replace P20=15 if P20_Aut== "ÉPIDÉMIE DE LA CULTURE DU COTON"
+replace P20=15 if P20_Aut== "CEUX QUI PRENAIENT EN CRÉDIT NE REMBOURSAIENT PAS"
+replace P20=15 if P20_Aut== "LA MORT DES PIED DE CACAO"
+replace P20=15 if P20_Aut== "PIED DE CACAO SONT MORT"
+replace P20=15 if P20_Aut== "FEU DE BROUSSE"
+replace P20=15 if P20_Aut== "MANQUE DE MOYEN FINANCIER"
+replace P20=15 if P20_Aut== "Manque de produit"
+replace P20=15 if P20_Aut== "MANQUE DE MOYEN FINANCIER"
+replace P20=15 if P20_Aut== "MANQUE DE PARCELLE DE TERRE"
+replace P20=15 if P20_Aut== "IL N'Y AVAIT PLUS D'ANIMAUX"
+
+replace P20=1 if P20_Aut== "ACQUISITION DES PLATATION PAR LES PARENTS DE MON PERE"
+
+replace P20=15 if P20_Aut== "IL N’Y AVAIT PLUS DE MARCHE"
+replace P20=15 if P20_Aut== "PLUS DE TERRE CULTURALE"
+replace P20=15 if P20_Aut== "MARCHANDISE VOLER"
+replace P20=15 if P20_Aut== "MAUVAIS RENDEMENT"
+replace P20=15 if P20_Aut== "LE COMMERCE NE MARCHAIT PLUS"
+replace P20=15 if P20_Aut== "MANQUE DE MOYENS FINANCIERS POUR RELANCER"
+replace P20=15 if P20_Aut== "MANQUE DE MOYEN FINANCIER POUR TRAVAILLER"
+replace P20=15 if P20_Aut=="VIEILESSEMENT DU CHAMP"
+replace P20=15 if P20_Aut=="JE N’AI PAS ENCORE EU DE CLIENTES"
+replace P20=15 if P20_Aut=="ACTIVITE PAS RENTABLE"
+replace P20=15 if P20_Aut=="FAILLITE DE L’ENTREPRISE  SUR A UN DÉTOURNEMENT DE FONDS"
+replace P20=15 if P20_Aut== "ACTIVITE PAS RENTABLE"
+replace P20=15 if P20_Aut=="PLANTATION BRULEE"
+replace P20=15 if P20_Aut=="Manque de bas-fonds"
+replace P20=15 if P20_Aut=="PAS RENTABLE"
+replace P20=15 if P20_Aut=="LE PRIX DU POISSON A AUGMENTÉ"
+replace P20=15 if P20_Aut=="TRAVAIL PAS RENTABLE"
+
+replace P20=17 if P20_Aut== "maladie"
+replace P20=17 if P20_Aut== "MAUVAIS ETAT DE SANTE"
+replace P20=17 if P20_Aut== "RAISON DE SANTE"
+replace P20=17 if P20_Aut== "VIEILLESSE,MALADIE,INSUFFISANCE DE FORCE POUR TRAVAILLER"
+***
+replace P20=1 if P20_Aut=="LE SALAIRE N'ÉTAIT PAS BON"
+replace P20=1 if P20_Aut=="MAUVAISE REMUNERATION"
+replace P20=1 if P20_Aut=="PARTIR POUR TRAVAILLER À  SON PROPRE COMPTE"
+replace P20=1 if P20_Aut=="CREER SA PROPRE ENTREPRISE" 
+replace P20=1 if P20_Aut=="REVENU FAIBLE"
+replace P20=1 if P20_Aut=="PARTI POUR CHERCHER MIEUX AILLEURS"
+replace P20=1 if P20_Aut=="AUTONOMISATION"
+
+replace P20=2 if P20_Aut=="REMPLACER PAR UNE AUTRE PERSONNE"
+replace P20=2 if P20_Aut==""
+
+replace P20=15 if P20_Aut=="LES CLIENTS NE PAYAIENT PAS LEUR DÛ"
+replace P20=3 if P20_Aut=="TROP DE CHARGES"
+replace P20=4 if P20_Aut=="ACTIVITES AGRICOLES"
+replace P20=15 if P20_Aut=="MANQUE DE MOYEN POUR CONTINUER"
+replace P20=15 if P20_Aut=="Champs détruit"
+replace P20=15 if P20_Aut=="manque de moyen financier"
+replace P20=15 if P20_Aut=="MANQUE DE MOYENS POUR PAYER LES PRODUITS"
+
+replace P20=10 if P20_Aut=="CONGÉ PERSONNEL"
+
+replace P20=3 if P20_Aut=="LES TRAVAUX MENAGERS TROP FATIGUANTS"
+replace P20=3 if P20_Aut=="MALENTENDU AVEC LA PERSONNE AVEC QUI IL ÉTAIT PARTI DANS LA VILLE POUR TRAVAILLER"
+replace P20=3 if P20_Aut=="LE TRAVAIL DEVENAIT TROP. ELLE A DECIDE DE SUIVRE SON PROPRE CHAMP"
+replace P20=3 if P20_Aut=="RENDEMENT INSATISFAISANT"
+
+replace P20=3 if P20_Aut=="SÉCHERESSE"
+
+replace P20=6 if P20_Aut=="POUR S’OCCUPER DE LA FAMILLE"
+replace P20=6 if P20_Aut=="Se marier"
+replace P20=6 if P20_Aut=="VENU VOIR LA FAMILLE AU VILLAGE"
+
+replace P20=13 if P20_Aut=="TROP AGEE"
+replace P20=13 if P20_Aut=="ARRÊT DE TRAVAIL"
+replace P20=13 if P20_Aut=="Trop âgé"
+replace P20=16 if P20_Aut=="LAISSER PARCE QU'ELLE VOULAIT FAIRE CHAMP"
+replace P20=17 if P20_Aut=="VIEILLESSE ET MALADIE"
+replace P20=15 if P20_Aut=="VOITURE EN PANNE"
+replace P20=1 if P20_Aut=="REJOINDRE L’ENTREPRISE FAMILIALE"
+replace P20=6 if P20_Aut=="PARTIR A CAUSE DU DÉCÈS DE PAPA"
+replace P20=3 if P20_Aut=="RAISON VOLONTAIRE"
+replace P20=6 if P20_Aut=="S OCCUPER DE L'ENTREPRISE FAMILIALE"
+replace P20=6 if P20_Aut=="DECISION DE SES ENFANTS"
+replace P20=6 if P20_Aut=="DECES DU PERE"
+replace P20=6 if P20_Aut=="APRES DECES DE MON"
+replace P20=15 if P20_Aut=="PLUS DE MARCHÉS"
+replace P20=16 if P20_Aut=="SE CONCENTRER PLUS SUR SA PLANTATION"
+replace P20=16 if P20_Aut=="S’ OCCUPER DE SES ACTIVITÉS"
+replace P20=16 if P20_Aut=="CONSECRATION A L’IMAMIMA"
+replace P20=3 if P20_Aut=="PROBLEME DE CONGES"
+replace P20=1 if P20_Aut=="SECURITE FINANCIERE"
+replace P20=6 if P20_Aut=="VISITER SES PARENTS"
+
+replace P20=3 if P20_Aut=="PRESSION FAMILIALE"
+replace P20=8 if P20_Aut=="ADMIS A UN CONCOURS"
+
+
+replace P20 = 19 if P20_Aut =="problème de document civil absence de documents identité"
+replace P20 = 17 if P20_Aut =="EFFET DE L’AGE"
+replace P20 = 1 if P20_Aut =="TROP DE CREDITS"
+replace P20 = 4 if P20_Aut =="LE TRAVAIL ETAIT ACHEVE"
+replace P20 = 6 if P20_Aut =="MALADIE D'UN PARENT"
+replace P20 = 2 if P20_Aut =="DECES DE LA PATRONNE"
+replace P20 = 6 if P20_Aut =="PARTI POUR MARIAGE"
+replace P20 = 5 if P20_Aut =="EN ETAT DE GROSSESSE"
+replace P20 = 10 if P20_Aut =="CESSION"
+replace P20 = 8 if P20_Aut =="FIN FORMATION JE CHERCHE LES MOYEN POUR M INSTALLER"
+replace P20 = 17 if P20_Aut =="COVID 2019"
+replace P20 = 17 if P20_Aut =="COVID 19"
+replace P20 = 17 if P20_Aut =="EFFET DE L’ÂGE"
+replace P20 = 1 if P20_Aut =="PAS LARGENT DEDANS"
+replace P20 = 3 if P20_Aut =="LE TRAVAIL LE FATIGUAIT"
+replace P20 = 1 if P20_Aut =="PAIEMENT IRRÉGULIER"
+replace P20 = 6 if P20_Aut =="LE DÉCÈS DE MON PERE"
+replace P20 = 8 if P20_Aut =="POUR SUIVRE UNE FORMATION"
+replace P20 = 6 if P20_Aut =="DÉCÈS DU CONJOINT"
+replace P20 = 17 if P20_Aut =="TROP DE FATIGUE"
+replace P20 = 1 if P20_Aut =="PAS BIEN RENUMERE"
+replace P20 = 3 if P20_Aut =="TRAVAUX CHAMPETRE"
+replace P20 = 16 if P20_Aut =="JE VOULAIS POUR MOI MÊME"
+replace P20 = 16 if P20_Aut =="PARTI POUR S’INSTALLER À SON PROPRE COMPTE"
+replace P20 = 17 if P20_Aut =="ARRÊTER APRÈS UN ACCIDENT"
+replace P20 = 13 if P20_Aut =="LA VIEILLESSE"
+replace P20 = 1 if P20_Aut =="TROP DE CREDIT NON REMBOURSE"
+replace P20 = 16 if P20_Aut =="PARTI POUR ETRE AUTONOME"
+replace P20 = 3 if P20_Aut =="IL ETAIT EXPLOITE"
+replace P20 = 16 if P20_Aut =="PARTIR POUR MONTER MA PROPRE ENTREPRISE"
+replace P20 = 13 if P20_Aut =="TROP AGEE POUR CONTINUER A TRAVAILLER"
+replace P20 = 6 if P20_Aut =="POUR SE REMARIER"
+replace P20 = 2 if P20_Aut =="MESANTENTE AVEC LE PATRON"
+replace P20 = 6 if P20_Aut =="VENIR FAIRE SOIGNER MA FILLE"
+replace P20 = 15 if P20_Aut =="LE CHAMPS EST MORT"
+replace P20 = 1 if P20_Aut =="salaire impayé"
+replace P20 = 6 if P20_Aut =="RAISONS FAMILLIALES"
+replace P20 = 7 if P20_Aut =="POUR CAUSE DE VOYAGE"
+replace P20 = 10 if P20_Aut =="A VENDU LE CHAMP POUR DES RAISONS DE MANQUE DE MOYEN"
+replace P20 = 7 if P20_Aut =="VOYAGE"
+replace P20 = 10 if P20_Aut =="LA GUERRE DU 19 SEPTEMBRE 2002"
+replace P20 = 1 if P20_Aut =="SALAIRE MINIME"
+replace P20 = 6 if P20_Aut =="IL A LAISSER A SON PETIT FRÈRE"
+replace P20 = 1 if P20_Aut =="LES GENS PRENNAIENT TROP DE CREDITS"
+replace P20 = 16 if P20_Aut =="POUR REJOINDRE L’ENTREPRISE FAMILIALE"
+replace P20 = 15 if P20_Aut =="LITIGE SUR LE TERRAIN"
+replace P20 = 6 if P20_Aut =="PROBLÈME FAMILIAL"
+replace P20 = 15 if P20_Aut =="MAUVAISE RECOLTE"
+replace P20 = 15 if P20_Aut =="A FAIT FAILLITE APRES AVOIR ETE VICTIME D’UN VOLE"
+replace P20 = 1 if P20_Aut =="SALAIRE MINABLE"
+replace P20 = 13 if P20_Aut =="RAISON DE SANTÉ ET RETRAITE"
+replace P20 = 3 if P20_Aut =="TROUVER LE TRAVAIL FATIGUANT"
+replace P20 = 6 if P20_Aut =="MON EPOUX ME DEMANDE D’ARRETER"
+replace P20 = 13 if P20_Aut =="VIEILLESSE ET FATIGUE"
+replace P20 = 4 if P20_Aut =="RENDUE DEMISSION"
+replace P20 = 1 if P20_Aut =="PAS SUFFISAMMENT DE REVENU"
+replace P20 = 15 if P20_Aut =="MOTO VOLÉ"
+replace P20 = 6 if P20_Aut =="DECES DE SON MARI"
+replace P20 = 15 if P20_Aut =="ESPACE DETRUIT PAR LES ORPAILLEURS"
+replace P20 = 2 if P20_Aut =="DIVERGENCES AVEC MA PATRONNE"
+replace P20 = 6 if P20_Aut =="RAISON DE SANTE DE MA MERE"
+replace P20 = 10 if P20_Aut =="LA GUERRE"
+replace P20 = 10 if P20_Aut =="CRISE POST-LECTORALE"
+replace P20 = 14 if P20_Aut =="DÉLOGÉ PAR LA SODEFOR"
+replace P20 = 10 if P20_Aut =="TOUT PERDU A CAUDE DE LA CRISE DE COSROU"
+replace P20 = 16 if P20_Aut =="PARTIR POUR TRAVAILLER A MON PROPRE COMPTE"
+replace P20 = 16 if P20_Aut =="TRAVAILLER A MON PROPRE COMPTE"
+replace P20 = 15 if P20_Aut =="FEUX DE BROUSSE"
+replace P20 = 10 if P20_Aut =="CRISE POST ELECTORALE"
+replace P20 = 10 if P20_Aut =="LA GUERRE POST ELECTORALE"
+replace P20 = 10 if P20_Aut =="PERDU SON BOULOT  A CAUSE DE LA GUERRE POSTE ELECTORAL"
+replace P20 = 15 if P20_Aut =="MANQUE DE MANIOC"
+replace P20 = 1 if P20_Aut =="PAR MANQUE DE MOYENS"
+replace P20 = 6 if P20_Aut =="SUR RECOMMANDATION DU PERE"
+replace P20 = 2 if P20_Aut =="L ENTREPRISE NE VOULAIS PLUS DE MOI POUR MANQUE DE DIPLOME REQUIS"
+replace P20 = 6 if P20_Aut =="VENU REJOINDRE SON EPOUX APRES LE MARIAGE"
+replace P20 = 14 if P20_Aut =="DES SOUCIS AVEC LA COMMUNAUTÉ POUR LA PLACE,ENSUITE LE COIN A BRÛLER"
+replace P20 = 16 if P20_Aut =="ETRE AUTONOME"
+replace P20 = 2 if P20_Aut =="CHOMAGE TECHNIQUE"
+replace P20 = 17 if P20_Aut =="Trop fatigant"
+replace P20 = 1 if P20_Aut =="Faiblesse du prix"
+replace P20 = 1 if P20_Aut =="Prix insuffisant"
+replace P20 = 13 if P20_Aut =="ÂGÉ"
+
+replace P20=6 if P20_Aut=="PARTIR POUR S OCCUPE DE SA MERE TRES AGEE ET MALADE"
+replace P20=6 if P20_Aut=="POUR RESTER AUPRÈS DE SON PÈRE MALADE"
+replace P20=13 if P20_Aut=="VIEILLESSE,MANQUE DE MOYEN FINANCIER"
+replace P20=13 if P20_Aut=="VIEILLESSE,MANQUE DE MOYEN FINANCIER"
+replace P20=14 if P20_Aut=="DÉGUERPISSEMENT EFFECTUÉ PAR LA SODEFOR"
+replace P20=6 if P20_Aut=="MALADIE DE SON ENFANT"
+replace P20=8 if P20_Aut=="STAGE TERMINÉ"
+replace P20=8 if P20_Aut=="LES ÉTUDES"
+replace P20=5 if P20_Aut=="MATERNITE DE SA FILLE"
+replace P20=10 if P20_Aut=="FIN DE CAMPAGNE AGRICOLE,TRAVAIL SAISONNIER"
+
+replace P20= 1 if P20_Aut=="AUTRE ACTIVITÉ"
+replace P20= 1 if P20_Aut=="CHANGEMENT D’ACTIVITÉ"
+replace P20= 1 if P20_Aut=="INSTALLATION A COMPTE PROPRE"
+replace P20= 1 if P20_Aut=="PARTI POUR TRAVAILLER A MON PROPRE COMPTE"
+replace P20= 1 if P20_Aut=="PARTIR POUR TRAVAILLER A MON PROPRE COMPTE"
+replace P20= 1 if P20_Aut=="PARTIR POUR TRAVAILLER A MON PROPRE COMPTE"
+replace P20= 1 if P20_Aut=="POUR M’INSTALLER À MON PROPRE COMPTE"
+replace P20= 1 if P20_Aut=="POUR SON PROPRE COMMERCE"
+replace P20= 1 if P20_Aut=="REDUCTION DE SALAIRE"
+replace P20= 1 if P20_Aut=="salaire insuffisant"
+replace P20= 1 if P20_Aut=="TRAVAILLER A COMPTE PROPRE"
+replace P20= 1 if P20_Aut=="VOULAIT FAIRE LE CHAMP"
+replace P20= 2 if P20_Aut=="CHASSÉE DU LIEU DE VENTE"
+replace P20= 2 if P20_Aut=="MALENTENDU AVEC LE PROPRIETAIRE"
+replace P20= 3 if P20_Aut=="ABANDON"
+replace P20= 3 if P20_Aut=="ABANDON"
+replace P20= 3 if P20_Aut=="ACCIDENT PENDANT  LE TRAVAIL"
+replace P20= 3 if P20_Aut=="Non payement de salaire"
+replace P20= 3 if P20_Aut=="PAYEMENT MINABLE"
+replace P20= 3 if P20_Aut=="REFUS D AMELIORATION DES CONDITIONS DE TRAVAIL"
+replace P20= 3 if P20_Aut=="TRAVAIL DE MENAGE TROP FATIGUANT"
+replace P20= 3 if P20_Aut=="TRAVAIL TROP FATIGUANT"
+replace P20= 4 if P20_Aut=="Contrat terminé"
+replace P20= 4 if P20_Aut=="FIN DE CONTRAT"
+replace P20= 4 if P20_Aut=="FIN DE LA SAISON"
+replace P20= 4 if P20_Aut=="FIN DE L'HIVERNAGE"
+replace P20= 4 if P20_Aut=="FIN DE SAISON"
+replace P20= 4 if P20_Aut=="FIN DE SAISON"
+replace P20= 4 if P20_Aut=="FIN DE SAISON"
+replace P20= 4 if P20_Aut=="FIN DE SAISON"
+replace P20= 4 if P20_Aut=="FIN DE SAISON DE PLUIE"
+replace P20= 4 if P20_Aut=="FIN DU CONTRAT"
+replace P20= 4 if P20_Aut=="STOPPER TEMPORAIREMENT"
+replace P20= 6 if P20_Aut=="AIDE LA FAMILLE"
+replace P20= 6 if P20_Aut=="Arrêter après le décès de son mari"
+replace P20= 6 if P20_Aut=="DECES DE SON CONJOINT"
+replace P20= 6 if P20_Aut=="DECES DE SON MARI"
+replace P20= 6 if P20_Aut=="DECES DU CONJOINT"
+replace P20= 6 if P20_Aut=="DÉCÈS DU CONJOINT"
+replace P20= 6 if P20_Aut=="DÉCÈS DU CONJOINT"
+replace P20= 6 if P20_Aut=="DECES DU PERE"
+replace P20= 6 if P20_Aut=="Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace P20= 6 if P20_Aut=="ELLE S'OCCUPE DE SON MARI MALADE"
+replace P20= 6 if P20_Aut=="LE DECES DE MON CONJOINT"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="Mariage"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="Mariage"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE"
+replace P20= 6 if P20_Aut=="MARIAGE ET DÉMÉNAGEMENT"
+replace P20= 6 if P20_Aut=="PARTIR SE MARIER"
+replace P20= 6 if P20_Aut=="Pour le mariage"
+replace P20= 6 if P20_Aut=="Pour le Mariage"
+replace P20= 6 if P20_Aut=="POUR SE MARIER"
+replace P20= 6 if P20_Aut=="POUR SE MARIER"
+replace P20= 6 if P20_Aut=="RESPONSABILITÉ FAMILIALE"
+replace P20= 6 if P20_Aut=="RESPONSABILITÉ MENAGERE"
+replace P20= 6 if P20_Aut=="SUPERVISER LES TRAVAUX DE L'ENTREPRISE DE SON FRÈRE QUI EST CONVALESCENT"
+replace P20= 8 if P20_Aut=="SUIVRE UNE FORMATION"
+replace P20= 10 if P20_Aut=="DÉCÈS DE LA PATRONNE"
+replace P20= 10 if P20_Aut=="DÉCÈS DU PATRON"
+replace P20= 10 if P20_Aut=="ELLE ATTEND LA SAISON PLUVIEUSE"
+replace P20= 10 if P20_Aut=="EN ATTENTE DE LA SAISON DE RECOLTE"
+replace P20= 10 if P20_Aut=="EN ATTENTE DE LA SAISON PROCHAINE"
+replace P20= 10 if P20_Aut=="FERMETURE DE L’ENTREPRISE A CAUSE DU COVID"
+replace P20= 10 if P20_Aut=="FERMETURE DE LA MINE"
+replace P20= 10 if P20_Aut=="INCENDIE"
+replace P20= 10 if P20_Aut=="LA MORT DE MON PATRON"
+replace P20= 10 if P20_Aut=="LE EST MORT"
+replace P20= 12 if P20_Aut=="HERITAGE"
+replace P20= 14 if P20_Aut=="A CAUSE DE LA CRISE DE 2000"
+replace P20= 14 if P20_Aut=="A CAUSE DE LA GUERRE"
+replace P20= 14 if P20_Aut=="A CAUSE DES TERRORISTES"
+replace P20= 14 if P20_Aut=="A CAUSE DES TERRORISTES"
+replace P20= 14 if P20_Aut=="CRISE"
+replace P20= 14 if P20_Aut=="CRISE ÉLECTORALE"
+replace P20= 14 if P20_Aut=="CRISE MILITAIRE"
+replace P20= 14 if P20_Aut=="CRISE POST ÉLECTORALE"
+replace P20= 14 if P20_Aut=="CRISE POST ÉLECTORALE DE 2010-2011"
+replace P20= 14 if P20_Aut=="ENDROIT CASSE"
+replace P20= 14 if P20_Aut=="FUITE DES VIOLENCES PRÉÉLECTORALES"
+replace P20= 14 if P20_Aut=="GRISE POSTE ELECTORALE 2010"
+replace P20= 14 if P20_Aut=="GUERRE"
+replace P20= 14 if P20_Aut=="LA CRISE DE 2011"
+replace P20= 14 if P20_Aut=="LA GUERRE"
+replace P20= 14 if P20_Aut=="La situation politico-militaire de 2002"
+replace P20= 14 if P20_Aut=="RÉFUGIÉ EN CÔTE D'IVOIRE"
+replace P20= 14 if P20_Aut=="SUITE A LA CRISE POSTE ELECTORALE 2010"
+replace P20= 14 if P20_Aut=="TRAVAIL ARRETER A CAUSE DE LA CRISE 2002"
+replace P20= 15 if P20_Aut=="L’ACTIVITÉ N’ÉTAIT PAS RENTABLE"
+replace P20= 15 if P20_Aut=="L’ENQUÊTÉ DECLARE QU’ELLE VENDAIT DU LAIT MAIS À JOUR SON ÉPOUX N’A PLUS ASSEZ DE BŒUFS ET DONC IL Y A MANQUE DE LAIT"
+replace P20= 15 if P20_Aut=="LARGENT DU MAQUIS A DISPARU"
+replace P20= 15 if P20_Aut=="PROBLÈME D'ARGENT"
+replace P20= 15 if P20_Aut=="PROBLÈME FINANCIER"
+replace P20= 15 if P20_Aut=="TROP DE BRAQUAGES"
+replace P20= 15 if P20_Aut=="TROP DE CREDIT"
+replace P20= 17 if P20_Aut=="FATIGUE"
+replace P20= 17 if P20_Aut=="L’ENQUÊTÉ EST ÂGÉ"
+replace P20= 17 if P20_Aut=="LA FATIGUE"
+replace P20= 17 if P20_Aut=="L'AGE"
+replace P20= 17 if P20_Aut=="PERSONNE ÂGÉE"
+replace P20= 17 if P20_Aut=="RAISON DE SANTE DE MON FILS"
+replace P20= 17 if P20_Aut=="RAISON DE VIEILLESSE"
+replace P20= 17 if P20_Aut=="TROP AGE"
+replace P20= 17 if P20_Aut=="TROP AGE"
+replace P20= 17 if P20_Aut=="TROP AGE"
+replace P20= 17 if P20_Aut=="TROP AGE"
+replace P20= 17 if P20_Aut=="TROP ÂGÉ"
+replace P20= 17 if P20_Aut=="TROP ÂGÉ"
+replace P20= 17 if P20_Aut=="TROP ÂGÉ POUR TRAVAILLER"
+replace P20= 17 if P20_Aut=="VIEILLESSE ET PROBLÈME DE SANTE"
+replace P20= 17 if P20_Aut=="VIEILLISSEMENT"
+replace P20= 17 if P20_Aut=="A CAUSE DU CORONAVIRUS"
+
+
+***Vider la variable
+replace P20_Aut = "" if !inlist(P20,.,.a,18)
+
+
+********************
+////////////*************TP3aA_Aut
+*br TP3aA_Aut if TP3aA_Aut!=""
+
+replace   TP3aA=3  if TP3aA_Aut =="ELLE FESSAIT LE COMMERCE"
+replace   TP3aA=1  if TP3aA_Aut =="ENSEIGNANT DE L ARABE"
+replace TP3aA = 1 if TP3aA_Aut=="AIDE SAGE FEMME"
+replace TP3aA = 1 if TP3aA_Aut=="INSTITUTEUR"
+replace TP3aA = 1 if TP3aA_Aut=="JOURNALIER"
+replace TP3aA = 1 if TP3aA_Aut=="MANOEUVRE A SUCAF"
+replace TP3aA = 1 if TP3aA_Aut=="PERSONNE TRAVAILLANT POUR UNE AUTRE PERSONNE"
+replace TP3aA = 1 if TP3aA_Aut=="SERVITEURBDE DIEU  A L EGLISE PAPA NOUVEAU"
+replace TP3aA = 1 if TP3aA_Aut=="SERVANTE DE DIEU"
+**
+replace TP3aA=1 if TP3aA_Aut=="ENSEIGNEMENT FRANCO ARABE"
+replace TP3aA=1 if TP3aA_Aut=="MENAGERE"
+*
+replace TP3aA=1 if TP3aA_Aut=="CHAUFFEUR"
+replace TP3aA = 1 if TP3aA_Aut == "CHAUFFEUR D ETAT"
+*Aucun boulot
+*Vider 
+replace TP3aA_Aut = "" if !inlist(TP3aA,.,.a,10) 
+
+** AUTRE A PRECISER***
+*ELEVES
+
+////////////*************TP3A1_Aut
+replace   TP3A1=1  if TP3A1_Aut =="PROFESSEUR"
+replace   TP3A1=1  if TP3A1_Aut =="GENDARMES"
+replace   TP3A1=4  if TP3A1_Aut =="SECRÉTAIRE DU MAIRE DE FRONAN"
+replace TP3A1_Aut = "" if !inlist(TP3A1,.,.a,8) 
+**Rien 
+
+////////////// P4_aut
+*export excel P4_aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel P4_aut using "D:\CAE\fichier exel\P4_aut.xls" if P4_aut!="", firstrow(variables) 
+
+replace   P4=1  if P4_aut =="MANŒUVRE"
+replace   P4=1  if P4_aut =="TRAVAILLANT POUR LE COMPTE D UNE TIERCE PERSONNE"
+replace   P4=6  if P4_aut =="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE"
+replace   P4=1  if P4_aut =="CONTRATUEL"
+replace   P4=1  if P4_aut =="OUVRIERE"
+replace   P4=3  if P4_aut =="TRAVAILLEUR CHEZ UNE RESTAURATRICE"
+replace   P4=1  if P4_aut =="SERVANTE PAYEE"
+replace   P4=1  if P4_aut =="MANŒUVRE SUR LES CHANTIERS DE TRAVAUX PUBLICS"
+replace   P4=1  if P4_aut =="OUVRIER"
+replace   P4=6  if P4_aut =="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE DANS SA PLANTATION"
+replace   P4=1  if P4_aut =="AGENT ENQUETEUR"
+replace   P4=5  if P4_aut =="AIDER LES PARENTS AU CHAMP"
+replace   P4=8  if P4_aut =="APPRENTI"
+replace   P4=1 if P4_aut =="FILLE DE MENAGE"
+replace   P4=1 if P4_aut =="MANŒUVRE DANS UNE PLANTATION"
+replace   P4=1 if P4_aut =="PAYEMENT A LA TACHE"
+replace   P4=1 if P4_aut =="PERSONNEL DE MAISON"
+replace   P4=1 if P4_aut =="OUVRIÈRE"
+
+replace   P4=1  if P4_aut =="MANŒUVRE AGRICOLE"
+replace   P4=1  if P4_aut =="APPRENTI QUI VIVAIT DE POURBOIRES"
+replace   P4=1  if P4_aut =="GERANT DE BOUTIQUE"
+replace   P4=1  if P4_aut =="TRAVAILLEUSE DOMESTIQUE"
+replace   P4=6  if P4_aut =="PERSONNE AIDANT UN PARENT DANS SA PLANTATION"
+replace   P4=6  if P4_aut =="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE DANS SON COMMERCE"
+replace   P4=1  if P4_aut =="CONTRACTUEL"
+replace   P4=1  if P4_aut =="consultant"
+replace   P4=1  if P4_aut =="SERVANTE"
+replace   P4=5  if P4_aut =="PERSONNE AIDANT SES PARENTS AU VILLAGE POUR LES TRAVAUX CHAMPÊTRES."
+replace   P4=5  if P4_aut =="PERSONNE AIDANT SES PARENTS DANS UNE PLANTATION FAMILIALE"
+replace   P4=5  if P4_aut =="PERSONNE AIDANT SA FAMILLE DANS LES TRAVAUX CHAMPÊTRES ET LE MENAGE"
+replace   P4=1  if P4_aut =="FOOTBALLEUR"
+****
+replace P4=1 if P4_aut=="JOURNALIER"
+replace P4=1 if P4_aut=="EMPLOYER"
+replace P4=1 if P4_aut=="COMMERCIAL MTN CÔTE D'IVOIRE"
+replace P4=1 if P4_aut=="FORMATION EN COUR SAGE FEMME"
+replace P4=1 if P4_aut=="GERANTE DE MAGASIN D’ASSIETTES"
+replace P4=1 if P4_aut=="AIDE AGRICULTEUR DE CACAO"
+replace P4=1 if P4_aut=="AIDE AGRICULTEUR"
+replace P4=1 if P4_aut=="AIDE AGRICULTEUR"
+replace P4=6 if P4_aut=="AIDE une personne dans la vente"
+***
+replace P4=1 if P4_aut=="PERSONNE TRAVAILLANT POUR UNE ENTREPRISE PRIVÉE"
+replace P4=1 if P4_aut=="FEMME DE MENAGE"
+replace P4=1 if P4_aut=="SERVANTE,FILLE DE MENAGE"
+replace P4=1 if P4_aut=="CHAUFFEUR DE SOCIETE"
+replace P4=1 if P4_aut=="EMPLOYE"
+replace P4=1 if P4_aut=="JOURNALIER AGRICOLE"
+replace P4=1 if P4_aut=="journalière au lycée de Korhogo"
+replace P4=1 if P4_aut=="rémunération occasionnelle"
+replace P4=1 if P4_aut=="journalier"
+replace P4=1 if P4_aut=="JOURNALIERE"
+replace P4=1 if P4_aut=="L INDIDUS TRAVAIL PAR OCCASIONS"
+replace P4=1 if P4_aut=="AIDE MENAGE"
+replace P4=1 if P4_aut=="AIDE MENAGERE"
+replace P4=3 if P4_aut=="EN ASSOCIATION  AVEC  UN AMI"
+replace P4=5 if P4_aut=="AIDE FAMILIALE"
+replace P4=5 if P4_aut=="aider les parents dans les travaux champêtres"
+**
+replace P4=1 if P4_aut=="DOMESTIQUE"
+replace P4=1 if P4_aut=="PAYE SELON LA RECETTE JOURNALIERE"
+replace P4=1 if P4_aut=="METAYAGE"
+replace P4=1 if P4_aut=="MÉTAYER"
+replace P4 = 9 if P4_aut =="STAGIAIRE SIMPLE"
+replace P4 = 4 if P4_aut =="CONTRACTUEL AGRICOLE"
+replace P4 = 1 if P4_aut =="JOURNALIER PAYE"
+replace P4 = 6 if P4_aut =="MÉNAGE"
+replace P4 = 1 if P4_aut =="PAYE SUR LA BASE DE LA PRODUCTION"
+replace P4 = 1 if P4_aut =="RECETTE PAR JOUR"
+replace P4 = 1 if P4_aut =="FAIRE LES CONTRATS DES TRAVAUX CHAMPÊTRE"
+replace P4 = 8 if P4_aut =="APPRENTI DE COUTURE"
+replace P4 = 8 if P4_aut =="APPRENTI COIFFEUSE"
+replace P4 = 4 if P4_aut =="TRAVAILLEUR POUR UNE COOPERATIVE"
+replace P4 = 1 if P4_aut =="CONTRATIER À OLLAM"
+replace P4 = 1 if P4_aut =="PAIEMENT A TACHE"
+replace P4 = 1 if P4_aut =="TRAVAILLANT POUR UNE TIRES PERSONNE"
+replace P4 = 6 if P4_aut =="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE DANS SON EMPLOI PRINCIPAL"
+replace P4 = 1 if P4_aut =="ENSEIGNANT DANS UNE ECOLE PRIVÉ"
+replace P4 = 1 if P4_aut =="PERSONNE TRAVAILLANT AVEC SON PATRON"
+replace P4 = 1 if P4_aut =="PERSONNE TRAVAILLANT AVEC SON PATRON"
+replace P4=1 if P4_aut=="METAYEUR"
+replace P4=1 if P4_aut=="CONVOYEUR"
+replace P4=1 if P4_aut=="TRAVAILLEUR JOURNALIER A CIREPCI"
+replace P4=1 if P4_aut=="EN COLLABORATION AVEC UN PROPRIÉTAIRE DE MACHINE  DE"
+replace P4=3 if P4_aut=="Prestataire de services agricoles"
+
+replace P4=1 if P4_aut=="AGENT DE SECURITE"
+replace P4=1 if P4_aut=="APPRENTI"
+replace P4=1 if P4_aut=="APPRENTI"
+replace P4=1 if P4_aut=="CONTRACTUEL"
+replace P4=1 if P4_aut=="COURS A DOMICILE"
+replace P4=1 if P4_aut=="EMPLOYE DE MAISON"
+replace P4=1 if P4_aut=="EMPLOYER ASSISTANT LOGISTIQUE"
+replace P4=1 if P4_aut=="FILLE DE MAISON"
+replace P4=1 if P4_aut=="FILLE DE MAISON"
+replace P4=1 if P4_aut=="FILLE DE MAISON"
+replace P4=1 if P4_aut=="FILLE DE MAISON"
+replace P4=1 if P4_aut=="FILLE DE MENAGE"
+replace P4=1 if P4_aut=="FOOTBALLEUR"
+replace P4=1 if P4_aut=="JOURNALIER"
+replace P4=1 if P4_aut=="JOURNALIÈRE"
+replace P4=1 if P4_aut=="MANŒUVRE"
+replace P4=1 if P4_aut=="MANŒUVRE"
+replace P4=1 if P4_aut=="MANŒUVRE"
+replace P4=1 if P4_aut=="MANŒUVRE A LA SODESUCRE"
+replace P4=1 if P4_aut=="SERVANTE"
+replace P4=1 if P4_aut=="SERVANTE"
+replace P4=1 if P4_aut=="SERVANTE"
+replace P4=1 if P4_aut=="SERVANTE"
+replace P4=1 if P4_aut=="SERVANTE,FILLE DE MENAGE"
+replace P4=3 if P4_aut=="CHAUFFEUR"
+replace P4=3 if P4_aut=="CONDUCTEUR"
+replace P4=4 if P4_aut=="BÉNÉVOLE"
+replace P4=4 if P4_aut=="JOURNALIER AGRICOLE"
+replace P4=4 if P4_aut=="TRAVALLEUR EN COOPÉRATIVE"
+replace P4=5 if P4_aut=="RESPONSABILITÉS FAMILIALES ET MÉNAGÈRE"
+replace P4=6 if P4_aut=="AIDE AGRICULTEUR"
+replace P4=6 if P4_aut=="AIDE AGRICULTEUR"
+replace P4=6 if P4_aut=="AIDE AGRICULTEUR"
+replace P4=6 if P4_aut=="AIDE SOIGNANT"
+replace P4=6 if P4_aut=="FORMATION EN COUTURE"
+replace P4=6 if P4_aut=="PERSONNE TRAVAILLANT POUR QUELQU’UN D AUTRE"
+
+
+
+replace P4_aut = "" if !inlist(P4,.,.a,10) 
+
+
+
+*** AUTRES A PRECISER***
+*APPRENTI NON PAYE
+
+
+////////////// P5_aut
+
+*br P5_aut if P5_aut!=""
+replace   P5=8 if P5_aut =="PARTICIPER A UN TEST"
+replace   P5=8 if P5_aut =="RECRUTEMENT"
+replace   P5=8 if P5_aut =="TESTE"
+replace   P5=2 if P5_aut =="RECRUTEMENT"
+***
+replace   P5=1 if P5_aut == "je travaillais sur une parcelle qui m’à été donnée par mon défunt mari ."
+replace   P5=1 if P5_aut == "j’aidais mes parents"
+replace   P5=2 if P5_aut == "DPOSER LES DOSSIERS"
+replace   P5=7 if P5_aut == "FORMATION EN TOURISTES ET HOTELLERIE"
+replace   P5=8 if P5_aut == "TESTE DE RECRUTEMENT"
+replace   P5=8 if P5_aut == "PAR VOIE DE RECRUTEMENT"
+replace   P5=1 if P5_aut == "GRACE A MON MARI"
+replace   P5=3 if P5_aut == "POSTULER"
+replace   P5=7 if P5_aut == "recrutement"
+
+replace P5=1 if P5_aut == "LE CENTRE DE FORMATION"
+replace P5=1 if P5_aut == "TRAVAIL PARTAGE"
+replace P5=1 if P5_aut == "SUITE À UN STAGE"
+replace P5=1 if P5_aut == "RECRUTEMENT DE L'ETAT"
+replace P5=1 if P5_aut == "AGENT DE BUREAU A LA MAIRIE"
+replace P5=1 if P5_aut == "RECRUTEMENT DIRECT"
+replace P5=1 if P5_aut == "SUITE À UNE FORMATION"
+
+
+
+**vider la variable
+replace P5_aut = "" if !inlist(P5,.,.a,12) 
+
+**Autre a preciser
+* Journalier agricole 
+
+///////////////////HH14a_Aut RAS
+
+////////////// DI4_aut : P4.‐ Laquelle des situations suivantes correspond le mieux à ce que vous faisiez ?
+
+*export excel DI4_aut using "C:\Users\Laurenne\Documents\Tableau excell\DI4_aut.xls" if DI4_aut!="", firstrow(variables)
+*br DI4_aut if DI4_aut!=""
+
+replace DI4__1=1  if DI4_aut =="SMS"
+replace DI4__1=1  if DI4_aut =="MESSAGE"
+*
+replace DI4__1=1  if DI4_aut =="SUR LE NUMERO DE ROKIA"
+replace DI4__1=1  if DI4_aut == "SUR LE PHONE DE SA MERE"
+replace DI4__1=1  if DI4_aut == "SUR LE TELEPHONE DE SA MERE"
+*
+replace DI4__1=1 if DI4_aut == "JOIGNABLE SUR LE CONTACT DE LA CONJOINTE DU CHEF DE MENAGE"
+replace DI3 = 2 if DI3==1 & DI4_aut=="PAS DE TELEPHONE PORTABLE"
+replace DI3 = 2 if DI3==1 & DI4_aut=="DOCUMENT PAPIER"
+replace DI3 = 2 if DI3==1 & DI4_aut=="FACEBOOK"
+
+replace DI4_aut = "" if DI3==2
+
+** Autre 
+replace DI4__4=0  if DI4_aut =="SMS"
+replace DI4__4=0  if DI4_aut =="MESSAGE"
+replace DI4__4=0  if DI4_aut =="SUR LE NUMERO DE ROKIA"
+replace DI4__4=0  if DI4_aut == "SUR LE PHONE DE SA MERE"
+replace DI4__4=0  if DI4_aut == "SUR LE TELEPHONE DE SA MERE"
+replace DI4__4=0 if DI4_aut == "JOIGNABLE SUR LE CONTACT DE LA CONJOINTE DU CHEF DE MENAGE"
+
+replace DI4_aut = "" if DI4__4==0 
+replace DI4_aut = "" if DI4__4==1 
+
+***AUTRE A PRECISER4
+* Documents papiers 
+
+////////////// SE9 : Pourquoi étiez-vous absent de votre poste au cours de la période allant du %DateJ7% au %DateJ0% ?
+*export excel  SE9_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel SE9_Aut using "D:\CAE\fichier exel\SE9_Aut.xls" if SE9_Aut!="", firstrow(variables)
+
+replace   SE9=3  if SE9_Aut =="MALADIE"
+replace   SE9=3  if SE9_Aut =="MALADIE  PSYCHIQUE"
+replace   SE9=1  if SE9_Aut =="TRAVAIL SAISSONNIER"
+replace   SE9=1  if SE9_Aut =="TRAVAIL SAISSONNIER"
+replace   SE9=4  if SE9_Aut =="MATERNITÉ"
+replace   SE9=3  if SE9_Aut =="IMMOBILISE PAR GROSSE PLAIE AU PIED"
+***
+replace   SE9=6  if SE9_Aut =="RENTRE VISITE AUX PARENTS HORS DE LA LOCALITE"
+replace   SE9=7  if SE9_Aut =="SAISON PLUVIEUSE"
+replace   SE9=14  if SE9_Aut =="ETAIT OCCUPER A DES TACHES A L EGLISE"
+replace   SE9=7  if SE9_Aut =="STOPPER SA VENTE D EAU GLACEE A CAUSE DU MAUVAIS TEMPS PLUVIEUX"
+replace   SE9=6  if SE9_Aut =="EN VISITE A DES PARENTS"
+replace   SE9=10  if SE9_Aut =="RECOLTE PAS ARRIVE"
+replace   SE9=7  if SE9_Aut =="INTERRUPTION DE MON ACTIVITÉ A CAUSE DU DÉCÈS DE MON MARI"
+replace   SE9=10  if SE9_Aut =="ATTENTE DE LA SAISON AGRICOLES"
+replace   SE9=10  if SE9_Aut =="LA SAISON DE L’ARACHIDE A PRIS FIN"
+replace   SE9=3  if SE9_Aut =="RAISON DE SANTE"
+replace   SE9=3  if SE9_Aut =="maladie"
+replace   SE9=7  if SE9_Aut =="LA PÉRIODE D'EXTRACTION DU LAIT DE VACHE EST TERMINÉE"
+replace   SE9=7  if SE9_Aut =="LA PÉRIODE DE L’EXTRACTION DU LAIT DE VACHE EST TERMINÉE"
+replace   SE9=7  if SE9_Aut =="IL N Y A PAS DE LAIT"
+replace   SE9=2  if SE9_Aut =="REPOS"
+replace   SE9=11  if SE9_Aut =="PAS DE CONTRAT POUR LE MOMENT"
+replace   SE9=3  if SE9_Aut =="JE SUIS MALADE ACTUELLEMENT."
+replace   SE9=6  if SE9_Aut =="OCCUPEE A PARTICIPER A LA CONSTRUCTION DE LA MAISON FAMILIALE"
+replace   SE9=6  if SE9_Aut =="PELERINAGE A LA MECQUE"
+replace   SE9=3  if SE9_Aut ==" Maladie "
+replace SE9 = 3 if SE9_Aut == "ETAT DE SANTÉ"
+replace SE9 = 10 if SE9_Aut == "MANQUE DE GRAIN DE PALME"
+replace SE9 = 2 if SE9_Aut == "REPOS"
+replace SE9 = 7 if SE9_Aut == "Manque de contrat"
+replace SE9 = 4 if SE9_Aut == "grossesse"
+replace SE9 = 3 if SE9_Aut == "RAISON DE SANTE"
+replace SE9 = 3 if SE9_Aut == "PERTURBÉ PAR DES ESPRITS"
+replace SE9 = 7 if SE9_Aut == "CASSER SON MAGASIN"
+replace SE9 = 7 if SE9_Aut == "ABSENCE DE FOND DE COMMERCE"
+replace SE9 = 7 if SE9_Aut == "PAS DE CHANTIER POUR L'INSTANT"
+replace SE9 = 7 if SE9_Aut == "ACCIDENT DE TRAVAILLE"
+replace SE9 = 7 if SE9_Aut == "En attente d'un marché"
+replace SE9 = 7 if SE9_Aut == "MANQUE D'OPPORTUNITE DE MARCHÉS"
+replace SE9 = 7 if SE9_Aut == "MANQUE D'OPPORTUNITE DE MARCHÉS"
+
+replace   SE9=3  if SE9_Aut =="EN ATTENTE DE LA RECOLTE"
+replace   SE9=7  if SE9_Aut =="EN ATTENTE DE LA RECOLTE"
+replace   SE9=3  if SE9_Aut =="MALADIE"
+replace   SE9=7  if SE9_Aut =="MANQUE MATIÈRE PREMIÈRE"
+replace   SE9=7  if SE9_Aut =="ATTEND LA PÉRIODE DE RÉCOLTE"
+replace   SE9=3  if SE9_Aut =="MALADIE  PSYCHIQUE"
+****
+replace SE9=1 if SE9_Aut=="ABSENT DU CHAMP DEPUIS CERTAIN TEMPS CAR IL GERE LE CHAMP A DISTANCE. CEUX QUI FONT LE TRAVAIL LUI ENVOIE L'ARGENT"
+replace SE9=1 if SE9_Aut=="IL VA RAREMENT AU CHAMP CAR IL Y'A DES PERSONNES QUI TRAVAILLENT POUR LUI ET QUI LUI ENVOIE L'ARGENT"
+replace SE9=2 if SE9_Aut=="EN VOYAGE POUR VISITER LES PARENTS" 
+replace SE9=2 if SE9_Aut=="IL EST PARTI A ABIDJAN POUR RENDRE VISITE A SA FAMILLE"
+replace SE9=2 if SE9_Aut=="CONGES SCOLAIRE"
+replace SE9=2 if SE9_Aut=="IL EST EN VOYAGE"
+replace SE9=3 if SE9_Aut=="DIFFICULTE LIE A LA GROSSESE"
+replace SE9=3 if SE9_Aut=="MALADE"
+replace SE9=3 if SE9_Aut=="ETAIT FATIGUE"
+replace SE9=3 if SE9_Aut=="VIEILLESSE ET HANDICAP PHYSIQUE"
+replace SE9=3 if SE9_Aut=="PROBLEME DE SANTE"
+replace SE9=4 if SE9_Aut=="CONGE DE MATERNITE" 
+replace SE9=6 if SE9_Aut=="CAUSE DE VEUVAGE" 
+replace SE9=6 if SE9_Aut=="DECES DU FRERE" 
+replace SE9=6 if SE9_Aut=="A PERDU UN MEMBRES DE LA FAMILLE" 
+replace SE9=6 if SE9_Aut=="POUR CAUSE DE DECES" 
+replace SE9=10 if SE9_Aut=="SAISON SÈCHE"
+replace SE9=10 if SE9_Aut=="ATTEND LE TEMPS DE RECOLTE"
+replace SE9=11 if SE9_Aut=="Manque de moyens pour relancer mon commerce"
+replace SE9=11 if SE9_Aut=="MANQUE D'ARGENT"
+replace SE9=11 if SE9_Aut=="MANQUE DE MOYEN FINANCIEN"
+replace SE9=11 if SE9_Aut=="LA PLANTATION DE L'INDIVIDU A ETE DETRUITE."
+replace SE9=11 if SE9_Aut=="Manque de client"
+replace SE9=11 if SE9_Aut=="ABSENCE DE MARCHE"
+replace SE9=11 if SE9_Aut=="FAILLITE"
+replace SE9=11 if SE9_Aut=="LE COMMERCE NE MARCHAIT"
+replace SE9=11 if SE9_Aut=="MARCHE PLUS"
+replace SE9=11 if SE9_Aut=="PAS DE CLIENT LA SEMAINE DE REFERENCE"
+replace SE9=12 if SE9_Aut=="PERTE D'EMPLOIS,PROBLÈME DE TERRAIN"
+replace SE9=16 if SE9_Aut=="FORMATION FOOTBALL"
+replace SE9=16 if SE9_Aut=="ETUDES"
+replace SE9=16 if SE9_Aut=="REPRISE DES COURS"
+replace SE9=16 if SE9_Aut=="SUIVRE LES ETUDES"
+
+****
+replace SE9=2 if SE9_Aut=="CONGÉ DE PÂQUES"
+replace SE9=2 if SE9_Aut=="VOYAGE"
+replace SE9=2 if SE9_Aut=="EN DEPLACEMENT"
+replace SE9=3 if SE9_Aut=="PROBLÈME DE SANTÉ"
+replace SE9=3 if SE9_Aut=="CAS DE MALADIE"
+replace SE9=3 if SE9_Aut=="AU REPOS"
+replace SE9=4 if SE9_Aut=="GROSSESSE"
+replace SE9=4 if SE9_Aut=="ARRET POUR GROSSESSE"
+
+replace SE9=6 if SE9_Aut=="Pour s'occuper de son champ"
+replace SE9=6 if SE9_Aut=="VOYAGE POUR DES RAISONS FAMILLIALES"
+
+replace SE9=7 if SE9_Aut=="ELLE ETAIT PAS EN ACTIVITÉ"
+
+replace SE9=11 if SE9_Aut=="PAS DE CHANTIER OU DE MAISON À CARRELER"
+replace SE9=11 if SE9_Aut=="FAILLITE,MANQUE DE MOYEN FINANCIER POUR REPRENDRE"
+replace SE9=11 if SE9_Aut=="MANQUE DE MOYEN FINANCIER POUR M INSTALLER"
+replace SE9=11 if SE9_Aut=="PERTE DU FOND DE COMMERCE"
+replace SE9=11 if SE9_Aut=="ARRÊT DE L'ACTIVITÉ POUR CAUSE PERTE DU FOND DE COMMERCE"
+replace SE9=12 if SE9_Aut=="REPRISE DES COURS A L'ECOLE"
+replace SE9=12 if SE9_Aut=="OCCUPE PAR LES ETUDES"
+replace SE9=12 if SE9_Aut=="ELEVE TRAVAILLANT PENDANT LES VACANCES"
+replace SE9=16 if SE9_Aut=="FORMATION PROFESSIONNELLE"
+
+replace SE9=3 if SE9_Aut=="CAS DE MALMADIE LONGUE DUREE"
+replace SE9=4 if SE9_Aut=="GROSSESSE A RISQUE"
+replace SE9=6 if SE9_Aut=="allé à la Mecque"
+replace SE9=7 if SE9_Aut=="SAISON DE PLUIE IMPOSSIBLE DE TRAVAILLER"
+replace SE9=7 if SE9_Aut=="VENTE EN LIGNE EN PAUSE"
+replace SE9=8 if SE9_Aut=="DÉGUERPISSEMENT"
+replace SE9=10 if SE9_Aut=="MANQUE DE MANIOC (PRODUCTRICE D'ATTIÉKÉ)"
+replace SE9=11 if SE9_Aut=="MANQUE DE CHANTIER"
+replace SE9=11 if SE9_Aut=="IL N'AVAIT PAS DE CLIENTS"
+replace SE9=16 if SE9_Aut=="EN FORMATION"
+replace SE9=16 if SE9_Aut=="FORMATION A L'INFAS"
+
+replace SE9 = 2 if SE9_Aut =="RENTRÉE SCOLAIRE"
+replace SE9 = 3 if SE9_Aut =="FATIGUE PAR LE POIDS DE L AGE"
+replace SE9 = 4 if SE9_Aut =="DÉMÉNAGEMENT"
+replace SE9 = 11 if SE9_Aut =="PROBLEME DE PLACE"
+replace SE9 = 10 if SE9_Aut =="SEMAINE PLUVIEUSE"
+replace SE9 = 3 if SE9_Aut =="CAS MALADIE DUE A LAGE"
+replace SE9 = 10 if SE9_Aut =="Manque de marchandise"
+replace SE9 = 4 if SE9_Aut =="GROSSESSE DIFFICILE"
+replace SE9 = 11 if SE9_Aut =="LE DÉPÔT DE BOISSONS ET RESTAURATION A BRÛLER DEPUIS LE MOIS DE JUILLET"
+replace SE9 = 11 if SE9_Aut =="SON RESTAURATION A ÉTÉ COMPLÈTEMENT BRÛLER"
+replace SE9 = 11 if SE9_Aut =="PERTE DE LA PARCELLE CULTIVÉE"
+replace SE9 = 6 if SE9_Aut =="ÉTAIT EN DÉPLACEMENT"
+replace SE9 = 11 if SE9_Aut =="LE CHAMPS LUI A ÉTÉ RETIRÉ"
+replace SE9 = 1 if SE9_Aut =="CONTROLE SON CHAMP A DISTANCE"
+replace SE9 = 2 if SE9_Aut =="CONGE SCOLAIRE ACTIVITE LIE A LA RENTREE SCOLAIRE"
+replace SE9 = 12 if SE9_Aut =="En attente de nouveau contrat de topographie"
+replace SE9 = 16 if SE9_Aut =="SE PREPARE POUR SE RENDRE A ABIDJAN POUR LE DEBUT DE LA FORMATION DE L'ENS"
+replace SE9 = 2 if SE9_Aut =="REPRISE DES COURS SCOLAIRES"
+replace SE9 = 2 if SE9_Aut =="RENTRE SCOLAIRE"
+replace SE9 = 11 if SE9_Aut =="DESTRUCTION DU MAGASIN"
+replace SE9 = 2 if SE9_Aut =="VACANCES SCOLAIRE"
+replace SE9=3 if inlist(SE9_Aut,"ARRET DE TRAVAIL POUR ETAT DE SANTE", "CAUSE DE MALADIE","ELLE A ÉTÉ OPÉRÉE POUR DES PROBLEMES DE SANTÉ")
+
+replace SE9=6 if inlist(SE9_Aut,"DÉCÈS DE L'ÉPOUX","POUR AIDER SON PERE À CULTUVER")
+replace SE9=10 if SE9_Aut=="TRES FAIBLE RENTABILITE"
+replace SE9=7 if SE9_Aut=="POSE"
+
+replace SE9= 10 if SE9_Aut=="L’ENQUÊTÉ DECLARE QU’ELLE VENDAIT DU LAIT MAIS À JOUR SON ÉPOUX N’A PLUS ASSEZ DE BŒUFS ET DONC IL Y A MANQUE DE LAIT"
+replace SE9= 4 if SE9_Aut=="DEMENAGEMEN"
+replace SE9= 7 if SE9_Aut=="ECHEC DE FINANCEMENT"
+replace SE9= 6 if SE9_Aut=="voyage"
+replace SE9= 4 if SE9_Aut=="ABSENCE DE MARCHE / CONTRAT"
+replace SE9= 7 if SE9_Aut=="PEUR DE LA PERIODE ÉLECTORALE"
+replace SE9= 7 if SE9_Aut=="INTERDICTION DE VENDRE AU LIEU HABITUEL"
+replace SE9= 7 if SE9_Aut=="PROBLEME DE SECURITE LIE A L'ELECTION PRESIDENTIELLE"
+replace SE9= 10 if SE9_Aut=="POUR FAIRE LES TRAVAUX DU CHAMP"
+replace SE9= 10 if SE9_Aut=="EN ATTENTE D’AFFECTATION"
+replace SE9= 10 if SE9_Aut=="ATTEND LA FIN DU MOIS ÉLECTORALE"
+replace SE9= 6 if SE9_Aut=="VEUVAGE"
+replace SE9= 7 if SE9_Aut=="MANQUE DE FINANCE"
+replace SE9= 7 if SE9_Aut=="ARRET POUR TRAVEAUX PUBLICS SUR LA ROUTE"
+
+
+
+**Vider la variable: 
+replace SE9_Aut = "" if !inlist(SE9,.,.a,17)
+
+**autres 
+* ELEVE FONCTIONNAIRE A L'ENS
+
+////////////// EP2g1 : EP2g1. Quels types de transport vous utilisez dans le cadre de votre déplacement (du lieu de résidence au lieu de travail) pour votre emploi/activité principale ?
+*export excel  EP2g1_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP2g1_Aut using "D:\CAE\fichier exel\EP2g1_Aut.xls" if EP2g1_Aut!="", firstrow(variables)
+
+replace   EP2g1=5  if EP2g1_Aut =="SON DOMICILE SE TROUVE DANS LE LYCÉE PROFESSIONNEL"
+replace   EP2g1=4  if EP2g1_Aut =="LE VEHICULES SE TROUVE CHEZ MOI"
+replace   EP2g1=3  if EP2g1_Aut =="TRANSPORT PRIVÉ" 
+replace   EP2g1=4  if EP2g1_Aut =="PEINTRE AMBULANT" 
+replace   EP2g1=4  if EP2g1_Aut =="MENUISIER AMBULANT"  
+replace   EP2g1=3  if EP2g1_Aut =="CAMION DE LOCATION" 
+replace   EP2g1=3  if EP2g1_Aut =="CHAUFFEUR DE TAXI" 
+replace   EP2g1=8  if EP2g1_Aut =="MENUISIER AMBULANT"  
+replace   EP2g1=4  if EP2g1_Aut =="MOTO TRICYCLE"
+replace   EP2g1=2  if EP2g1_Aut =="DÉPLACEMENT DANS LES VILLES"
+replace   EP2g1=4  if EP2g1_Aut =="VELO"
+replace   EP2g1=4  if EP2g1_Aut =="velo"
+replace   EP2g1=7  if EP2g1_Aut =="A LA MAISON"
+replace   EP2g1=5  if EP2g1_Aut =="DANS LE VILLAGE"
+replace EP2g1 = 2 if EP2g1_Aut == "EMPRUNT MOTO TAXI"
+replace EP2g1 = 2 if EP2g1_Aut == "TRANSPORT COMMUN"
+replace EP2g1 = 2 if EP2g1_Aut == "TRANSPORT PAR CONDUITE"
+replace EP2g1 = 5 if EP2g1_Aut == "MAGASIN SITUÉ PRÈS DE LA MAISON"
+replace EP2g1 = 8 if EP2g1_Aut == "AU DOMICILE DES CLIENTS"
+replace EP2g1 = 3 if EP2g1_Aut == "TAXI DE TRAVAIL"
+replace EP2g1 = 7 if EP2g1_Aut == "A DOMICILE"
+replace EP2g1 = 4 if EP2g1_Aut == "MOTO DE SES CONNAISSANCES"
+replace EP2g1 = 4 if EP2g1_Aut == "TRICYCLE DE LA FAMILLE"
+replace EP2g1 = 2 if EP2g1_Aut =="LE VÉHICULES DANS LEQUEL IL TRANSPORTE LE MANIOC"
+replace EP2g1 = 5 if EP2g1_Aut =="A PIEDS"
+replace EP2g1 = 8 if EP2g1_Aut =="Sans lieu fixe"
+***
+replace EP2g1=1 if EP2g1_Aut=="BUS DE RAMASSAGE"
+replace EP2g1=2 if EP2g1_Aut=="TAXI COMMUNAL"
+replace EP2g1=4 if EP2g1_Aut=="MOTO DU CONJOINT"
+replace EP2g1=5 if EP2g1_Aut=="TRAVAILLEUR AMBULANT"
+replace EP2g1=5 if EP2g1_Aut=="SANS LIEU FIXE"
+replace EP2g1=5 if EP2g1_Aut=="PAS DE LOCAL FIXE"
+replace EP2g1=7 if EP2g1_Aut=="DANS LE DOMICILE"
+
+*****
+replace EP2g1=1 if EP2g1_Aut=="TRANSPORT DE MARCHANDISES"
+replace EP2g1=2 if EP2g1_Aut=="TAXI"
+replace EP2g1=2 if EP2g1_Aut=="TAXIS"
+replace EP2g1=2 if EP2g1_Aut=="TAXI COMMUNALE"
+replace EP2g1=4 if EP2g1_Aut=="L’ENQUÊTÉ DÉCLARE QUE SON ÉPOUX SE CHARGE DE LA REMORQUER SUR SA MOTO JUSQU’AU CHAMP"
+replace EP2g1=4 if EP2g1_Aut=="A MOTO"
+replace EP2g1=4 if EP2g1_Aut=="MOTO"
+replace EP2g1=4 if EP2g1_Aut== "VÉLO"
+replace EP2g1=4 if EP2g1_Aut== "ACCOMPAGNER PAR SON CONJOINT A MOTO"
+replace EP2g1=4 if EP2g1_Aut== "VOITURE"
+replace EP2g1=7 if EP2g1_Aut=="RESIDE DANS LES LOGEMENTS DES INSTITUTEURS AU SEIN DE LECOLE"
+replace EP2g1=7 if EP2g1_Aut=="AUCUN. LA REPONDANTE TRAVAILLE À DOMICILE"
+replace EP2g1=8 if EP2g1_Aut=="PAS D'ENDROIT FIXE"
+replace EP2g1=8 if EP2g1_Aut=="SCIEUR AMBULANT"
+*
+replace EP2g1=2 if EP2g1_Aut=="TAXI MOTO"
+replace EP2g1=4 if EP2g1_Aut=="MOTO DE SON FRÈRE"
+replace EP2g1=7 if EP2g1_Aut=="DANS LE LIEU DE CONSTRUCTION"
+
+replace EP2g1 = 8 if EP2g1_Aut =="NOMMADE"
+replace EP2g1 = 2 if EP2g1_Aut =="MOTO TAXI"
+replace EP2g1 = 4 if EP2g1_Aut =="MOTO DE LA SOCIETE"
+replace EP2g1 = 7 if EP2g1_Aut =="L’ATELIER SE SITUE AU SEIN DU DOMICILE"
+replace EP2g1 = 2 if EP2g1_Aut =="taxi communal"
+replace EP2g1 = 2 if EP2g1_Aut =="TRANSPORT COMMUNALE"
+replace EP2g1 = 2 if EP2g1_Aut =="TRANSPORT COMMUNE"
+replace EP2g1 = 2 if EP2g1_Aut =="PIROGUE A MOTEUR"
+replace EP2g1 = 2 if EP2g1_Aut =="TRANSPORT ASSURER PAR MON BEAU FILS"
+replace EP2g1 = 4 if EP2g1_Aut =="MOTO DE SERVICE"
+replace EP2g1 = 4 if EP2g1_Aut =="A VELO"
+replace EP2g1 = 4 if EP2g1_Aut =="SE FAIT DEPOSER À MOTO PAR UN MEMBRE DE LA FAMILLE"
+replace EP2g1 = 4 if EP2g1_Aut =="VÉHICULE DE SERVICE"
+replace EP2g1 = 2 if EP2g1_Aut =="EN PIROGUE"
+replace EP2g1 = 5 if EP2g1_Aut =="EN FACE DE LA MAISON"
+replace EP2g1 = 2 if EP2g1_Aut =="TRANSPORT URBAIN DE PASSAGERS"
+replace EP2g1 = 4 if EP2g1_Aut =="L’ENQUÊTÉ DÉCLARE QUE SON PÈRE SE CHARGE DE LE REMORQUER SUR SA MOTO JUSQU’AU CHAMP"
+replace EP2g1 = 8 if EP2g1_Aut =="PAS UN LIEU DE TRAVAIL FIXE"
+replace EP2g1 = 2 if EP2g1_Aut =="GBAKA"
+
+replace EP2g1 = 1 if EP2g1_Aut =="VÉHICULE DE TRAVAIL"
+replace EP2g1 = 4 if EP2g1_Aut =="A VÉLO"
+replace EP2g1 = 4 if EP2g1_Aut =="MOTO PERE"
+replace EP2g1 = 2 if EP2g1_Aut =="TAXI BROUSE"
+replace EP2g1 = 2 if EP2g1_Aut =="TRANSPORT EN COMMUN "
+replace EP2g1 = 4 if EP2g1_Aut =="VELO ET A PIEDS"
+replace EP2g1 = 5 if EP2g1_Aut =="AMBULANT"
+replace EP2g1 = 5 if EP2g1_Aut =="REPETITEUR AMBULANT"
+
+
+****Vider la variable
+replace EP2g1_Aut = "" if !inlist(EP2g1,.,.a,6) 
+
+********////////////EP2g_aut
+*export excel  EP2g_aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP2g_aut using "D:\CAE\fichier exel\EP2g_aut.xls" if EP2g_aut!="", firstrow(variables) replace
+
+replace   EP2g=1  if EP2g_aut =="AUCUN MOYEN DE DÉPLACEMENT SON DOMICILE SE TROUVE DANS LE LYCÉE SON LIEU DE TRAVAIL"
+replace   EP2g=1  if EP2g_aut =="TAXI URBAIN DE PASSAGERS"
+replace   EP2g=3  if EP2g_aut =="TAXI MOTO URBAIN PASSAGERS"
+replace   EP2g=1  if EP2g_aut =="TAXI COMMUNALE"
+replace   EP2g=2  if EP2g_aut =="LE VEHICULE QUI FAIT OFFICE DE TAXI QUE L’ENTREPRISE MET A SA DISPOSITION POUR LE TRAVAIL"
+replace   EP2g=1  if EP2g_aut =="CAMION"
+replace   EP2g=1  if EP2g_aut =="TAXI COMMUNAL"
+replace   EP2g=1  if EP2g_aut =="TAXI"
+replace   EP2g=2  if EP2g_aut =="CARGO"
+replace   EP2g=1  if EP2g_aut =="TAXI VILLE"
+replace   EP2g=2  if EP2g_aut =="cargos"
+replace   EP2g=3  if EP2g_aut =="TAXI MOTO URBAIN DE PASSAGERS"
+replace   EP2g=1  if EP2g_aut =="TAXI COMPTEUR"
+
+replace EP2g = 1 if EP2g_aut == "CAMION  DE TRANSPORT"
+replace EP2g = 11 if EP2g_aut == "TRANSPORT URBAIN TAXI"
+replace EP2g = 5 if EP2g_aut == "A PIED"
+replace EP2g =5 if EP2g_aut == "A PIED"
+replace EP2g = 11 if EP2g_aut == "TRANSPORT URBAIN TAXI"
+replace EP2g = 11 if EP2g_aut == "TAXI COMMUNAL"
+replace EP2g = 11 if EP2g_aut == "TAXI DE VILLE"
+replace EP2g = 11 if EP2g_aut == "TAXI VILLE"
+replace EP2g = 11 if EP2g_aut == "TAXI COMMUNAL"
+replace EP2g1 = 5 if EP2g_aut == "SANS MOYEN DE TRANSPORT"
+replace EP2g =5 if EP2g_aut == "SANS MOYEN DE TRANSPORT"
+replace EP2g = 11 if EP2g_aut == "TAX URBAIN"
+
+replace EP2g = 9 if EP2g_aut =="BATEAUX"
+replace EP2g = 3 if EP2g_aut =="MOTO TAXI"
+replace EP2g = 1 if EP2g_aut =="TRANSPORT URBAIN"
+replace EP2g = 1 if EP2g_aut =="TRANSPORT URBAIN DE PASSAGERS"
+***
+replace EP2g = 12 if EP2g_aut =="TRANSPORT URBAIN DE PASSAGERS TAXI"
+replace EP2g = 3 if EP2g_aut =="TAXI MOTO"
+replace EP2g = 3 if EP2g_aut =="MOTO-TAXI"
+replace EP2g = 2 if EP2g_aut =="EN VOITURE"
+replace EP2g = 13 if EP2g_aut =="BADIAN"
+replace EP2g = 12 if EP2g_aut =="BACHE 4×4"
+replace EP2g = 17 if EP2g_aut =="TAXI DE LA COMMUNE"
+replace EP2g = 17 if EP2g_aut =="COMMUNALE"
+replace EP2g = 17 if EP2g_aut =="TAXIS COMMUNAL"
+****
+replace EP2g= 2 if EP2g_aut=="VOITURE DE L’EMPLOYEUR"
+replace EP2g=2 if EP2g_aut=="CAMION BENNE"
+replace EP2g = 17 if EP2g_aut == "TAXIS"
+
+replace EP2g = 11 if EP2g_aut =="TAXI PERSONNEL"
+replace EP2g = 13 if EP2g_aut =="ELLE COMMANCE LE TRAJET EN GBAKA ET FAIT UNE BONNE DISTANCE A PIEDS"
+replace EP2g = 5 if EP2g_aut =="TRICYCLE"
+replace EP2g = 1 if EP2g_aut =="CAR"
+
+replace EP2g=2 if EP2g_aut=="VOITURE DE RAMASSAGE D HEVEA" 
+
+replace EP2g = 3 if EP2g_aut =="taxi moto"
+replace EP2g = 3 if EP2g_aut =="TAXIS MOTO"
+replace EP2g = 5 if EP2g_aut =="MOTO TROIS ROU POUR L'ENTREPRISE"
+replace EP2g = 5 if EP2g_aut =="TAXIS MOTO TRICYCLE SALONI"
+replace EP2g = 2 if EP2g_aut =="SON PROPRE TAXI"
+replace EP2g = 2 if EP2g_aut =="BACHE"
+replace EP2g = 2 if EP2g_aut =="TRACTEUR"
+replace EP2g = 5 if EP2g_aut =="TRICYCLE"
+replace EP2g = 5 if EP2g_aut == "A PIEDS"
+replace EP2g = 1 if EP2g_aut == "Pas de déplacement"
+
+
+*****Vider la variable:
+replace EP2g_aut = "" if !inlist(EP2g,.,.a,16) 
+
+**** AUTRES A PRECISER
+** DANS LE DOMICILE DU PATRON , PIEDS, AUCUN MOYEN 
+
+////////////// EP3_Aut : EP3. Quel est votre statut dans l'emploi ?
+*export excel  EP3_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP3_Aut using "D:\CAE\fichier exel\EP3_Aut.xls" if EP3_Aut!="", firstrow(variables)  
+
+replace   EP3=1  if EP3_Aut =="MANŒUVRE"
+replace   EP3=1  if EP3_Aut =="FONCTIONNAIRE"
+replace   EP3=1  if EP3_Aut =="CONTRATIER"
+replace   EP3=5  if EP3_Aut =="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE"
+replace   EP3=3  if EP3_Aut =="PRESTATAIRE DE SERVICES"
+replace   EP3=1  if EP3_Aut =="OUVRIERE"
+replace   EP3=1  if EP3_Aut =="OUVRIER"
+replace   EP3=3 if EP3_Aut == "AGRICULTEUR" // s'appuie sur EP1a & EP1b
+replace   EP3=3 if EP3_Aut == "CONTRATUEL"
+replace   EP3=1 if EP3_Aut == "MANOEUVRE"
+replace   EP3=5 if EP3_Aut == "PERSONNE AIDANT LA FAMILLE SANS ETRE REMUNERATION"
+replace   EP3=1 if EP3_Aut == "MANOEUVRE"
+replace   EP3=1 if EP3_Aut == "NETTOIE DANS LES CHAMP PAR OCCASION"
+replace   EP3=1 if EP3_Aut == "TRAVAILLEUR DOMESTIQUE"
+replace   EP3=5 if EP3_Aut == "AIDE SA MERE A VENDRE"
+replace EP3=3 if EP3_Aut == "débrouillard" // s'appuie sur EP1a & EP1b
+replace EP3=3 if EP3_Aut == "TRAVAILLEUR OCCASIONNEL" // s'appuie sur EP1a & EP1b
+replace EP3=3 if EP3_Aut == "TRAVAILLEUR OCCASIONNEL" // s'appuie sur EP1a & EP1b
+replace EP3=1 if EP3_Aut == "JOURNALIERE" // s'appuie sur EP1a & EP1b
+replace EP3=3 if EP3_Aut == "PERSONNE TRAVAILLEUR DANS LE CHAMP DE QUELQU'UN ET PARTAGEANT LE REVENU AVEC CETTE PERSONNE" // s'appuie sur EP1a & EP1b
+replace EP3=3 if EP3_Aut == "CONTRACTUELLE" // s'appuie sur EP1a & EP1b
+replace EP3=1 if EP3_Aut == "Personne travaillant pour une congrégation réligieuse" // s'appuie sur EP1a & EP1b
+replace EP3=1 if EP3_Aut == "Personne travaillant pour une congrégation réligieuse" // s'appuie sur EP1a & EP1b
+replace EP3=1 if EP3_Aut == "OUVRIER AGRICOLE" // s'appuie sur EP1a & EP1b
+replace EP3=1 if EP3_Aut == "PRETRE CURE" // s'appuie sur EP1a & EP1b
+replace EP3=5 if EP3_Aut == "AIDE A LA FABRICATION D'ATTIEKE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "SERVANTE PAYER" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "MANOEUVRE AGRICOLE" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "TRAVAILLANT AVEC LA BELLE MÈRE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "EN ATTENTE DU SALAIRE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "OUVRIÈRE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "PAYER AU RENDEMENT" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "OUVRIER PAYE. SON CHAUFFEUR ET LUI SONT PAYE POUR TRANSPORTER LES MARCHANDISES." // s'appuie sur EP1a & EP1b
+replace EP3= 8 if EP3_Aut == "APPRENTI" // s'appuie sur EP1a & EP1b
+replace EP3= 8 if EP3_Aut == "APPRENTI" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "SOUTIEN" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "PAYÉ SUR LES POURCENTAGE DES OFFRANDE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "AGENT DE L'ETAT" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "Syndicaliste" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "AGENT DE SANTE COMMUNAUTAIRE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "REVERSE UN MONTANT JOURNALIER AU PROPRIETAIRE DU VEHICULE A LA FIN DE LA JOURNEE ET GARDE LE RESTE APRES AVOIR FAIT LE PLEIN DU VEHICULE." // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "MANOEUVRE PAYE A LA TACHE." // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "AIDE MA MERE A VENDRE SES POISSONS" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "PAR VENTE" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "CONTACTUEL" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "PROPRE COMPTE" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "CONTRACTUEL JOURNALIER" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "PAIEMENT EN FONCTION DE LA LIVRAISON" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "TRAVAILLE AVEC SON PERE" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "PERSONNE AIDANT UN MEMBRE DE LA FAMILLE A VENDRE" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "PARTENARIAT" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "CONTRACTUEL" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "QUINZAINE" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "TRAVAIL DANS LE CHAMPS FAMILLIALE" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "AIDE SON EPOUX DANS SON CHAMPS" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "JOURNALIER" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "GAGNE DE L'ARGENT PAR JOUR EN FONCTION DES VEHICULES LAVES" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "AIDE FAMILIALE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "travailleur occasionnelle" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "aide vendeuse" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "EMPLOYER" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "CONTRACTUEL" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "IL VERSE UN MONTANT JOURNALIER AU PROPRIETAIRE DU TRICYCLE ET GARDE LE RESTE DE LA RECETTE." // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "contractuel" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "PERSONNE AIDANT UNE AUTRE PERSONNE DANS SON ENTREPRISE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "FREELINE" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "CONTRACTU" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "MANOEUVRE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "Manoeuvre" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "Personne aidant un membre de la famille" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "AIDE MACON" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "AIDE SON PERE DANS SON CHAMP DE RIZ" // s'appuie sur EP1a & EP1b
+replace EP3= 5 if EP3_Aut == "aide familiale" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "CHARGEUR" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "JOURNALIE" // s'appuie sur EP1a & EP1b
+replace EP3= 1 if EP3_Aut == "APPRENTI" // s'appuie sur EP1a & EP1b
+replace EP3= 3 if EP3_Aut == "ACUN STATUT" // s'appuie sur EP1a & EP1b
+replace EP3 = 3 if EP3_Aut == "PERSONNE AIDANT UN AMI DANS SON ACTIVITÉ"
+
+replace EP3 = 6 if EP3_Aut =="A AIDER QUELQUE UN ET EN RETOUR LAPERSONNE LUI A DONNE DES AUBERGINE QUELLE A VENDU"
+*Modalite 13 de EP3_Aut
+replace EP3 = 1 if EP3_Aut =="EMPLOYE"
+*Modalite 14 de EP3_Aut
+replace EP3 = 1 if EP3_Aut =="EMPOYE"
+*Modalite 16 de EP3_Aut
+replace EP3 = 1 if EP3_Aut =="FONCTIONNAIRE"
+*Modalite 25 de EP3_Aut
+replace EP3 = 1 if EP3_Aut =="OUVRIER"
+*Modalite 34 de EP3_Aut
+replace EP3 = 1 if EP3_Aut =="TRAVAILLEUR PAYE MAIN EN MAIN"
+*En partant de l'hypothèse que le perdiem est un forfait quotidien alloué à un EMPLOYE pour ses déplacements.
+
+replace   EP3=1  if EP3_Aut =="CONTRACTUEL PAYE A LA TACHE"
+replace   EP3=1  if EP3_Aut =="MANOUVRIERE"
+replace   EP3=1  if EP3_Aut =="MANŒUVRIERE"
+replace   EP3=1  if EP3_Aut =="PAYER EN FONCTION DU TRAVAIL PRODUIT"
+replace   EP3=1  if EP3_Aut =="PAYEMENT EN FONCTION DU TRAVAIL EFFECTUÉ"
+
+replace   EP3=1  if EP3_Aut =="Contratier"
+replace   EP3=1  if EP3_Aut =="EMPLOYE OCCASIONNEL"
+replace   EP3=1  if EP3_Aut =="TRAVAILLEUR PAYER EN FONCTION DU MARCHE"
+replace   EP3=1  if EP3_Aut =="NOUNOU"
+replace   EP3=1  if EP3_Aut =="PERSONNE TRAVAILLANT POUR UNE AUTRE PERSONNE"
+replace   EP3=1  if EP3_Aut =="manoeuvre"
+replace   EP3=1  if EP3_Aut =="CONTRACTUEL TEMPORAIRE"
+replace   EP3=1  if EP3_Aut =="SERVITEUR DE DIEU SANS SALAIRE"
+replace   EP3=1  if EP3_Aut =="DOMESTIQUE"
+replace   EP3=1  if EP3_Aut =="gérant d'une plantation d'hévéa"
+replace   EP3=3  if EP3_Aut =="PERSONNE TRAVAILLANT EN COLLABORATION AVEC UNE AUTRE PERSONNE"
+replace   EP3=1  if EP3_Aut =="PAYER EN FONCTION DES MARCHES"
+replace   EP3=1  if EP3_Aut =="Contractuel"
+replace   EP3=1  if EP3_Aut =="SOUS TRAITANT"
+replace   EP3=4  if EP3_Aut =="Personne travallant en association"
+replace   EP3=3  if EP3_Aut =="ASSOCIER DANS LA GESTION D'UNE BOUTIQUE"
+replace   EP3=1  if EP3_Aut =="PERSONNEL DE MAISON"
+replace   EP3=1  if EP3_Aut =="GERANT DE MOULIN"
+replace   EP3=1  if EP3_Aut =="GERANTE D'UN MAGASIN"
+replace   EP3=1  if EP3_Aut =="OUVRIÈRE PAYÉE A LA TÂCHE"
+replace   EP3=1  if EP3_Aut =="personne travaillant pour le compte d'une personne"
+replace   EP3=1  if EP3_Aut =="PASTEUR"
+replace   EP3=1  if EP3_Aut =="MANOEUVRE JOURNALIER PAYE A LA TACHE"
+replace   EP3=1  if EP3_Aut =="A AIDER QUELQUE UN ET EN RETOUR LA PERSONNE LUI A DONNE DES AUBERGINE QU ELLE A VENDU"
+replace   EP3=1  if EP3_Aut =="CHAUFFEUR DE TAXI"
+replace   EP3=1  if EP3_Aut =="ASSISTANT"
+replace   EP3=1  if EP3_Aut =="PERSONNE TRAVAILLANT POUR LE COMPTE D'UN TIERS"
+replace   EP3=1  if EP3_Aut =="CONTACTUELLE"
+replace   EP3=1  if EP3_Aut =="CONTRACTUELLE A LA JOURNÉE"
+replace   EP3=3  if EP3_Aut =="JE VENS POUR MOI MEME"
+replace   EP3=3  if EP3_Aut =="JE TRAVAILLE POUR MOI MEME"
+replace   EP3=1  if EP3_Aut =="PAYER PAR RENDEMENT"
+replace   EP3=1  if EP3_Aut =="OFFRANDES (NOURRITURE ET ARGENT) RECUS DES FIDELES CHRETIENS"
+replace   EP3=1  if EP3_Aut =="manœuvre"
+replace   EP3=1  if EP3_Aut =="personnel de maison"
+replace   EP3=1  if EP3_Aut =="Manœuvre"
+replace   EP3=1  if EP3_Aut =="JE M'AUTO EMPLOI"
+****
+replace EP3=1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3=1 if EP3_Aut=="JE SUIS PAYE PAR OCCASION"
+replace EP3=1 if EP3_Aut=="JE SUIS CHAUFFEUR PAYER PAR QUINZAINE"
+replace EP3=1 if EP3_Aut=="PAR SEMAINE"
+replace EP3=1 if EP3_Aut=="BENEVOLE"
+replace EP3=1 if EP3_Aut=="PAYER EN FONCTION DU TRAVAIL QUIL EFFECTUE"
+replace EP3=1 if EP3_Aut=="MANOEUVRE PAYE"
+replace EP3=1 if EP3_Aut=="PAYER A LA TACHE"
+replace EP3=1 if EP3_Aut=="PAYE A LA TACHE"
+replace EP3=1 if EP3_Aut=="CONTRACTUEL AVEC PLUSIEURS CHAUFFEUR"
+replace EP3=1 if EP3_Aut=="PAYE EN FONCTION DU TRAVAIL FAIT"
+replace EP3=1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL FAIT"
+replace EP3=1 if EP3_Aut=="PAYER EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3=1 if EP3_Aut=="Personne payée à la tâche"
+replace EP3=1 if EP3_Aut=="PAYE EN FONCTION DU TRAVAIL"
+replace EP3=1 if EP3_Aut=="PAYE A PARTIR DE LA RECETTE"
+replace EP3=1 if EP3_Aut=="journalier"
+replace EP3=1 if EP3_Aut=="PAYER PAR OCCASION"
+replace EP3=1 if EP3_Aut=="PAYE PAR JOUR"
+replace EP3=1 if EP3_Aut=="PAYER EN FONCTION DU TRAVAIL FAIT"
+replace EP3=1 if EP3_Aut=="FOOTBALLEUR"
+replace EP3=1 if EP3_Aut=="PAIEMENT À LA TÂCHE"
+replace EP3=1 if EP3_Aut=="L’ENQUETE EST PAYE PAR AN"
+replace EP3=1 if EP3_Aut=="BÉNÉVOLES PAYER"
+replace EP3=1 if EP3_Aut=="AGENT D ' HYGENE CONTRATUEL"
+replace EP3=1 if EP3_Aut=="SERVANTE"
+replace EP3=1 if EP3_Aut=="PAYER PAR COMMISSION"
+replace EP3=1 if EP3_Aut=="AIDE MAÇON"
+replace EP3=1 if EP3_Aut=="CONTRACTUEL OCCASIONNEL"
+replace EP3=1 if EP3_Aut=="Aide gérant de magasin"
+replace EP3=1 if EP3_Aut=="AGENT DE SOUTIEN"
+replace EP3=1 if EP3_Aut=="JOURNALIER AGRICOLES"
+replace EP3=1 if EP3_Aut=="AIDE VENDEUSE"
+replace EP3=3 if EP3_Aut=="DEBROUILLARDE A SON PROPRE COMPTE"
+replace EP3=3 if EP3_Aut=="PERSONNE DELIVRANT UN SERVICE PAYÉ"
+replace EP3=3 if EP3_Aut=="AIDE POUR RECEVOIR DE QUOI A SE NOURRIR"
+replace EP3=3 if EP3_Aut=="JE VEND POUR MOI MEME"
+replace EP3=3 if EP3_Aut=="JE VEND POUR MOI"
+replace EP3=3 if EP3_Aut=="CE QUE JE GAGNE C'EST CE QUI EST POUR MOI JE N'AI PAS SALAIRE"
+replace EP3=4 if EP3_Aut=="OUVRIER TRAVAUX CHAMPETE"
+replace EP3=4 if EP3_Aut=="OUVRIER DANS UN CHAMPS CACAO"
+replace EP3=5 if EP3_Aut=="PERSONNE AIDANT DANS UNE UNE ENTREPRISE FAMILIALE"
+replace EP3=5 if EP3_Aut=="J'AIDE MA MERE A VENDRE DES VETEMENTS"
+replace EP3=6 if EP3_Aut=="PERSONNE AIDANT UN AMI QUI TRAVAILLE POUR QUELQU'UN D’AUTRE"
+replace EP3=6 if EP3_Aut=="PERSONNE AIDANT UN AMI QUI TRAVAILLE POUR QUELQU'UN D’AUTRE"
+replace EP3=3 if EP3_Aut == "PAYÉ EN FONCTION DE LA TACHE EFFECTUÉ"
+replace EP3=3 if EP3_Aut == "PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3=3 if EP3_Aut == "PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3=1 if EP3_Aut == "DOMESTIQUE,SERVANTE"
+replace EP3=1 if EP3_Aut == "PERSONNE TRAVAILLANT POUR LE COMPTE D'UNE AUTRE PERSONNE"
+replace EP3=3 if EP3_Aut == "Payer à la tâche"
+replace EP3=1 if EP3_Aut == "CONSULTANT"
+replace EP3=3 if EP3_Aut == "Paiement à la tache"
+replace EP3=3 if EP3_Aut == "APPRENTI MAÇON"
+replace EP3=1 if EP3_Aut == "CHAUFFEUR"
+replace EP3=3 if EP3_Aut == "IL EST PAYÉ SOUS CONTRAT"
+replace EP3=5 if EP3_Aut == "PERSONNE AIDANT UN MEMBRE DE SA FAMILLE DANS SON EMPLOI PRINCIPAL"
+replace EP3=3 if EP3_Aut == "ELLE TRAVAILLE A SON PROPRE COMPTE"
+replace EP3=1 if EP3_Aut == "GUIDE RELIGIEUX"
+replace EP3=3 if EP3_Aut == "IL S'AGIT D'UNE ASSOCIATION"
+replace EP3=3 if EP3_Aut == "PROPRIÉTAIRE"
+replace EP3=3 if EP3_Aut == "TRAVAIL PARTAGER"
+replace EP3=1 if EP3_Aut == "BOURSIERE"
+replace EP3=1 if EP3_Aut == "PERSONNE TRAVAILLANT EN COLLABORATION AVEC UNE AUTRE"
+replace EP3=5 if EP3_Aut == "TRAVAIL AVEC SON MARIE"
+replace EP3=3 if EP3_Aut == "MANŒUVRE A TOUT FAIRE"
+replace EP3=3 if EP3_Aut == "MANŒUVRE AGRICOLE"
+replace EP3=3 if EP3_Aut == "MANŒUVRE AGRICOLE"
+replace EP3=1 if EP3_Aut == "PERSONNE TRAVAILLANT POUR LE COMPTE D'UN AUTRE MENAGE"
+replace EP3=3 if EP3_Aut == "DEBROUILLARD"
+replace EP3=3 if EP3_Aut == "PETIT BOULO RAPIDE"
+replace EP3=3 if EP3_Aut == "PLANTEUR"
+replace EP3=1 if EP3_Aut == "PASTEUR NON PAYE"
+replace EP3=1 if EP3_Aut == "BENEVOLAT"
+replace EP3=1 if EP3_Aut == "BOURSE"
+replace EP3=1 if EP3_Aut == "TRAVAIL POUR DIEU"
+replace EP3=1 if EP3_Aut == "PRIME"
+****
+replace EP3=1 if EP3_Aut == "PAYEMENT PAR NATURE"
+replace EP3=1 if EP3_Aut == "TRAVAILLEUR CONTRACTUEL"
+replace EP3=1 if EP3_Aut == "JOURNALIER AGRICOLE"
+replace EP3=1 if EP3_Aut == "PAYÉ APRÈS UN MATCH DE FOOT"
+replace EP3=1 if EP3_Aut == "PERSONNEL DE MAISON DANS UN MENAGE"
+replace EP3=1 if EP3_Aut == "PERSONNE DELIVRANT UN SERVICE PAYE"
+replace EP3=1 if EP3_Aut == "JOURNALIÈRE"
+replace EP3=1 if EP3_Aut == "MENAGERE"
+replace EP3=1 if EP3_Aut == "PERSONNE DELIVRANT UN SERVICE PAYANT"
+replace EP3=1 if EP3_Aut == "TRAVAILLEUR DANS D’AUTRES MENAGES"
+replace EP3=1 if EP3_Aut == "DOMESTIQUES"
+replace EP3=1 if EP3_Aut == "PERSONNE TRAVAILLANT POUR UN SERVICE REMUNERE"
+replace EP3=1 if EP3_Aut == "MANOEUVRE CONTRACTUEL JOURNALIER"
+replace EP3=1 if EP3_Aut == "CHAUFFEUR DE TAXI TRAVAILLANT POUR QUELQU'UN D'AUTRE"
+replace EP3=1 if EP3_Aut == "TRAVAILLEUR OCCASIONNEL PAYÉ"
+replace EP3=1 if EP3_Aut == "PAYE EN FONCTION DU TRAVAIL EFFECTUE"
+replace EP3=1 if EP3_Aut =="JE FINIS DE TAIVAILLER ET ON ME DONNE MON ARGENT"
+replace EP3=1 if EP3_Aut =="TRAVAIL PAR OCCASION"
+replace EP3=1 if EP3_Aut =="PERSONNE PAYÉ A LA TÂCHE"
+replace EP3=1 if EP3_Aut =="EMPLOYÉ PAYÉ"
+replace EP3=1 if EP3_Aut =="PERSONNE DELIVRANT UN SERVICE REMUNERE"
+replace EP3=1 if EP3_Aut =="OUVRIER MACON"
+replace EP3=1 if EP3_Aut =="TRAVAILLE PARTAGER"
+replace EP3=1 if EP3_Aut =="SURVEILLE LA MAISON D UNE PERSONNE EN CONSTRUCTION"
+replace EP3=1 if EP3_Aut =="CONTRACTUEL AUPRES DES AMIS CHAUFFEUR"
+replace EP3=1 if EP3_Aut == "AIDE MAÇON POUR LA SEMAINE DE RÉFÉRENCE PARCE QUE N’AYANT PAS DE CONTRAT ACTUELLEMENT"
+replace EP3=1 if EP3_Aut == "TRAVAIL  DE MANIERE OCCASIONNEL"
+
+replace EP3=3 if EP3_Aut == "EN ASSOCIATION"
+replace EP3=3 if EP3_Aut == "SE PAYE AVEC L’ARGENT DE QUETTE"
+replace EP3=3 if EP3_Aut == "VIS DE OFFRANDE ET DIMES DONS"
+replace EP3=3 if EP3_Aut == "DÎME"
+
+replace EP3=5 if EP3_Aut == "AIDE LE PERE A TRAVAILLER SON CHAMP"
+replace EP3=5 if EP3_Aut == "TRAVAILLEURS COLLABORANT AVEC CULTIVATEUR"
+replace EP3=5 if EP3_Aut == "PERSONNE AIDANT UN AMI DANS SON EMPLOI PRINCIPAL"
+replace EP3=5 if EP3_Aut == "PERSONNE AIDANT SON PERE"
+replace EP3=6 if EP3_Aut== "PERSONNE TRAVAILLANT POUR QUELQU'UN D'AUTRE"
+replace EP3=8 if EP3_Aut== "APPRENTI PAYÉ"
+**
+replace EP3=1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3=1 if EP3_Aut=="PAIEMENT A LA TÂCHE"
+replace EP3=1 if EP3_Aut=="PAIEMENT À LA TÂCHE"
+replace EP3=1 if EP3_Aut=="PAYE EN FONCTION DU TRAVAIL EFFECTUE"
+replace EP3=1 if EP3_Aut=="PAYÉ APRÈS UN MATCH DE FOOT"
+replace EP3=1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3=1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL FAIT"
+replace EP3=1 if EP3_Aut=="PERSONNE DELIVRANT UN SERVICE PAYANT"
+replace EP3=1 if EP3_Aut=="PERSONNE DELIVRANT UN SERVICE PAYE"
+replace EP3=1 if EP3_Aut=="PERSONNE DELIVRANT UN SERVICE REMUNERE"
+replace EP3=1 if EP3_Aut=="PERSONNE PAYÉ A LA TÂCHE"
+replace EP3=1 if EP3_Aut=="TRAVAILLEUR OCCASIONNEL PAYÉ"
+replace EP3=1 if EP3_Aut=="femme de ménage"
+replace EP3=1 if EP3_Aut=="journalier"
+replace EP3=1 if EP3_Aut=="TRAVAIL  DE MANIERE OCCASIONNEL"
+replace EP3=1 if EP3_Aut=="TRAVAILLE PARTAGER"
+replace EP3=1 if EP3_Aut=="TRAVAILLEUR CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="TRAVAILLEUR DANS D’AUTRES MENAGES"
+replace EP3=1 if EP3_Aut=="PERSONNEL DE MAISON DANS UN MENAGE"
+replace EP3=1 if EP3_Aut=="PERSONNEL DE MAISON"
+replace EP3=1 if EP3_Aut=="OUVRIER MACON"
+replace EP3=1 if EP3_Aut=="OUVRIER"
+replace EP3=1 if EP3_Aut=="MÉTAYAGE"
+replace EP3=1 if EP3_Aut=="Manœuvre"
+replace EP3=1 if EP3_Aut=="METTAYAGE"
+replace EP3=1 if EP3_Aut=="MENAGERE"
+replace EP3=1 if EP3_Aut=="MANŒUVRE PAYÉ"
+replace EP3=1 if EP3_Aut=="MANŒUVRE COMMERÇANT"
+replace EP3=1 if EP3_Aut=="JOURNALIÈRE"
+replace EP3=1 if EP3_Aut=="JOURNALIER"
+replace EP3=1 if EP3_Aut=="EMPLOYÉ PAYÉ"
+replace EP3=1 if EP3_Aut=="EMPLOYER"
+replace EP3=1 if EP3_Aut=="EMPLOYE"
+replace EP3=1 if EP3_Aut=="DOMESTIQUES"
+replace EP3=1 if EP3_Aut=="CONTRACTUELLE"
+replace EP3=1 if EP3_Aut=="CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="CONTRACTUEL AUPRES DES AMIS CHAUFFEUR"
+replace EP3=1 if EP3_Aut=="CONSULTANT"
+replace EP3=1 if EP3_Aut=="CONTACTUEL"
+replace EP3=1 if EP3_Aut=="CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="CHAUFFEUR"
+replace EP3=1 if EP3_Aut=="AGENT DE SANTE COMMUNAUTAIRE"
+replace EP3=1 if EP3_Aut=="AGENT CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="FRAIS POUR SERVICE FOURNIR"
+replace EP3=1 if EP3_Aut=="FRAIS POUR SERVICE FOURNIS"
+replace EP3=1 if EP3_Aut== "MANŒUVRE JOURNALIER"
+replace EP3=1 if EP3_Aut=="TRAVAILLEUR JOURNALIER"
+replace EP3=1 if EP3_Aut=="PERSONNE TRAVAILLANT POUR UN AUTRE MENAGE"
+replace EP3=1 if EP3_Aut=="PERSONNE TRAVAILLANT POUR LE SACERDOCE"
+replace EP3=3 if EP3_Aut=="FREELANCER"
+replace EP3=5 if EP3_Aut=="PERSONNE TRAVAILLANT AVEC SON PERE"
+replace EP3=5 if EP3_Aut=="MEMBRE D'ASSOCIATION DE FAMILLE"
+replace EP3=5 if EP3_Aut=="AIDE SA MERE A VENDRE LE TEMPS QUELLE REVIENNE DE SON VOYAGE"
+replace EP3=5 if EP3_Aut=="AIDE VENDEUR"
+replace EP3=5 if EP3_Aut=="SOUTIENT"
+
+
+replace EP3 = 5 if EP3_Aut =="TRAVAILLE DANS LA PLANTATION DE SON PERE"
+replace EP3 = 6 if EP3_Aut =="AIDE"
+replace EP3 = 3 if EP3_Aut =="TRAVAILLEUR EN FREELANCE"
+replace EP3 = 1 if EP3_Aut =="RECETTE"
+replace EP3 = 1 if EP3_Aut =="OUVRIER SAISONNIER"
+replace EP3 = 1 if EP3_Aut =="CHAUFFEUR PAYÉ A LA TÂCHE"
+replace EP3 = 6 if EP3_Aut =="PERSONNE AIDANT DANS UNE ENTREPRISE FAMILIALE"
+replace EP3 = 1 if EP3_Aut =="JE RECOIS MON ARGENT APRES LES DE SERVICE FOURNIS"
+replace EP3 = 1 if EP3_Aut =="Paiement a la tache"
+replace EP3 = 6 if EP3_Aut =="PERSONNE AIDANT UN AUTRE MENAGE DANS SON EMPLOI PRINCIPAL"
+replace EP3 = 1 if EP3_Aut =="JE SUIS PAYE EN PRORATA"
+replace EP3 = 5 if EP3_Aut =="CHAMP FAMILIALE"
+replace EP3 = 1 if EP3_Aut =="Paiement à la tâche"
+replace EP3 = 1 if EP3_Aut =="CONTRACTUEL(OUVRIER)"
+replace EP3 = 1 if EP3_Aut =="PAYE EN FONCTION DE LA RECETTE"
+replace EP3 = 6 if EP3_Aut =="L’ENQUETEE AIDE SA MERE DANS SON ENTREPRISE"
+replace EP3 = 6 if EP3_Aut =="personne aidant sa maman"
+replace EP3 = 1 if EP3_Aut =="TRAVAILLEUR PAYÉ DE FAÇON HEBDOMADAIRE"
+replace EP3 = 1 if EP3_Aut =="PAYÉ POUR LE SERVICE FOURNIS"
+replace EP3 = 1 if EP3_Aut =="CONTRAT JOURNALIER"
+replace EP3 = 1 if EP3_Aut =="JE TRAVAILLE SUR CONTRAT"
+replace EP3 = 1 if EP3_Aut =="OUVRIERS"
+replace EP3 = 6 if EP3_Aut =="AIDE SON PÈRE DANS SA PLANTATION"
+replace EP3 = 6 if EP3_Aut =="AIDE SON ONCLE À CULTIVER"
+
+
+replace EP3=1 if EP3_Aut=="intermédiaire avec le taccheron"
+replace EP3=1 if EP3_Aut=="TRAVAILLEUR A TEMPS PARTIEL"
+replace EP3=1 if EP3_Aut=="PAIEMENT JOURNALIER"
+replace EP3=1 if EP3_Aut=="OUVRIER PAYE"
+replace EP3=1 if EP3_Aut=="ENSEIGNANT CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="CONTRAT A LA TACHE"
+replace EP3=5 if EP3_Aut=="PERSONNE TRAVAILLANT DANS LA PLANTATION DE SON ONCLE"
+replace EP3=1 if EP3_Aut=="EMPLOYE PAYE PAR TACHES"
+replace EP3=1 if EP3_Aut=="CHAUFFEUR DE PICNIC"
+replace EP3=1 if EP3_Aut=="ENSEIGNEMENT BENEVOLE"
+replace EP3=5 if EP3_Aut=="AIDE SA SOEUR A VENDRE"
+replace EP3=5 if EP3_Aut=="HERITAGE FAMILIALE"
+replace EP3=1 if EP3_Aut=="CONTRAT"
+replace EP3=1 if EP3_Aut=="MÉTAYER"
+replace EP3=1 if EP3_Aut=="METAYAGE"
+replace EP3=1 if EP3_Aut=="MÉTAYER"
+replace EP3=1 if EP3_Aut=="OUVRIER CONTRACTUEL"
+replace EP3=1 if EP3_Aut=="OUVRIER CONTACTUEL JOURNALIER"
+replace EP3=1 if EP3_Aut=="PAYE EN FONCTION DE LA PRODUCTION"
+replace EP3=1 if EP3_Aut=="TRANSPORTEUR"
+replace EP3=1 if EP3_Aut=="TRAVAIL PARTAGÉ"
+replace EP3=1 if EP3_Aut=="PERSONNEL DE MENAGE"
+replace EP3=1 if EP3_Aut=="Les syndicats de la région"
+replace EP3=1 if EP3_Aut=="PAYÉ  A  LA TACHE"
+replace EP3=5 if EP3_Aut=="AIDE SON PÈRE DANS SON CHAMP"
+replace EP3=1 if EP3_Aut=="APPRENTIS CHAUFFEUR NON PAYE"
+replace EP3=1 if EP3_Aut=="ETUDIENTE EN 2ÈME ANNÉE"
+replace EP3=1 if EP3_Aut=="GERANT"
+replace EP3 = 1 if strpos(EP3_Aut, "TRAVAILLE POUR QUELQU") > 0
+replace EP3=1 if EP3_Aut=="HOMME A TOUT FAIRE"
+replace EP3=1 if EP3_Aut=="MADOGUHE"
+
+replace EP3= 1 if EP3_Aut=="CONDUCTEUR"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL JOURNALIER"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL JOURNALIER"
+replace EP3= 1 if EP3_Aut=="CONTRACTUEL PAR OCCASION"
+replace EP3= 1 if EP3_Aut=="CONTRACTUELLE"
+replace EP3= 1 if EP3_Aut=="Employé PAYÉ POUR LE SERVICES RENDUS"
+replace EP3= 1 if EP3_Aut=="ENSEIGNANT"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE AGRICOLE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE AGRICOLE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE AGRICOLE"
+replace EP3= 1 if EP3_Aut=="MANŒUVRE AGRICOLE"
+replace EP3= 1 if EP3_Aut=="MANOEUVRE OCCASIONNEL"
+replace EP3= 1 if EP3_Aut=="MAOEUVRE"
+replace EP3= 1 if EP3_Aut=="OUVRIER"
+replace EP3= 1 if EP3_Aut=="OUVRIER"
+replace EP3= 1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT À LA TÂCHE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT APRES VENTE"
+replace EP3= 1 if EP3_Aut=="PAIEMENT APRES VENTE"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYÉ EN FONCTION DU TRAVAIL EFFECTUÉ"
+replace EP3= 1 if EP3_Aut=="PAYER A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAYER A LA TACHE"
+replace EP3= 1 if EP3_Aut=="PAYER EN FONCTOIN DU TRAVAIL EFFECTUE"
+replace EP3= 3 if EP3_Aut=="GUIDE RELIGIEUX"
+replace EP3= 3 if EP3_Aut=="INDEPENDANT"
+replace EP3= 3 if EP3_Aut=="INDEPENDENT"
+replace EP3= 3 if EP3_Aut=="JE SUIS PAYE EN FONCTION DES MARCHANDISES QUE JE DECHARGE"
+replace EP3= 3 if EP3_Aut=="JOURNALIER"
+replace EP3= 3 if EP3_Aut=="journalier"
+replace EP3= 3 if EP3_Aut=="JOURNALIER SANS JOUR DE TRAVAIL DEFINI"
+replace EP3= 3 if EP3_Aut=="JOURNALIÈRE"
+replace EP3= 3 if EP3_Aut=="JOURNALIÈRE"
+replace EP3= 3 if EP3_Aut=="JOURNALIÈRES"
+replace EP3= 4 if EP3_Aut=="BENEVOLE"
+replace EP3= 4 if EP3_Aut=="PROPOSER PAR LE VILLAGE POUR AIDER L’INFIRMIER"
+replace EP3= 5 if EP3_Aut=="AIDE FAMILIALE"
+replace EP3= 5 if EP3_Aut=="AIDE FAMILIALE"
+replace EP3= 5 if EP3_Aut=="AIDE FAMILIALE"
+replace EP3= 5 if EP3_Aut=="AIDE LE COMMERCE DE SA MERE"
+replace EP3= 5 if EP3_Aut=="AIDE SA TANTE DANS LA VENTE DU POISSON"
+replace EP3= 5 if EP3_Aut=="AIDE SON BEAU PERE DANS SON ENTREPRISE"
+replace EP3= 5 if EP3_Aut=="J'AIDE MON PERE DANS SA PLANTATION"
+replace EP3= 5 if EP3_Aut=="J'AIDE MON PERE DANS SA PLANTATION"
+replace EP3= 6 if EP3_Aut=="AIDE BOUTIQUIER"
+replace EP3= 6 if EP3_Aut=="AIDE MAÇON"
+replace EP3= 6 if EP3_Aut=="METAYAGE"
+replace EP3= 6 if EP3_Aut=="METAYAGE"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT QUELQU'UN QUI TRAVAILLE DANS SON EMPLOI PRINCIPAL"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT QUELQU'UN QUI TRAVAILLE DANS SON EMPLOI PRINCIPAL"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE DANS SON EMPLOI PRINCIPAL"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT UN MEMBRE DE SA FAMILLE QUI TRAVAILLE POUR LUI MÊME"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT UNE AUTRE PERSONNE DANS SON EMPLOI PRINCIPAL"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT UNE AUTRE PERSONNE QUI TRAVAILLE DANS SON EMPLOI PRINCIPAL"
+replace EP3= 6 if EP3_Aut=="PERSONNE AIDANT UNE VOISINE"
+replace EP3= 6 if EP3_Aut=="PERSONNE COLLABORANT AVEC UNE AUTRE PERSONNE"
+replace EP3= 6 if EP3_Aut=="PERSONNE DELIVRANT UN SERVICE REMUNERE"
+replace EP3= 6 if EP3_Aut=="PERSONNE EFFECTUANT UN TRAVAIL REMUNERE"
+replace EP3= 6 if EP3_Aut=="PERSONNE TRAVAILLANT POUR UN TIERCE"
+replace EP3= 6 if EP3_Aut=="PERSONNE TRAVAILLANT POUR UNE AUTRE PERSONNE"
+replace EP3= 6 if EP3_Aut=="TRAVAIL PARTAGE"
+replace EP3= 8 if EP3_Aut=="APPRENTI"
+replace EP3= 9 if EP3_Aut=="DEMARCHEUR COMMERCIAL"
+replace EP3= 9 if EP3_Aut=="ÉTUDIANT TRAVAILLEUR"
+
+
+
+
+***Vider la variable EP3_Aut : 
+replace EP3_Aut = "" if !inlist(EP3,.,.a,10)
+
+
+
+//////////EP6_Aut
+
+*export excel  EP6_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP6_Aut using "D:\CAE\fichier exel\EP6_Aut.xls" if EP6_Aut!="", firstrow(variables)
+
+replace EP6__1=1  if EP6_Aut =="PAR CONTRAT"
+replace EP6_Aut = "" if EP6__1==1 &  regexm(lower(trim(EP6_Aut)), "^par contrat$")
+
+replace   EP6__2=1  if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace   EP6__2=1  if EP6_Aut =="payement après récolte"
+replace   EP6__2=1  if EP6_Aut =="payer apès vente"
+replace   EP6__2=1  if EP6_Aut =="APRES VENTE"
+replace   EP6__2=1  if EP6_Aut =="PAIEMENT APRES VENTE"
+replace   EP6__2=1  if EP6_Aut =="payement apres vente"
+replace   EP6__2=1  if EP6_Aut =="APRES LA VENTE"
+replace   EP6__2=1  if EP6_Aut =="RECENUS PAR VENTE"
+replace   EP6__2=1  if EP6_Aut =="paiement après vente"
+replace   EP6__2=1  if EP6_Aut =="PAIEMENT APRES VENTE DES bœufs"
+replace   EP6__2=1  if EP6_Aut =="REVENUS APRES VENTE"
+replace   EP6__2=1  if EP6_Aut =="paiement à la vente de la récolte"
+replace   EP6__2=1  if EP6_Aut =="après vente"
+replace   EP6__2=1  if EP6_Aut =="payement après vente"
+replace   EP6__2=1  if EP6_Aut =="vente après récolte"
+replace   EP6__2=1  if EP6_Aut =="payement apres vente du produit"
+replace   EP6__2=1  if EP6_Aut =="paiement après achat"
+replace   EP6__2=1  if EP6_Aut =="payement à la vente"
+replace   EP6__2=1  if EP6_Aut =="vent pour elle"
+replace   EP6__2=1  if EP6_Aut =="PAR VENTE"
+replace   EP6__2=1  if EP6_Aut =="paiement après vente de la récolte"
+replace   EP6__2=1  if EP6_Aut =="paiement après vente."
+replace   EP6__2=1  if EP6_Aut =="PAYEMENT AU RENDEMENT"
+replace   EP6__2=1  if EP6_Aut =="payement après vente de la récolte"
+replace   EP6__2=1  if EP6_Aut =="payement occasionnelle"
+replace   EP6__2=1  if EP6_Aut =="après vente du produit"
+replace   EP6__2=1  if EP6_Aut =="PAYEMENT APRES RECOLTE"
+replace   EP6__2=1  if EP6_Aut =="APRES  VENTE"
+replace   EP6__2=1  if EP6_Aut =="PAIEMENT PAR VENTE"
+replace   EP6__2=1  if EP6_Aut =="payement a la vente"
+replace   EP6__2=1  if EP6_Aut =="APRES VENTE DES PRODUITS"
+
+*replace EP6_Aut = "" if EP6__2==1 & (EP6_Aut =="PAR CONTRAT"| EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"| EP6_Aut =="payement après récolte"|EP6_Aut =="payer apès vente"|EP6_Aut =="APRES VENTE"| EP6_Aut =="PAIEMENT APRES VENTE"|EP6_Aut =="payement apres vente"|EP6_Aut =="APRES LA VENTE"| EP6_Aut =="RECENUS PAR VENTE"|EP6_Aut =="paiement après vente"| EP6_Aut =="PAIEMENT APRES VENTE DES bœufs"|EP6_Aut =="REVENUS APRES VENTE"|EP6_Aut =="paiement à la vente de la récolte"|EP6_Aut =="après vente"|EP6_Aut =="payement après vente"|EP6_Aut =="vente après récolte"|EP6_Aut =="payement apres vente du produit"|EP6_Aut =="paiement après achat"|EP6_Aut =="payement à la vente"|EP6_Aut =="vent pour elle"|EP6_Aut =="PAR VENTE"|EP6_Aut =="paiement après vente de la récolte"|EP6_Aut =="paiement après vente."|EP6_Aut =="PAYEMENT AU RENDEMENT"|EP6_Aut =="payement après vente de la récolte"|EP6_Aut =="payement occasionnelle"|EP6_Aut =="après vente du produit"|EP6_Aut =="PAYEMENT APRES RECOLTE"|EP6_Aut =="APRES  VENTE"|EP6_Aut =="Paiement en espèces"|EP6_Aut =="PAIEMENT PAR VENTE"|EP6_Aut =="payement a la vente"|EP6_Aut =="APRES VENTE DES PRODUITS")
+
+replace EP6__1 = 1 if inlist(EP6_Aut, "UNE BOURSE" , "BOURSE", "heure supplémentaire")
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT APRES VENTE"
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT PAR VENTE"
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT PAR VENTE DE CACAO"
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT PAR VENTE D'ARACHIDE"
+replace EP6__2 = 1 in 8455
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT SUR LA VENTE DE CACAO"
+replace EP6__2 = 1 if EP6_Aut == "PAR RECOLTE"
+replace EP6__2 = 1 if EP6_Aut == "PAR VENTE"
+replace EP6__2 = 1 if EP6_Aut == "PAR VENTE DE CACAO"
+replace EP6__2 = 1 if EP6_Aut == "PAR VENTE DE GOMBO"
+replace EP6__2 = 1 if EP6_Aut == "PAR VENTE DE GRIN DE CACAO"
+replace EP6__2 = 1 if EP6_Aut ==  "PAR VENTE DE LÉGUMES"
+replace EP6__2 = 1 if EP6_Aut ==  "PAR VENTE DE MAÏS"
+replace EP6__2 = 1 if EP6_Aut ==  "VENTE DE CACAO"
+replace EP6__2 = 1 if EP6_Aut ==  "VENTE D'ARACHIDE"
+replace EP6__2 = 1 in 8456
+replace EP6__2 = 1 if EP6_Aut ==  "paiement après vente de la récolte"
+
+replace EP6__2 = 1 in 1100
+replace EP6__2 = 1 if EP6_Aut ==  "paiement après vente"
+replace EP6__2 = 1 if EP6_Aut =="APRÈS VENTE"
+replace EP6__2 = 1 if EP6_Aut =="APRES VENTE DE LA RECOLTE"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT PAR LES CLIENTS APRÈS VENTE"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT PAR VENTE D’ARACHIDE"
+replace EP6__2 = 1 if EP6_Aut =="paiement apres vente de la recolte"
+replace EP6__2 = 1 if EP6_Aut =="APRES VENTE DE LA RECOLTE"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT PAR LES CLIENTS"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE DE MANIOC"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE DE CABRI"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE DE SAC D’ARACHIDE"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE DE PLACALI"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE D’ARACHIDE"
+replace EP6__2 = 1 if EP6_Aut =="PROFIT APRES LA VENTE DES FEVE"
+replace EP6__2 = 1 if EP6_Aut =="A PRES VENTE"
+replace EP6__2 = 1 if EP6_Aut =="VENTE D’ARACHIDE"
+
+replace EP6__2 = 1 in 1102
+replace EP6__2 = 1 if EP6_Aut ==  "paiement après vente de la récolte."
+replace EP6__2 = 1 if EP6_Aut ==  "PRODUCTION"
+replace EP6__2 = 1 if EP6_Aut ==  "APRES VENTE"
+replace EP6__2 = 1 if EP6_Aut ==  "PAR OCCASION"
+replace EP6__2 = 1 if EP6_Aut ==  "PERÇOIT PAR MOMENT UNE RÉMUNÉRATION DE MON PERE"
+replace EP6__2 = 1 if EP6_Aut =="APRES  LA VENTE DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA PESEE DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DE PRODUIT"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DES FEVE"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DES FEVE DE CACAO"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DES VIVIERS"
+replace EP6__2 = 1 if EP6_Aut =="APRES LA VENTE DU RIZ"
+replace EP6__2 = 1 if EP6_Aut =="AU RETRAIT DES HABITS"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT APRES LE PARTAGE EN FAMILLE"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT PAR LES ACHETEURS"
+replace EP6__2 = 1 if EP6_Aut =="PAIEMENT PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 = 1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__2 = 1 if EP6_Aut =="paiement après vente de récolte"
+replace EP6__2 = 1 if EP6_Aut =="payement apres vente de la recolte"
+
+replace EP6__8 = 1 if EP6_Aut == "Bénéfice"
+replace   EP6__9=1  if EP6_Aut =="Paiement en espèces"
+
+***
+replace EP6__1 = 1 if EP6_Aut=="JE SUIS PAYE PAR QUINZAINE"
+replace EP6__1 = 1 if EP6_Aut=="salaire"
+replace EP6__1 = 1 if EP6_Aut=="PAIEMENT A LA FIN DE CHAQUE JOURNÉE"
+replace EP6__1 =1 if EP6_Aut=="JE SUIS UN APPRENTI PAYE PAR JOUR"
+replace EP6__1 =1 if EP6_Aut=="JE SUIS APPRENTI PAYE PAR JOUR"
+
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE D’ALLOCO"
+replace EP6__2 = 1 if EP6_Aut=="paiement apres vente"
+replace EP6__2 = 1 if EP6_Aut=="PAIEMENT PAR LES ACHETEURS ET CLIENTS"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE JUS NATUREL"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE DRAP"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE JUS"
+replace EP6__2 = 1 if EP6_Aut=="PAR PRISE DE PHOTO"
+replace EP6__2 = 1 if EP6_Aut=="PAIEMENT APRES VENTE DES ARTICLES"
+replace EP6__2 = 1 if EP6_Aut=="APRES LA VENTE DES VOLAILLES"
+replace EP6__2 = 1 if EP6_Aut=="Par vente"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE POTERIE"
+replace EP6__2 = 1 if EP6_Aut=="PAR DE POTERIE"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE CANARIE"
+replace EP6__2 = 1 if EP6_Aut=="paiement apres vente de recolte"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE D’ARICOT"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE D’HABITS"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE GRIN D’ARACHIDE"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE RIZ"
+replace EP6__2 = 1 if EP6_Aut=="paiement apres vente des produits"
+replace EP6__2 = 1 if EP6_Aut=="PAR VENTE DE GRIN D’ANACARDE"
+
+replace EP6__5 = 1 if EP6_Aut=="FRAIS DE  NOURRITURE"
+replace EP6__5 = 1 if EP6_Aut=="FRAIS DE NOURRITURE"
+replace EP6__5 = 1 if EP6_Aut=="FRAIS DE NOURRITURE ET  HÉBERGEMENT"
+*****
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE RECETTE JOURNALIÈRE DÉPOSÉE"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE TRESSES"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS LA LIVRAISON DU VÊTEMENT"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT APRÈS  VENTE"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE TRAVAIL"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES ACHETEURS"
+replace EP6__2 = 1 if EP6_Aut== "PAR VENTE DE ANACARDE"
+replace EP6__2 = 1 if EP6_Aut== "PAR VENTE DE CHARBON"
+replace EP6__2 = 1 if EP6_Aut== "PAR VENTE DE BOUILLIR"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT  APRÈS VENTE"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE VERSEMENT DE RECETTE"
+replace EP6__2 = 1 if EP6_Aut== "APRES LAVENTE DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut== "PAR VENTE DE POUDRE DE MAÏS ET MANIOC"
+replace EP6__2 = 1 if EP6_Aut== "par la vente des produits"
+replace EP6__2 = 1 if EP6_Aut== "PAYEMENT A LA TÂCHE"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT APRÈS VENTE"
+replace EP6__2 = 1 if EP6_Aut== "APRES LA VENTE DU POTASSE"
+replace EP6__2 = 1 if EP6_Aut== "APRES LA VERS DES PRODUITS"
+replace EP6__2 = 1 if EP6_Aut== "paiement après vente de la recolte"
+replace EP6__2 = 1 if EP6_Aut== "PAR VENTE D’IGNAME"
+replace EP6__2 = 1 if EP6_Aut== "VENTE D’IGNAME"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS CHAQUE TRAVAIL TERMINÉ"
+replace EP6__2 = 1 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS CHAQUE TRAVAIL"
+replace EP6__2 = 1 if EP6_Aut==  "PAIEMENT  APRES VENTE"
+replace EP6__2=1 if EP6_Aut=="SE PAYE LUI MEME SUR LE TERRAIN"
+replace EP6__2=1 if EP6_Aut== "PAR VENTE DE L’IGNAME"
+replace EP6__2=1 if EP6_Aut== "QUELQUES FOIS JE VENDS UN PEU D'IGNAME"
+replace EP6__2=1 if EP6_Aut== "espèce"
+**
+replace EP6__1=1 if EP6_Aut=="VENTE DES PRODUITS AGRICOLE"
+replace EP6__1=1 if EP6_Aut=="VENTE DES PRODUITS AGRICOLES"
+
+replace EP6__2=1 if EP6_Aut=="paiement après vente de la vente"
+replace EP6__2=1 if EP6_Aut=="paiement après vente la recolte"
+replace EP6__2=1 if EP6_Aut=="VENTE APRÈS  PAIEMENT"
+replace EP6__2=1 if EP6_Aut=="PAR VENTE DE LÉGUMES RÉCOLTÉES"
+replace EP6__2=1 if EP6_Aut=="PAR VENTE DE CACAO ET ANACARDE"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT JOURNALIER"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT  APRÈS  VENTE"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT APRÈS VENTE DES PRODUITS"
+replace EP6__2=1 if EP6_Aut=="APRES LA VENTE  DES PRODUITS"
+replace EP6__2=1 if EP6_Aut=="PAR VENTE DE LÉGUMES RÉCOLTÉES"
+replace EP6__2=1 if EP6_Aut=="PAR VENTE DE CACAO ET ANACARDE"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT  APRÈS  VENTE"
+replace EP6__2=1 if EP6_Aut=="VENTE APRÈS  PAIEMENT"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT JOURNALIER"
+
+replace EP6__8 =1 if EP6_Aut=="BENEFICE"
+replace EP6__8 =1 if EP6_Aut=="Bénéfice café"
+replace EP6__8 =1 if EP6_Aut=="Bénéfice du riz"
+replace EP6__8 =1 if EP6_Aut=="RECETTE"
+replace EP6__8 =1 if EP6_Aut=="BÉNÉFICE"
+replace EP6__8 =1 if EP6_Aut=="BÉNÉFICE APRÈS VENTE DES PRODUIT PAR SON MARI"
+
+
+replace EP6__6=1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES BOUCHES"
+replace EP6__9=1 if EP6_Aut =="CAFE"
+replace EP6__9=1 if EP6_Aut =="HEVEA"
+replace EP6__6=1 if EP6_Aut =="RECETTE PAR JOUR"
+replace EP6__2=1 if EP6_Aut =="PAIEMENT APRES VENTRE"
+replace EP6__2=1 if EP6_Aut =="APRES  LA VENTE"
+replace EP6__9=1 if EP6_Aut =="PAYÉ PAR KILOGRAMME DU CAOUTCHOUC D’HÉVÉA"
+replace EP6__2=1 if EP6_Aut =="PAIEMENT APRES VENTE DE RECOLTE"
+replace EP6__9=1 if EP6_Aut =="pour la nourriture"
+replace EP6__8=1 if EP6_Aut =="BÉNÉFICE MAÏS"
+replace EP6__2=1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RÉCOLTE"
+replace EP6__1=1 if EP6_Aut =="JOURNALIER"
+replace EP6__9=1 if EP6_Aut =="dons"
+replace EP6__2=1 if EP6_Aut =="PAR VENTE DE PLUSIEURS PRODUITS DE L’AGRICULTURE ET AUTRES"
+replace EP6__8=1 if EP6_Aut =="LES BENEFICES RECOLTES DE LA VENTE DU JOUR"
+replace EP6__9=1 if EP6_Aut =="DON"
+replace EP6__2=1 if EP6_Aut =="A LA VENTE"
+replace EP6__9=1 if EP6_Aut =="GRAMME D'OR VENDU"
+replace EP6__2=1 if EP6_Aut =="PAYÉ APRÈS LA VENTE DE CACAO"
+replace EP6__2=1 if EP6_Aut =="APRES LA VENTE DES"
+replace EP6__2=1 if EP6_Aut =="PAIEMENT APRES VENTE DE VOLAILLES"
+replace EP6__9=1 if EP6_Aut =="PAR VENTE DE MAÏS RÉCOLTÉ"
+replace EP6__2=1 if EP6_Aut =="RÉCOLTE"
+replace EP6__11=1 if EP6_Aut =="INDEMNITE"
+replace EP6__2=1 if EP6_Aut =="PAIEMENT APRES VENTE DE LARECOLTE"
+replace EP6__1=1 if EP6_Aut =="PRESTATIONS"
+
+
+
+
+*** AUTRES EP6__6
+replace EP6__6 = 0  if EP6_Aut =="PAR CONTRAT"
+replace  EP6__6 = 0  if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace  EP6__6 = 0  if EP6_Aut =="payement après récolte"
+replace  EP6__6 = 0 if EP6_Aut =="payer apès vente"
+replace  EP6__6 = 0  if EP6_Aut =="APRES VENTE"
+replace  EP6__6 = 0 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace  EP6__6 = 0  if EP6_Aut =="payement apres vente"
+replace  EP6__6 = 0 if EP6_Aut =="APRES LA VENTE"
+replace EP6__6 = 0  if EP6_Aut =="RECENUS PAR VENTE"
+replace  EP6__6 = 0 if EP6_Aut =="paiement après vente"
+replace   EP6__6 = 0  if EP6_Aut =="PAIEMENT APRES VENTE DES bœufs"
+replace   EP6__6 = 0  if EP6_Aut =="REVENUS APRES VENTE"
+replace   EP6__6 = 0  if EP6_Aut =="paiement à la vente de la récolte"
+replace EP6__6 = 0  if EP6_Aut =="après vente"
+replace   EP6__6 = 0 if EP6_Aut =="payement après vente"
+replace   EP6__6 = 0  if EP6_Aut =="vente après récolte"
+replace  EP6__6 = 0  if EP6_Aut =="payement apres vente du produit"
+replace   EP6__6 = 0  if EP6_Aut =="paiement après achat"
+replace  EP6__6 = 0 if EP6_Aut =="payement à la vente"
+replace   EP6__6 = 0  if EP6_Aut =="vent pour elle"
+replace EP6__6 = 0  if EP6_Aut =="PAR VENTE"
+replace  EP6__6 = 0 if EP6_Aut =="paiement après vente de la récolte"
+replace   EP6__6 = 0  if EP6_Aut =="paiement après vente."
+replace   EP6__6 = 0  if EP6_Aut =="PAYEMENT AU RENDEMENT"
+replace EP6__6 = 0  if EP6_Aut =="payement après vente de la récolte"
+replace   EP6__6 = 0  if EP6_Aut =="payement occasionnelle"
+replace   EP6__6 = 0  if EP6_Aut =="après vente du produit"
+replace  EP6__6 = 0 if EP6_Aut =="PAYEMENT APRES RECOLTE"
+replace   EP6__6 = 0  if EP6_Aut =="APRES  VENTE"
+replace   EP6__6 = 0  if EP6_Aut =="Paiement en espèces"
+replace   EP6__6 = 0  if EP6_Aut =="PAIEMENT PAR VENTE"
+replace   EP6__6 = 0  if EP6_Aut =="payement a la vente"
+replace  EP6__6 = 0  if EP6_Aut =="APRES VENTE DES PRODUITS"
+replace EP6__6 = 0 if inlist(EP6_Aut, "UNE BOURSE" , "BOURSE", "heure supplémentaire")
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT APRES VENTE"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT PAR VENTE"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT PAR VENTE DE CACAO"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT PAR VENTE D'ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut == "PAIEMENT SUR LA VENTE DE CACAO"
+replace EP6__6 = 0 if EP6_Aut == "PAR RECOLTE"
+replace EP6__6 = 0 if EP6_Aut == "PAR VENTE"
+replace EP6__6 = 0 if EP6_Aut == "PAR VENTE DE CACAO"
+replace EP6__6 = 0 if EP6_Aut == "PAR VENTE DE GOMBO"
+replace EP6__6 = 0 if EP6_Aut == "PAR VENTE DE GRIN DE CACAO"
+replace EP6__6 = 0 if EP6_Aut ==  "PAR VENTE DE LÉGUMES"
+replace EP6__6 = 0 if EP6_Aut ==  "PAR VENTE DE MAÏS"
+replace EP6__6 = 0 if EP6_Aut ==  "VENTE DE CACAO"
+replace EP6__6 = 0 if EP6_Aut ==  "VENTE D'ARACHIDE"
+replace EP6__6 = 0 in 8456
+replace EP6__6 = 0 if EP6_Aut ==  "paiement après vente de la récolte"
+replace EP6__6 = 0 if EP6_Aut ==  "paiement après vente"
+replace EP6__6 = 0 if EP6_Aut =="APRÈS VENTE"
+replace EP6__6 = 0 if EP6_Aut =="APRES VENTE DE LA RECOLTE"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT PAR LES CLIENTS APRÈS VENTE"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT PAR VENTE D’ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut =="paiement apres vente de la recolte"
+replace EP6__6 = 0 if EP6_Aut =="APRES VENTE DE LA RECOLTE"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT PAR LES CLIENTS"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE DE MANIOC"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE DE CABRI"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE DE SAC D’ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE DE PLACALI"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE D’ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut =="PROFIT APRES LA VENTE DES FEVE"
+replace EP6__6 = 0 if EP6_Aut =="A PRES VENTE"
+replace EP6__6 = 0 if EP6_Aut =="VENTE D’ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut ==  "paiement après vente de la récolte."
+replace EP6__6 = 0 if EP6_Aut ==  "PRODUCTION"
+replace EP6__6 = 0 if EP6_Aut ==  "APRES VENTE"
+replace EP6__6 = 0 if EP6_Aut ==  "PAR OCCASION"
+replace EP6__6 = 0 if EP6_Aut ==  "PERÇOIT PAR MOMENT UNE RÉMUNÉRATION DE MON PERE"
+replace EP6__6 = 0 if EP6_Aut == "Bénéfice"
+replace EP6__6 = 0 if EP6_Aut =="APRES  LA VENTE DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA PESEE DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DE PRODUIT"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DES FEVE"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DES FEVE DE CACAO"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DES VIVIERS"
+replace EP6__6 = 0 if EP6_Aut =="APRES LA VENTE DU RIZ"
+replace EP6__6 = 0 if EP6_Aut =="AU RETRAIT DES HABITS"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT APRES LE PARTAGE EN FAMILLE"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT PAR LES ACHETEURS"
+replace EP6__6 = 0 if EP6_Aut =="PAIEMENT PAR LES ACHETEURS DE PRODUITS"
+replace EP6__6 = 0 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__6 = 0 if EP6_Aut =="paiement après vente de récolte"
+replace EP6__6 = 0 if EP6_Aut =="payement apres vente de la recolte"
+replace EP6__6 = 0 if EP6_Aut=="JE SUIS PAYE PAR QUINZAINE"
+replace EP6__6 = 0 if EP6_Aut=="salaire"
+replace EP6__6 = 0 if EP6_Aut=="PAIEMENT A LA FIN DE CHAQUE JOURNÉE"
+replace EP6__6 = 0 if EP6_Aut=="JE SUIS UN APPRENTI PAYE PAR JOUR"
+replace EP6__6 = 0 if EP6_Aut=="JE SUIS APPRENTI PAYE PAR JOUR"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE D’ALLOCO"
+replace EP6__6 = 0 if EP6_Aut=="paiement apres vente"
+replace EP6__6 = 0  if EP6_Aut=="PAIEMENT PAR LES ACHETEURS ET CLIENTS"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE JUS NATUREL"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE DRAP"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE JUS"
+replace EP6__6 = 0 if EP6_Aut=="PAR PRISE DE PHOTO"
+replace EP6__6 = 0 if EP6_Aut=="PAIEMENT APRES VENTE DES ARTICLES"
+replace EP6__6 = 0 if EP6_Aut=="APRES LA VENTE DES VOLAILLES"
+replace EP6__6 = 0 if EP6_Aut=="Par vente"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE POTERIE"
+replace EP6__6 = 0 if EP6_Aut=="PAR DE POTERIE"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE CANARIE"
+replace EP6__6 = 0 if EP6_Aut=="paiement apres vente de recolte"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE D’ARICOT"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE D’HABITS"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE GRIN D’ARACHIDE"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE RIZ"
+replace EP6__6 = 0 if EP6_Aut=="paiement apres vente des produits"
+replace EP6__6 = 0 if EP6_Aut=="PAR VENTE DE GRIN D’ANACARDE"
+replace EP6__6 = 0 if EP6_Aut=="FRAIS DE  NOURRITURE"
+replace EP6__6 = 0 if EP6_Aut=="FRAIS DE NOURRITURE"
+replace EP6__6 = 0 if EP6_Aut=="FRAIS DE NOURRITURE ET  HÉBERGEMENT"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE RECETTE JOURNALIÈRE DÉPOSÉE"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE TRESSES"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS LA LIVRAISON DU VÊTEMENT"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT APRÈS  VENTE"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE TRAVAIL"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES ACHETEURS"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE DE ANACARDE"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE DE CHARBON"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE DE BOUILLIR"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT  APRÈS VENTE"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE APRÈS CHAQUE VERSEMENT DE RECETTE"
+replace EP6__6 = 0 if EP6_Aut== "APRES LAVENTE DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE DE POUDRE DE MAÏS ET MANIOC"
+replace EP6__6 = 0 if EP6_Aut== "par la vente des produits"
+replace EP6__6 = 0 if EP6_Aut== "PAYEMENT A LA TÂCHE"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT APRÈS VENTE"
+replace EP6__6 = 0 if EP6_Aut== "APRES LA VENTE DU POTASSE"
+replace EP6__6 = 0 if EP6_Aut== "APRES LA VERS DES PRODUITS"
+replace EP6__6 = 0 if EP6_Aut== "paiement après vente de la recolte"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE D’IGNAME"
+replace EP6__6 = 0 if EP6_Aut== "VENTE D’IGNAME"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS CHAQUE TRAVAIL TERMINÉ"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT EN ESPÈCE PAR LES CLIENTS APRÈS CHAQUE TRAVAIL"
+replace EP6__6 = 0 if EP6_Aut== "PAIEMENT  APRES VENTE"
+replace EP6__6 = 0 if EP6_Aut== "SE PAYE LUI MEME SUR LE TERRAIN"
+replace EP6__6 = 0 if EP6_Aut== "PAR VENTE DE L’IGNAME"
+replace EP6__6 = 0 if EP6_Aut== "QUELQUES FOIS JE VENDS UN PEU D'IGNAME"
+replace EP6__6 = 0 if EP6_Aut== "espèce"
+
+replace EP6__6 = 0 if EP6_Aut== "BENEFICE"
+replace EP6__6 = 0 if EP6_Aut== "Bénéfice café"
+replace EP6__6 = 0 if EP6_Aut== "Bénéfice du riz"
+replace EP6__6 = 0 if EP6_Aut== "RECETTE"
+replace EP6__6 = 0 if EP6_Aut== "BÉNÉFICE"
+
+
+replace EP6__6=0 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES BOUCHES"
+replace EP6__6=0 if EP6_Aut =="CAFE"
+replace EP6__6=0 if EP6_Aut =="HEVEA"
+replace EP6__6=0 if EP6_Aut =="RECETTE PAR JOUR"
+replace EP6__6=0 if EP6_Aut =="PAIEMENT APRES VENTRE"
+replace EP6__6=0 if EP6_Aut =="APRES  LA VENTE"
+replace EP6__6=0 if EP6_Aut =="PAYÉ PAR KILOGRAMME DU CAOUTCHOUC D’HÉVÉA"
+replace EP6__6=0 if EP6_Aut =="PAIEMENT APRES VENTE DE RECOLTE"
+replace EP6__6=0 if EP6_Aut =="pour la nourriture"
+replace EP6__6=0 if EP6_Aut =="BÉNÉFICE MAÏS"
+replace EP6__6=0 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RÉCOLTE"
+replace EP6__6=0 if EP6_Aut =="JOURNALIER"
+replace EP6__6=0 if EP6_Aut =="dons"
+replace EP6__6=0 if EP6_Aut =="PAR VENTE DE PLUSIEURS PRODUITS DE L’AGRICULTURE ET AUTRES"
+replace EP6__6=0 if EP6_Aut =="LES BENEFICES RECOLTES DE LA VENTE DU JOUR"
+replace EP6__6=0 if EP6_Aut =="DON"
+replace EP6__6=0 if EP6_Aut =="A LA VENTE"
+replace EP6__6=0 if EP6_Aut =="GRAMME D'OR VENDU"
+replace EP6__6=0 if EP6_Aut =="PAYÉ APRÈS LA VENTE DE CACAO"
+replace EP6__6=0 if EP6_Aut =="APRES LA VENTE DES"
+replace EP6__6=0 if EP6_Aut =="PAIEMENT APRES VENTE DE VOLAILLES"
+replace EP6__6=0 if EP6_Aut =="PAR VENTE DE MAÏS RÉCOLTÉ"
+replace EP6__6=0 if EP6_Aut =="RÉCOLTE"
+replace EP6__6=0 if EP6_Aut =="INDEMNITE"
+replace EP6__6=0 if EP6_Aut =="PAIEMENT APRES VENTE DE LARECOLTE"
+
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE"
+replace EP6__2 =1 if EP6_Aut =="APRÈS LA VENTE"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE  DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES JUIS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="APRES LA VENTE DES PRODUITS ALIMENTAIRES"
+replace EP6__2 =1 if EP6_Aut =="APRES LE TRAVAIL"
+replace EP6__2 =1 if EP6_Aut =="APRES RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT  APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT  APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT  APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES  VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS  VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+#REF!
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="paiement après vente"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRÈS VENTE DE LA RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RÉCOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DE LA RÉCOLTE"
+replace EP6__2 =1 if EP6_Aut =="paiement après vente de la récolte"
+replace EP6__2 =1 if EP6_Aut =="paiement après vente de la récolte"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DES PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT APRES VENTE DU PRODUIT"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS"
+replace EP6__2 =1 if EP6_Aut =="PAIEMENT EN ESPÈCE PAR LES CLIENTS"
+replace EP6__2 =1 if EP6_Aut =="paiement en espèces apres la vente"
+replace EP6__2 =1 if EP6_Aut =="PAR COUTURE"
+replace EP6__2 =1 if EP6_Aut =="PAR RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAR RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAR RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAR RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PAR RECOLTE"
+replace EP6__2 =1 if EP6_Aut =="PRODUCTION"
+replace EP6__2 =1 if EP6_Aut =="VENTE DE PRODUITS AGRICOLES"
+
+******Vider EP6__2
+replace EP6_Aut="" if EP6__2==1 & inlist(EP6_Aut,"PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS","APRES LA VENTE","APRES LA VENTE","APRÈS LA VENTE","APRES LA VENTE  DES PRODUITS","APRES LA VENTE DES JUIS","APRES LA VENTE DES PRODUITS","APRES LA VENTE DES PRODUITS ALIMENTAIRES")
+replace EP6_Aut="" if EP6__2==1 & inlist(EP6_Aut,"APRES LE TRAVAIL","APRES RECOLTE","APRES VENTE","APRÈS VENTE","PAIEMENT","PAIEMENT  APRÈS VENTE","PAIEMENT APRES  VENTE","PAIEMENT APRÈS  VENTE","PAIEMENT APRES VENTE")
+replace EP6_Aut="" if EP6__2==1 & inlist(EP6_Aut,"PAIEMENT APRÈS VENTE","paiement après vente","PAIEMENT APRÈS VENTE","PAIEMENT APRES VENTE DE LA RECOLTE","PAIEMENT APRÈS VENTE DE LA RECOLTE","PAIEMENT APRES VENTE DE LA RÉCOLTE")
+replace EP6_Aut="" if EP6__2==1 & inlist(EP6_Aut,"paiement après vente de la récolte","PAIEMENT APRES VENTE DES","PAIEMENT APRES VENTE DES PRODUITS")
+replace EP6_Aut="" if EP6__2==1 & inlist(EP6_Aut,"PAIEMENT APRES VENTE DU PRODUIT","PAIEMENT EN ESPÈCE PAR LES ACHETEURS DE PRODUITS","PAIEMENT EN ESPÈCE PAR LES CLIENTS","paiement en espèces apres la vente","PAR COUTURE","PAR RECOLTE","PRODUCTION","VENTE DE PRODUITS AGRICOLES")
+
+replace EP6__4 =1 if EP6_Aut =="A CHAQUE FOIS JAI UN BESOIN ELLE MAIDE A RESOUDRE QUE CA SOIT EN NATURE OU EN ESPECE"
+replace EP6__4 =1 if EP6_Aut =="OFFRANDES"
+
+******* vider EP6__4
+replace EP6_Aut="" if EP6__4==1 & inlist(EP6_Aut,"A CHAQUE FOIS JAI UN BESOIN ELLE MAIDE A RESOUDRE QUE CA SOIT EN NATURE OU EN ESPECE","OFFRANDES")
+
+replace EP6__8 =1 if EP6_Aut =="Bénéfice café"
+replace EP6__8 =1 if EP6_Aut =="Bénéfice poissons fumé"
+replace EP6__8 =1 if EP6_Aut =="ESPÈCE APRES VENTE"
+replace EP6__8 =1 if EP6_Aut =="ESPÈCE APRÈS VENTE"
+replace EP6__8 =1 if EP6_Aut =="LE CHAUFFEUR SE PAIE LUI MEME LES DIMANCHES"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ARACHIDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’ARACHIDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOT"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOT"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOT"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOT SEC"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOT SEC ET AUTRES PRODUITS AGRICOLES"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOTS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOTS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOTS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOTS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’HARICOTS SEC"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE D’IGNAME"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN D’ANACARDE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN D’HARICOT SEC"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE GRIN DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE LÉGUMES RECOLTER"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE MAÏS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE MANIOC"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE MANIOC"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE MOUTON"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE RECOLTE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE RECOLTEE"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE RECOLTÉES"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE PRODUIT AGRICOLE RÉCOLTÉES"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE SAC DE MAÏS"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE DE VENTE DE CACAO"
+replace EP6__8 =1 if EP6_Aut =="PAR VENTE ET FABRICATION DU MANIOC"
+replace EP6__8 =1 if EP6_Aut =="PAYÉ OCCASIONNELLEMENT EN FONCTION DES MARCHÉS"
+replace EP6__8 =1 if EP6_Aut =="PAYEMENT APRES VENTE"
+replace EP6__8 =1 if EP6_Aut =="PAYEMENT APRES VENTE"
+replace EP6__8 =1 if EP6_Aut =="RECETTE"
+replace EP6__8 =1 if EP6_Aut =="RECETTE APRES VENTE"
+replace EP6__8 =1 if EP6_Aut =="REVENU APRÈS VENTE"
+replace EP6__8 =1 if EP6_Aut =="TRAVAIL PARTAGÉ"
+
+****** vider EP__8
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"Bénéfice café","Bénéfice poissons fumé","ESPÈCE APRES VENTE","ESPÈCE APRÈS VENTE","LE CHAUFFEUR SE PAIE LUI MEME LES DIMANCHES")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAR VENTE","PAR VENTE D’ANACARDE","PAR VENTE D’ARACHIDE","PAR VENTE D’HARICOT","PAR VENTE D’HARICOT SEC")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAR VENTE D’HARICOT SEC ET AUTRES PRODUITS AGRICOLES","PAR VENTE D’HARICOTS","PAR VENTE D’HARICOTS SEC","PAR VENTE D’IGNAME","PAR VENTE DE CACAO","PAR VENTE DE GRIN D’ANACARDE")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAR VENTE DE GRIN D’HARICOT SEC","PAR VENTE DE GRIN DE CACAO","PAR VENTE DE LÉGUMES RECOLTER","PAR VENTE DE MAÏS","PAR VENTE DE MANIOC","PAR VENTE DE MOUTON")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAR VENTE DE PRODUIT AGRICOLE","PAR VENTE DE PRODUIT AGRICOLE RECOLTE","PAR VENTE DE PRODUIT AGRICOLE RECOLTEE","PAR VENTE DE PRODUIT AGRICOLE RECOLTÉES")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAR VENTE DE PRODUIT AGRICOLE RÉCOLTÉES","PAR VENTE DE SAC DE MAÏS","PAR VENTE DE VENTE DE CACAO","PAR VENTE ET FABRICATION DU MANIOC")
+replace EP6_Aut="" if EP6__8==1 & inlist(EP6_Aut,"PAYÉ OCCASIONNELLEMENT EN FONCTION DES MARCHÉS","PAYEMENT APRES VENTE","RECETTE","RECETTE APRES VENTE","REVENU APRÈS VENTE","TRAVAIL PARTAGÉ")
+
+replace EP6__9 =1 if EP6_Aut =="ANACARDE"
+replace EP6__9 =1 if EP6_Aut =="ANACARDE"
+replace EP6__9 =1 if EP6_Aut =="POUR SES PETITS BESOINS"
+
+*******vider EP__9
+
+replace EP6_Aut="" if EP6__9==1 & inlist(EP6_Aut,"ANACARDE","POUR SES PETITS BESOINS")
+
+
+replace EP6__10 =1 if EP6_Aut =="APPRENTI NON PAYE"
+replace EP6__10 =1 if EP6_Aut =="POUR LE COMPTE DE LA FAMILLE"
+replace EP6__10 =1 if EP6_Aut =="STAGIAIRE NON PAYE"
+
+***********Vider EP__10
+replace EP6_Aut="" if EP6__10==1 & inlist(EP6_Aut,"APPRENTI NON PAYE","POUR LE COMPTE DE LA FAMILLE","STAGIAIRE NON PAYE")
+
+
+replace EP6__3 =1 if EP6_Aut =="ÉCHANGE D'OR EN ARGENT"
+
+*****Vider EP__3
+replace EP6_Aut="" if EP6__3==1 & inlist(EP6_Aut,"ÉCHANGE D'OR EN ARGENT")
+
+
+
+***Vider les variables
+replace EP6_Aut = "" if EP6__1 == 1 &  regexm(lower(trim(EP6_Aut)), "^(je suis paye par quinzaine|salaire|paiement a la fin de chaque journee|je suis un apprenti paye par jour|je suis apprenti paye par jour)")
+
+replace EP6_Aut = "" if EP6__2 == 1 & regexm(lower(trim(EP6_Aut)), "vente|paiement.*vente|acheteurs|clients|photo|poterie|canarie|volaille|aricot|habits|grin d[’']?(arachide|anacarde)|riz")
+
+replace EP6_Aut="" if EP6__2 == 1 & ///
+regexm(lower(EP6_Aut), ///
+"(paiement en espèce après chaque recette journalière déposée|paiement en espèce après chaque tresses|paiement en espèce par les clients|paiement en espèce par les clients après la livraison du vêtement|paiement en espèce par les acheteurs de produits|paiement après  vente|paiement en espèce après chaque travail|paiement en espèce par les acheteurs|par vente de anacarde|par vente de charbon|par vente de bouillir|paiement  après vente|paiement en espèce après chaque versement de recette|apres lavente des produits|par vente de poudre de maïs et manioc|par la vente des produits|payement a la tâche|paiement après vente|apres la vente du potasse|apres la vers des produits|paiement après vente de la recolte|par vente d’igname|vente d’igname|paiement en espèce par les clients après chaque travail terminé|paiement en espèce par les clients après chaque travail|se paye lui meme sur le terrain|par vente de l’igname|quelques fois je vends un peu d'igname|espèce)")
+
+replace EP6_Aut="" if EP6__2 == 1 & EP6_Aut=="PAYEMENT A LA TÂCHE"
+replace EP6_Aut="" if EP6__2 == 1 & EP6_Aut=="PAIEMENT EN ESPÈCE APRÈS CHAQUE TRAVAIL"
+replace EP6_Aut="" if EP6__2 == 1 & EP6_Aut=="PAIEMENT EN ESPÈCE APRÈS CHAQUE TRESSES"
+replace EP6_Aut="" if EP6__2 == 1 & EP6_Aut=="PAIEMENT EN ESPÈCE APRÈS CHAQUE RECETTE JOURNALIÈRE DÉPOSÉE"
+replace EP6_Aut="" if EP6__2 == 1 & EP6_Aut=="PAIEMENT EN ESPÈCE APRÈS CHAQUE VERSEMENT DE RECETTE"
+ 
+ replace EP6_Aut="" if EP6__8 == 1 & ///
+regexm(lower(EP6_Aut), ///
+"(benefice|bénéfice café|bénéfice du riz|recette|bénéfice)")
+replace EP6_Aut="" if EP6__8 == 1 & EP6_Aut== "BÉNÉFICE"
+
+
+replace EP6_Aut = "" if EP6__2 == 1 &regexm(lower(itrim(EP6_Aut)),  "^(paiement( après| apres)?( la vente)?( des produits| du produit| de la récolte| de la recolte| des bœufs)?\.?|payement( après| apres)?( la vente)?( des produits| du produit| de la récolte| de la recolte)?|après vente( du produit)?|apres vente( du produit)?|vente après récolte|paiement après achat|payement à la vente|payement a la vente|vent pour elle|par vente|revenus après vente|recenus par vente|paiement par vente|payement au rendement|payement occasionnelle|apres  vente|payement apres vente du produit)$")
+
+
+replace EP6_Aut = "" if EP6__5 == 1 &   regexm(lower(itrim(EP6_Aut)), "^frais de nourriture( et hébergement)?$")
+
+replace EP6_Aut = "" if EP6__8 == 1 & regexm(lower(itrim(EP6_Aut)), "^bénéf(ice|ic)$")
+
+replace EP6_Aut = "" if EP6__9 == 1 & regexm(lower(itrim(EP6_Aut)), "^paiement en espèces$")
+
+replace EP6_Aut = "" if EP6__2 == 1 & inlist(EP6_Aut, ///
+    "paiement après vente de la vente", ///
+    "paiement après vente la recolte", ///
+    "VENTE APRÈS  PAIEMENT", ///
+    "PAR VENTE DE LÉGUMES RÉCOLTÉES", ///
+    "PAR VENTE DE CACAO ET ANACARDE", ///
+    "PAIEMENT JOURNALIER", ///
+    "PAIEMENT  APRÈS  VENTE", ///
+    "PAIEMENT APRÈS VENTE DES PRODUITS", ///
+    "APRES LA VENTE  DES PRODUITS")
+
+replace EP6_Aut = "" if EP6__8 == 1 & EP6_Aut =="BÉNÉFICE APRÈS VENTE DES PRODUIT PAR SON MARI"
+
+replace EP6_Aut = "" if EP6__1 == 1 & EP6_Aut == "VENTE DES PRODUITS AGRICOLES"
+
+replace EP6_Aut = "" if EP6__1 == 1 & EP6_Aut == "VENTE DES PRODUITS AGRICOLE"
+
+replace EP6_Aut = "" if EP6__1 == 1 & regexm(lower(trim(EP6_Aut)), "^(journalier|prestations)")
+
+replace EP6_Aut = "" if EP6__2 == 1 & regexm(lower(trim(EP6_Aut)), "^(paiement apres ventre|apres  la vente|paiement apres vente de recolte|paiement apres vente de la recolte|paiement apres vente de volaille|a la vente|payé apres la vente de cacao|apres la vente des|par vente de plusieurs produits de l’agriculture et autres|recolte|paiement apres vente de larecolte)")
+
+replace EP6_Aut = "" if EP6__6 == 1 & regexm(lower(trim(EP6_Aut)), "^(paiement en espèces par les bouches|recette par jour)")
+
+replace EP6_Aut = "" if EP6__8 == 1 & regexm(lower(trim(EP6_Aut)), "^(bénéfice maïs|les benefices recoltes de la vente du jour)")
+
+replace EP6_Aut = "" if EP6__9 == 1 & regexm(lower(trim(EP6_Aut)), "^(cafe|hevea|payé par kilogramme du caoutchouc d’hévéa|pour la nourriture|dons|don|gramme d'or vendu|par vente de maïs récolté)")
+
+replace EP6_Aut = "" if EP6__11 == 1 & regexm(lower(trim(EP6_Aut)), "^(indemnite)")
+
+
+/*
+1.	Un salaire 
+2.	Paiement à la tâche
+3.	Commissions
+4.	Pourboires
+5.	Frais pour les services fournis
+6.	Autre paiement en espèces
+7.	Paiement avec repas ou hébergement
+8.	Bénéfice
+9.	Paiement en nature
+10.	Perdiems
+11.	Primes
+*/
+
+
+**Pour moi
+replace EP6__2=1 if strpos(EP6_Aut,"PAIEMENT EN ESPÈCE PAR LES BOUCHES")>0
+replace EP6__2=1 if strpos(EP6_Aut,"RECETTE PAR JOUR")>0
+
+replace EP6__2 = 1 if regexm(lower(EP6_Aut), "kilogramme") 
+
+replace EP6__2=1 if EP6_Aut=="PAR VENTE DE COTON"
+replace EP6__2=1 if EP6_Aut=="PAR NETTOYAGE DE CHAMPS DES GENS"
+
+replace EP6__2=1 if EP6_Aut=="JOURNÉE"
+replace EP6__2=1 if EP6_Aut=="PAIEMENT EN ESPÈCE PAR LES PROPRIÉTAIRES DE CHAMP"
+
+*Vider la variable EP6__2
+replace EP6_Aut="" if (EP6__2==1 & (strpos(EP6_Aut,"PAIEMENT EN ESPÈCE PAR LES BOUCHES")>0|strpos(EP6_Aut,"RECETTE PAR JOUR")>0|regexm(lower(EP6_Aut), "kilogramme")|EP6_Aut=="PAR VENTE DE COTON"|EP6_Aut=="PAR NETTOYAGE DE CHAMPS DES GENS"|EP6_Aut=="JOURNÉE"|EP6_Aut=="PAIEMENT EN ESPÈCE PAR LES PROPRIÉTAIRES DE CHAMP"))
+
+
+replace EP6__8=1 if (EP6_Aut=="APRES RECOLTE"|EP6_Aut==" APRES LA VENTE DU PRODUITS"|EP6_Aut=="AUTRE PAIEMENT APRES"|EP6_Aut=="REVENU APRES VENTE"|EP6_Aut=="APRES VENTE DE BOEUF"|EP6_Aut=="APRES LA RECOLTE"|EP6_Aut=="PAR VENTE DE MAÏS RÉCOLTÉ"|EP6_Aut=="BÉNÉFICE MAÏS"|EP6_Aut=="RÉCOLTE"|EP6_Aut=="REVENU APRÈS VENTE")
+
+replace EP6__8=1 if EP6_Aut=="APRES LA VENTE DU PRODUITS"
+
+*Vider la variable EP6__8
+replace EP6_Aut="" if EP6__8==1 & (EP6_Aut=="APRES RECOLTE"|EP6_Aut==" APRES LA VENTE DU PRODUITS"|EP6_Aut=="AUTRE PAIEMENT APRES"|EP6_Aut=="REVENU APRES VENTE"|EP6_Aut=="APRES VENTE DE BOEUF"|EP6_Aut=="APRES LA RECOLTE"|EP6_Aut=="PAR VENTE DE MAÏS RÉCOLTÉ"|EP6_Aut=="BÉNÉFICE MAÏS"|EP6_Aut=="RÉCOLTE"|EP6_Aut=="REVENU APRÈS VENTE|EP6_Aut==APRES LA VENTE DU PRODUITS")
+
+replace EP6_Aut="" if EP6__8==1 & EP6_Aut=="APRES LA VENTE DU PRODUITS"
+
+
+
+
+
+replace EP6__3=1 if EP6_Aut=="PAYE EN FONCTION DE LA PRODUCTION"
+
+*Vider la variable EP6__3
+replace EP6_Aut="" if (EP6__3==1 & EP6_Aut=="PAYE EN FONCTION DE LA PRODUCTION")
+
+replace EP6__6=1 if inlist(EP6_Aut,"PAIEMENT DE LOYER","Cagnotte fait par les fidèles","DIMES ET OFFRANDES","DONS ET SUBVENTIONS")
+
+*vider 
+replace EP6_Aut="" if EP6__6==1 & inlist(EP6_Aut,"PAIEMENT DE LOYER","Cagnotte fait par les fidèles","DIMES ET OFFRANDES","DONS ET SUBVENTIONS")
+
+
+
+
+
+
+
+
+
+/////////////EP10a_aut
+*export excel  EP10a_aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+*use "$datain_brute\membres.dta", clear
+ 
+*export excel EP10a_aut using "D:\CAE\fichier exel\EP10a_aut.xls" if EP10a_aut!="", firstrow(variables)
+
+*export excel interview__key membres__id EP3 EP11 EP10a_aut using "$folderpath/document/EP10a_aut.xls" if EP10a_aut!="", firstrow(variables) replace 
+
+replace   EP10a=1  if EP10a_aut =="L’ETAT"
+replace   EP10a=1  if EP10a_aut =="MINISTÈRE DE LA DEFENSE"
+replace   EP10a=1  if EP10a_aut =="ETAT IVOIRIENNE"
+replace   EP10a=1  if EP10a_aut =="MON PAPA"
+replace   EP10a=1  if EP10a_aut =="MON MARI"
+replace   EP10a=1  if EP10a_aut =="GOUVERNEMENT"
+replace   EP10a=1  if EP10a_aut =="SON FRERE"
+replace   EP10a=1  if EP10a_aut =="CHEF DE MENAGE"
+replace   EP10a=1  if EP10a_aut =="AGRICULTEUR"
+replace   EP10a=1  if EP10a_aut =="CHAMP DE SON MARI"
+replace   EP10a=1  if EP10a_aut =="ÉDUCATION NATIONALE"
+replace   EP10a=1  if EP10a_aut =="employeur"
+replace   EP10a=1  if EP10a_aut =="ETAT"
+replace   EP10a=1  if EP10a_aut =="LE MINISTÈRE DE L'EDUCATION NATIONALE"
+replace   EP10a=1  if EP10a_aut =="EGLISE AU PLAN NATIONAL"
+replace   EP10a=1  if EP10a_aut =="LE CHEF DE MENAGE"
+replace   EP10a=1  if EP10a_aut =="MA MAMAN"
+replace   EP10a=1  if EP10a_aut =="L'ETAT"
+replace   EP10a=1  if EP10a_aut =="LE FRERE"
+replace   EP10a=1  if EP10a_aut =="BANQUE GENERAL"
+replace   EP10a=1  if EP10a_aut =="LA FONCTION PUBLIC"
+replace   EP10a=1  if EP10a_aut =="BANQUE"
+replace   EP10a=1  if EP10a_aut =="GENDARMERIE NATIONALE"
+replace   EP10a=1  if EP10a_aut =="LA FONCTION PUBLIQUE"
+replace   EP10a=1  if EP10a_aut =="L ETAT DE COTE DI VOIRE"
+replace   EP10a=1  if EP10a_aut =="MERE"
+replace   EP10a=1  if EP10a_aut =="LE PROPRIETAIRE"
+replace   EP10a=1  if EP10a_aut =="Ministere de l'education nationale et de l'alphabétisation"
+replace   EP10a=1  if EP10a_aut =="LE GOUVERNEMENT"
+replace   EP10a=1  if EP10a_aut =="L ETAT"
+replace   EP10a=1  if EP10a_aut =="MA MERE"
+replace   EP10a=1  if EP10a_aut =="LORSQU'ELLE TRESSE ELLE GAGNE DE L AREGENT EN FONCTION DES PERSONNES QU ELLE TRESSE"
+replace   EP10a=1  if EP10a_aut =="LE PROPRIETAIRE DU CHAMP"
+replace   EP10a=2  if EP10a_aut =="chef maçon"
+replace   EP10a=1  if EP10a_aut =="LE RESPONSABLE DE LA VOITURE,  L’EMPLOYEUR"
+replace   EP10a=1  if EP10a_aut =="LA COMMUNAUTÉ"
+
+replace EP10a = 1 if inlist(EP10a_aut,"ETAT", "FONCTION PUBLIQUE","L ETAT","L'ETAT DE COTE D'IVOIRE","L'ETAT IVOIRIEN","L'ETAT","L’ETAT DE COTE D'IVOIRE","L’ETAT DE CÔTE D'IVOIRE","EMPLOYEUR")
+
+replace EP10a = 1 if inlist(EP10a_aut,"LE MINISTERE DE LA FONCTION PUBLIQUE ","LES CHAUFFEURS AVEC QUI JE ROULE","PROPRIÉTAIRE DU TRICYCLE")
+
+replace EP10a = 1 if inlist(EP10a_aut,"LE DISTRICT", "LE MAJOR DU DISPENSAIRE","LE PATRON","L'ETAT","L'ETAT DE COTE D'IVOIRE","MINISTERE DE L'EDUCATION NATIONALE","MINISTRE DE LA DEFENSE")
+replace EP10a = 1 if inlist(EP10a_aut,"MON PATRON", "MON PÈRE","moi même","son employeur")
+replace EP10a = 1 if EP10a_aut=="LE MINISTERE DE LA FONCTION PUBLIQUE"
+replace EP10a = 1 if EP10a_aut=="JE ME PAYE SUR LE TERRAIN"
+replace EP10a = 1 if EP10a_aut=="PATAGE DU REVENU"
+replace   EP10a=1  if EP10a_aut =="ETAT DE COTE D’IVOIRE"
+replace   EP10a=1  if EP10a_aut =="L’ETAT DE COTE D’IVOIRE"
+****
+replace EP10a=1 if EP10a_aut=="ECOLE"
+replace EP10a=1 if EP10a_aut=="MINISTÈRE DE L EDUCATION"
+replace EP10a=1 if EP10a_aut=="LE MINISTÈRE DE LA FONCTION PUBLIC"
+replace EP10a=1 if EP10a_aut=="SON GRAND-FRERE A QUI APPARTIENT LA CAVE"
+replace EP10a=1 if EP10a_aut=="L ETAT DE COTE D IVOIRE"
+replace EP10a=1 if EP10a_aut=="LE PROPRIETAIRE DE LA VOITURE QUE JE REPARE"
+replace EP10a=1 if EP10a_aut=="L'ETAT DE COTE DIVOIRE"
+replace EP10a=1 if EP10a_aut=="MINISTERE DE L 'EDUCATION NATIONALE"
+replace EP10a=1 if EP10a_aut=="MINISTERE DE L ' EDUCATION"
+replace EP10a=1 if EP10a_aut=="MINISTERE DE L ' EDUCATION"
+replace EP10a=1 if EP10a_aut=="L ETAT DE COTE DIVOIRE"
+replace EP10a=1 if EP10a_aut=="SON MARI LUI DONNE SA PART APRES LA VENTE"
+****
+replace EP10a=1 if EP10a_aut=="ENTREPRISE FAMILIALE"
+replace EP10a=1 if EP10a_aut=="LA CHEFFERIE DU VILLAGE"
+replace EP10a=1 if EP10a_aut=="ÉTAT"
+replace EP10a=1 if EP10a_aut=="FONCTIONNAIRE D'ETAT"
+replace EP10a=1 if EP10a_aut=="l’État"
+replace EP10a=1 if EP10a_aut=="L'ÉTAT"
+replace EP10a=1 if EP10a_aut=="LE MINISTERE DE L'EDUCATION"
+replace EP10a=2 if EP10a_aut=="UN MEMBRE DE LA FAMILLE"
+replace EP10a=2 if EP10a_aut=="LA PERSONNE MÊME"
+replace EP10a=2 if EP10a_aut=="AUTO PAYÉ"
+replace EP10a=2 if EP10a_aut=="MOI MEME"
+replace EP10a=2 if EP10a_aut=="FAMILLE"
+replace EP10a=2 if EP10a_aut=="GRAND FRÈRE"
+replace EP10a=2 if EP10a_aut=="PERE"
+**
+replace EP10a=1 if EP10a_aut=="L’état de côte d’Ivoire"
+replace EP10a=2 if EP10a_aut=="IL RECUPERE LES REVENUS D'UNE JOURNEE PAR SEMAINE"
+replace EP10a=2 if EP10a_aut=="SUR LE TAS"
+
+replace EP10a = 2 if EP10a_aut =="État"
+replace EP10a = 1 if EP10a_aut =="A LA BANQUE"
+replace EP10a = 1 if EP10a_aut =="LE PROPRIÉTAIRE DES VACHES"
+replace EP10a = 2 if EP10a_aut =="L’ETAT DE COTE DIVOIRE"
+replace EP10a = 2 if EP10a_aut =="L’ÉTAT"
+replace EP10a = 2 if EP10a_aut =="LE MINISTÈRE DE LA FONCTION PUBLIQUE"
+replace EP10a = 1 if EP10a_aut =="POURBOIRES"
+replace EP10a = 2 if EP10a_aut =="fonctionnaire"
+replace EP10a = 2 if EP10a_aut =="ETAT DE COTE D'ivoir"
+replace EP10a = 1 if EP10a_aut =="LES CLIENTS"
+replace EP10a = 2 if EP10a_aut =="gouvernement"
+replace EP10a = 1 if EP10a_aut =="MON CONJOINT"
+replace EP10a = 1 if EP10a_aut =="SOI MÊME"
+
+replace EP10a=1 if inlist(EP10a_aut,"YEO TIONRO","LA FAMILLE")
+
+replace   EP10a=1 if EP10a_aut =="PAR LA FAMILLE" 
+replace   EP10a=1 if EP10a_aut =="LES MEMBRES DE LA FAMILLE" 
+replace   EP10a=1 if EP10a_aut =="LE CONJOINT" 
+replace   EP10a=1 if EP10a_aut =="CONJOINT" 
+replace   EP10a=1 if EP10a_aut =="L'état"
+replace   EP10a=1 if EP10a_aut =="Banque" 
+replace   EP10a=1 if EP10a_aut =="SOI-MÊME" 
+replace   EP10a=1 if EP10a_aut =="EN BANQUE" 
+replace   EP10a=1 if EP10a_aut =="NE SAIT PAS" 
+replace   EP10a=1 if EP10a_aut =="LES MEMBRES DE LA FAMILLE" 
+replace   EP10a=1 if EP10a_aut =="VIREMENT BANCAIRE" 
+replace   EP10a=1 if EP10a_aut =="LES SAGES FEMMES" 
+replace   EP10a=1 if EP10a_aut =="NE SAIT PAS" 
+replace   EP10a=1 if EP10a_aut =="NE SAIT PAS" 
+replace   EP10a=1 if EP10a_aut =="SGBCI" 
+replace   EP10a=1 if EP10a_aut =="PROPRIÉTAIRE DU VÉHICULE" 
+replace   EP10a=1 if EP10a_aut =="LE PRÉSIDENT DE COGES" 
+
+*pour cette individu, le programme ne marche pas, on le tag directement
+
+replace   EP10a=1 if interview__key == "16-65-19-23" & membres__id == 1
+
+
+*vider 
+replace  EP10a_aut = "" if  !inlist(EP10a,.,3)
+
+***AUTRE A PRECISER
+** travail gratuitement
+
+////////////// EP24_Aut  
+*export excel  EP24_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+
+////////////// EP25_Aut: Dans quel type de local exercez-vous votre emploi principal ? 
+*export excel  EP25_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP25_Aut using "D:\CAE\fichier exel\EP25_Aut.xls" if EP25_Aut!="", firstrow(variables)
+
+*export excel interview__key membres__id EP1a EP1b EP3 EP11 EP25_Aut using "$folderpath/document/EP25_Aut.xls" if EP25_Aut!="", firstrow(variables) replace 
+
+replace   EP25=2  if EP25_Aut =="PAS DE LIEU FIXE"
+replace   EP25=2  if EP25_Aut =="SUR DIFFÉRENTS SITES"
+**
+replace   EP25=5  if EP25_Aut =="SUR UN TERRAIN D’HABITATION DU CLIENT"
+replace   EP25=1  if EP25_Aut =="EN TOUT LIEUX"
+replace   EP25=5  if EP25_Aut =="TERRAIN D’HABITATION"
+replace   EP25=10  if EP25_Aut =="POSTE FIXE PRES DE LA SCIERIE"
+replace   EP25=10  if EP25_Aut =="LAGUNE"
+replace   EP25=5  if EP25_Aut =="DANS UN MAGASIN SITUÉ DANS SON BATIMENT"
+replace   EP25=10  if EP25_Aut =="ZONE INDUSTRIELLE"
+replace   EP25=1  if EP25_Aut =="AUCUN LOCAL PRECIS"
+replace   EP25=10  if EP25_Aut =="DANS LA NATURE"
+replace   EP25=5  if EP25_Aut =="DANS LE LOCALE DE L HOTEL"
+replace   EP25=5  if EP25_Aut =="TRAVAILLER DANS UN MENAGE"
+replace   EP25=2  if EP25_Aut =="JE DEPOSE DEVANT UNE BOUTIQUE"
+replace   EP25=10  if EP25_Aut =="CHAMPS DE FAMILLE"
+replace   EP25=10  if EP25_Aut =="CHAMPS"
+replace   EP25=1  if EP25_Aut =="PAS DE LOCAL FIXE"
+replace   EP25=2  if EP25_Aut =="GARE ROUTIERE"
+replace   EP25=1  if EP25_Aut =="PAS DANS UN LOCAL"
+replace   EP25=1  if EP25_Aut =="PAS DE LOCAL"
+replace   EP25=1  if EP25_Aut =="AUCUN LOCAL"
+replace   EP25=1  if EP25_Aut =="DANS LES DIFFÉRENTES LOCALITÉS (VILLAGE)"
+replace   EP25=6  if EP25_Aut =="A LA MAISON"
+replace   EP25=5  if EP25_Aut =="SUR LES CHANTIERS DE CONSTRUCTION QUI LUI SONT CONFIÉS"
+replace   EP25=1  if EP25_Aut =="EN LIGNE"
+replace   EP25=6  if EP25_Aut =="proprietaire"
+replace   EP25=5  if EP25_Aut =="SUR LES TERRAINS DE CONSTRUCTION"
+replace   EP25=9  if EP25_Aut =="DANS UN ENCLOS"
+replace   EP25=9  if EP25_Aut =="LIVRAISON DIRECTE DE LA MARCHANDISE VERS LE CLIENT"
+replace   EP25=10  if EP25_Aut =="AU CHAMPS"
+replace   EP25=10  if EP25_Aut =="CHAMP"
+replace   EP25=2  if EP25_Aut =="EN BORDURE DU GOUDRON"
+replace   EP25=5  if EP25_Aut =="GARDIENAGE DANS UNE COURS"
+
+replace EP25=10 if EP25_Aut=="CHAMP"
+replace EP25=10 if EP25_Aut=="CHAMPS"
+replace EP25=11 if EP25_Aut=="AU MARCHE DE L ECOLE"
+replace EP25=10 if EP25_Aut=="UNE FERME"
+replace EP25=9 if EP25_Aut=="DANS UNE ECOLE"
+replace EP25=9 if EP25_Aut=="DANS UN ÉTABLISSEMENT PRIVE"
+replace EP25=12 if EP25_Aut=="SUR LES CHANTIERS"
+replace EP25=12 if EP25_Aut=="CHANTIER"
+replace EP25=12 if EP25_Aut=="SUR LES CHANTIERS EN CONSTRUCTION"
+replace EP25=12 if EP25_Aut=="SUR LES CHANTIER"
+replace EP25=10 if EP25_Aut=="AU CHAMP"
+replace   EP25=9  if EP25_Aut =="ABATTOIR"
+replace   EP25=2  if EP25_Aut =="POSTÉ IMPROVISE"
+replace   EP25=3  if EP25_Aut =="NOUS TRAVAILLONS SUR LA ROUTE"
+replace   EP25=5  if EP25_Aut =="AU DOMICILE DE L EMPLOYEUR"
+replace   EP25=5  if EP25_Aut =="AU DOMICILE DE L EMPLOYEUR"
+replace   EP25=2  if EP25_Aut =="PARK À BETAIL COMMUNAL"
+replace   EP25=1  if EP25_Aut =="AGENT SUR LA ROUTE"
+replace   EP25=3  if EP25_Aut =="un local loué au bord de la route"
+****
+
+replace EP25=1 if EP25_Aut=="PAS DE POSTE FIXE"
+replace EP25=2 if EP25_Aut=="POSTE IMPROVISÉ DANS  UNE GRANDE GAR"
+replace EP25=2 if EP25_Aut=="POSTE IMPROVISÉ  DEVANT SON DOMICILE"
+replace EP25=2 if EP25_Aut=="DEVANT MA COUR"
+replace EP25=5 if EP25_Aut=="SUR LES CHANTIERS,  DANS LES DOMICILES, MAGASINS DU CLIENT OU DANS LES MARCHÉS"
+replace EP25=2 if EP25_Aut=="AU SEIN DU QUARTIER"
+replace EP25=5 if EP25_Aut=="AU DOMICILE DE L’EMPLOYEUR"
+replace EP25=5 if EP25_Aut=="Gardien de résidence privée"
+replace EP25=5 if EP25_Aut=="IMMEUBLE"
+replace EP25=6 if EP25_Aut=="TRAVAILLEUR  À DOMICILE"
+replace EP25=6 if EP25_Aut=="A DOMICILE"
+replace EP25=6 if EP25_Aut=="A SON DOMICILE"
+replace EP25=6 if EP25_Aut=="DOMICILE"
+replace EP25=7 if EP25_Aut=="UNE CHAMBRE DANS LA COUR"
+replace EP25=9 if EP25_Aut=="Garage"
+replace EP25=9 if EP25_Aut=="SUR LES TERRAINS  REGLEMENTER"
+replace EP25=9 if EP25_Aut=="DANS UNE ECOLE PRIMAIRE"
+replace EP25=9 if EP25_Aut=="A L’ECOLE DIOULABOUKOU"
+replace EP25=9 if EP25_Aut=="A L’ ECOLE DIOULABOUKOU"
+replace EP25=9 if EP25_Aut=="ECOLE"
+replace EP25=9 if EP25_Aut=="UN GARAGE  AUTO"
+replace EP25=9 if EP25_Aut=="DANS LE CHANTIER  DES CONSTRUCTION DE L’ECOLE  DE POLICE A KAPELE"
+replace EP25=9 if EP25_Aut=="HANGAR"
+replace EP25=9 if EP25_Aut=="TERRAIN DE FOOTBALL"
+replace EP25=9 if EP25_Aut=="EGLISE"
+replace EP25=9 if EP25_Aut=="A L’ECOLE"
+replace EP25=9 if EP25_Aut=="dans une école de la place"
+replace EP25=10 if EP25_Aut=="Un pâturage"
+****
+replace EP25=1 if EP25_Aut=="VENTE A LA GARE"
+replace EP25=1 if EP25_Aut=="A LA GARE DE M BINGUEBOUGOU"
+replace EP25=1 if EP25_Aut=="Gare routière"
+replace EP25=1 if EP25_Aut== "GARE ROUTIÈRE"
+
+replace EP25=2 if EP25_Aut== "SUR LA VOIE PUBLIQUE"
+replace EP25=3 if EP25_Aut== "DANS UN MAGASIN EN BORDU DE ROUTE"
+replace EP25=2 if EP25_Aut== "POSTE IMPROVISÉ JUSTE A COTÉ DU MARCHE"
+replace EP25=2 if EP25_Aut== "PALCE AU PRÈS  D UNE ECOLE PRIVEE"
+replace EP25=2 if EP25_Aut=="POSTE IMPROVISÉ JUSTE A COTÉ DU MARCHE"
+replace EP25=3 if EP25_Aut== "SOUS UNE ENGARRE"
+replace EP25=3 if EP25_Aut=="EN BOIS"
+replace EP25=3 if EP25_Aut== "DANS UN LOCAL"
+replace EP25=3 if EP25_Aut== "DANS UN MAGASIN"
+replace EP25=3 if EP25_Aut== "ENDROIT AMENAGÉ"
+replace EP25=6 if EP25_Aut== "À domicile"
+replace EP25=6 if EP25_Aut== "DANS UN DOMICILE"
+replace EP25=6 if EP25_Aut=="DANS LA COUR FAMILIALE"
+replace EP25=6 if EP25_Aut== "à domicile"
+
+replace EP25=7 if EP25_Aut== "DEVANT LA MAISON AVEC INSTALLATION PARTICULIÈRE"
+replace EP25=7 if EP25_Aut== "MAGASIN A DOMICILE"
+replace EP25=7 if EP25_Aut=="DANS LE DOMICILE D'UNE PERSONNE AVEC UNE INSTALLATION PARTICULIÈRE"
+
+replace EP25=9 if EP25_Aut== "SUR UN TERRAIN"
+replace EP25=9 if EP25_Aut== "AU SEIN DE L’ECOLE DIOP"
+replace EP25=9 if EP25_Aut=="GARAGE"
+replace EP25=9 if EP25_Aut=="AU SEIN D’UNE ECOLE"
+replace EP25=9 if EP25_Aut=="TERRAINS DE FOOTBALL"
+replace EP25=9 if EP25_Aut=="A L’ÉCOLE"
+replace EP25=9 if EP25_Aut=="RESTAURANT"
+replace EP25=9 if EP25_Aut=="HOTEL"
+replace EP25=9 if EP25_Aut== "SUR LE TERRAIN"
+
+replace EP25=10 if EP25_Aut== "TERRAIN NON BATI"
+replace EP25=5 if EP25_Aut=="SUR LE CHANTIER"
+replace EP25=10 if EP25_Aut=="DANS UNE MINE"
+replace EP25=10 if EP25_Aut=="PAS D ENDROIT FIXES PARCE QU IL EST EST MACON"
+replace EP25=9 if EP25_Aut=="SUR LE SITE DE L’ORPAILLAGE"
+replace EP25=9 if EP25_Aut=="SUR LE SITE D’ORPAILLAGE"
+replace EP25=9 if EP25_Aut=="DE CHANTIER EN CHANTIER"
+*
+replace EP25=2 if EP25_Aut=="PAS DE LOCALE FIXE,SUR LES TERRAINS NON BATIS"
+replace EP25=3 if EP25_Aut=="PLACE A COTE DE LA MORGUE"
+replace EP25=3 if EP25_Aut=="PLACE DERRIERE LA MORGUE"
+replace EP25=5 if EP25_Aut=="INSTALLATION DANS UNE AUTRE COUR"
+replace EP25=6 if EP25_Aut=="VENTE EN LIGNE"
+replace EP25=9 if EP25_Aut=="SUR UN CHANTIER"
+replace EP25=9 if EP25_Aut=="SUR CHANTIER"
+replace EP25=9 if EP25_Aut=="SUR LE CHANTIER DU PORT SEC DE FERKE"
+replace EP25=9 if EP25_Aut=="SUR LE CHANTIER DU PORT SEC DE FERKESSEDOUGOU"
+replace EP25=9 if EP25_Aut=="CHANTIER DU PORT SEC"
+replace EP25=9 if EP25_Aut=="SUR LE CHANTIER DU PORC SEC"
+replace EP25=9 if EP25_Aut=="SUR LE CHANTIER DU PORT SEC"
+replace EP25=9 if EP25_Aut=="SUR DES CHANTIERS" 
+
+replace EP25 = 9 if EP25_Aut =="BATIMENT D HOTEL"
+replace EP25 = 9 if EP25_Aut =="LOCAL LÉGÈREMENT AMÉNAGÉ SITUER NON LOIN DU LIEU DE RÉSIDENCE"
+replace EP25 = 2 if EP25_Aut =="VENDRE SUR UNE TABLE EN BORDURE DE LA VOIE SECONDAIRE"
+replace EP25 = 2 if EP25_Aut =="POSTE IMPROVISÉ SUR UNE VOIE SECONDAIRE"
+replace EP25 = 9 if EP25_Aut =="POSTE FIXE AVEC DIFFÉRENTS BÂTIMENT"
+replace EP25 = 5 if EP25_Aut =="DE MAISON A MAISON"
+replace EP25 = 1 if EP25_Aut =="dans les cérémonies"
+replace EP25 = 9 if EP25_Aut =="L’ECOLE EST SITUE AU SEIN D'UNE BATIMENT"
+replace EP25 = 6 if EP25_Aut =="A MON DOMICILE"
+replace EP25 = 5 if EP25_Aut =="A DOMICILE OU AU DOMICILE DU CLIENT"
+replace EP25 = 9 if EP25_Aut =="AU MOULIN"
+replace EP25 = 12 if EP25_Aut =="SUR UN CHANTIER DE CONSTRUCTION"
+replace EP25 = 6 if EP25_Aut =="DEVANT LA COUR"
+replace EP25 = 4 if EP25_Aut =="TAXI PERSONNEL"
+replace EP25 = 2 if EP25_Aut =="SUR LES VOIES ET ROUTES PUBLIQUES"
+replace EP25 = 9 if EP25_Aut =="INSTALLATION AUTOUR DE LA SCIERIE"
+replace EP25 = 7 if EP25_Aut =="Dans  une maison"
+replace EP25 = 9 if EP25_Aut =="STADE"
+replace EP25 = 7 if EP25_Aut =="ESPACE LIBRE DEVANT LA COUR"
+replace EP25 = 1 if EP25_Aut =="POSTE NON FIXE"
+replace EP25 = 1 if EP25_Aut =="M’IMPORTE ENDROIT"
+
+replace  EP25=10 if EP25_Aut=="DANS UN BAS-FONDS"
+replace  EP25=9 if EP25_Aut=="DANS UN ETABLISSEMENT"
+replace  EP25=9 if EP25_Aut=="DANS UNE RÉSIDENCE HOTEL"
+replace  EP25=10 if EP25_Aut=="abattoir"
+replace  EP25=1 if EP25_Aut=="DANS LES COMMUNES DE BOUAKE"
+
+replace   EP25=1 if EP25_Aut =="SANS LIEU FIXE"
+replace   EP25=5 if EP25_Aut =="MACONNERIE"
+replace   EP25=1 if EP25_Aut =="VENDEUSE AMBULANTE"
+replace   EP25=9 if EP25_Aut =="MOSQUEE"
+replace   EP25=8 if EP25_Aut =="A LA GARE"
+replace   EP25=9 if EP25_Aut =="Dans une exploitation minière"
+replace   EP25=9 if EP25_Aut =="ROUTE"
+replace   EP25=9 if EP25_Aut =="LIEU AMENAGÉ"
+replace   EP25=9 if EP25_Aut =="A LA MOSQUÉE"
+replace   EP25=9 if EP25_Aut =="SUR UN SITE OUVERT ET AMENAGE"
+replace   EP25=9 if EP25_Aut =="BATIMENT"
+replace   EP25=9 if EP25_Aut =="DANS UNE GARDERIE"
+replace   EP25=9 if EP25_Aut =="SUR UN TERRAIN VIDE"
+replace   EP25=7 if EP25_Aut =="POSTE IMPROVISÉ EN FACE DE LA COUR"
+replace   EP25=9 if EP25_Aut =="UN ESPACE"
+replace   EP25=2 if EP25_Aut =="AU BORD DE LA ROUTE"
+replace   EP25=9 if EP25_Aut =="ESPACE GASTRONOMIQUE"
+replace   EP25=8 if EP25_Aut =="PLACE DANS UNE ÉCOLE CORANIQUE"
+replace   EP25=9 if EP25_Aut =="MOSQUEE"
+replace   EP25=9 if EP25_Aut =="A LA GARE"
+replace   EP25=2 if EP25_Aut =="a un carrefour"
+replace   EP25=2 if EP25_Aut =="Situé à côté de la voie publique."
+replace   EP25=5 if EP25_Aut =="DOMICILE DES APPRENANTS"
+replace   EP25=9 if EP25_Aut =="POSTE IMPROVISÉ À CÔTÉ  DE LA GARE"
+replace   EP25=10 if EP25_Aut =="champ"
+replace   EP25=2 if EP25_Aut =="POSTE DEVANT UN MAQUIS"
+replace   EP25=8 if EP25_Aut =="POSTE IMPROVISÉ DANS UNE GARE"
+replace   EP25=9 if EP25_Aut =="DANS LE CHR"
+replace   EP25=6 if EP25_Aut =="SUR UNE TABLE DEVANT LA COUR"
+replace   EP25=10 if EP25_Aut =="DANS LE CHAMP"
+
+
+
+
+**Vider la variable 
+replace EP25_Aut="" if !inlist(EP25,.,.a,13)
+
+////**************EP27A_Aut
+
+*export excel  EP27A_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+*export excel EP27A_Aut using "D:\CAE\fichier exel\EP27A_Aut.xls" if EP27A_Aut!="", firstrow(variables)
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 EP27A_Aut using "$folderpath/document/EP27A_Aut.xls" if EP27A_Aut!="", firstrow(variables) replace 
+
+
+
+replace   EP27A=4  if EP27A_Aut =="LE PROPRIETAIRE  DU CHAMP DANS  LEQUEL JE ME DEBOUILLE."
+replace   EP27A=4  if EP27A_Aut =="NE FIXE AUCUN PRIX MAIS EST PAYE PAR NATURES VIVRES ET BIEN D'AUTRES"
+replace   EP27A=2  if EP27A_Aut =="ne fixe pas de prix ,effectue les transferts d’unités en fonction des clients"
+replace   EP27A=2  if EP27A_Aut =="LES PRIX SONT FIXES PAR L’ACHETEUR"
+replace   EP27A=2  if EP27A_Aut =="LE PRIX EST FIXE PAR L ACHETEUR"
+replace   EP27A=2  if EP27A_Aut =="LE PRIX EST FIXE PAR L ACHETER"
+replace   EP27A=2  if EP27A_Aut =="LE PRIX EST FIXER PAR L ACHETEUR"
+replace   EP27A=2  if EP27A_Aut =="LE PRIX EST FIXÉ PAR L’ACHETEUR"
+replace EP27A = 5 if EP27A_Aut == "PRIX DU MARCHE ET AJOUT UNE MARCHE"
+replace EP27A = 2 if EP27A_Aut == "LES DONS ET OFFRANDES SONT VOLONTAIRE"
+replace EP27A = 2 if EP27A_Aut == "DONS OU OFFRANDES"
+
+replace EP27A = 2 if EP27A_Aut == "LE PRIX EST FIXÉ PAR L'ACHETEUR"
+replace EP27A = 2 if EP27A_Aut == "LE PRIX EST FIXE PAR L ACHETEUR"
+replace EP27A = 2 if EP27A_Aut == "LE PRIX  EST FIXE PAR L ACHETEUR"
+replace EP27A = 2 if EP27A_Aut == "LE CLIENT JOUE SELON SES MOYENS"
+replace EP27A = 2 if EP27A_Aut == "AUCUN PRIX N'EST FIXÉ PAR MES FIDÈLES"
+replace EP27A = 2 if EP27A_Aut == "LE PRIX EST FISCE PAR L ACHETEUR"
+replace EP27A = 2 if EP27A_Aut == "LE PRIX EST FIXE PAR LES ACHETEURS"
+****
+replace EP27A=2 if EP27A_Aut=="À L’APRECIATION DU CLIENT"
+replace EP27A=2 if EP27A_Aut=="LE PRIX EST IMPOSÉ PAR LES ACHETEURS"
+replace EP27A=2 if EP27A_Aut=="LES CLIENTS DONNENT CE QUILS PEUVENT DONNER"
+replace EP27A=3 if EP27A_Aut=="PRIX FIXE PAR LES AUTORITES"
+replace EP27A=5 if EP27A_Aut=="CA DÉPEND DE LA DISPONIBILITÉ DU CACAO"
+****
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT CEUX DU CLIENT"
+replace EP27A=5 if EP27A_Aut=="cela dépend des meubles et service"
+*
+replace EP27A=1 if EP27A_Aut=="BENEVOLAT"
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT FEXES PAR LES FIDELES"
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT DECIDES PAR LE CLIENT APRES SATISFACTION"
+replace EP27A=5 if EP27A_Aut=="PAS DE PRIX FIXÉ"
+replace EP27A=5 if EP27A_Aut=="ENTIEREMENT A LA CONSOMMATION"
+
+replace EP27A=2 if EP27A_Aut=="C’EST L ACHETEUR QUI FIXE LE PRIX"
+replace EP27A=2 if EP27A_Aut=="EGLISE"
+
+**TAK
+replace   EP27A=1  if  EP27A_Aut =="LES PRIX SONT FIXÉS PAR LES SYNDICATS DES TRANSPORTEURS"
+replace   EP27A=1 if  EP27A_Aut =="ONG"
+replace   EP27A=4 if  EP27A_Aut =="LE SALAIRE VARIE SELON LE PROJET ET LE CONTRAT"
+replace   EP27A=1 if  EP27A_Aut =="LES PRIX SONT FIXES PAR L ENTREPRISE"
+replace   EP27A=1 if  EP27A_Aut =="SELON LE PRIX DU VILLAGE"
+replace   EP27A=4 if  EP27A_Aut =="POUR LE COMPTE DU MENAGE"
+replace   EP27A=4 if  EP27A_Aut =="LE PRIX EST FIXE EN FONCTION DU TRAVAIL EFFECTUE"
+replace   EP27A=4 if  EP27A_Aut =="PRIX EN FONCTION DE LA TACHE EFFECTUEE"
+replace   EP27A=4 if  EP27A_Aut =="POUR LE COMPTE DU MENAGE"
+replace   EP27A=2 if  EP27A_Aut =="Cela dépend des fidèles."
+replace   EP27A=2 if  EP27A_Aut =="OFFRE DES SERVICES PAYANT AUX GENS"
+replace   EP27A=2 if  EP27A_Aut =="SELON LES FIDELS"
+replace   EP27A=2 if  EP27A_Aut =="SERVICE PAS EN VENTE"
+replace   EP27A=2 if  EP27A_Aut =="DISPENSE LES COURS SANS PRENDRE DE L'ARGENT A CAUSE DE LA RELIGION"
+replace   EP27A=2 if  EP27A_Aut =="PAS MARCHAND"
+
+
+
+***Vider la variable
+replace EP27A_Aut = "" if !inlist(EP27A,.,.a,6)
+
+
+ 
+
+***AUTRES A PRECISER**
+* DONT DES FIDELES, NOUVEAU CHAMP , PAS DE VENTE POUR LE MOMENT
+
+save "$datain_brute\membres" , replace
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+use "$datain_brute\QX_EEC_VF.dta", clear 
+
+export excel interview__key L1 L3_Aut using "$folderpath/document/L3_Aut.xls" if L3_Aut!="", firstrow(variables) replace 
+
+////////////// L3_Aut: 
+replace L3=6 if L3_Aut=="MAISON EN BANCO"
+replace L3=4 if L3_Aut=="MAISON EN BOIS"
+**
+replace L3=6 if L3_Aut=="BANCO,MOTTE DE TERRE,TOLE"
+replace L3=6 if L3_Aut=="TOLE, MOTTE DE TERRE"
+replace L3=6 if L3_Aut=="TOLE,BANCO,MOTTE DE TERRE"
+replace L3=6 if L3_Aut=="TOLE,BANCO’MOTTE DE TERRE"
+**
+replace L3=4 if L3_Aut=="EN BOIS"
+*
+replace L3=6 if L3_Aut=="BANCO,MOTTE DE TERRE ET TOLE"
+replace L3=6 if L3_Aut=="BANCO,TOLE,MOTTE DE TERRE"
+
+replace L3=6 if strpos(lower(L3_Aut),"motte")
+replace L3=6 if strpos(lower(L3_Aut),"molle")
+replace L3=6 if strpos(lower(L3_Aut),"banco")
+replace L3=4 if strpos(lower(L3_Aut),"bois")
+
+*
+replace L3=6 if L3_Aut=="TERRE BATTUE"
+
+
+replace L3_Aut = "" if !inlist(L3,.,.a,7) 
+
+/////////////L1
+*export excel L1_Aut using "C:\Users\Laurenne\Documents\Tableau excell\L1_Aut.xls" if L1_Aut!="", firstrow(variables)
+
+export excel interview__key L3 L1_Aut  using "$folderpath/document/L1_Aut.xls" if L1_Aut!="", firstrow(variables) replace 
+
+replace L1=3 if L1==8 & L1_Aut=="CHAMBRE AU SEIN DE LA BOULANGERIE"
+replace L1=5 if L1==8 & L1_Aut=="DORS DANS SA BOUTIQUE"
+replace L1=5 if L1==8 & L1_Aut==" IL DORT DANS BOUTIQUE"
+replace L1=5 if L1==8 & L1_Aut=="IL DORT DANS BOUTIQUE"
+replace L1=1 if L1==8 & L1_Aut=="MAISON BASSE"
+replace L1=5  if L1==8 & L1_Aut=="MAISON CHAQUIN CHEZ SOI"
+replace L1=6  if L1==8 & L1_Aut=="MAISON EN BANCO"
+
+replace L1=2 if L1_Aut=="CITE" 
+replace L1=2 if L1_Aut=="CONCESSION" 
+****
+replace L1=1 if L1_Aut=="MAISON FAMILIALE"
+replace L1=6 if L1_Aut=="MAISONNETTE"
+replace L1=7 if L1_Aut=="EN BACHE NOIR"
+**
+replace L1=1 if L1_Aut=="COUR FAMILIALE"
+replace L1=1 if L1_Aut=="maison familiale"
+replace L1=5 if L1_Aut=="MAISON CONSTRUITE À LA BASE COMME HOTEL"
+replace L1=1 if L1_Aut=="VILLA PLUS DES INDÉPENDANTES"
+replace L1=5 if L1_Aut=="ENTRÉE COUCHER"
+
+replace L1=3 if L1_Aut=="MAISON EN BANDE"
+replace L1=7 if L1_Aut=="MAISON DAHOMET"
+replace L1=5 if strpos(lower(L1_Aut),"ciment")
+replace L1=7 if L1_Aut=="MAISON EN BOIS"
+
+*TAK
+
+
+*Vider la variable
+replace L1_Aut = "" if !inlist(L1,.,.a,8) 
+
+/////////// L4_Aut:  Préciser l'autre Mode d'éclairage
+*export excel L4_Aut using "C:\Users\Laurenne\Documents\Tableau excell\L4_Aut.xls" if L4_Aut!="", firstrow(variables)
+
+export excel interview__key L1 L3 L4_Aut  using "$folderpath/document/L4_Aut.xls" if L4_Aut!="", firstrow(variables) replace 
+
+
+replace   L4=4  if L4_Aut =="SANS LUMIERE"
+replace   L4=4  if L4_Aut =="TORCHE DE PORTABLE"
+replace   L4=4  if L4_Aut =="TORCHE DE TELEPHONE"
+replace   L4=4  if L4_Aut =="TOCHE ÉNERGÉTIQUE"
+replace   L4=4  if L4_Aut =="PAS ELECTRICITE"
+replace L4=4 if L4_Aut=="TORCHE SOLAIRE"
+**
+replace L4=2 if L4_Aut=="ÉNERGIE"
+**
+replace L4=4 if L4_Aut=="énergie solaire"
+replace L4=4 if L4_Aut=="TORCHE TÉLÉPHONE PORTABLE"
+replace L4=4 if L4_Aut=="TORCHE PORTABLE"
+
+replace L4=4 if L4_Aut=="TORCHE A ENERGIE"
+replace L4=4 if L4_Aut=="TORCHE DE TÉLÉPHONE PORTABLE"
+
+*TAK
+
+replace   L4=1  if L4_Aut =="chez le voisin"
+replace   L4=2  if L4_Aut =="BACTÉRIE  ELECTRIQUE"
+replace   L4=1  if L4_Aut =="BRANCHE SUR LE COMPTEUR DU VOISIN"
+replace   L4=4  if L4_Aut =="LAMPE A BATTERIE"
+replace   L4=4  if L4_Aut =="TORCHE"
+replace   L4=1  if L4_Aut =="CHEZ LE VOISIN"
+**Vider la variable
+replace L4_Aut="" if !inlist(L4,.,.a,7) 
+
+*** AUTRES A PRECISER
+** BOUGIES , TELEPHONE,PAS DE COURANT DANS LA MAISON 
+
+/////////// L5_Aut:  L5_Aut. Préciser statut d'occupation
+
+*export excel L5_Aut using "D:\CAE\fichier exel\L5_Aut.xls" if L5_Aut!="", firstrow(variables)
+
+export excel interview__key L1 L3 L4 L5_Aut using "$folderpath/document/L5_Aut.xls" if L5_Aut!="", firstrow(variables) replace
+
+replace   L5=1  if L5_Aut == "MAISON NON TERMINÉ MAIS IL OCCUPE LA MAISON POUR LE MOMENT"
+replace   L5=7  if L5_Aut =="LOCATAIRE MAIS NE PAYE PAS PARCEQUE LA MAISON N EST PAS TOTALEMENT ACHEVÉE"
+replace   L5=6  if L5_Aut =="RESIDENCE DE FONCTION"
+replace   L5=7  if L5_Aut =="MAISON  FAMILIALE"
+replace   L5=7  if L5_Aut =="LOGEMENT FAMILIALE"
+replace   L5=7  if L5_Aut =="COUR FAMILIALE"
+replace   L5=7  if L5_Aut =="COURS FAMILIALE"
+replace   L5=7  if L5_Aut =="MAISON FAMILIALE"
+replace   L5=7  if L5_Aut =="MAISON DU PERE"
+replace   L5=7  if L5_Aut =="LOGEMENT FAMILIAL"
+replace   L5=7  if L5_Aut =="MAISON SON FILS DECEDE"
+
+replace L5 = 3 if inlist(L5_Aut, "CO-LOCATAIRE", "CO-LOCATION", "COLOCATION")
+replace L5_Aut = "" if inlist(L5_Aut, "CO-LOCATAIRE", "CO-LOCATION", "COLOCATION")
+replace L5 = 7 if inlist(L5_Aut, "COUR FAMILIALE", "LOGEMENT FAMILIAL", "LOGEMENT FAMILIALE", "MAISON FAMILIAL", "MAISON FAMILIALE", "LOGEMENT DE SON DEFUNT MARI")
+***
+replace L5=6 if L5_Aut=="LOGE GRATUITEMENT PAR SON EMPLOYEUR"
+replace L5=7 if L5_Aut=="MAISON DE SON GRAND FRERE"
+replace L5=7 if L5_Aut=="MAISIN DES BEAUX PARENTS"
+****
+replace L5=7 if L5_Aut=="maison familiale"
+replace L5=7 if L5_Aut=="cours familiale"
+replace L5=7 if L5_Aut=="HERITE DU DEFUNT PERE"
+replace L5=7 if L5_Aut=="CONCESSION FAMILIALE"
+*
+replace L5=7 if L5_Aut=="MAISON DE SON PERE"
+
+replace L5=7 if L5_Aut=="CAMP DE PRIÈRE"
+replace L5=6 if L5_Aut=="GÉRANT"
+replace L5=7 if L5_Aut=="L ENQUETE DIT QUE C’EST LE LOGEMENT DE MON MARI"
+replace L5=7 if L5_Aut=="LOGER CHEZ UN FRERE"
+replace L5=7 if L5_Aut=="MAISON? FAMILIALE"
+
+replace L5=7 if inlist(L5_Aut,"HERITAGE","HÉRITAGE","LOGEMENT DE FAMILLE","Logement familial", "MAISON DE MON MARI")
+
+replace L5=7 if strpos(lower(L5_Aut), "gratuitement")
+
+*TAK
+replace L5=2 if L5_Aut=="MAISON DE SON DEFUNT MARI"
+replace L5=7 if L5_Aut=="LOGEMENT APPARTENANT À UN AUTRE MEMBRE DE LA FAMILLE DU MÉNAGE"
+replace L5=7 if L5_Aut=="MAISON FAMILLE"
+replace L5=7 if L5_Aut=="FAMILIALE"
+
+replace L5_Aut = "" if !inlist(L5,.,.a,8) 
+
+*** AUTRE A PRECISER 
+** NE C'EST PAS 
+
+//////////L7_Aut. Préciser l'autre source d'approvisionnement en eau de boisson
+
+*export excel L7_Aut using "D:\CAE\fichier exel\L7_Aut.xls" if L7_Aut!="", firstrow(variables)
+
+export excel interview__key L1 L3 L4 L5 L7_Aut using "$folderpath/document/L7_Aut.xls" if L7_Aut!="", firstrow(variables) replace
+
+
+replace   L7=4  if L7_Aut =="ROBINET HORS DE LA CONCESSION"
+replace   L7=5  if L7_Aut =="PUITS FERMÉ DANS LE LOGEMENT"
+replace   L7=5  if L7_Aut =="PUITS FERME DANS LA CONCESSION"
+replace   L7=5  if L7_Aut =="PUITS FERME DANS LA COUR"
+replace   L7=5  if L7_Aut =="PUITS FERMÉ DANS LA CONCESSION"
+replace   L7=5  if L7_Aut =="FORAGE DANS LA COUR"
+
+replace   L7=3  if L7_Aut =="ACHETE CHEZ LES VOISINS D’UN AUTRE BATIMENT"
+replace   L7=3  if L7_Aut =="PAYE AILLEURS"
+replace   L7=5  if L7_Aut =="PUITS FERMÉ DANS LA COUR"
+replace   L7=4  if L7_Aut =="POMPE A MOTRICITE HUMAINE"
+replace   L7=4  if L7_Aut =="POMPE VILLAGEOISE"
+replace   L7=3  if L7_Aut =="ACHETE CHEZ DES VOISINS HORS DU BATIMENT"
+replace   L7=3  if L7_Aut =="ROBINET HORS DU BATIMENT"
+replace   L7=2  if L7_Aut =="ROBINET DU MENAGE SITUE HORS DU BATIMENT"
+replace   L7=2  if L7_Aut =="ROBINET HORS DE LA COURS"
+replace   L7=2  if L7_Aut =="ROBINET DU MENAGE HORS DU BATIMENT"
+replace L7=13 if L7_Aut=="PACK D EAU"
+replace L7=4 if  L7_Aut=="POMPE PUBLIQUE"
+replace L7=7 if  L7_Aut=="PUITS FERME AILLEURS"
+replace L7=7 if  L7_Aut=="PUITS FERMÉ AILLEURS"
+replace L7=2  if L7_Aut =="LEUR ROBINET EST AU BORD DE LA ROUTE PAS EN TIRE POUR VENIR DANS LA COUR"
+
+replace L7 = 8 if inlist(L7_Aut, "FORAGE CHEZ LE VOISIN", "FORAGE DU VOISIN", "FORAGE DANS LA MAISON","FORAGE PUBLIQUE HORS DE LA CONCESSION","ON ACHÈTE L’EAU DE BOISSON CHEZ LE VOISIN, LA COUR VOISINE","FORAGE DANS LA MAISON","J’ACHÈTE DE L’EAU AU QUARTIER DANS UNE COUR","ROBINET AILLEURS PAYANT","SE RAVITAIL CHEZ UN AUTRE MENAGE AILLEURS")
+replace L7_Aut = "" if inlist(L7_Aut, "FORAGE CHEZ LE VOISIN", "FORAGE DU VOISIN", "FORAGE DANS LA MAISON")
+
+*****
+replace L7=3 if L7_Aut=="PAIE L EAU AVEC LES VOISINS"
+replace L7=9 if L7_Aut=="BAFOND"
+replace L7=9 if L7_Aut=="BAFON"
+replace L7=6 if L7_Aut=="SE RESSOURCE AU LAVAGE"
+***
+replace L7=4 if L7_Aut== "Eau de pompe villageoise"
+replace L7=4 if L7_Aut== "POMPE A MOTRICITE HUMAINE DU VILLAGE"
+replace L7=4 if L7_Aut== "pompe villageoise"
+replace L7=5 if L7_Aut=="PUITS DANS LA COUR"
+replace L7=7 if L7_Aut=="PUIT FERME DANS LE BATIMENT"
+replace L7=13 if L7_Aut=="EAU MINERALE EN SACHET"
+replace L7=13 if L7_Aut=="ACHAT DE PAQUET D’EAU"
+replace L7=13 if L7_Aut=="ACHAT DE PACK D’EAU"
+replace L7=13 if L7_Aut=="ACHETE AUPRES DES LIVREURS"
+**
+replace L7=9 if L7_Aut=="POMPE VILLAGEOISE AILLEURS"
+
+replace L7=15 if L7_Aut=="ACHAT D'EAU"
+replace L7=3 if L7_Aut=="ACHETE CHEZ LES VOISINS"
+replace L7=4 if L7_Aut=="CHATEAU"
+replace L7=3 if L7_Aut=="ROBINET DU VOISIN"
+
+replace L7=13 if inlist(L7_Aut, "Achat d'eau dans un autre ménage", "IL PAYE L'EAU EN BIDON","PAIE L'EAU")
+
+replace L7=13 if strpos(L7_Aut,"Achat")
+
+replace L7=7 if L7_Aut=="PUITS FERME JUSTE À CÔTÉ DE LA COUR"
+replace L7=4 if L7_Aut=="POMPE À MOTRICITÉ HUMAINE DU VILLAGE"
+replace L7=4 if L7_Aut=="POMPE VI5"
+
+*TAK
+
+replace   L7=3  if  L7_Aut =="chez le voisin"
+replace   L7=3  if  L7_Aut =="CHEZ LE MENAGE VOISIN"
+replace   L7=4  if  L7_Aut =="POMBE A MOTRICITE HUMAINE"
+replace   L7=5  if  L7_Aut =="PUITS FERMÉ DANS LA COUR DE CONCESSION"
+replace   L7=5 if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7= 5 if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=5  if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=5  if  L7_Aut =="puits fermé dans la cour"
+replace   L7=12  if  L7_Aut =="MARIGOT"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE AILLEURS"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE AILLEURS"
+replace   L7=4  if  L7_Aut =="POMPE A MOTRICITE HUMAINE HORS DU VILLAGE"
+replace   L7=4  if  L7_Aut =="POMBE A MOTRICITE HUMAINE HORS DU CAMPEMENT"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE AILLEURS"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE AILLEURS"
+replace   L7=5 if  L7_Aut =="PUIT FERMÉ DANS LA CONCESSION"
+replace   L7=5  if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=5  if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE AILLEURS"
+replace   L7=4  if  L7_Aut =="POMBE A MOTRICITE HUMAINE"
+replace   L7=4  if  L7_Aut =="POMBE A MOTRICITE HUMAINE"
+replace   L7=13  if  L7_Aut =="ACHAT DE PARK D'EAU"
+replace   L7= 4 if  L7_Aut =="POMPE À MOTRICITE HUMAINE DU VILLAGE"
+replace   L7=2  if  L7_Aut =="GRANDE CITERNE DANS LA COUR"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE DU VILLAGE"
+replace   L7=4  if  L7_Aut =="POMPE À MOTRICITE HUMAINE DU VILLAGE"
+replace   L7= 5 if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=5  if  L7_Aut =="PUITS FERMER DANS LA COUR"
+replace   L7=5  if  L7_Aut =="PUITS FERMES DANS LA COUR"
+replace   L7=5  if  L7_Aut =="PUITS FERMES DANS LA COUR"
+
+
+replace L7_Aut = "" if !inlist(L7,.,.a,16) 
+
+**AUTRES 
+*APPROVISIONNER PAR CAMION CITERNE D EAU
+
+
+/////////L8_Aut. Préciser l'autre Mode d’évacuation des ordures ménagères: Pas d'observation
+*export excel  L8_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+export excel interview__key L1 L3 L4 L5 L7 L8_Aut using "$folderpath/document/L8_Aut.xls" if L8_Aut!="", firstrow(variables) replace
+
+replace L8=5 if L8_Aut=="DANS LA BROUSSE"
+replace L8=5 if L8_Aut== "DANS LA NATURE"
+
+replace L8=2 if L8_Aut=="RAMASSER PAR LE MENAGE"
+***
+replace L8=1 if L8_Aut=="DEPOTOIR PUBLIC"
+replace L8=1 if L8_Aut=="DANS LES HERBES"
+replace L8=1 if L8_Aut=="BROUSSE"
+replace L8=1 if L8_Aut=="JETER DANS LA BROUSSE"
+*
+replace L8=1 if L8_Aut=="NATURE"
+
+replace L8=5 if L8_Aut=="EN BROUSSE"
+replace L8=5 if L8_Aut=="LA BROUSSE"
+
+replace L8=2 if L8_Aut=="ENTREPRISE PRIVE STRUCTURE DE RAMASSAGE"
+replace L8=1 if inlist(L8_Aut, "DANS LE HERBES","DANS LES HERBRES","DANS UN TROU","DEVERSER DANS LES CHAMP","LIEU AMENAGE")
+
+*TAK
+replace L8=5 if L8_Aut=="DANS LE BAFOND"
+replace L8=5 if L8_Aut=="DANS LE GRAND CANIVEAU"
+replace L8=4 if L8_Aut=="UN CREUX DANS LA COUR"
+
+
+**Vider la variable
+replace L8_Aut="" if !inlist(L8,.,.a,6)
+
+///////// L9_Aut. Préciser l'autre Mode d’évacuation des eaux usées ?
+*export excel  L9_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+
+export excel interview__key L1 L3 L4 L5 L7 L8 L9_Aut using "$folderpath/document/L9_Aut.xls" if L9_Aut!="", firstrow(variables) replace
+
+replace   L9=1  if L9_Aut =="DANS UN GROS TROUS"
+replace   L9=1  if L9_Aut =="DANS UN TROU"
+replace L9=3 if L9_Aut=="DEVANT LA COUR"
+replace L9=3 if L9_Aut=="DANS L ESPACE DE LA COUR"
+****
+replace L9=4 if L9_Aut=="DANS LES CANIVEAUX"
+*
+replace   L9=1  if L9_Aut =="DANS UN CROU"
+replace   L9=1  if L9_Aut =="DANS UN TROU OUVERT"
+
+replace   L9=3  if L9_Aut =="DANS LA COUR"
+replace   L9=3  if L9_Aut =="DERRIERE LA MAISON"
+replace L9=5 if L9_Aut=="EN BROUSSE"
+replace L9=3 if L9_Aut=="LA COUR"
+
+replace L9=3 if L9_Aut=="DERRIERE OU DEVANT LA COUR"
+
+
+*TAK
+replace L9=4 if L9_Aut=="DANS BAFON"
+replace L9=4 if L9_Aut=="BAFOND"
+replace L9=4 if L9_Aut=="Au bas-fond"
+replace L9=4 if L9_Aut=="AU BAS-FOND"
+replace L9=3 if L9_Aut=="DERRIERE LA COUR"
+replace L9=5 if L9_Aut=="DANS UN MARIGOT"
+
+
+replace L9_Aut ="" if !inlist(L9,.,.a,6) 
+
+///////// L10_Aut. Préciser l'autre Type de Sanitaire utilisé par le ménage
+
+*export excel  L10_Aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+export excel interview__key L1 L3 L4 L5 L7 L8 L9 L10_Aut using "$folderpath/document/L10_Aut.xls" if L10_Aut!="", firstrow(variables) replace
+
+
+replace   L10=11  if L10_Aut =="DANS LA NATURE"
+
+replace L10=6 if L10_Aut=="LATRINE DALLER COUVERT EXTERNE"
+**
+replace L10=10 if L10_Aut=="LATRINES COMMUNES"
+**
+replace L10=2 if L10_Aut=="TOILETTE DES VOISINS"
+replace L10=2 if L10_Aut=="TOILETTE DU VOISIN"
+replace L10=2 if L10_Aut=="WC DU VOISIN"
+replace L10=2 if L10_Aut=="CHEZ LE VOISIN"
+
+replace L10=11 if L10_Aut=="CHEZ LES VOISINS OU EN BROUSSE"
+replace L10=9 if L10_Aut=="FOSSE RUDIMENTAIRE/TROU OUVERT AILLEURS"
+replace L10=9 if L10_Aut=="Fosse rudimentaire/tou ouvert ailleurs"
+replace L10=11 if L10_Aut=="TOILETTES D UN AUTRE MENAGE"
+replace L10=11 if L10_Aut=="VASE"
+
+*TAK
+replace L10=4 if L10_Aut=="UTILISE LES TOILETTES DU VOISIN"
+replace L10=4 if L10_Aut=="WC CHEZ LE VOISIN"
+replace L10=4 if L10_Aut=="W.C. CHEZ LE VOISIN"
+replace L10=4 if L10_Aut=="TROU OUVERT CHEZ LE VOISIN"
+replace L10=4 if L10_Aut=="CHEZ LES VOISIN"
+
+
+
+
+replace L10_Aut ="" if !inlist(L10,.,.a,12) 
+
+*******Q2_Aut 
+
+*******V1Q2_aut
+/////// Q6. Pourquoi avez vous utilisé un interprête ?;Q6_Aut. Veuillez préciser ?
+
+*export excel Q6_Aut using "D:\CAE\fichier exel\Q6_Aut.xls" if Q6_Aut!="", firstrow(variables)
+
+export excel interview__key Q6_Aut using "$folderpath/document/Q6_Aut.xls" if Q6_Aut!="", firstrow(variables) replace
+
+replace   Q6 =1 if Q6_Aut =="L’ENQUETE NE COMPREND PAS LE FRANCAIS"
+replace   Q6 = 1 if Q6_Aut =="L’ENQUÊTÉ COMPREND PEU LE FRANÇAIS ET PARLE EGALEMENT PEU IL FALLAIT IMPLICITEMENT UN INTERPRÈTE"
+
+replace   Q6 = 1 if Q6_Aut =="l’enquêté ne parle pas courenment le français mais comprend"
+replace   Q6 = 1 if Q6_Aut =="il n'arrive pas à bien s'exprimer en français"
+replace   Q6 = 1 if Q6_Aut =="L’ENQUÊTÉ NE COMPRENAIT PAS BIEN TOUTES LES QUESTIONS EN FRANÇAIS"
+replace   Q6 = 1 if Q6_Aut =="Le chef de ménage parle le francais mais son francais n'est pas trop correcte, il fallait une personne pour nous aider à mieux la comprendre."
+
+replace   Q6 = 1 if Q6_Aut =="l’enquêté ne comprend pas bien le français"
+replace   Q6 = 1 if Q6_Aut =="L'ENQUÊTÉ COMPREND DIFFICILEMENT LE FRANÇAIS ET NE PARLE PAS ASSEZ ÉGALEMENT LE FRANÇAIS"
+replace   Q6 = 1 if Q6_Aut =="L'ENQUETE COMPREND LE FRANCAIS MAIS DIFFICILEMENT, ELLE S'EST FAITE AIDER PAR SOUMAHORO KADIDJATOU (0171349056) SA VOISINE."
+replace   Q6 = 1 if Q6_Aut =="COMPREND FRANCAIS, MAIS NE PARLE PAS COURAMMENT"
+replace   Q6 = 1 if Q6_Aut =="L ENQUETE NE PARLE PAS BIEN LE FRANÇAIS"
+***
+replace Q6= 1 if Q6_Aut=="L'ENQUETE NE COMPREND PAS BIEN LE FRANCAIS"
+***
+replace Q6= 1 if Q6_Aut=="LE CM À VOYAGE ET MADAME A DU MAL Á  S EXPRIMER EN FRANÇAIS"
+replace Q6= 1 if Q6_Aut=="NE PARLE PAS FRANCAIS"
+replace Q6= 1 if Q6_Aut=="l’enquêté comprend mais ne parle pas bien le français"
+*
+replace Q6= 1 if Q6_Aut=="ENQUETE NE COMPREND PAS BIEN LE FRANCAIS"
+
+replace Q6 = 1 if Q6_Aut =="L’ENQUETE NE PARLE PAS BIEN LE FRANCAIS"
+replace Q6 = 1 if Q6_Aut =="TROP VIEUX"
+replace Q6 = 1 if Q6_Aut =="L ENQUETE A DU MAL A ENTENDRE"
+replace Q6 = 1 if Q6_Aut =="ELLE NE COMPREND PAS BIEN LE FRANCAIS"
+replace Q6 = 1 if Q6_Aut =="IL NE PERÇOIT PAS LE MESSAGE"
+replace Q6 = 1 if Q6_Aut =="PARLE UNIQUEMENT DIOULA"
+
+replace Q6=1 if Q6_Aut=="L'ENQUETE A SOUHAITE REMETTRE A UN PARENT LETTRE"
+
+replace Q6=1 if regexm(Q6_Aut,"MUET")
+replace Q6=1 if regexm(Q6_Aut,"FRANCAIS")
+
+replace Q6=1 if Q6_Aut=="L'ENQUÊTÉ  EST SOURD MUET"
+replace Q6=1 if Q6_Aut=="PROBLÈME POUR ENTENDRE ( OREILLES)"
+
+*TAK
+
+
+replace Q6_Aut ="" if !inlist(Q6,.,.a,3) 
+
+save "$datain_brute\QX_EEC_VF.dta", replace
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+use "$datain_brute\membres.dta", clear 
+
+/////////// SRH12A.Quelles sont les raisons de votre indisponibilité ?
+/// SRH12A_Aut1. Autre raison involontaire à préciser
+
+*export excel SRH12A_Aut1 using "D:\CAE\fichier exel\SRH12A_Aut1.xls" if SRH12A_Aut1!="", firstrow(variables)
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 SRH12A_Aut1 using "$folderpath/document/SRH12A_Aut1.xls" if SRH12A_Aut1!="", firstrow(variables) replace 
+
+replace   SRH12A__8 = 1 if SRH12A_Aut1 =="AVEUGLE"
+replace   SRH12A__8= 1 if SRH12A_Aut1 =="MUETTE"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="TROUBLES PSYCHIQUES"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="PROBLEME PSYCHIQUES,  SOURD, MUET"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="AIDER LA FAMILLE A LA MAISSON CAR ELLE EST SOUS MUET"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="POSSEDÉ PAR DES GENIES"
+
+
+replace SRH12A_Aut1 = "" if SRH12A__8 == 1 & (SRH12A_Aut1 == "AVEUGLE" | SRH12A_Aut1 == "MUETTE"|SRH12A_Aut1=="TROUBLES PSYCHIQUES"|SRH12A_Aut1=="PROBLEME PSYCHIQUES,  SOURD, MUET"|SRH12A_Aut1=="AIDER LA FAMILLE A LA MAISSON CAR ELLE EST SOUS MUET"|SRH12A_Aut1=="POSSEDÉ PAR DES GENIES")
+
+replace   SRH12A__7= 1 if SRH12A_Aut1=="LE MEDECIN LUI A DEMANDE DE SE REPOSER"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="MALADE"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="SOUFFRANT"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & (SRH12A_Aut1=="LE MEDECIN LUI A DEMANDE DE SE REPOSER"|SRH12A_Aut1=="MALADE"|SRH12A_Aut1=="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"|SRH12A_Aut1=="SOUFFRANT")
+
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="EN FORMATION"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SE FORMER SUR LA LECTURE CORANIQUE"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SUIVRE DES COURS CORANIQUES"
+
+replace SRH12A_Aut1 = "" if SRH12A__6 == 1 & (SRH12A_Aut1=="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"|SRH12A_Aut1=="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"| SRH12A_Aut1=="EN FORMATION"|SRH12A_Aut1=="SE FORMER SUR LA LECTURE CORANIQUE"|SRH12A_Aut1=="SUIVRE DES COURS CORANIQUES")
+
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE SUIS NOURRICE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE SUIS UNE NOURRICE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="S'OCCUPER DE SON BEBE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE M'OCCUPE DES ENFANTS"
+
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & (SRH12A_Aut1=="JE SUIS NOURRICE"|SRH12A_Aut1=="JE SUIS UNE NOURRICE"|SRH12A_Aut1=="S'OCCUPER DE SON BEBE"|SRH12A_Aut1=="JE M'OCCUPE DES ENFANTS")
+
+replace   SRH12A__13= 1 if SRH12A_Aut1=="EN PERIODE DE GROSSESSE"
+replace   SRH12A__13= 1 if SRH12A_Aut1=="EN GROSSESSE"
+replace   SRH12A__13= 1 if SRH12A_Aut1=="POUR CAUSE DE GR0SSESSE"
+
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & (SRH12A_Aut1=="EN PERIODE DE GROSSESSE"|SRH12A_Aut1=="EN GROSSESSE"|SRH12A_Aut1=="POUR CAUSE DE GR0SSESSE")
+
+replace   SRH12A__8 = 1 if SRH12A_Aut1 =="AVEUGLE"
+replace   SRH12A__8= 1 if SRH12A_Aut1 =="MUETTE"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="TROUBLES PSYCHIQUES"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="PROBLEME PSYCHIQUES,  SOURD, MUET"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="AIDER LA FAMILLE A LA MAISSON CAR ELLE EST SOUS MUET"
+replace   SRH12A__8= 1 if SRH12A_Aut1=="POSSEDÉ PAR DES GENIES"
+
+replace SRH12A_Aut1 = "" if SRH12A__8 == 1 & (SRH12A_Aut1 == "AVEUGLE" | SRH12A_Aut1 == "MUETTE"|SRH12A_Aut1=="TROUBLES PSYCHIQUES"|SRH12A_Aut1=="PROBLEME PSYCHIQUES,  SOURD, MUET"|SRH12A_Aut1=="AIDER LA FAMILLE A LA MAISSON CAR ELLE EST SOUS MUET"|SRH12A_Aut1=="POSSEDÉ PAR DES GENIES")
+
+replace   SRH12A__7= 1 if SRH12A_Aut1=="LE MEDECIN LUI A DEMANDE DE SE REPOSER"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="MALADE"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="SOUFFRANT"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & (SRH12A_Aut1=="LE MEDECIN LUI A DEMANDE DE SE REPOSER"|SRH12A_Aut1=="MALADE"|SRH12A_Aut1=="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"|SRH12A_Aut1=="SOUFFRANT")
+
+
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="EN FORMATION"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SE FORMER SUR LA LECTURE CORANIQUE"
+replace   SRH12A__6= 1 if SRH12A_Aut1=="SUIVRE DES COURS CORANIQUES"
+
+replace SRH12A_Aut1 = "" if SRH12A__6 == 1 & (SRH12A_Aut1=="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"|SRH12A_Aut1=="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"| SRH12A_Aut1=="EN FORMATION"|SRH12A_Aut1=="SE FORMER SUR LA LECTURE CORANIQUE"|SRH12A_Aut1=="SUIVRE DES COURS CORANIQUES")
+
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE SUIS NOURRICE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE SUIS UNE NOURRICE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="S'OCCUPER DE SON BEBE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="JE M'OCCUPE DES ENFANTS"
+
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & (SRH12A_Aut1=="JE SUIS NOURRICE"|SRH12A_Aut1=="JE SUIS UNE NOURRICE"|SRH12A_Aut1=="S'OCCUPER DE SON BEBE"|SRH12A_Aut1=="JE M'OCCUPE DES ENFANTS")
+
+replace   SRH12A__13= 1 if SRH12A_Aut1=="EN PERIODE DE GROSSESSE"
+replace   SRH12A__13= 1 if SRH12A_Aut1=="EN GROSSESSE"
+replace   SRH12A__13= 1 if SRH12A_Aut1=="POUR CAUSE DE GR0SSESSE"
+
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & (SRH12A_Aut1=="EN PERIODE DE GROSSESSE"|SRH12A_Aut1=="EN GROSSESSE"|SRH12A_Aut1=="POUR CAUSE DE GR0SSESSE")
+
+
+
+replace SRH12A__5=1 if regexm(SRH12A_Aut1,"EN VACANCE J ATTENTS QUE LES C")
+replace SRH12A__5=1 if regexm(SRH12A_Aut1,"JE ME SUIS INSCRIS DONC J ATTE")
+replace SRH12A__5=1 if regexm(SRH12A_Aut2,"occupée par les études|OCCUPÉE PAR LES ETUDES|FINIR LES ÉTUDES|ELEVE|SUIVRE LES COURS ECOLE CORANIQ")
+
+replace SRH12A__17=1 if regexm(SRH12A_Aut1,"Encore apprenti chez son patro")
+replace SRH12A__13=1 if regexm(SRH12A_Aut1,"FEMME ANCIENTE|ENCEINTE")
+replace SRH12A__17=1 if regexm(SRH12A_Aut1,"JE SUIS APPRENTI CHEZ UN MONSI")
+replace SRH12A__7=1 if regexm(SRH12A_Aut1,"JE SUIS DEVENU VIEUX ET JE N'A")
+replace SRH12A__20=1 if regexm(SRH12A_Aut1,"LE CONJOINT NE VEUT")
+replace SRH12A__14=1 if regexm(SRH12A_Aut1,"MON PROGRAMME DE CUISINE CHEZ")
+replace SRH12A__14=1 if regexm(SRH12A_Aut1,"OCCUPER AUX OBSÈQUES D'UN PRO")
+replace SRH12A__20=1 if regexm(SRH12A_Aut1,"REFUS DE MON MARI")
+replace SRH12A__13=1 if regexm(SRH12A_Aut2,"ELLE VIENT D ACCOUCHER|NOURRICE|ENCEINTE")
+replace SRH12A__26=1 if regexm(SRH12A_Aut2,"VIEUX|TROP AGE|AGE|VIEILLESSE")
+replace SRH12A__25=1 if  regexm(SRH12A_Aut2,"RETRAITE|ELLE MEME NE VEUX PAS TRAVAILL|N'A PAS L'ENVIE DE TRAVAILLE|FIDELE SERVITEUR DE DIEU|IMAM|PASTEUR |N'A PAS ENVIE DE TRAVAILLER|Elle préparait son mariage et")
+
+replace SRH12A__14=1 if regexm(SRH12A_Aut2,"OCCUPER AUX OBSÈQUES D'UN PRO |VOUS  VOUS  OCCUPER  DE VOTRE")
+
+replace SRH12A__7=1 if regexm(SRH12A_Aut2,"PSYCHOLOGIQUEMENT MALADE")
+replace SRH12A__7=1 if regexm(SRH12A_Aut2,"PROBLEME DE VUE")
+
+replace SRH12A__6=1 if regexm(SRH12A_Aut2,"EN FORMATION A L INFAS")
+
+
+replace SRH12A__22=1 if regexm(SRH12A_Aut2,"MENAGERE|RESPONSABLE MÉNAGÈRE")
+
+***** *Variable a vider 
+replace SRH12A_Aut1="" if SRH12A__5==1
+replace SRH12A_Aut1="" if SRH12A__13==1
+replace SRH12A_Aut1="" if SRH12A__14==1
+replace SRH12A_Aut1="" if SRH12A__17==1
+replace SRH12A_Aut1="" if SRH12A__7==1
+replace SRH12A_Aut1="" if SRH12A__6==1
+replace SRH12A_Aut1="" if SRH12A__25==1
+replace SRH12A_Aut1="" if SRH12A__26==1
+replace SRH12A_Aut1="" if SRH12A__20==1
+
+******______________________________________________________________________******
+replace   SRH12A__3= 1 if SRH12A_Aut1=="JE VOUDRAIS FAIRE LA LIVRAISON A MOTO MAIS JE N AI PAS DE PERMIS DE CONDUITE"
+replace   SRH12A__7= 1 if SRH12A_Aut1=="VIELLESSE"
+replace SRH12A__7=1 if SRH12A_Aut1=="VIEILLESSE"
+replace   SRH12A__12= 1 if SRH12A_Aut1=="SUIVI DE SANTE D'UN ENFANT QUI A EU UN ACCIDENT DEPUIS PLUS DE UN AN"
+replace   SRH12A__13= 1 if SRH12A_Aut1=="grossesses, elle est enceinte"
+replace   SRH12A__14= 1 if SRH12A_Aut1=="CAUSE DE VEUVAGE"
+replace   SRH12A__14= 1 if SRH12A_Aut1=="DIFFICULTE D'AVOIR UNE ACTIVITE DEPUIS SON MARIAGE"
+******
+replace   SRH12A__24= 0 if SRH12A_Aut1=="CAUSE DE VEUVAGE"
+replace   SRH12A__24= 0 if SRH12A_Aut1=="SUIVI DE SANTE D'UN ENFANT QUI A EU UN ACCIDENT DEPUIS PLUS DE UN AN"
+replace   SRH12A__24= 0 if SRH12A_Aut1=="DIFFICULTE D'AVOIR UNE ACTIVITE DEPUIS SON MARIAGE"
+replace   SRH12A__24= 0 if SRH12A_Aut1=="JE VOUDRAIS FAIRE LA LIVRAISON A MOTO MAIS JE N AI PAS DE PERMIS DE CONDUITE"
+replace   SRH12A__24= 0 if SRH12A_Aut1=="VIELLESSE"
+replace   SRH12A__24= 0 if SRH12A_Aut1=="grossesses, elle est enceinte"
+*******
+
+***** *Variable à vider 
+replace SRH12A_Aut1 = "" if SRH12A__14 ==1 & regexm(lower(itrim(SRH12A_Aut1)), "veuvage|difficulte.*(avoir|trouver).*activite.*depuis.*mariage")
+
+replace SRH12A_Aut1 = "" if SRH12A__13 == 1 & regexm(lower(itrim(SRH12A_Aut1)), "grossess.*enceinte|enceinte.*grossess")
+
+replace SRH12A_Aut1 = "" if SRH12A__3 == 1 & regexm(lower(itrim(SRH12A_Aut1)), "je.*livraison.*moto.*pas.*permis.*conduite")
+
+replace SRH12A_Aut1 = "" if SRH12A__7 ==1& regexm(lower(itrim(SRH12A_Aut1)), "vie+ll?esse")
+replace SRH12A_Aut1 = "" if SRH12A__7 ==1& regexm(lower(itrim(SRH12A_Aut1)), "vieillesse")
+
+replace SRH12A_Aut1 = "" if SRH12A__12 ==1 & regexm(lower(itrim(SRH12A_Aut1)), "suivi.*sant[ée].*enfant.*accident")
+
+replace SRH12A_Aut1 = "" if SRH12A__24 ==0 & regexm(lower(itrim(SRH12A_Aut1)), "cause de veuvage|suivi de sante d'un enfant.*accident|difficulte d'avoir une activite depuis son mariage|livraison a moto.*pas de permis|vieillesse|grossesse.*enceinte")
+
+*********
+*export excel SRH12A_Aut1 using "C:\Users\Laurenne\Documents\Tableau excell\SRH12A_Aut1.xls" if SRH12A_Aut1!="", firstrow(variables)
+
+replace SRH12A__13=1 if SRH12A_Aut1== "A SUBIT UNE CESARIENNE POUR DES TRIPLES"
+replace SRH12A__13=1 if SRH12A_Aut1=="EN ETAT DE GROSSESSE"
+replace SRH12A__13=1 if SRH12A_Aut1== "A ACCOUCHE LE 13/05/2025"
+replace SRH12A__12=1 if SRH12A_Aut1== "FEMME AU FOYER"
+replace SRH12A__14=1 if SRH12A_Aut1== "J'ETAIS AU PRES DE MAMAN MALADE"
+replace SRH12A__14=1 if SRH12A_Aut1== "ASSISTE SA TANTE DANS SES ACTIVITES"
+replace SRH12A__14=1 if SRH12A_Aut1== "LES OBSEQUES DE SA MÈRE"
+replace SRH12A__26=1 if SRH12A_Aut1== "TROP AGEE"
+replace SRH12A__26=1 if SRH12A_Aut1== "TROP ÂGÉE"
+replace SRH12A__21=1 if SRH12A_Aut1== "MANQUE DE MOYEN"
+replace SRH12A__5=1 if SRH12A_Aut1== "OCCUPEE PAR LES ÉTUDES" 
+replace SRH12A__5=1 if SRH12A_Aut1== "OCCUPER PAR LES ETUDES FRANCO ARABE"
+replace SRH12A__5=1 if SRH12A_Aut1== "actuellement  à l'école"
+
+**
+
+replace SRH12A__20=1 if SRH12A_Aut1 =="MON CONJOINT S’OPPOSE"
+replace SRH12A__12=1 if SRH12A_Aut1 =="NOURRICE"
+replace SRH12A__5=1 if SRH12A_Aut1 =="ELEVE DANS UNE ECOLE CORANIQUE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="problème de santé"
+replace SRH12A__18=1 if SRH12A_Aut1 =="EN DEUIL DEPUIS MAINTENANT DEUX MOIS, ELLE A STOPPÉ TOUTES SES ACTIVITÉS COMME LE VEUT LEUR TRADITION ET NE SAIT PAS QUAND ELLE VA REPRENDRE SES ACTIVITÉS. C'EST SON MARI QUI LUI DONNE DE L'ARGENT POUR SUBVENIR A SES BESOINS POUR LE MOMENT"
+replace SRH12A__6=1 if SRH12A_Aut1 =="DÉJÀ APPRENTI DANS UN SALON DE COIFFURE"
+replace SRH12A__25=1 if SRH12A_Aut1 =="GUIDE RELIGIEUX"
+replace SRH12A__18=1 if SRH12A_Aut1 =="LE MOMENT DE VEUVAGE"
+replace SRH12A__5=1 if SRH12A_Aut1 =="SE PREPARE POUR SE RENDRE A ABIDJAN POUR LE DEBUT DE LA FORMATION DE L'ENS"
+replace SRH12A__20=1 if SRH12A_Aut1 =="MON MARI NE VEUT PAS QUE JE TRAVAIL POUR L’INSTANT"
+replace SRH12A__26=1 if SRH12A_Aut1 =="RETRAITE"
+replace SRH12A__20=1 if SRH12A_Aut1 =="L’ENQUÉTÉ DÉCLARE QUE SON ÉPOUX REFUSE QU’ELLE TRAVAIL"
+replace SRH12A__12=1 if SRH12A_Aut1 =="NOURRICIÈRE"
+replace SRH12A__4=1 if SRH12A_Aut1 =="JE NE SUIS PARTIR A L'ECOLE"
+
+
+
+**
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "A SUBIT UNE CESARIENNE POUR DES TRIPLES"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "EN ETAT DE GROSSESSE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "A ACCOUCHE LE 13/05/2025"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "FEMME AU FOYER"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "J'ETAIS AU PRES DE MAMAN MALADE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "ASSISTE SA TANTE DANS SES ACTIVITES"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "LES OBSEQUES DE SA MÈRE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "TROP AGEE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "TROP ÂGÉE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "MANQUE DE MOYEN"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "OCCUPEE PAR LES ÉTUDES"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "OCCUPER PAR LES ETUDES FRANCO ARABE"
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "actuellement  à l'école"
+*
+replace SRH12A__24 = 1 if SRH12A_Aut1 == "MON CONJOINT SOUHAITE QUE JE RESTE A LA MAISON POUR L’INSTANT"
+replace SRH12A__12 = 1 if SRH12A_Aut1 == "ELLE VIENT D'ACCOUCHER"
+replace SRH12A__26 = 1 if SRH12A_Aut1 == "Trop âgé"
+replace SRH12A__14 = 1 if SRH12A_Aut1 == "Vous vous occupiez de vos proches"
+replace SRH12A__21 = 1 if SRH12A_Aut1 == "MANQUE DE MOYENS FINANCIERS"
+replace SRH12A__5 = 1 if SRH12A_Aut1 == "A ARRETE LES ETUDES CES DEUX DERNIERES ANNEES MAIS VA REPRENDRE L'ANNEE SCOLAIRE SUIVANTE"
+replace SRH12A__25 = 1 if SRH12A_Aut1 == "ACTIVITE PASTORALE"
+replace SRH12A__8 = 1 if SRH12A_Aut1 == "mal voyant"
+replace SRH12A__14 = 1 if SRH12A_Aut1 == "AIDE FAMILIALE"
+
+
+replace SRH12A__24=0 if SRH12A_Aut1 =="MON CONJOINT S’OPPOSE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="NOURRICE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="ELEVE DANS UNE ECOLE CORANIQUE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="problème de santé"
+replace SRH12A__24=0 if SRH12A_Aut1 =="EN DEUIL DEPUIS MAINTENANT DEUX MOIS, ELLE A STOPPÉ TOUTES SES ACTIVITÉS COMME LE VEUT LEUR TRADITION ET NE SAIT PAS QUAND ELLE VA REPRENDRE SES ACTIVITÉS. C'EST SON MARI QUI LUI DONNE DE L'ARGENT POUR SUBVENIR A SES BESOINS POUR LE MOMENT"
+replace SRH12A__24=0 if SRH12A_Aut1 =="DÉJÀ APPRENTI DANS UN SALON DE COIFFURE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="DIFFICULTÉ  A AVOIR UNE PARCELLE A CULTIVER"
+replace SRH12A__24=0 if SRH12A_Aut1 =="GUIDE RELIGIEUX"
+replace SRH12A__24=0 if SRH12A_Aut1 =="LE MOMENT DE VEUVAGE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="SE PREPARE POUR SE RENDRE A ABIDJAN POUR LE DEBUT DE LA FORMATION DE L'ENS"
+replace SRH12A__24=0 if SRH12A_Aut1 =="MON MARI NE VEUT PAS QUE JE TRAVAIL POUR L’INSTANT"
+replace SRH12A__24=0 if SRH12A_Aut1 =="RETRAITE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="L’ENQUÉTÉ DÉCLARE QUE SON ÉPOUX REFUSE QU’ELLE TRAVAIL"
+replace SRH12A__24=0 if SRH12A_Aut1 =="NOURRICIÈRE"
+replace SRH12A__24=0 if SRH12A_Aut1 =="JE NE SUIS PARTIR A L'ECOLE"
+
+
+***Vider
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & SRH12A_Aut1 == "FEMME AU FOYER"
+
+replace SRH12A_Aut1 = "" if SRH12A__13 == 1 & SRH12A_Aut1 == "A SUBIT UNE CESARIENNE POUR DES TRIPLES"
+replace SRH12A_Aut1 = "" if SRH12A__13 == 1 & SRH12A_Aut1 == "EN ETAT DE GROSSESSE"
+replace SRH12A_Aut1 = "" if SRH12A__13 == 1 & SRH12A_Aut1 == "A ACCOUCHE LE 13/05/2025"
+
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "J'ETAIS AU PRES DE MAMAN MALADE"
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "ASSISTE SA TANTE DANS SES ACTIVITES"
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "LES OBSEQUES DE SA MÈRE"
+
+replace SRH12A_Aut1 = "" if SRH12A__26 == 1 & SRH12A_Aut1 == "TROP AGEE"
+replace SRH12A_Aut1 = "" if SRH12A__26 == 1 & SRH12A_Aut1 == "TROP ÂGÉE"
+
+replace SRH12A_Aut1 = "" if SRH12A__21 == 1 & SRH12A_Aut1 == "MANQUE DE MOYEN"
+
+replace SRH12A_Aut1 = "" if SRH12A__5 == 1 & SRH12A_Aut1 == "OCCUPEE PAR LES ÉTUDES"
+replace SRH12A_Aut1 = "" if SRH12A__5 == 1 & SRH12A_Aut1 == "OCCUPER PAR LES ETUDES FRANCO ARABE"
+replace SRH12A_Aut1 = "" if SRH12A__5 == 1 & SRH12A_Aut1 == "actuellement  à l'école"
+
+replace SRH12A_Aut1 = "" if SRH12A__24 == 0 
+
+replace SRH12A_Aut1 = "" if SRH12A__24 == 1 & SRH12A_Aut1 == "MON CONJOINT SOUHAITE QUE JE RESTE A LA MAISON POUR L’INSTANT"
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & SRH12A_Aut1 == "ELLE VIENT D'ACCOUCHER"
+replace SRH12A_Aut1 = "" if SRH12A__26 == 1 & SRH12A_Aut1 == "Trop âgé"
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "Vous vous occupiez de vos proches"
+replace SRH12A_Aut1 = "" if SRH12A__21 == 1 & SRH12A_Aut1 == "MANQUE DE MOYENS FINANCIERS"
+replace SRH12A_Aut1 = "" if SRH12A__5  == 1 & SRH12A_Aut1 == "A ARRETE LES ETUDES CES DEUX DERNIERES ANNEES MAIS VA REPRENDRE L'ANNEE SCOLAIRE SUIVANTE"
+replace SRH12A_Aut1 = "" if SRH12A__25 == 1 & SRH12A_Aut1 == "ACTIVITE PASTORALE"
+replace SRH12A_Aut1 = "" if SRH12A__8  == 1 & SRH12A_Aut1 == "mal voyant"
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "AIDE FAMILIALE"
+
+
+replace SRH12A_Aut1 = "" if SRH12A__20 == 1 & SRH12A_Aut1 == "MON CONJOINT S’OPPOSE"
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & SRH12A_Aut1 == "NOURRICE"
+replace SRH12A_Aut1 = "" if SRH12A__5  == 1 & SRH12A_Aut1 == "ELEVE DANS UNE ECOLE CORANIQUE"
+replace SRH12A_Aut1 = "" if SRH12A__7  == 1 & SRH12A_Aut1 == "problème de santé"
+replace SRH12A_Aut1 = "" if SRH12A__18 == 1 & SRH12A_Aut1 == "EN DEUIL DEPUIS MAINTENANT DEUX MOIS, ELLE A STOPPÉ TOUTES SES ACTIVITÉS COMME LE VEUT LEUR TRADITION ET NE SAIT PAS QUAND ELLE VA REPRENDRE SES ACTIVITÉS. C'EST SON MARI QUI LUI DONNE DE L'ARGENT POUR SUBVENIR A SES BESOINS POUR LE MOMENT"
+replace SRH12A_Aut1 = "" if SRH12A__6  == 1 & SRH12A_Aut1 == "DÉJÀ APPRENTI DANS UN SALON DE COIFFURE"
+replace SRH12A_Aut1 = "" if SRH12A__25 == 1 & SRH12A_Aut1 == "GUIDE RELIGIEUX"
+replace SRH12A_Aut1 = "" if SRH12A__18 == 1 & SRH12A_Aut1 == "LE MOMENT DE VEUVAGE"
+replace SRH12A_Aut1 = "" if SRH12A__5  == 1 & SRH12A_Aut1 == "SE PREPARE POUR SE RENDRE A ABIDJAN POUR LE DEBUT DE LA FORMATION DE L'ENS"
+replace SRH12A_Aut1 = "" if SRH12A__20 == 1 & SRH12A_Aut1 == "MON MARI NE VEUT PAS QUE JE TRAVAIL POUR L’INSTANT"
+replace SRH12A_Aut1 = "" if SRH12A__26 == 1 & SRH12A_Aut1 == "RETRAITE"
+replace SRH12A_Aut1 = "" if SRH12A__20 == 1 & SRH12A_Aut1 == "L’ENQUÉTÉ DÉCLARE QUE SON ÉPOUX REFUSE QU’ELLE TRAVAIL"
+replace SRH12A_Aut1 = "" if SRH12A__12 == 1 & SRH12A_Aut1 == "NOURRICIÈRE"
+replace SRH12A_Aut1 = "" if SRH12A__4  == 1 & SRH12A_Aut1 == "JE NE SUIS PARTIR A L'ECOLE"
+
+*TAK
+
+replace SRH12A__8=1 if SRH12A_Aut1 =="MALVOYANTE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="PROBLEME DE SANTE MENTALE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="PROBLEME DE SANTE MENTALE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="MALADIE"
+replace SRH12A__17=1 if SRH12A_Aut1 =="ATTENT LA REPRISE DES TRAVAUX"
+replace SRH12A__20=1 if SRH12A_Aut1 =="MON CONJOINT NE VEUT PAS QUE JE TRAVAILLE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="MALADIE"
+replace SRH12A__7=1 if SRH12A_Aut1 =="TROUBLE MENTAL"
+replace SRH12A__14=1 if SRH12A_Aut1 =="SOCCUPER DE LA VIELLE YAMESSOU"
+replace SRH12A__7=1 if SRH12A_Aut1 =="PERSONNE MALADE"
+ 
+replace SRH12A__7=1 if SRH12A_Aut1 =="CAS DE MALADIE"
+
+*vider 
+
+replace SRH12A_Aut1 = "" if SRH12A__8 == 1 & SRH12A_Aut1 == "MALVOYANTE"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "PROBLEME DE SANTE MENTALE"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "MALADIE"
+
+replace SRH12A_Aut1 = "" if SRH12A__17 == 1 & SRH12A_Aut1 == "ATTENT LA REPRISE DES TRAVAUX"
+
+replace SRH12A_Aut1 = "" if SRH12A__20 == 1 & SRH12A_Aut1 == "MON CONJOINT NE VEUT PAS QUE JE TRAVAILLE"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "TROUBLE MENTAL"
+
+replace SRH12A_Aut1 = "" if SRH12A__14 == 1 & SRH12A_Aut1 == "SOCCUPER DE LA VIELLE YAMESSOU"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "PERSONNE MALADE"
+
+replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "CAS DE MALADIE"
+
+*
+replace SRH12A__24 = 0 if SRH12A_Aut1 == "" & SRH11==2
+
+
+******______________________________________________________________________******
+
+****************SRH12A_Aut2
+*export excel SRH12A_Aut2 using "D:\CAE\fichier exel\SRH12A_Aut2.xlsx" if SRH12A_Aut2 !="", firstrow(variables) replace
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 SRH12A_Aut2 using "$folderpath/document/SRH12A_Aut2.xls" if SRH12A_Aut2!="", firstrow(variables) replace 
+
+replace   SRH12A__13=1  if SRH12A_Aut2 =="EN PERIODE DE GROSSESSE"
+replace   SRH12A__13=1  if SRH12A_Aut2 =="EN GROSSESSE"
+replace   SRH12A__13=1  if SRH12A_Aut2 =="POUR CAUSE DE GR0SSESSE"
+
+**Vider la variable 
+replace SRH12A_Aut2 = "" if SRH12A__13 ==1  & (SRH12A_Aut2 =="EN PERIODE DE GROSSESSE" |SRH12A_Aut2 =="EN GROSSESSE"|SRH12A_Aut2 =="POUR CAUSE DE GR0SSESSE" )
+
+
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP AGEE POUR LE FAIRE"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP ÂGÉ"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="PERSONNE TRES AGEE"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="PERSONNE AGEE"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP AGE POUR TRAVAILLER"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP AGEE"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP AGER"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP¨AGER"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP AGER POUR TRAVAILLER"
+
+*vider
+replace SRH12A_Aut2 = "" if SRH12A__26 ==1  & (SRH12A_Aut2 =="TROP AGEE POUR LE FAIRE"| SRH12A_Aut2 =="TROP ÂGÉ"| SRH12A_Aut2 =="PERSONNE TRES AGEE"| SRH12A_Aut2 =="PERSONNE AGEE"| SRH12A_Aut2 =="TROP AGE POUR TRAVAILLER"| SRH12A_Aut2 =="TROP AGEE"| SRH12A_Aut2 =="TROP AGER"|SRH12A_Aut2=="TROP¨AGER" |SRH12A_Aut2 =="TROP AGER POUR TRAVAILLER")
+*****
+
+replace   SRH12A__25=1  if SRH12A_Aut2 =="JE NE SOUHAITE PAS TRAVAILLER"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="tretraite"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="RETRAITÉ"
+
+replace SRH12A_Aut2 = "" if SRH12A__25 ==1  & (SRH12A_Aut2 =="JE NE SOUHAITE PAS TRAVAILLER"|SRH12A_Aut2 =="tretraite"|SRH12A_Aut2 =="RETRAITÉ")
+
+
+replace   SRH12A__5=1  if SRH12A_Aut2 =="ELEVE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="FAIRE L'ECOLE CORANIQUE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="POUR LES ETUDES"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="ENCORE ELEVE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="ECOLE MATRASSA"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="SE FORMER SUR LA LECTURE CORANIQUE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="SUIVRE DES COURS CORANIQUES"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="IL EST ELEVE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="ELLE EST ELEVE"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="ETUDES"
+
+
+replace   SRH12A__12=1  if SRH12A_Aut2 =="NOURRICE"
+replace   SRH12A__12=1  if SRH12A_Aut2 =="S'OCCUPE DE SON ENFANT /  NE VEUT PAS TRAVAILLER POUR AUTRUI"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="VEUVAGE PENDANT 4 MOIS"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="TEMPS DE REPOS"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="NE VEUT PAS / COMMERCE"
+replace   SRH12A__25=1  if SRH12A_Aut2 == "VIEILLESSE ET PROBLÈME DE SANTÉ"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="RETRAITER"
+replace   SRH12A__26=1  if SRH12A_Aut2 =="TROP ÂGÉ POUR TRAVAILLER"
+replace   SRH12A__5=1  if SRH12A_Aut2 =="EN PERIODE D'APPRENTISSAGE"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="SERVIR DIEU"
+replace   SRH12A__25=1  if SRH12A_Aut2 =="IL EST PASTEUR"
+replace   SRH12A__5=1  if SRH12A_Aut2 == "FOCALISÉ SUR SA SOUTENANCE"
+replace   SRH12A__5=1  if SRH12A_Aut2 == "ACTUELLEMENT EN STAGE"
+replace   SRH12A__6=1  if SRH12A_Aut2 == "APPRENTI COUTURIER"
+replace   SRH12A__6=1  if SRH12A_Aut2 == "APPRENTI NON PAYÉ"
+replace   SRH12A__18=1  if SRH12A_Aut2 == "ATTEND AFFECTATION"
+replace   SRH12A__15=1  if SRH12A_Aut2 == "CONCOURS"
+replace   SRH12A__11=1  if SRH12A_Aut2 == "TROUBLES MENTAUX"
+replace   SRH12A__26=1  if SRH12A_Aut2 == "VIEILLESSE"
+*vider
+replace SRH12A_Aut2 = "" if SRH12A__12 == 1 & SRH12A_Aut2 == "NOURRICE"
+replace SRH12A_Aut2 = "" if SRH12A__12 == 1 & SRH12A_Aut2 == "S'OCCUPE DE SON ENFANT /  NE VEUT PAS TRAVAILLER POUR AUTRUI"
+
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "VEUVAGE PENDANT 4 MOIS"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "TEMPS DE REPOS"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "NE VEUT PAS / COMMERCE"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "VIEILLESSE ET PROBLÈME DE SANTÉ"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "RETRAITER"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "SERVIR DIEU"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "IL EST PASTEUR"
+
+replace SRH12A_Aut2 = "" if SRH12A__26 == 1 & SRH12A_Aut2 == "TROP ÂGÉ POUR TRAVAILLER"
+replace SRH12A_Aut2 = "" if SRH12A__26 == 1 & SRH12A_Aut2 == "VIEILLESSE"
+
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "EN PERIODE D'APPRENTISSAGE"
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "FOCALISÉ SUR SA SOUTENANCE"
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "ACTUELLEMENT EN STAGE"
+
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "APPRENTI COUTURIER"
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "APPRENTI NON PAYÉ"
+
+replace SRH12A_Aut2 = "" if SRH12A__18 == 1 & SRH12A_Aut2 == "ATTEND AFFECTATION"
+replace SRH12A_Aut2 = "" if SRH12A__15 == 1 & SRH12A_Aut2 == "CONCOURS"
+replace SRH12A_Aut2 = "" if SRH12A__11 == 1 & SRH12A_Aut2 == "TROUBLES MENTAUX"
+
+
+***Vider la variable
+replace SRH12A_Aut2 = "" if SRH12A__5 ==1  & (SRH12A_Aut2 =="ELEVE"|SRH12A_Aut2 =="FAIRE L'ECOLE CORANIQUE" | SRH12A_Aut2 =="POUR LES ETUDES"| SRH12A_Aut2 =="ENCORE ELEVE"| SRH12A_Aut2 =="ECOLE MATRASSA"| SRH12A_Aut2 =="SE FORMER SUR LA LECTURE CORANIQUE"| SRH12A_Aut2 =="SUIVRE DES COURS CORANIQUES"| SRH12A_Aut2 =="IL EST ELEVE"| SRH12A_Aut2 =="ELLE EST ELEVE"| SRH12A_Aut2 =="ETUDES")
+
+
+replace   SRH12A__14=1  if SRH12A_Aut2 =="ELLE EST MENAGERE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="JE SUIS NOURRICE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="MENAGERE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="ASSISTER MA GRAND MERE MALADE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="S'OCCUPER DE SON BEBE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="JE SUIS UNE NOURRICE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="JE M'OCCUPE DES ENFANTS"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="SURVEILLER UN MALADE"
+replace   SRH12A__14=1  if SRH12A_Aut2 =="RESPONSABILITÉ FAMILIALE"
+
+*Vider la variable: 
+replace SRH12A_Aut2 = "" if SRH12A__14 ==1  & (SRH12A_Aut2 =="ELLE EST MENAGERE"| SRH12A_Aut2 =="JE SUIS NOURRICE"| SRH12A_Aut2 =="MENAGERE"| SRH12A_Aut2 =="ASSISTER MA GRAND MERE MALADE"| SRH12A_Aut2 =="S'OCCUPER DE SON BEBE"| SRH12A_Aut2 =="JE SUIS UNE NOURRICE"| SRH12A_Aut2 =="JE M'OCCUPE DES ENFANTS"| SRH12A_Aut2 =="SURVEILLER UN MALADE"| SRH12A_Aut2 =="RESPONSABILITÉ FAMILIALE")
+**
+replace   SRH12A__7=1  if SRH12A_Aut2 =="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"
+replace   SRH12A__7=1  if SRH12A_Aut2 =="POSSEDÉ PAR DES GENIES"
+replace   SRH12A__7=1  if SRH12A_Aut2 =="SOUFFRANT"
+replace   SRH12A__7=1  if SRH12A_Aut2 =="MALADE"
+
+*vider
+replace SRH12A_Aut2 = "" if SRH12A__7 == 1  & (SRH12A_Aut2 =="PROBLEMES DE SANTE L EMPECHE DE TRAVAILLER"|SRH12A_Aut2 =="POSSEDÉ PAR DES GENIES"| SRH12A_Aut2 =="SOUFFRANT"|SRH12A_Aut2 =="MALADE")
+***
+replace   SRH12A__6=1  if SRH12A_Aut2 =="EN FORMATION"
+replace   SRH12A__6=1  if SRH12A_Aut2 =="FORMATION AU PRES DUN HOMME DE DIEU"
+replace   SRH12A__6=1  if SRH12A_Aut2 =="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"
+replace   SRH12A__6=1  if SRH12A_Aut2 =="APPRENTI MENUISIER"
+replace   SRH12A__6=1  if SRH12A_Aut2 =="APPRENTI DANS UN MASSA"
+replace   SRH12A__6=1  if SRH12A_Aut2 =="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"
+
+
+**Vider
+replace SRH12A_Aut2 = "" if SRH12A__6==1 & (SRH12A_Aut2 =="EN FORMATION"|SRH12A_Aut2 =="FORMATION AU PRES DUN HOMME DE DIEU"|SRH12A_Aut2 =="À ABANDONNER LES ETUDES IL YA QUELQUES ET PREVOIT FAIRE UNE FORMATION"| SRH12A_Aut2 =="APPRENTI MENUISIER"| SRH12A_Aut2 =="APPRENTI DANS UN MASSA"|SRH12A_Aut2 =="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO")
+
+replace   SRH12A__3=1  if SRH12A_Aut2 =="UN ELEVE VACANCE"
+*vider
+replace SRH12A_Aut2 = "" if SRH12A__3==1 & (SRH12A_Aut2 =="UN ELEVE VACANCE")
+
+
+replace   SRH12A__20=1  if SRH12A_Aut2 =="RETRAITE"
+*
+replace SRH12A_Aut2 = "" if SRH12A__20==1 & (SRH12A_Aut2 =="RETRAITE")
+
+replace   SRH12A__2=1  if SRH12A_Aut2 =="POUR MIEUX SERVCIR DIEU FAUT ETRE A LA DISPOSITION DES FIDELS"
+replace SRH12A_Aut2 = "" if SRH12A__2==1 & (SRH12A_Aut2 =="POUR MIEUX SERVCIR DIEU FAUT ETRE A LA DISPOSITION DES FIDELS")
+**
+replace   SRH12A__1=1  if SRH12A_Aut2 =="SŒUR EN CHRIST"
+replace   SRH12A__20=1  if SRH12A_Aut2 =="REFUS DU PARTENAIRE"
+**vider
+replace SRH12A_Aut2 = "" if SRH12A__1==1 & (SRH12A_Aut2 =="SŒUR EN CHRIST"|SRH12A_Aut2 =="REFUS DU PARTENAIRE")
+
+replace   SRH12A__8=1  if SRH12A_Aut2 =="AVEUGLE"
+replace SRH12A_Aut2 = "" if SRH12A__8==1 & (SRH12A_Aut2 =="AVEUGLE")
+
+******______________________________________________________________________******
+replace SRH12A__5=1 if SRH12A_Aut2=="école CORANIQUE"
+replace SRH12A__5=1 if SRH12A_Aut2=="études CORANIQUE"
+replace SRH12A__5=1 if SRH12A_Aut2=="ELLE SUIVAIT SA FORMATION FRANCO-ARABE"
+replace SRH12A__6=1 if SRH12A_Aut2=="APPRENTISSAGE"
+replace SRH12A__6=1 if SRH12A_Aut2=="OCCUPER A FAIRE SON STAGE"
+replace SRH12A__6=1 if SRH12A_Aut2=="en apprentissage"
+replace SRH12A__7=1 if SRH12A_Aut2=="VIELLESSE"
+replace SRH12A__7=1 if SRH12A_Aut2=="J AI BEAUCOUP VIELLIR,JE N'AI PLUS DE FORCE"
+replace SRH12A__7=1 if SRH12A_Aut2=="J'AI BEAUCOUP VIELLIR ET JE N'AI PLUS DE FORCE"
+replace SRH12A__7=1 if SRH12A_Aut2=="ETUDIANTE A L'INFAS"
+replace SRH12A__7=1 if SRH12A_Aut2=="SANTE MENTALE"
+replace SRH12A__7=1 if SRH12A_Aut2=="TRÈS ÂGÉ"
+replace SRH12A__7=1 if SRH12A_Aut2=="JJE SUIS DEVENU VIELLE,JE N'EST PLUS DE FORCE POUR TRAVAILLER"
+replace SRH12A__8=1 if SRH12A_Aut2=="HANDICAPE"
+replace SRH12A__12=1 if SRH12A_Aut2=="NOURRISSE"
+replace SRH12A__13=1 if SRH12A_Aut2=="ENCEINTE"
+replace SRH12A__14=1 if SRH12A_Aut2=="TRAVAILLE DANS UNE BOUTIQUE AU COMPTE DU MENAGE"
+replace SRH12A__14=1 if SRH12A_Aut2=="RESPONSABILITE FAMILIALE"
+replace SRH12A__14=1 if SRH12A_Aut2=="AIDE SON ONCLE A VENDRE"
+replace SRH12A__14=1 if SRH12A_Aut2=="SON MARI EST GRAVEMENT MALADE"
+
+*******
+replace SRH12A__27=0 if SRH12A_Aut2=="TRAVAILLE DANS UNE BOUTIQUE AU COMPTE DU MENAGE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ENCEINTE"
+replace SRH12A__27=0 if SRH12A_Aut2=="RESPONSABILITE FAMILIALE"
+replace SRH12A__27=0 if SRH12A_Aut2=="AIDE SON ONCLE A VENDRE"
+replace SRH12A__27=0 if SRH12A_Aut2=="JJE SUIS DEVENU VIELLE,JE N'EST PLUS DE FORCE POUR TRAVAILLER"
+replace SRH12A__27=0 if SRH12A_Aut2=="école CORANIQUE"
+replace SRH12A__27=0 if SRH12A_Aut2=="études CORANIQUE"
+replace SRH12A__27=0 if SRH12A_Aut2=="NOURRISSE"
+replace SRH12A__27=0 if SRH12A_Aut2=="APPRENTISSAGE"
+replace SRH12A__27=0 if SRH12A_Aut2=="OCCUPER A FAIRE SON STAGE"
+replace SRH12A__27=0 if SRH12A_Aut2=="SON MARI EST GRAVEMENT MALADE"
+replace SRH12A__27=0 if SRH12A_Aut2=="en apprentissage"
+replace SRH12A__27=0 if SRH12A_Aut2=="HANDICAPE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ELLE SUIVAIT SA FORMATION FRANCO-ARABE"
+replace SRH12A__27=0 if SRH12A_Aut2=="VIELLESSE"
+replace SRH12A__27=0 if SRH12A_Aut2=="J AI BEAUCOUP VIELLIR,JE N'AI PLUS DE FORCE"
+replace SRH12A__27=0 if SRH12A_Aut2=="J'AI BEAUCOUP VIELLIR ET JE N'AI PLUS DE FORCE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ETUDIANTE A L'INFAS"
+replace SRH12A__27=0 if SRH12A_Aut2=="SANTE MENTALE"
+replace SRH12A__27=0 if SRH12A_Aut2=="TRÈS ÂGÉ"
+******
+
+***Vider les variables 
+replace SRH12A_Aut2 = "" if SRH12A__5 ==1& regexm(lower(itrim(SRH12A_Aut2)), "coranique|franco-arabe")
+
+replace SRH12A_Aut2 = "" if SRH12A__6 == 1 & regexm(lower(itrim(SRH12A_Aut2)), "apprentissage|stage")
+
+replace SRH12A_Aut2 = "" if SRH12A__7 == 1 & regexm(lower(itrim(SRH12A_Aut2)),"vielless.*|beaucoup viellir.*force|étudiant.*infas|santé mentale|très âgé|dev.*vielle.*force")
+
+replace SRH12A_Aut2="" if SRH12A__7== 1 &SRH12A_Aut2=="ETUDIANTE A L'INFAS"
+replace SRH12A_Aut2="" if SRH12A__7== 1 &SRH12A_Aut2=="SANTE MENTALE"
+replace SRH12A_Aut2="" if SRH12A__7== 1 &SRH12A_Aut2=="TRÈS ÂGÉ"
+
+replace SRH12A_Aut2 = "" if SRH12A__8 == 1 & regexm(lower(itrim(SRH12A_Aut2)), "handicap.*")
+
+replace SRH12A_Aut2 = "" if SRH12A__12 ==1 & regexm(lower(itrim(SRH12A_Aut2)), "nourris.*")
+
+replace SRH12A_Aut2 = "" if SRH12A__13 ==1 & regexm(lower(itrim(SRH12A_Aut2)), "enceinte")
+
+replace SRH12A_Aut2="" if SRH12A__14==1 & SRH12A_Aut2=="TRAVAILLE DANS UNE BOUTIQUE AU COMPTE DU MENAGE"
+replace SRH12A_Aut2="" if SRH12A__14==1 & SRH12A_Aut2=="RESPONSABILITE FAMILIALE"
+replace SRH12A_Aut2="" if SRH12A__14==1 & SRH12A_Aut2=="AIDE SON ONCLE A VENDRE"
+replace SRH12A_Aut2="" if SRH12A__14==1 & SRH12A_Aut2=="SON MARI EST GRAVEMENT MALADE"
+
+*****
+*export excel SRH12A_Aut2 using "C:\Users\Laurenne\Documents\Tableau excell\SRH12A_Aut2.xls" if SRH12A_Aut2!="", firstrow(variables)
+
+replace SRH12A__14=1 if SRH12A_Aut2=="COMPTE TENU DE L'ACCIDENT DE MONSIEUR MELEDJE  ELLE NE FAIT AUCUNE ACTIVITE.ELLE EST A SON CHEVET POUR SES SOINS"
+replace SRH12A__14=1 if SRH12A_Aut2=="JE SUIS RETRAITE ET J AIDE  MA FEMME POUR FAIRE SES SOINS CAR ELLE VICTIME D UN AVC"
+replace SRH12A__13=1 if SRH12A_Aut2=="GROSSESSE"
+replace SRH12A__13=1 if SRH12A_Aut2=="PRESQU'A TERME DE SA GROSSESSE"
+replace SRH12A__12=1 if SRH12A_Aut2=="NOURICE"
+replace SRH12A__5=1 if SRH12A_Aut2=="EST ELEVE"
+replace SRH12A__5=1 if SRH12A_Aut2=="ETUDE"
+replace SRH12A__5=1 if SRH12A_Aut2=="SOUHAITE REPRENDRE LES ETUDES"
+replace SRH12A__5=1 if SRH12A_Aut2=="Occupe  par  l école"
+replace SRH12A__6=1 if SRH12A_Aut2=="EN APPRENTISSAGE MECANIQUE"
+replace SRH12A__6=1 if SRH12A_Aut2=="JOUE AU FOOTBALL DANS UN CENTRE DE FORMATION"
+replace SRH12A__6=1 if SRH12A_Aut2=="DEJA OCCUPE COMME APPRENTI SOUDEUR"
+replace SRH12A__22=1 if SRH12A_Aut2=="MENAGERE. PAS INTERESSE PAS UN TRAVAIL"
+replace SRH12A__22=1 if SRH12A_Aut2=="aide sa tante dans le ménage"
+replace SRH12A__22=1 if SRH12A_Aut2=="TÂCHE DOMESTIQUE"
+replace SRH12A__23=1 if SRH12A_Aut2=="TRAVAIL EN COLLABORATION AVEC SON MARI"
+replace SRH12A__26=1 if SRH12A_Aut2=="TROP AGE"
+replace SRH12A__26=1 if SRH12A_Aut2=="Le poids de l’âge"
+**n 
+replace SRH12A__6=1 if SRH12A_Aut2 =="OCCUPÉ PAR LA FORMATION"
+replace SRH12A__18=1 if SRH12A_Aut2 =="ATTENDS DE RETOURNER OU ELLE ETAIT POUR CHERCHER UN EMPLOI"
+replace SRH12A__25=1 if SRH12A_Aut2 =="AUCUNE RAISON VALABLE L’ENQUETÉ REFUSE DE TRAVAILLER"
+replace SRH12A__25=1 if SRH12A_Aut2 =="APPELE DE DIEU PROHETESSE SANS SALAIRE"
+replace SRH12A__14=1 if SRH12A_Aut2 =="ménagère"
+replace SRH12A__5=1 if SRH12A_Aut2 =="EN VACANCES SCOLAIRE"
+replace SRH12A__9=1 if SRH12A_Aut2 =="EN DÉPLACEMENT"
+replace SRH12A__14=1 if SRH12A_Aut2 =="J AI A MA CHARGE DEUX PERSONNES QUI NE SONT PAS EN PARFAITE SANTE ET INVALIDE DONC JE M OCCUPE EXCLUSIVEMENT D EUX"
+replace SRH12A__6=1 if SRH12A_Aut2 =="SITUATION D’APPRENTISSAGE"
+replace SRH12A__14=1 if SRH12A_Aut2 =="S'occupait d'une personne malade"
+replace SRH12A__25=1 if SRH12A_Aut2 =="Activités religieuses (Pasteur)"
+replace SRH12A__25=1 if SRH12A_Aut2 =="Pas intéressé"
+replace SRH12A__4=1 if SRH12A_Aut2 =="PAS ETE SCOLARISE"
+replace SRH12A__18=1 if SRH12A_Aut2 =="En attente de sa première prise de service en tant qu'enseignant du primaire"
+replace SRH12A__25=1 if SRH12A_Aut2 =="A LA RETRAITE"
+replace SRH12A__5=1 if SRH12A_Aut2 =="OCCUPE PAR LES ETUDES"
+replace SRH12A__6=1 if SRH12A_Aut2 =="JE SUIS EN APPRENTISSAGE D'UN METIER"
+replace SRH12A__20=1 if SRH12A_Aut2 =="MON MARI NE VEUT PAS QUE JE TRAVAILLE"
+replace SRH12A__6=1 if SRH12A_Aut2 =="SUIT UNE FORMATION DE FOOT"
+replace SRH12A__25=1 if SRH12A_Aut2 =="IMAM"
+replace SRH12A__5=1 if SRH12A_Aut2 =="ELEVE REPOS (VACANCE)"
+
+
+
+
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "COMPTE TENU DE L'ACCIDENT DE MONSIEUR MELEDJE  ELLE NE FAIT AUCUNE ACTIVITE.ELLE EST A SON CHEVET POUR SES SOINS"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "JE SUIS RETRAITE ET J AIDE  MA FEMME POUR FAIRE SES SOINS CAR ELLE VICTIME D UN AVC"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "GROSSESSE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "PRESQU'A TERME DE SA GROSSESSE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "NOURICE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "EST ELEVE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "ETUDE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "SOUHAITE REPRENDRE LES ETUDES"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "Occupe  par  l école"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "EN APPRENTISSAGE MECANIQUE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "JOUE AU FOOTBALL DANS UN CENTRE DE FORMATION"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "DEJA OCCUPE COMME APPRENTI SOUDEUR"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "MENAGERE. PAS INTERESSE PAS UN TRAVAIL"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "aide sa tante dans le ménage"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "TÂCHE DOMESTIQUE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "TRAVAIL EN COLLABORATION AVEC SON MARI"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "TROP AGE"
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "Le poids de l’âge"
+
+replace SRH12A__27=0 if SRH12A_Aut2 =="OCCUPÉ PAR LA FORMATION"
+replace SRH12A__27=0 if SRH12A_Aut2 =="ATTENDS DE RETOURNER OU ELLE ETAIT POUR CHERCHER UN EMPLOI"
+replace SRH12A__27=0 if SRH12A_Aut2 =="AUCUNE RAISON VALABLE L’ENQUETÉ REFUSE DE TRAVAILLER"
+replace SRH12A__27=0 if SRH12A_Aut2 =="APPELE DE DIEU PROHETESSE SANS SALAIRE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="ménagère"
+replace SRH12A__27=0 if SRH12A_Aut2 =="EN VACANCES SCOLAIRE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="EN DÉPLACEMENT"
+replace SRH12A__27=0 if SRH12A_Aut2 =="J AI A MA CHARGE DEUX PERSONNES QUI NE SONT PAS EN PARFAITE SANTE ET INVALIDE DONC JE M OCCUPE EXCLUSIVEMENT D EUX"
+replace SRH12A__27=0 if SRH12A_Aut2 =="SITUATION D’APPRENTISSAGE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="S'occupait d'une personne malade"
+replace SRH12A__27=0 if SRH12A_Aut2 =="Activités religieuses (Pasteur)"
+replace SRH12A__27=0 if SRH12A_Aut2 =="Pas intéressé"
+replace SRH12A__27=0 if SRH12A_Aut2 =="PAS ETE SCOLARISE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="En attente de sa première prise de service en tant qu'enseignant du primaire"
+replace SRH12A__27=0 if SRH12A_Aut2 =="A LA RETRAITE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="OCCUPE PAR LES ETUDES"
+replace SRH12A__27=0 if SRH12A_Aut2 =="JE SUIS EN APPRENTISSAGE D'UN METIER"
+replace SRH12A__27=0 if SRH12A_Aut2 =="MON MARI NE VEUT PAS QUE JE TRAVAILLE"
+replace SRH12A__27=0 if SRH12A_Aut2 =="SUIT UNE FORMATION DE FOOT"
+replace SRH12A__27=0 if SRH12A_Aut2 =="IMAM"
+replace SRH12A__27=0 if SRH12A_Aut2 =="ELEVE REPOS (VACANCE)"
+
+
+
+****Vider
+replace SRH12A_Aut2 = "" if SRH12A__12 == 1 & SRH12A_Aut2 == "NOURICE"
+
+replace SRH12A_Aut2 = "" if SRH12A__13 == 1 & SRH12A_Aut2 == "GROSSESSE"
+replace SRH12A_Aut2 = "" if SRH12A__13 == 1 & SRH12A_Aut2 == "PRESQU'A TERME DE SA GROSSESSE"
+
+replace SRH12A_Aut2 = "" if SRH12A__14 ==1 & SRH12A_Aut2 == "COMPTE TENU DE L'ACCIDENT DE MONSIEUR MELEDJE  ELLE NE FAIT AUCUNE ACTIVITE.ELLE EST A SON CHEVET POUR SES SOINS"
+replace SRH12A_Aut2 = "" if SRH12A__14 == 1 & SRH12A_Aut2 == "JE SUIS RETRAITE ET J AIDE  MA FEMME POUR FAIRE SES SOINS CAR ELLE VICTIME D UN AVC"
+
+replace SRH12A_Aut2 = "" if SRH12A__23 == 1 & SRH12A_Aut2 == "TRAVAIL EN COLLABORATION AVEC SON MARI"
+
+replace SRH12A_Aut2 = "" if SRH12A__26 == 1 & SRH12A_Aut2 == "TROP AGE"
+replace SRH12A_Aut2 = "" if SRH12A__26 == 1 & SRH12A_Aut2 == "Le poids de l’âge"
+
+replace SRH12A_Aut2 = "" if SRH12A__22 == 1 & SRH12A_Aut2 == "MENAGERE. PAS INTERESSE PAS UN TRAVAIL"
+replace SRH12A_Aut2 = "" if SRH12A__22 == 1 & SRH12A_Aut2 == "aide sa tante dans le ménage"
+replace SRH12A_Aut2 = "" if SRH12A__22 == 1 & SRH12A_Aut2 == "TÂCHE DOMESTIQUE"
+
+
+replace SRH12A_Aut2 = "" if SRH12A__5 == 1 & SRH12A_Aut2 == "EST ELEVE"
+replace SRH12A_Aut2 = "" if SRH12A__5 == 1 & SRH12A_Aut2 == "ETUDE"
+replace SRH12A_Aut2 = "" if SRH12A__5 == 1 & SRH12A_Aut2 == "SOUHAITE REPRENDRE LES ETUDES"
+replace SRH12A_Aut2 = "" if SRH12A__5 == 1 & SRH12A_Aut2 == "Occupe  par  l école"
+
+replace SRH12A_Aut2 = "" if SRH12A__6 == 1 & SRH12A_Aut2 == "EN APPRENTISSAGE MECANIQUE"
+replace SRH12A_Aut2 = "" if SRH12A__6 == 1 & SRH12A_Aut2 == "JOUE AU FOOTBALL DANS UN CENTRE DE FORMATION"
+replace SRH12A_Aut2 = "" if SRH12A__6 == 1 & SRH12A_Aut2 == "DEJA OCCUPE COMME APPRENTI SOUDEUR"
+
+replace SRH12A_Aut2 = "" if SRH12A__27== 0
+
+
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "OCCUPÉ PAR LA FORMATION"
+replace SRH12A_Aut2 = "" if SRH12A__18 == 1 & SRH12A_Aut2 == "ATTENDS DE RETOURNER OU ELLE ETAIT POUR CHERCHER UN EMPLOI"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "AUCUNE RAISON VALABLE L’ENQUETÉ REFUSE DE TRAVAILLER"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "APPELE DE DIEU PROHETESSE SANS SALAIRE"
+replace SRH12A_Aut2 = "" if SRH12A__14 == 1 & SRH12A_Aut2 == "ménagère"
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "EN VACANCES SCOLAIRE"
+replace SRH12A_Aut2 = "" if SRH12A__9  == 1 & SRH12A_Aut2 == "EN DÉPLACEMENT"
+replace SRH12A_Aut2 = "" if SRH12A__14 == 1 & SRH12A_Aut2 == "J AI A MA CHARGE DEUX PERSONNES QUI NE SONT PAS EN PARFAITE SANTE ET INVALIDE DONC JE M OCCUPE EXCLUSIVEMENT D EUX"
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "SITUATION D’APPRENTISSAGE"
+replace SRH12A_Aut2 = "" if SRH12A__14 == 1 & SRH12A_Aut2 == "S'occupait d'une personne malade"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "Activités religieuses (Pasteur)"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "Pas intéressé"
+replace SRH12A_Aut2 = "" if SRH12A__4  == 1 & SRH12A_Aut2 == "PAS ETE SCOLARISE"
+replace SRH12A_Aut2 = "" if SRH12A__18 == 1 & SRH12A_Aut2 == "En attente de sa première prise de service en tant qu'enseignant du primaire"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "A LA RETRAITE"
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "OCCUPE PAR LES ETUDES"
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "JE SUIS EN APPRENTISSAGE D'UN METIER"
+replace SRH12A_Aut2 = "" if SRH12A__20 == 1 & SRH12A_Aut2 == "MON MARI NE VEUT PAS QUE JE TRAVAILLE"
+replace SRH12A_Aut2 = "" if SRH12A__6  == 1 & SRH12A_Aut2 == "SUIT UNE FORMATION DE FOOT"
+replace SRH12A_Aut2 = "" if SRH12A__25 == 1 & SRH12A_Aut2 == "IMAM"
+replace SRH12A_Aut2 = "" if SRH12A__5  == 1 & SRH12A_Aut2 == "ELEVE REPOS (VACANCE)"
+
+
+
+
+replace SRH12A__25=1 if SRH12A_Aut1=="La retraite"
+*Vider
+replace SRH12A_Aut1="" if SRH12A__25==1 & SRH12A_Aut1=="La retraite"
+
+replace SRH12A__7=1 if SRH12A_Aut2=="A ACCOUCHER PAR CÉSARIENNE IL PEUT DE TEMPS ."
+
+replace SRH12A__25=1 if inlist(SRH12A_Aut2,"CHEF DU VILLAGE","retraité","pasteur","IL OEUVRE POUR DIEU","LA RELIGION ISLAMIQUE")
+
+replace SRH12A__26=1 if inlist(SRH12A_Aut2,"TROP  JEUNES")
+replace SRH12A__14=1 if SRH12A_Aut2=="S OCCUPER DE LA FAMILLE"
+replace SRH12A__5=1 if SRH12A_Aut2=="SOUHAITE JUSTE REPRENDRE CES ETUDES" 
+replace SRH12A__22=1 if SRH12A_Aut2=="MÉNAGÈRE"
+replace SRH12A__23=1 if SRH12A_Aut2=="TRAVAUX CHAMPÊTRES"
+
+replace SRH12A__25=1 if SRH12A_Aut2=="ACTIVITÉ PASTORALES"
+
+
+*Vider
+replace SRH12A_Aut2="" if SRH12A__7==1 & SRH12A_Aut2=="A ACCOUCHER PAR CÉSARIENNE IL PEUT DE TEMPS ."
+replace SRH12A_Aut2="" if SRH12A__25==1 & inlist(SRH12A_Aut2,"CHEF DU VILLAGE","retraité","pasteur","IL OEUVRE POUR DIEU","LA RELIGION ISLAMIQUE")
+replace SRH12A_Aut2="" if SRH12A__26==1 & inlist(SRH12A_Aut2,"TROP  JEUNES") 
+replace SRH12A_Aut2="" if SRH12A__14==1 & SRH12A_Aut2=="S OCCUPER DE LA FAMILLE"
+replace SRH12A_Aut2="" if SRH12A__5==1 & SRH12A_Aut2=="SOUHAITE JUSTE REPRENDRE CES ETUDES"
+replace SRH12A_Aut2="" if SRH12A__22==1 & SRH12A_Aut2=="MÉNAGÈRE" 
+replace SRH12A_Aut2="" if SRH12A__23==1 & SRH12A_Aut2=="TRAVAUX CHAMPÊTRES"
+replace SRH12A_Aut2="" if SRH12A__25==1 & SRH12A_Aut2=="ACTIVITÉ PASTORALES"
+
+**TAK
+
+replace SRH12A__18=1 if SRH12A_Aut2=="J'ETAIS HORS DU PAYS JE SUIS REVENU MAIS J'AI DECIDE DE TRAVAILLER A MON PROPRE COMPTE SEULEMENT QUE JE N'AI PAS ENCORE COMMENCE DONC PRESENTEMENT JE NE RIEN"
+replace SRH12A__5=1 if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A__5=1 if SRH12A_Aut2=="je suis élève"
+replace SRH12A__5=1 if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A__18=1 if SRH12A_Aut2=="PAS ENCORE DE MOYENS POUR DEMARRER UNE ACTIVITE"
+replace SRH12A__26=1 if SRH12A_Aut2=="ATTEND D'ETRE MAJEUR AVANT DE COMMENCER UN METIER"
+replace SRH12A__25=1 if SRH12A_Aut2=="ELLE VIE DE SES RENTES IMMOBILIERE"
+replace SRH12A__5=1 if SRH12A_Aut2=="LE CE AVAIT FAIT UN CHAMP DE MANIOC QUI N A PAS PRODUIT"
+replace SRH12A__5=1 if SRH12A_Aut2=="Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace SRH12A__13=1 if SRH12A_Aut2=="CAS DE GROSSESSE"
+replace SRH12A__21=1 if SRH12A_Aut2=="ATTENDEZ UN FINANCEMENT POUR COMMENCER UN COMMERCE"
+replace SRH12A__5=1 if SRH12A_Aut2=="CHARGER DES COMMISSIONS DU VALLAGE"
+replace SRH12A__18=1 if SRH12A_Aut2=="PAS ENCORE DEBUTE UNE ACTIVITE"
+replace SRH12A__5=1 if SRH12A_Aut2=="VENU FRAICHEMENT DE LA GUINEE CONAKRY DONC DIFFICILE DE S INTEGRER DONC LE TEMPS DE S INTEGRER"
+replace SRH12A__6=1 if SRH12A_Aut2=="FORMATION POUIR ETRE PASTEUR"
+replace SRH12A__26=1 if SRH12A_Aut2=="JE SUIS ENCORE PETIT MALGRÉ MON AGE"
+replace SRH12A__26=1 if SRH12A_Aut2=="TEOP AGÉ"
+replace SRH12A__18=1 if SRH12A_Aut2=="VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH12A__5=1 if SRH12A_Aut2=="ENSEIGNANT ISLAMIQUE BÉNÉVOLE SANS SALAIRE ET EN FORMATION POUR DEVENIR IMAME"
+replace SRH12A__26=1 if SRH12A_Aut2=="VIEILLESSE ET MALADIE"
+replace SRH12A__6=1 if SRH12A_Aut2=="OCCUPÉ PAR SA FORMATION DE COIFFURE"
+replace SRH12A__15=1 if SRH12A_Aut2=="ATTEND LA PERIODE DE CONCOURS"
+
+*vider 
+
+replace SRH12A__27=0 if SRH12A_Aut2=="J'ETAIS HORS DU PAYS JE SUIS REVENU MAIS J'AI DECIDE DE TRAVAILLER A MON PROPRE COMPTE SEULEMENT QUE JE N'AI PAS ENCORE COMMENCE DONC PRESENTEMENT JE NE RIEN"
+replace SRH12A__27=0 if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A__27=0 if SRH12A_Aut2=="je suis élève"
+replace SRH12A__27=0 if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A__27=0 if SRH12A_Aut2=="PAS ENCORE DE MOYENS POUR DEMARRER UNE ACTIVITE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ATTEND D'ETRE MAJEUR AVANT DE COMMENCER UN METIER"
+replace SRH12A__27=0 if SRH12A_Aut2=="ELLE VIE DE SES RENTES IMMOBILIERE"
+replace SRH12A__27=0 if SRH12A_Aut2=="LE CE AVAIT FAIT UN CHAMP DE MANIOC QUI N A PAS PRODUIT"
+replace SRH12A__27=0 if SRH12A_Aut2=="Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace SRH12A__27=0 if SRH12A_Aut2=="CAS DE GROSSESSE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ATTENDEZ UN FINANCEMENT POUR COMMENCER UN COMMERCE"
+replace SRH12A__27=0 if SRH12A_Aut2=="CHARGER DES COMMISSIONS DU VALLAGE"
+replace SRH12A__27=0 if SRH12A_Aut2=="PAS ENCORE DEBUTE UNE ACTIVITE"
+replace SRH12A__27=0 if SRH12A_Aut2=="BESOIN DE FINANCEMENT"
+replace SRH12A__27=0 if SRH12A_Aut2=="VENU FRAICHEMENT DE LA GUINEE CONAKRY DONC DIFFICILE DE S INTEGRER DONC LE TEMPS DE S INTEGRER"
+replace SRH12A__27=0 if SRH12A_Aut2=="MANQUE DE MOYEN FINANCIER"
+replace SRH12A__27=0 if SRH12A_Aut2=="FORMATION POUIR ETRE PASTEUR"
+replace SRH12A__27=0 if SRH12A_Aut2=="JE SUIS ENCORE PETIT MALGRÉ MON AGE"
+replace SRH12A__27=0 if SRH12A_Aut2=="AIDE SON PÈRE DANS SA PLANTATION"
+replace SRH12A__27=0 if SRH12A_Aut2=="TEOP AGÉ"
+replace SRH12A__27=0 if SRH12A_Aut2=="VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH12A__27=0 if SRH12A_Aut2=="ENSEIGNANT ISLAMIQUE BÉNÉVOLE SANS SALAIRE ET EN FORMATION POUR DEVENIR IMAME"
+replace SRH12A__27=0 if SRH12A_Aut2=="VIEILLESSE ET MALADIE"
+replace SRH12A__27=0 if SRH12A_Aut2=="OCCUPÉ PAR SA FORMATION DE COIFFURE"
+replace SRH12A__27=0 if SRH12A_Aut2=="ATTEND LA PERIODE DE CONCOURS"
+replace SRH12A__27=0 if SRH12A_Aut2=="MARABOUT"
+
+*
+replace SRH12A_Aut2="" if SRH12A_Aut2=="J'ETAIS HORS DU PAYS JE SUIS REVENU MAIS J'AI DECIDE DE TRAVAILLER A MON PROPRE COMPTE SEULEMENT QUE JE N'AI PAS ENCORE COMMENCE DONC PRESENTEMENT JE NE RIEN"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="je suis élève"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="JE SUIS ÉLÈVE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="PAS ENCORE DE MOYENS POUR DEMARRER UNE ACTIVITE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="ATTEND D'ETRE MAJEUR AVANT DE COMMENCER UN METIER"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="ELLE VIE DE SES RENTES IMMOBILIERE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="LE CE AVAIT FAIT UN CHAMP DE MANIOC QUI N A PAS PRODUIT"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace SRH12A_Aut2="" if SRH12A_Aut2=="CAS DE GROSSESSE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="ATTENDEZ UN FINANCEMENT POUR COMMENCER UN COMMERCE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="CHARGER DES COMMISSIONS DU VALLAGE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="PAS ENCORE DEBUTE UNE ACTIVITE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="BESOIN DE FINANCEMENT"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="VENU FRAICHEMENT DE LA GUINEE CONAKRY DONC DIFFICILE DE S INTEGRER DONC LE TEMPS DE S INTEGRER"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="MANQUE DE MOYEN FINANCIER"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="FORMATION POUIR ETRE PASTEUR"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="JE SUIS ENCORE PETIT MALGRÉ MON AGE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="AIDE SON PÈRE DANS SA PLANTATION"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="TEOP AGÉ"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="ENSEIGNANT ISLAMIQUE BÉNÉVOLE SANS SALAIRE ET EN FORMATION POUR DEVENIR IMAME"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="VIEILLESSE ET MALADIE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="OCCUPÉ PAR SA FORMATION DE COIFFURE"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="ATTEND LA PERIODE DE CONCOURS"
+replace SRH12A_Aut2="" if SRH12A_Aut2=="MARABOUT"
+
+
+
+
+
+
+
+
+******______________________________________________________________________******
+****EP27A
+*export excel EP27A_Aut using "C:\Users\HP\Documents\FICHIER Excel\EP27A_Aut.xls" if EP27A_Aut!="", firstrow(variables) replace
+
+replace EP27A = 2 if EP27A == 6 & EP27A_Aut == "LES PRIX SONT FIXES PAR L'ACHETEUR"
+replace EP27A = 2 if EP27A == 6 & EP27A_Aut == "LE PRIX  EST FIXE PAR L ACHETEUR"
+replace EP27A = 2 if EP27A == 6 & EP27A_Aut == "LE PRIX EST FISCE PAR L ACHETEUR"
+replace EP27A = 2 if  inlist(EP27A_Aut, "LE PRIX EST FIXE PAR L ACHETEUR","LE PRIX EST FIXE PAR LES ACHETEURS","LE PRIX EST FIXÉ PAR L'ACHETEUR")
+
+replace EP27A = 5 if  inlist(EP27A_Aut,"NE FIXE AUCUN PRIX MAIS EST PAYE PAR NATURES VIVRES ET BIEN D'AUTRES","LES DONS ET OFFRANDES SONT VOLONTAIRE","AUCUN PRIX N'EST FIXÉ PAR MES FIDÈLES","DONS OU OFFRANDES")
+
+replace  EP27A = 5  if  EP27A_Aut == "ne fixe pas de prix ,effectue les transferts d'unités en fonction des clients"
+replace  EP27A = 4 if  EP27A_Aut =="LE PROPRIETAIRE QUI DECIDE DU TARIF"
+
+******
+replace  EP27A = 2 if  EP27A_Aut =="LE PRIX EST IMPOSÉ PAR LES ACHETEURS"
+replace  EP27A = 2 if  EP27A_Aut =="À L'APRECIATION DU CLIENT"
+replace  EP27A = 2 if  EP27A_Aut =="LES CLIENTS DONNENT CE QUILS PEUVENT DONNER"
+replace  EP27A = 3 if  EP27A_Aut =="PRIX FIXE PAR LES AUTORITES"
+*****
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT CEUX DU CLIENT"
+replace EP27A=5 if EP27A_Aut=="cela dépend des meubles et service"
+
+replace EP27A=5 if EP27A_Aut=="NOUVEAU CHAMP"
+replace EP27A=2 if EP27A_Aut=="PAS DE PRIX FIXÉ"
+replace EP27A=2 if EP27A_Aut=="ENTIEREMENT A LA CONSOMMATION"
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT FEXES PAR LES FIDELES"
+replace EP27A=2 if EP27A_Aut=="LES PRIX SONT DECIDES PAR LE CLIENT APRES SATISFACTION"
+replace EP27A=2 if EP27A_Aut=="LE PEUPLE DE DIEU"
+replace EP27A=1 if EP27A_Aut=="SYNDICAT"
+replace EP27A=5 if inlist(EP27A_Aut,"LES PRIX SONT CEUX DES FIDELS DE L'EGLISE","OFFRANDES DONNÉS PAR LES FIDELES","QUETTE ET DONT DES FIDELES","SERVICE RELIGIEUX","EGLISE","AUCUN PRIX JUSTE DES OFFRANDES")
+
+replace EP27A=2 if EP27A_Aut=="C’EST L ACHETEUR QUI FIXE LE PRIX"
+
+
+*vider
+replace EP27A_Aut ="" if !inlist(EP27A,.,.a,6) 
+
+replace EP27A_Aut = "" if EP27A == 5 & EP27A_Aut == "NOUVEAU CHAMP"
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "PAS DE PRIX FIXÉ"
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "ENTIEREMENT A LA CONSOMMATION"
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "LES PRIX SONT FEXES PAR LES FIDELES"
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "LES PRIX SONT DECIDES PAR LE CLIENT APRES SATISFACTION"
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "LE PEUPLE DE DIEU"
+replace EP27A_Aut = "" if EP27A == 1 & EP27A_Aut == "SYNDICAT"
+replace EP27A_Aut = "" if EP27A == 5 & inlist(EP27A_Aut,"LES PRIX SONT CEUX DES FIDELS DE L'EGLISE","OFFRANDES DONNÉS PAR LES FIDELES","QUETTE ET DONT DES FIDELES","SERVICE RELIGIEUX","EGLISE","AUCUN PRIX JUSTE DES OFFRANDES")
+replace EP27A_Aut = "" if EP27A == 2 & EP27A_Aut == "C’EST L ACHETEUR QUI FIXE LE PRIX"
+
+
+
+***EP27B: RAS
+
+****ES9: 
+
+*export excel interview__key membres__id EP1a EP1b EP3 EP11 ES9_Aut using "$folderpath/document/ES9_Aut.xls" if ES9_Aut!="", firstrow(variables) replace 
+
+
+replace ES9 = 1 if ES9_Aut =="COMPTABILITÉ FORMELLE"
+*vider
+replace ES9_Aut = "" if ES9 == 1 & ES9_Aut == "COMPTABILITÉ FORMELLE"
+
+****EP45_autre
+*export excel EP45_autre using "D:\CAE\fichier exel\EP45_autre.xls" if EP45_autre!="", firstrow(variables)
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 EP45_autre using "$folderpath/document/EP45_autre.xls" if EP45_autre!="", firstrow(variables) replace 
+
+/*
+replace   EP45__1=1  if EP45_autre =="CARBURANT"
+replace   EP45__1=1  if EP45_autre =="VÉHICULE DE COMMANDEMENT"
+replace EP45__2=1  if EP45_autre =="INDEMNITÉS DE RESIDENCE"
+******
+replace EP45__4=1  if EP45_autre =="TRANSPORT"
+
+
+*vider
+replace EP45_autre ="" if EP45__1==1 &  (EP45_autre =="CARBURANT"|EP45_autre =="VÉHICULE DE COMMANDEMENT")
+
+replace EP45_autre ="" if EP45__2==1 & EP45_autre =="INDEMNITÉS DE RESIDENCE"
+replace EP45_autre ="" if EP45__4==1 & EP45_autre =="TRANSPORT"
+
+
+replace EP45__4=1 if EP45_autre=="BON DE CARBURANT"
+
+replace EP45_autre="" if EP45__4==1 & EP45_autre=="BON DE CARBURANT"
+*/
+
+*TAK
+
+
+
+
+
+
+*Regardez les autres à preciser de EP45_autre et revoir les modalités
+***
+//////////////*****CQ2_au
+*export excel CQ2_aut using "D:\CAE\fichier exel\CQ2_aut.xls" if CQ2_aut!="", firstrow(variables)
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 CQ2_aut using "$folderpath/document/CQ2_aut.xls" if CQ2_aut!="", firstrow(variables) replace 
+
+
+replace   CQ2=1  if inlist(CQ2_aut,"FORMATION  DANS LE DOMAINE  D'ENSEIGNEMENT","ENSEIGNEMENT GENERAL")
+
+replace   CQ2=1  if CQ2_aut =="ASSURANCE"
+replace   CQ2=1  if CQ2_aut =="COMPTABILITE"
+replace   CQ2=7  if CQ2_aut =="INFORMATIQUE"
+replace   CQ2=6  if CQ2_aut =="COMPTABILITÉ"
+replace   CQ2=1  if CQ2_aut =="FORMATION  EN MECANIQUE AUTO"
+replace   CQ2=1  if CQ2_aut =="MINE ET GEOLOGIE"
+replace   CQ2=1  if CQ2_aut =="MECANIQUE"
+replace   CQ2=1  if CQ2_aut =="MÉCANIQUE AUTOMOBILE"
+replace   CQ2=1  if CQ2_aut =="BTP"
+replace   CQ2=1  if CQ2_aut =="GEOGRAPHIE"
+replace   CQ2=1  if CQ2_aut =="GESTION COMMERCIALE"
+replace   CQ2=12  if CQ2_aut =="GESTION, LOGISTIQUE"
+replace   CQ2=8  if CQ2_aut =="CENTRE DE FORMATION PROFFESSIONEL"
+replace   CQ2=1  if CQ2_aut =="SECOURISME"
+replace   CQ2=1  if CQ2_aut =="GESTION ADMINISTRATIVE"
+replace   CQ2=8  if inlist(CQ2_aut,"BATIMENT ET ROUTE","ELECTRICITE","CONSTRUCTION MÉTALLIQUE","génie civil")
+replace   CQ2=1  if CQ2_aut =="ÉLECTRONIQUE"
+replace   CQ2=1  if CQ2_aut =="HÔTELLERIE"
+replace   CQ2=1  if CQ2_aut =="TECHNIQUE"
+replace   CQ2=10  if inlist(CQ2_aut,"SANTE","ESTHÉTIQUE")
+replace   CQ2=1  if CQ2_aut =="ECOLE CORANIQUE"
+replace   CQ2=1  if CQ2_aut =="ELECTRONIQUE"
+replace   CQ2=1  if inlist(CQ2_aut, "MECANIQUE ENGINS","MÉCANIQUE","MÉCANIQUE GÉNÉRALE")
+replace   CQ2=1  if CQ2_aut =="LANGUES"
+replace   CQ2=1  if CQ2_aut =="LETTRES MODERNES"
+replace   CQ2=1  if inlist(CQ2_aut,"EN LETTRE MODERNES","LETTRE MODERNES")
+replace   CQ2=1  if CQ2_aut =="physique chimie"
+
+replace   CQ2=11 if inlist(CQ2_aut,"HOTELLERIE","SÉCURITÉ","PATISSERIE","CUISINE","DOMAINE DES FINANCIES")
+****
+replace   CQ2=1  if CQ2_aut =="FRANCO ARABE MADARASSA"
+replace   CQ2=10  if CQ2_aut =="AGENT DE SANTE"
+replace   CQ2=8  if CQ2_aut =="UNE FORMATION EN ÉLECTRICITÉ"
+replace   CQ2=1  if CQ2_aut =="PAS DE SPÉCIALITÉ REQUIS"
+replace   CQ2=11  if CQ2_aut =="DÉFENSE ET SECURITE"
+replace   CQ2=11  if CQ2_aut =="TAPISSERIE"
+replace   CQ2=8  if CQ2_aut =="GEOMATIQUE"
+replace   CQ2=11  if CQ2_aut =="COUTURE"
+replace   CQ2=7  if CQ2_aut =="MAINTENANCE ÉLECTRONIQUE"
+replace   CQ2=7  if CQ2_aut =="FROID ET CLIMATISATION"
+replace   CQ2=11  if CQ2_aut =="TRANSPORT"
+replace   CQ2=5  if CQ2_aut =="ASSISTANAT DE DIRECTION"
+
+replace   CQ2=5  if CQ2_aut =="électronique"
+****
+replace CQ2=2 if CQ2_aut=="ÉDUCATION CORANIQUE"
+replace CQ2=2 if CQ2_aut=="ÉTUDES CORANIQUE"
+replace CQ2=2 if CQ2_aut=="UNE LICENCE PROFESSIONNELLE"
+replace CQ2=2 if CQ2_aut=="LICENCE EN FORMATION A INJS"
+replace CQ2=3 if CQ2_aut=="MUSIQUE"
+replace CQ2=8 if CQ2_aut=="MENANIQUE"
+replace CQ2=9 if CQ2_aut=="AGRICULTURE"
+replace CQ2=7 if CQ2_aut=="INTERPRÉTATION LINGUISTIQUE"
+replace CQ2=6 if CQ2_aut=="Informatique"
+replace CQ2=8 if CQ2_aut=="BÂTIMENT ET TRAVAUX PUBLICS"
+replace CQ2=10 if CQ2_aut=="HYGIÈNE ET SANTÉ ENVIRONNEMENTALE"
+replace CQ2=10 if CQ2_aut=="ÉTUDE MÉDECINE"
+replace CQ2=11 if CQ2_aut=="FORMATION QUALIFIANTE EN CUISINE"
+replace CQ2=11 if CQ2_aut=="DIPLÔME DE CAISSIÈRE"
+replace CQ2=1 if CQ2_aut=="Enseignement technique menuiserie"
+replace CQ2=3 if CQ2_aut=="ANGLAIS"
+replace CQ2=3 if CQ2_aut=="Peinture"
+replace CQ2=9 if CQ2_aut=="FORMATION PROFESSIONNELLE EN BATIMENT"
+replace CQ2=5 if CQ2_aut=="SECRETARIAT"
+replace CQ2=3 if CQ2_aut=="THÉOLOGIE"
+replace CQ2=8 if CQ2_aut=="ÉLECTRICITÉ"
+**
+replace CQ2 = 11 if CQ2_aut =="PÂTISSERIE"
+replace CQ2 = 6 if CQ2_aut =="chimie"
+replace CQ2 = 3 if CQ2_aut =="musique"
+replace CQ2 = 11 if CQ2_aut =="PERMIS DE CONDUIRE"
+replace CQ2 = 11 if CQ2_aut =="FORMATION CAISSIERE"
+replace CQ2 = 7 if CQ2_aut =="ADMINISTRATEUR RÉSEAU"
+replace CQ2 = 11 if CQ2_aut =="RESTAURATION"
+
+replace CQ2=8 if CQ2_aut =="Maçonnerie"
+
+*TAK
+
+replace CQ2=3 if CQ2_aut=="EN GRAPHISME"
+replace CQ2=11 if CQ2_aut=="EN CUISINE"
+replace CQ2=3 if CQ2_aut=="EN ARABE"
+replace CQ2=6 if CQ2_aut=="CHIMIE"
+replace CQ2=3 if CQ2_aut=="HISTOIRE ET GÉOGRAPHIE"
+replace CQ2=7 if CQ2_aut=="TELECOMMUNICATION"
+replace CQ2=10 if CQ2_aut=="FORMATION EN ÉDUCATION PHYSIQUE ET SPORTIVE"
+replace CQ2=8 if CQ2_aut=="ÉLECTRICITÉ BATIMENT"
+replace CQ2=8 if CQ2_aut=="DANS LE DOMAINE AGRO-ALIMENTAIRE"
+replace CQ2=2 if CQ2_aut=="ÉCOLE BIBLIQUE"
+replace CQ2=2 if CQ2_aut=="ÉCOLE BIBLIQUE"
+replace CQ2=8 if CQ2_aut=="MAINTENANCE"
+replace CQ2=12 if CQ2_aut=="FORMATION DE CAISSIÈRE EN PÂTISSERIE"
+replace CQ2=2 if CQ2_aut=="formation de conseiller pédagogique"
+replace CQ2=3 if CQ2_aut=="DOCTORAT EN MÉDECINE"
+replace CQ2=8 if CQ2_aut=="GÉNIE CIVIL"
+replace CQ2=3 if CQ2_aut=="LITTÉRATURE"
+replace CQ2=8 if CQ2_aut=="MÉCANIQUE INDUSTRIELLE"
+replace CQ2=2 if CQ2_aut=="ECOLE CONFETIONNELLE"
+replace CQ2=6 if CQ2_aut=="FINANCE ET COMPTABILITÉ"
+replace CQ2=2 if CQ2_aut=="FORMATION EN PRESENTIEL A L EGLISE SUR LES VERSETS BIBLIQUES ET LA PAROLE DE DIEU"
+
+
+
+replace CQ2_aut ="" if !inlist(CQ2,.,.a,13) 
+
+
+*export excel EP31_Aut using "D:\CAE\fichier exel\EP31_Aut.xls" if EP31_Aut!="", firstrow(variables)
+
+****EP31
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 EP28 EP31_Aut using "$folderpath/document/EP31_Aut.xls" if EP31_Aut!="", firstrow(variables) replace 
+
+
+
+replace EP31__1 = 1 if (EP31_Aut=="JUSQU A  CE QUE  J'AI UN EMPLOI  MIEUX  REMUNERE"|EP31_Aut=="SUR UNE PERIODE DE QUELQUE MOIS"|EP31_Aut=="ARRETER QUAND IL AURA MIEUX"|EP31_Aut== "TRAVAIL SANS PERIODE DE FIN JUSQU'A CE QU'IL TROUVE AUTRE CHOSE A FAIRE"|EP31_Aut=="Chaque 3 mois, le contrat est renouvellé"|EP31_Aut=="JUSQU'À  CE QUE J'AI MIEUX  AILLEURS"|EP31_Aut=="OCCASIONNEL A LA JOURNÉE"|EP31_Aut=="ASSOCIATION AVEC D AUTRES ACTIONNAIRES"|EP31_Aut=="AUCUNE DUREE ,PEUT ARRETER  A N IMPORTE QUEL MOMENT"|EP31_Aut=="CONTRAT VERBAL SANS DATE PRECIS JUQUAU MOMENT JE SENTIRAI QUE JE SUIS DEVENU UN BON SOUDEUR"|EP31_Aut=="PAS DE PERIODE SPECIFIEE"|EP31_Aut=="PERIODE INDETERMINE"|EP31_Aut==" PAs DE DUREE SPECIFIEE"|EP31_Aut=="PAS DE PERIODE SPECIFIEE")
+
+**Vider la variable: EP31_Aut pour EP31__1
+replace EP31_Aut = "" if EP31__1 == 1 & (EP31_Aut=="JUSQU A  CE QUE  J'AI UN EMPLOI  MIEUX  REMUNERE"|EP31_Aut=="SUR UNE PERIODE DE QUELQUE MOIS"|EP31_Aut=="ARRETER QUAND IL AURA MIEUX"|EP31_Aut== "TRAVAIL SANS PERIODE DE FIN JUSQU'A CE QU'IL TROUVE AUTRE CHOSE A FAIRE"|EP31_Aut=="Chaque 3 mois, le contrat est renouvellé"|EP31_Aut=="JUSQU'À  CE QUE J'AI MIEUX  AILLEURS"|EP31_Aut=="OCCASIONNEL A LA JOURNÉE"|EP31_Aut=="ASSOCIATION AVEC D AUTRES ACTIONNAIRES"|EP31_Aut=="AUCUNE DUREE ,PEUT ARRETER  A N IMPORTE QUEL MOMENT"|EP31_Aut=="CONTRAT VERBAL SANS DATE PRECIS JUQUAU MOMENT JE SENTIRAI QUE JE SUIS DEVENU UN BON SOUDEUR"|EP31_Aut=="PAS DE PERIODE SPECIFIEE"|EP31_Aut=="PERIODE INDETERMINE"|EP31_Aut==" PAs DE DUREE SPECIFIEE"|EP31_Aut=="PAS DE PERIODE SPECIFIEE")
+
+**
+replace EP31__4 = 1 if (EP31_Aut == "PAS DE DUREE SPECIFIEE" | EP31_Aut == "JUSQU'A CE QUE METTE FIN A SON ENGAGEMENT" | EP31_Aut == "SANS TERME PRECIS" | EP31_Aut == "JUSQU AU JOUR ELLE DECIDE DE PARTI" | EP31_Aut == "DUREE INDEFINIE" | EP31_Aut == "DUREE INDETERMINEE" | EP31_Aut == "TRAVAILLE SANS DURÉE DÉTERMINER" | EP31_Aut == "SANS DATE DE FIN SPECIFIQUE" | EP31_Aut == "SANS DUREE DE FIN" | EP31_Aut == "PERIODE INDETERMINEE" | EP31_Aut == "CONTRAT VERBAL JUSQU'A CE QU'IL TROUVE AUTRE CHOSE" | EP31_Aut == "durée non spécifié" | EP31_Aut == "PAS DE DURÉE SPÉCIFIÉE" | EP31_Aut == "Un contrat a duré indéterminé" | EP31_Aut == "JUSQU'À LA RETRAITE" | EP31_Aut == "JUSQU'A LA FIN DU CONTRAT RENOUVELABLE" | EP31_Aut == "durée non spécifiée" | EP31_Aut == "TRAVAILLE AVEC SON MARI" | EP31_Aut == "PAS DE DATE PRECIS DE FIN DE CONTRAT" | EP31_Aut == "PROPRE CMPTE." | EP31_Aut == "EN CONTINUE SANS DATE DE FIN" | EP31_Aut == "SANS DATE DE FIN" | EP31_Aut == "DE FACON CONTINUE SANS CONTRAT" | EP31_Aut == "SANS DUREE FIXE" | EP31_Aut == "¨PÉRIODE NON SPÉCIFIÉE" | EP31_Aut == "JUSQU'A CE QU'IL TROUVE MIEUX" | EP31_Aut == "JUSQU'A CE QU IL DECIDE D ARRETER" | EP31_Aut == "accord verbal sans date de fin." | EP31_Aut == "UNE PÉRIODE INDÉTERMINÉE" | EP31_Aut == "PAS DE DUREE DETERMINER" | EP31_Aut == "NEGOCIATION DES PRIX AVEC LE CLIENT" | EP31_Aut == "PÉRIODE NON SPÉCIFIÉE" | EP31_Aut == "TRAVAIL SANS PERIODE DE FIN JUSQU'A CE QU'IL TROUVE AUTRE CHOSE A FAIRE" | EP31_Aut == "PAS DE TERMES PRECIS" | EP31_Aut == "SURVENIR AUX BESOINS" | EP31_Aut == "INDETERMINEE" | EP31_Aut == "indeterminé" | EP31_Aut == "CONTRAT A DUREE INDERMINEE" | EP31_Aut == "ce travail se fait tous les jours et de facon indeterminé" | EP31_Aut == "PERIODE NON SPECIFIEE" | EP31_Aut == "TRAVAILLE AVEC SON MARI / PAS DE CONTRAT" | EP31_Aut == "SANS DELAI EN FONCTION DU MARCHE" | EP31_Aut == "UNE PERIODE INDETERMINEE" | EP31_Aut == "il travaille pour son propre compte" | EP31_Aut == "CONTRAT VERBAL SANS DELAIS PRECIS EN TEMPS QUE DEUXIEME CHEF DE GARAGE" | EP31_Aut == "TRAVAIL AVEC SON MARI" | EP31_Aut == "APPRENTI JUSQUAU MOMENT D AVOIR UNE VOITURE EN MON NOM" | EP31_Aut == "JUSQU'AU JOUR OU IL DECIDE DE PARTI" | EP31_Aut == "période non spécifié" | EP31_Aut == "SANS COMTRAT - DE MANIERE CONTINUE" | EP31_Aut == "JUSQU'À CE QU IL DECIDE D ARRETER" | EP31_Aut == "c'est un emploi à terme imprécis"|EP31_Aut =="AIDE A UN FRERE DONC SANS DATE FIXE"|EP31_Aut =="DUREE NON SPECIFIEE"|EP31_Aut =="LE CONTRAT EST VERBAL SANS DATE DE FIN // ET IL TRAVAIL EN FONCTION DES ACTIVITES A FAIRE"|EP31_Aut =="ACCORD VERBAL SANS DE DATE DE FIN")
+
+
+
+replace EP31_Aut ="" if EP31__4 == 1 & (EP31_Aut == "PAS DE DUREE SPECIFIEE" | EP31_Aut == "JUSQU'A CE QUE METTE FIN A SON ENGAGEMENT" | EP31_Aut == "SANS TERME PRECIS" | EP31_Aut == "JUSQU AU JOUR ELLE DECIDE DE PARTI" | EP31_Aut == "DUREE INDEFINIE" | EP31_Aut == "DUREE INDETERMINEE" | EP31_Aut == "TRAVAILLE SANS DURÉE DÉTERMINER" | EP31_Aut == "SANS DATE DE FIN SPECIFIQUE" | EP31_Aut == "SANS DUREE DE FIN" | EP31_Aut == "PERIODE INDETERMINEE" | EP31_Aut == "CONTRAT VERBAL JUSQU'A CE QU'IL TROUVE AUTRE CHOSE" | EP31_Aut == "durée non spécifié" | EP31_Aut == "PAS DE DURÉE SPÉCIFIÉE" | EP31_Aut == "Un contrat a duré indéterminé" | EP31_Aut == "JUSQU'À LA RETRAITE" | EP31_Aut == "JUSQU'A LA FIN DU CONTRAT RENOUVELABLE" | EP31_Aut == "durée non spécifiée" | EP31_Aut == "TRAVAILLE AVEC SON MARI" | EP31_Aut == "PAS DE DATE PRECIS DE FIN DE CONTRAT" | EP31_Aut == "PROPRE CMPTE." | EP31_Aut == "EN CONTINUE SANS DATE DE FIN" | EP31_Aut == "SANS DATE DE FIN" | EP31_Aut == "DE FACON CONTINUE SANS CONTRAT" | EP31_Aut == "SANS DUREE FIXE" | EP31_Aut == "¨PÉRIODE NON SPÉCIFIÉE" | EP31_Aut == "JUSQU'A CE QU'IL TROUVE MIEUX" | EP31_Aut == "JUSQU'A CE QU IL DECIDE D ARRETER" | EP31_Aut == "accord verbal sans date de fin." | EP31_Aut == "UNE PÉRIODE INDÉTERMINÉE" | EP31_Aut == "PAS DE DUREE DETERMINER" | EP31_Aut == "NEGOCIATION DES PRIX AVEC LE CLIENT" | EP31_Aut == "PÉRIODE NON SPÉCIFIÉE" | EP31_Aut == "TRAVAIL SANS PERIODE DE FIN JUSQU'A CE QU'IL TROUVE AUTRE CHOSE A FAIRE" | EP31_Aut == "PAS DE TERMES PRECIS" | EP31_Aut == "SURVENIR AUX BESOINS" | EP31_Aut == "INDETERMINEE" | EP31_Aut == "indeterminé" | EP31_Aut == "CONTRAT A DUREE INDERMINEE" | EP31_Aut == "ce travail se fait tous les jours et de facon indeterminé" | EP31_Aut == "PERIODE NON SPECIFIEE" | EP31_Aut == "TRAVAILLE AVEC SON MARI / PAS DE CONTRAT" | EP31_Aut == "SANS DELAI EN FONCTION DU MARCHE" | EP31_Aut == "UNE PERIODE INDETERMINEE" | EP31_Aut == "il travaille pour son propre compte" | EP31_Aut == "CONTRAT VERBAL SANS DELAIS PRECIS EN TEMPS QUE DEUXIEME CHEF DE GARAGE" | EP31_Aut == "TRAVAIL AVEC SON MARI" | EP31_Aut == "APPRENTI JUSQUAU MOMENT D AVOIR UNE VOITURE EN MON NOM" | EP31_Aut == "JUSQU'AU JOUR OU IL DECIDE DE PARTI" | EP31_Aut == "période non spécifié" | EP31_Aut == "SANS COMTRAT - DE MANIERE CONTINUE" | EP31_Aut == "JUSQU'À CE QU IL DECIDE D ARRETER" | EP31_Aut == "c'est un emploi à terme imprécis"|EP31_Aut =="AIDE A UN FRERE DONC SANS DATE FIXE"|EP31_Aut =="DUREE NON SPECIFIEE"|EP31_Aut =="LE CONTRAT EST VERBAL SANS DATE DE FIN // ET IL TRAVAIL EN FONCTION DES ACTIVITES A FAIRE"|EP31_Aut =="ACCORD VERBAL SANS DE DATE DE FIN")
+
+replace   EP31__4=1  if EP31_Aut =="PAS DE PÉRIODE DÉTERMINÉE"
+replace   EP31__4=1  if EP31_Aut =="CONTRAT PARTANT JUSQU'A LA RETRAITE"
+replace   EP31__4=1  if EP31_Aut =="SANS DUREE SPECCIFIEE"
+replace   EP31__4=1  if EP31_Aut =="IMPRECIS"
+replace   EP31__4=1  if EP31_Aut =="durée non précisée"
+replace   EP31__4=1  if EP31_Aut =="CONTRAT SANS DUREE SPECIFIQUE"
+replace   EP31__2=1  if EP31_Aut =="SANS MENTION JUSQUA CE QUE CHACUN TROUVE MIEUX"
+replace   EP31__4=1  if EP31_Aut =="IMPRÉCIS"
+replace   EP31__4=1  if EP31_Aut =="PAS DE DUREE SPECIFIQUE"
+replace   EP31__4=1  if EP31_Aut =="PAS DE DURÉE SPÉCIFIQUE"
+replace   EP31__2=1  if EP31_Aut =="CONTRACTUEL"
+replace   EP31__4=1  if EP31_Aut =="durée indéterminée"
+replace   EP31__4=1  if EP31_Aut =="En cours sans date de fin spécifiée"
+replace   EP31__4=1  if EP31_Aut =="POUR UN TRAVAIL A DURE NON DÉTERMINER"
+replace   EP31__4=1  if EP31_Aut =="sans durée précise"
+replace   EP31__4=1  if EP31_Aut =="sans durée spécifiée"
+replace   EP31__4=1  if EP31_Aut =="PAs DE DUREE SPECIFIEE"
+replace   EP31__4=1  if EP31_Aut =="une période non spécifiée"
+replace   EP31__2=1  if EP31_Aut =="IL EST LA JUSQU A CE QU IL EST MIEUX"
+replace   EP31__4=1  if EP31_Aut =="AUCUNE DATE SPÉCIFIÉE"
+replace   EP31__4=1  if EP31_Aut =="NON PRECIS"
+replace   EP31__4=1  if EP31_Aut =="SANS FIN PRÉCIS"
+replace   EP31__3=1  if EP31_Aut =="DECISION MINITERIEL"
+replace   EP31__4=1  if EP31_Aut =="SANS DUREE SPECIFIEE"
+replace   EP31__4=1  if EP31_Aut =="SANS PERIODE SPECIFIQUE"
+replace   EP31__4=1  if EP31_Aut =="CONTRAT A DURÉE INDÉTERMINÉE"
+
+
+replace EP31_Aut ="" if EP31__4==1 
+replace EP31_Aut ="" if EP31__2==1
+replace EP31_Aut ="" if EP31__3==1 
+******______________________________________________________________________******
+
+replace EP31__2=1 if EP31_Aut=="IL EST ELEVE IL FAIT CE TRAVAIL SOUVENT LES WEEK END"
+
+replace EP31__4=1 if EP31_Aut=="CONTRAT INDETERMINE"
+replace EP31__4=1 if EP31_Aut=="INDETERMINE A TERME IMPRÉCIS"
+replace EP31__4=1 if EP31_Aut=="PAS DE DURÉE DE FIN"
+replace EP31__4=1 if EP31_Aut=="TEMPS INPRECI"
+replace EP31__4=1 if EP31_Aut=="INDEFINIE"
+replace EP31__4=1 if EP31_Aut=="pas de durée spécifique"
+replace EP31__4=1 if EP31_Aut=="TERME NON SPECIFIEE"
+replace EP31__4=1 if EP31_Aut=="TERME NON SPECIFIE"
+replace EP31__4=1 if EP31_Aut=="EN COURS SANS DATE DE FIN"
+replace EP31__4=1 if EP31_Aut=="PERIODE INDETERMINER"
+replace EP31__4=1 if EP31_Aut=="CONTRAT A DUREE INDÉTERMINÉE"
+replace EP31__4=1 if EP31_Aut=="PAS DE DURÉE PRÉCISE"
+replace EP31__4=1 if EP31_Aut=="INDÉTERMINÉ"
+replace EP31__4=1 if EP31_Aut=="JUSQU Q LA RETRAITE"
+replace EP31__4=1 if EP31_Aut=="CONTRAT VERBAL IMPRÉCIS"
+replace EP31__4=1 if EP31_Aut==".PAS DE DURÉE PRÉCISE"
+replace EP31__4=1 if EP31_Aut=="DURÉE NON SPÉCIFIÉE"
+***
+replace EP31__5=0 if EP31_Aut=="INDETERMINE A TERME IMPRÉCIS"
+replace EP31__5=0 if EP31_Aut=="PAS DE DURÉE DE FIN"
+replace EP31__5=0 if EP31_Aut=="TEMPS INPRECI"
+replace EP31__5=0 if EP31_Aut=="IL EST ELEVE IL FAIT CE TRAVAIL SOUVENT LES WEEK END"
+replace EP31__5=0 if EP31_Aut=="INDEFINIE"
+replace EP31__5=0 if EP31_Aut=="pas de durée spécifique"
+replace EP31__5=0 if EP31_Aut=="TERME NON SPECIFIEE"
+replace EP31__5=0 if EP31_Aut=="TERME NON SPECIFIE"
+replace EP31__5=0 if EP31_Aut=="EN COURS SANS DATE DE FIN"
+replace EP31__5=0 if EP31_Aut=="PERIODE INDETERMINER"
+replace EP31__5=0 if EP31_Aut=="CONTRAT A DUREE INDÉTERMINÉE"
+replace EP31__5=0 if EP31_Aut=="PAS DE DURÉE PRÉCISE"
+replace EP31__5=0 if EP31_Aut=="INDÉTERMINÉ"
+replace EP31__5=0 if EP31_Aut=="JUSQU Q LA RETRAITE"
+replace EP31__5=0 if EP31_Aut=="CONTRAT VERBAL IMPRÉCIS"
+replace EP31__5=0 if EP31_Aut==".PAS DE DURÉE PRÉCISE"
+replace EP31__5=0 if EP31_Aut=="DURÉE NON SPÉCIFIÉE"
+***
+
+replace EP31_Aut = "" if EP31__5 == 0
+replace EP31_Aut = "" if EP31__2 == 1
+replace EP31_Aut = "" if EP31__4 == 1
+
+***Vider les variables 
+replace EP31_Aut="" if EP31__2==1 & EP31_Aut=="IL EST ELEVE IL FAIT CE TRAVAIL SOUVENT LES WEEK END"
+
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="DURÉE NON SPÉCIFIÉE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut==".PAS DE DURÉE PRÉCISE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="CONTRAT VERBAL IMPRÉCIS"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="JUSQU Q LA RETRAITE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="INDÉTERMINÉ"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="PAS DE DURÉE PRÉCISE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="CONTRAT A DUREE INDÉTERMINÉE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="PERIODE INDETERMINER"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="EN COURS SANS DATE DE FIN"
+replace EP31_Aut = "" if EP31__4 == 1 &EP31_Aut=="TERME NON SPECIFIE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="TERME NON SPECIFIEE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="pas de durée spécifique"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="INDEFINIE"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="TEMPS INPRECI"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="PAS DE DURÉE DE FIN"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="INDETERMINE A TERME IMPRÉCIS"
+replace EP31_Aut="" if EP31__4==1 & EP31_Aut=="CONTRAT INDETERMINE"
+******
+*****
+replace EP31__4 = 1 if EP31_Aut=="JUSQU'A CE QU'ELLE TROUVE UN AUTRE TRAVAIL"
+replace EP31__1=1 if EP31_Aut=="FONCTIONNAIRE"
+replace EP31__1=1 if EP31_Aut=="FONTIONNAIRE"
+replace EP31__1=1 if EP31_Aut=="LE CONTRAT EST EN COURS JUSQU'A CE QU'IL ARRETE"
+replace EP31__1=1 if EP31_Aut=="LE CONTRAT SE TERMINE A LA FIN DE CHAQUE SERVICE"
+replace EP31__2=1 if EP31_Aut=="UN APPRENTISSAGE A MON PROPRE CHOIX POUR SAVOIR MIEUX CONDUIRE"
+replace EP31__2=1 if EP31_Aut=="SIMPLE APPRENTISSAGE"
+replace EP31__2=1 if EP31_Aut=="APPRENTI PAYE OCCASIONNELLENT"
+replace EP31__4=1 if EP31_Aut=="JUSQU'À CE QUE JE SOIS AUTONOME"
+replace EP31__4=1 if EP31_Aut=="JUSQU'A CE QU'IL TROUVE UN AUTRE TRAVAIL"
+replace EP31__4=1 if EP31_Aut=="PAS DE DUREE SPÉCIFIEE"
+replace EP31__4=1 if EP31_Aut=="SANS DATE FIN"
+replace EP31__4=1 if EP31_Aut=="SANS DATE DE FIN DE CONTRACT"
+replace EP31__1=1 if EP31_Aut=="GARDIENNAGE"
+replace EP31__4=1 if EP31_Aut=="DUREE PAS SPÉCIFIQUE"
+replace EP31__4=1 if EP31_Aut=="SANS DUREE PRECIS"
+replace EP31__4=1 if EP31_Aut=="DUREE INDÉTERMINÉE"
+replace EP31__4=1 if EP31_Aut=="SANS DELAIS"
+replace EP31__1=1 if EP31_Aut=="LE CONTRAT EST EN COURS JUSQU'A CE QU'IL ARRETE"
+replace EP31__4=1 if EP31_Aut=="PAS DE DATE SPECIFIEE"
+replace EP31__4=1 if EP31_Aut=="DUREE SANS TERME PRECIS"
+replace EP31__4=1 if EP31_Aut=="SANS DATE DE FIN ENTREPRISE FAMILIALE"
+replace EP31__4=1 if EP31_Aut=="PAR DE PERIODE DEFINIE"
+replace EP31__4=1 if EP31_Aut=="EMPLOI OCCASIONNEL"
+replace EP31__4=1 if EP31_Aut=="INDETERMINE"
+*
+replace EP31__1=1 if EP31_Aut=="CONTRAT DE 3 MOIS RENOUVELABLE"
+replace EP31__1=1 if EP31_Aut=="VACATIONS"
+
+
+replace EP31__1=1 if EP31_Aut =="JOB DE VACANCES"
+replace EP31__2=1 if EP31_Aut =="APPRENTI"
+replace EP31__3=1 if EP31_Aut =="CONCOURS"
+replace EP31__3=1 if EP31_Aut =="REGIT PAR LA FONCTION PUBLIQUE"
+
+
+replace EP31__5 = 0 if EP31_Aut == "JOB DE VACANCES"
+replace EP31__5 = 0 if  EP31_Aut == "APPRENTI"
+replace EP31__5 = 0 if  EP31_Aut == "CONCOURS"
+replace EP31__5 = 0 if  EP31_Aut == "REGIT PAR LA FONCTION PUBLIQUE"
+
+
+
+***VIDER 
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "JUSQU'A CE QU'ELLE TROUVE UN AUTRE TRAVAIL"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "JUSQU'À CE QUE JE SOIS AUTONOME"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "JUSQU'A CE QU'IL TROUVE UN AUTRE TRAVAIL"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "PAS DE DUREE SPÉCIFIEE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "SANS DATE FIN"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "SANS DATE DE FIN DE CONTRACT"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "DUREE PAS SPÉCIFIQUE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "SANS DUREE PRECIS"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "DUREE INDÉTERMINÉE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "SANS DELAIS"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "PAS DE DATE SPECIFIEE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "DUREE SANS TERME PRECIS"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "PAS DE DATE SPECIFIEE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "DUREE SANS TERME PRECIS"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "SANS DATE DE FIN ENTREPRISE FAMILIALE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "PAR DE PERIODE DEFINIE"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "EMPLOI OCCASIONNEL"
+replace EP31_Aut = "" if EP31__4 == 1 & EP31_Aut == "INDETERMINE"
+
+
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "FONCTIONNAIRE"
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "FONTIONNAIRE"
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "LE CONTRAT EST EN COURS JUSQU'A CE QU'IL ARRETE"
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "GARDIENNAGE"
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "LE CONTRAT SE TERMINE A LA FIN DE CHAQUE SERVICE"
+
+replace EP31_Aut = "" if EP31__2 == 1 & EP31_Aut == "UN APPRENTISSAGE A MON PROPRE CHOIX POUR SAVOIR MIEUX CONDUIRE"
+replace EP31_Aut = "" if EP31__2 == 1 & EP31_Aut == "SIMPLE APPRENTISSAGE"
+replace EP31_Aut = "" if EP31__2 == 1 & EP31_Aut == "APPRENTI PAYE OCCASIONNELLENT"
+
+
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "CONTRAT DE 3 MOIS RENOUVELABLE"
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "VACATIONS"
+
+replace EP31_Aut = "" if EP31__1 == 1 & EP31_Aut == "JOB DE VACANCES"
+replace EP31_Aut = "" if EP31__2 == 1 & EP31_Aut == "APPRENTI"
+replace EP31_Aut = "" if EP31__3 == 1 & EP31_Aut == "CONCOURS"
+replace EP31_Aut = "" if EP31__3 == 1 & EP31_Aut == "REGIT PAR LA FONCTION PUBLIQUE"
+
+**Pour moi
+replace EP31__1=1 if inlist(EP31_Aut,"CONTRAT A TERME PRECIS","JOURNALIER","LORSQU'IL Y A CHANTIER","NORMALEMENT IL DOIT PASSER EN CDI CETTE ANNEE")
+
+replace EP31__2=1 if inlist(EP31_Aut,"JUSTE LE TEMPS DE TROUVER MIEUX","Job de vacances","IL EST EN ATTENTE DE SON CONTRAT")
+
+**Vider 
+replace EP31_Aut="" if EP31__1==1 & inlist(EP31_Aut,"CONTRAT A TERME PRECIS","JOURNALIER","LORSQU'IL Y A CHANTIER","NORMALEMENT IL DOIT PASSER EN CDI CETTE ANNEE")
+
+replace EP31_Aut="" if EP31__2==1 & inlist(EP31_Aut,"JUSTE LE TEMPS DE TROUVER MIEUX","Job de vacances","IL EST EN ATTENTE DE SON CONTRAT")
+
+**TAK*****
+
+replace   EP31__1=1  if EP31_Aut =="UN CONTRAT DE SIX MOIS RENOUVELABLE"
+replace   EP31__2=1  if EP31_Aut =="STAGE DE PERFECTIONNEMENT"
+replace   EP31__2=1  if EP31_Aut =="CONTRAT OCCASIONNEL"
+replace   EP31__4=1  if EP31_Aut =="CONTRAT A LA TACHE"
+replace   EP31__4=1  if EP31_Aut =="CONTRAT À DURÉE DÉTERMINÉE RENOUVELABLE"
+
+replace EP31__5=0 if inlist(EP31_Aut,"UN CONTRAT DE SIX MOIS RENOUVELABLE","STAGE DE PERFECTIONNEMENT","CONTRAT OCCASIONNEL","CONTRAT A LA TACHE","CONTRAT À DURÉE DÉTERMINÉE RENOUVELABLE")
+
+replace EP31_Aut="" if inlist(EP31_Aut,"UN CONTRAT DE SIX MOIS RENOUVELABLE","STAGE DE PERFECTIONNEMENT","CONTRAT OCCASIONNEL","CONTRAT A LA TACHE","CONTRAT À DURÉE DÉTERMINÉE RENOUVELABLE")
+
+
+******______________________________________________________________________******
+***ES10_1_Aut
+
+*export excel ES10_1_Aut using "C:\Users\Laurenne\Documents\Tableau excell\ES10_1_Aut.xls" if ES10_1_Aut!="", firstrow(variables)
+
+export excel interview__key membres__id /* EP1a EP1b EP3 EP11 */ ES2a ES2b ES10_1_Aut using "$folderpath/document/ES10_1_Aut.xls" if ES10_1_Aut !="", firstrow(variables) replace 
+
+replace ES10_1=1 if ES10_1_Aut=="OUVRIER"
+replace ES10_1=1 if ES10_1_Aut=="AIDE MAÇON"
+replace ES10_1=9 if ES10_1_Aut=="consultant"
+replace ES10_1=1 if ES10_1_Aut=="MANOUVRIERE"
+replace ES10_1=1 if ES10_1_Aut=="MANŒUVRE"
+replace ES10_1=1 if ES10_1_Aut=="OUVRIER"
+replace ES10_1=1 if ES10_1_Aut=="CONTRATIER"
+replace ES10_1=1 if ES10_1_Aut=="PRESTATAIRE"
+replace ES10_1=1 if ES10_1_Aut=="MANOEUVRE" 
+replace ES10_1=1 if ES10_1_Aut=="MANŒUVRE"
+replace ES10_1=1 if ES10_1_Aut=="MANOUVRIERE"
+replace ES10_1=1 if ES10_1_Aut=="CONTRACTUEL"
+replace ES10_1=1 if ES10_1_Aut=="OUVRIERE"
+replace ES10_1=1 if ES10_1_Aut=="DEMARCHEUR COMMERCIAL"
+replace ES10_1_Aut = "" if ES10_1 == 1 & (ES10_1_Aut=="OUVRIER" | ES10_1_Aut=="PRESTATAIRE"|ES10_1_Aut=="MANOEUVRE"|ES10_1_Aut=="MANŒUVRE"|ES10_1_Aut=="CONTRACTUEL"|ES10_1_Aut=="OUVRIERE")
+
+replace   ES10_1=1  if ES10_1_Aut =="AIDE MAÇON"
+replace   ES10_1=1  if ES10_1_Aut =="MANŒUVRE"
+replace   ES10_1=1  if ES10_1_Aut =="consultant"
+****
+replace ES10_1=1 if ES10_1_Aut=="MANŒUVRE AGRICOLE"
+replace ES10_1=6 if ES10_1_Aut=="PERSONNE AIDANT UN AMI DANS SON EMPLOI"
+replace ES10_1=1 if ES10_1_Aut=="TRAVAILLEUR OCCASIONNELLE"
+
+replace ES10_1=5 if ES10_1_Aut=="AIDE SON PÈRE"
+replace ES10_1=1 if ES10_1_Aut=="OUVRIÈR"
+
+*TAK
+replace ES10_1=1 if ES10_1_Aut=="CONTRACTUELLE"
+replace ES10_1=1 if ES10_1_Aut=="PERSONNE AIDANT QUELQU'UN QUI TRAVAILLE DANS SON EMPLOI PRINCIPAL"
+replace ES10_1=1 if interview__key =="51-77-34-66" & membres__id == 1
+
+***Vider la variable
+replace ES10_1_Aut = "" if !inlist(ES10_1,.,.a,10)
+
+
+
+****
+
+***ES10
+*export excel ES10_Aut using "C:\Users\Laurenne\Documents\Tableau excell\ES10_Aut.xls" if ES10_Aut!="", firstrow(variables)
+
+export excel interview__key membres__id /* EP1a EP1b EP3 EP11 */ ES2a ES2b ES10_Aut using "$folderpath/document/ES10_Aut.xls" if ES10_Aut!="", firstrow(variables) replace 
+
+replace ES10=5 if ES10==13 & ES10_Aut== "DANS LE DOMICILE DU CLIENT OU SUR LES CHANTIERS"
+replace ES10=5 if ES10==13 & ES10_Aut== "DANS LE DOMICILE DU CLIENT OU SUR LES CHANTIERS"
+replace ES10=2 if ES10== 13 & ES10_Aut=="CHANTIER SUR LA ROUTE DU VILLAGE"
+replace ES10=7 if ES10== 13 & ES10_Aut=="DANS UNE VILLA QUE JE LOUE"
+replace ES10=2 if ES10== 13 & ES10_Aut=="CHANTIER SUR LA ROUTE DU VILLAGE"
+replace ES10=1 if ES10== 13 & ES10_Aut=="DANS LES VILLAGES"
+
+replace   ES10=9  if ES10_Aut =="DANS UN CHANTIER"
+replace   ES10=9  if ES10_Aut =="SUR LES CHANTIERS"
+replace   ES10=9  if ES10_Aut =="SUR LES CHANTIERS"
+
+*TAK
+
+replace   ES10=9  if ES10_Aut =="TERRAIN VIDE"
+replace   ES10=9  if ES10_Aut =="MOULIN"
+replace   ES10=7  if ES10_Aut =="À DOMICILE"
+replace   ES10=9  if ES10_Aut =="A LA MOSQUEE"
+
+
+
+***Vider la variable
+*replace ES10_Aut = "" if !inlist(ES10,.,.a,10)
+replace ES10_Aut ="" if !inlist(ES10,.,.a,13) 
+
+**************************//////
+**WKI7_Aut
+*export excel WKI7_Aut using "D:\CAE\fichier exel\WKI7_Aut.xls" if WKI7_Aut!="", firstrow(variables)
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 WKI7_Aut  using "$folderpath/document/WKI7_Aut.xls" if WKI7_Aut!="", firstrow(variables) replace 
+
+replace   WKI7=3  if WKI7_Aut =="PAS DE DIPLÔME"
+replace   WKI7=2  if WKI7_Aut =="VIEILLESSE"
+replace   WKI7=1  if WKI7_Aut =="VEUT AMÉLIORER CE EMPLOI CI ET Y RESTER"
+replace   WKI7=1  if WKI7_Aut =="MON ACTIVITÉ ME CONVIENT JE VEUX JUSTE AGRANDI ET DIVERSIFIER SI J'AI LES MOYEN"
+replace   WKI7=4  if WKI7_Aut =="PAS D EMPLOI DANS LA LOCALITÉ"
+
+replace WKI7=6 if WKI7_Aut=="MON EMPLOI ET MES ENFANTS ME PRENNENT TOUT LE TEMPS"
+replace WKI7=4 if WKI7_Aut=="NE SAIT PAS COMMENT CHERCHER"
+replace WKI7=1 if WKI7_Aut=="J'AIME MON EMPLOI ACTUEL. EN REVANCHE,  J'AI BESOIN D'UN ACCOMPAGNEMENT FINANCIER POUR PRODUIRE PLUS DE RÉSULTATS"
+replace WKI7=4 if WKI7_Aut=="JE NE SAIT PAS COMMENT FAIRE POUR TROUVER UN EMPLOI"
+replace WKI7=1 if WKI7_Aut=="JE VEUX EVOLUER DANS MON DOMAINE, MONTER ENCORE DE GRADE"
+replace WKI7=1 if WKI7_Aut=="JE SUIS LA CREER MON RESTAURANT"
+replace WKI7=1 if WKI7_Aut=="IL NE RECHERCHE PAS UN AUTRE EMPLOI MAIS SOUHAITERAI AVOIR PLUS DE MOYENS POUR DEVELOPPER SES BUSINESS"
+
+replace WKI7=1 if WKI7_Aut=="JE ME DEFEND ICI POUR LE MOMENT"
+replace WKI7=1 if WKI7_Aut=="je suis satisfaite de mon emploi actuel. Cependant, l'obtention du magasin pour m'installer me ferait du bien."
+****
+replace WKI7=4 if WKI7_Aut=="JE NE SAIS PAS COMMENT  CHERCHER UN EMPLOI"
+replace WKI7=4 if WKI7_Aut=="JE NE SAIS PAS COMMENT CHERCHER UN EMPLOI"
+replace WKI7=4 if WKI7_Aut=="JE NE SAIS COMMENT TROUVER UN EMPLOI"
+replace WKI7=4 if WKI7_Aut=="JE NE SAIS PAS COMMENT TROUVER UN EMPLOI"
+replace WKI7=3 if WKI7_Aut=="ELLE VEUT CONTINUER SA FORMATION EN CUISINE SI SON ENFANT GRANDIT DANS PEU DE TEMPS"
+replace WKI7=3 if WKI7_Aut=="ELLE N'A PAS D'AUTRES COMPÉTENCES"
+replace WKI7=4 if WKI7_Aut=="MANQUE DE MOYENS POUR DEVELOPPER UN AUTRES COMMERCE EN PLUS"
+replace WKI7=3 if WKI7_Aut=="ELLE SUIT UNE FORMATION ET VEND A SES TEMPS PERDU"
+replace WKI7=6 if WKI7_Aut=="SERVITEUR DE DIEU ET PASTEUR OCCUPE PAR LES TRAVAUX RELIGIEUX"
+replace WKI7=6 if WKI7_Aut=="OCCUPÉ PAR LES ETUDES"
+replace WKI7=6 if WKI7_Aut=="OCCUPÉE PAR LES ÉTUDES"
+replace WKI7=6 if WKI7_Aut=="J'ATTEND D'ETRE LIBÉRER PAR MON PATRON"
+replace WKI7=3 if WKI7_Aut=="JE SUIS EN APPRENTISSAGE COMMERCIAL"
+replace WKI7=3 if WKI7_Aut=="souhaite reprendre les cours"
+replace WKI7=4 if WKI7_Aut=="RECHERCHE DE MOYENS FINANCIERS"
+replace WKI7=4 if WKI7_Aut=="JE SOUHAITE ÉCONOMISER POUR RETOURNER A L'ECOLE"
+replace WKI7=6 if WKI7_Aut=="JE SUIS EN ATTENTE DE MON AFFECTATION"
+replace WKI7=3 if WKI7_Aut=="IL COMPTE REPRENDRE LES ÉTUDES"
+replace WKI7=3 if WKI7_Aut=="ELLE CONTINUE SES ETUDES"
+replace WKI7=1 if WKI7_Aut=="EN QUETE DE PROMOTION"
+replace WKI7=6 if WKI7_Aut=="EN ATTENTE D'AFFECTATION"
+replace WKI7=6 if WKI7_Aut=="J'ATTENDS À CE QUE MON PERMIS DE CONDUIRE SOIT DISPONIBLE POUR CHERCHER UN EMPLOI"
+replace WKI7=4 if WKI7_Aut=="RECHERCHE DE MOYENS FINANCIERS"
+replace WKI7=4 if WKI7_Aut=="MANQUE DE MOYEN"
+
+****
+
+replace WKI7=2 if WKI7_Aut=="JE SUIS DEVENU VIELLE JE N'AI PLUS DE FORCE POUR TRAVAILLER"
+replace WKI7=2 if WKI7_Aut=="PROBLÈME DE SANTÉ"
+replace WKI7=5 if WKI7_Aut=="COMMENT TROUVER UN EMPLOI"
+replace WKI7=3 if WKI7_Aut=="OCCUPER PAR LES ÉTUDES"
+replace WKI7=3 if WKI7_Aut=="JE POURSUIS MES ÉTUDES"
+replace WKI7=3 if WKI7_Aut=="ENCORE ELEVE"
+replace WKI7=3 if WKI7_Aut=="JE VAIS À L’ÉCOLE"
+replace WKI7=6 if WKI7_Aut=="CHERCHE UN EMPLOI A TEMPS PARTIEL PROCHE DE CHEZ MOI, POUR ME PERMETTRE DE POUVOIR FAIRE MES AUTRES ACTIVITÉS GÉNÉRATRICE DE REVENU"
+replace WKI7=3 if WKI7_Aut=="A CAUSE DE SON ANALPHABETISATION"
+replace WKI7=3 if WKI7_Aut=="JE SUIS OCCUPÉ PAR LES ÉTUDES"
+replace WKI7=4 if WKI7_Aut=="EN ATTENTE D AFFECTATION SUITE A LA FIN DE FORMATION CONCOURS INFAS"
+replace WKI7=2 if WKI7_Aut=="MON ETAT DE SANTE NE ME PERMET PAS"
+replace WKI7=2 if WKI7_Aut=="PROBLEME DE SANTE"
+replace WKI7=4 if WKI7_Aut=="PRISE PAR LES EMPLOIS NON REMUNERES"
+replace WKI7=4 if WKI7_Aut=="COMMENT CHERCHER UN EMPLOI"
+replace WKI7=4 if WKI7_Aut=="JE NE SAIS COMMENT CHERCHER UN EMPLOI"
+replace WKI7=3 if WKI7_Aut=="TOUJOURS A L ECOLE"
+replace WKI7=6 if WKI7_Aut=="TÂCHES MÉNAGÈRES ÉLEVÉE"
+
+replace WKI7=3 if WKI7_Aut=="ELLE SOUHAITERAI AVANT TOUT CONTINUER SES ETUDES"
+replace WKI7=3 if WKI7_Aut=="EST ELEVE"
+replace WKI7=3 if WKI7_Aut=="JE SUIS ELEVE JE N'AI PAS LE TEMPS POUR  ALLER CHERCHER TRAVAIL"
+replace WKI7=3 if WKI7_Aut=="OCCUPÉE PAE LES ETUDES"
+replace WKI7=3 if WKI7_Aut=="suivre ces études"
+replace WKI7=3 if WKI7_Aut=="EST ENCORE ELEVE"
+replace WKI7=3 if WKI7_Aut=="EST EN FORMATION DE COIFFURE"
+replace WKI7=3 if WKI7_Aut=="OCCUPE PAR LES ETUDES, CECI N EST PAS UN EMPLOI A PLEIN TEMPS MAIS JUSTE AIDER SA MERE DANS SON COMMERCE"
+replace WKI7=2 if WKI7_Aut=="JE SUIS DEVENU VIEUX ET JE N'AI PLUS DE FORCE POUR TRAVAILLER"
+replace WKI7=1 if WKI7_Aut=="JE SUIS SATISFAIT DE MON EMPLOI MAIS J’AI BESION POUR POUVOIR AGRANDIR MON COMMERCE"
+replace WKI7=1 if WKI7_Aut=="BESOIN DE MATÉRIELS AGRICOLE POUR FACILITER MES ACTIVITÉS"
+replace WKI7=1 if WKI7_Aut=="CHERCHE UN FINANCEMENT POUR AGGRANDIR SON COMMERCE"
+replace WKI7=1 if WKI7_Aut=="JE RECHERCHE LES MOYENS POUR AGRANDIR MON ACTIVITEES"
+replace WKI7=4 if WKI7_Aut=="JE SUIS EN ATTENTE UNE RÉPONSE"
+replace WKI7=1 if WKI7_Aut=="J'AI BESOIN DE FONDS POUR REPRENDRE MON COMMERCE"
+replace WKI7=1 if WKI7_Aut=="EN ATTENTE ARGENT POUR AGRANDIR MON COMMERCE"
+
+replace WKI7=1 if WKI7_Aut=="BESOIN DE FINANCEMENT POUR DEVELOPPER SON BUSINESS"
+replace WKI7=1 if WKI7_Aut=="je veux un financement pour agrandir mon commerce"
+replace WKI7=1 if WKI7_Aut=="J’AIME CE QUE JE FAIS JE SOUHAITE ÊTRE ÊTRE BIEN FORMÉ POUR MONTER MA PROPRE ENTREPRISE"
+replace WKI7=1 if WKI7_Aut=="PROBLEME FINANCIER POUR AGRANDIR SON METIER"
+replace WKI7=1 if WKI7_Aut=="CHERCHE DU FINANCEMENT POUR BOOSTER SON ACTIVITE"
+replace WKI7=3 if WKI7_Aut=="JE CONTINUE LES COURS QUI ME PRENNENT DU TEMPS"
+replace WKI7=1 if WKI7_Aut=="BESOIN D’AIDE POUR AVOIR MON PROPRE ATELIER DE MENUISERIE"
+**
+
+replace WKI7=2 if WKI7_Aut=="J'AI PRI DE L AGE,JE N'EST PLUS DE FORCE POUR TRAVAILLER"
+replace WKI7=2 if WKI7_Aut=="JE SUIS DEVENU VIELLE ET JE N'AI PLUS DE FORCE POUR TRAVAILLER"
+replace WKI7=2 if WKI7_Aut=="VIEILLESSE ET PROBLÈMES DE SANTÉ"
+replace WKI7=2 if WKI7_Aut=="JE N'EST PLUS DE FORCE POUR TRAVAILLER ASSEZ"
+replace WKI7=6 if WKI7_Aut=="DANS LA DÉONTOLOGIE ON NE LUI PERMET PAS D'AVOIR UNE AUTRE ACTIVITÉ"
+
+replace WKI7 = 4 if WKI7_Aut=="ABSENCE DE MOYEN POUR DEBUTER L’ACTIVITE"
+replace WKI7 = 6 if WKI7_Aut=="JE SUIS ELEVE"
+replace WKI7 = 6 if WKI7_Aut=="ELEVE"
+replace WKI7 = 5 if WKI7_Aut=="DIFFICULTÉS DE TROUVER DU TRAVAIL SANS PAPIERS"
+replace WKI7 = 4 if WKI7_Aut=="JE NE SAIS PAS COMMENT TROUVER UN AUTRE EMPLOI"
+replace WKI7 = 3 if WKI7_Aut=="DOUS REPRENDRE LES ETUDES"
+replace WKI7 = 2 if WKI7_Aut=="ASSEZ AGE POUR TRAVAILLER"
+replace WKI7 = 4 if WKI7_Aut=="VEUT AUGMENTER SON AFFAIRE"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE FINANCEMENT POUR LES PRODUIT DU CHAMP"
+replace WKI7 = 6 if WKI7_Aut=="JE SUIS ÉTUDIANT"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE MOYENS FINANCIERS"
+replace WKI7 = 4 if WKI7_Aut=="CHERCHE  A DÉVELOPPER SON ACTIVITE"
+replace WKI7 = 2 if WKI7_Aut=="TROP AGE"
+replace WKI7 = 6 if WKI7_Aut=="POUR S’OCCUPER DE LA FAMILLE"
+replace WKI7 = 6 if WKI7_Aut=="TÂCHES MÉNAGÈRES"
+replace WKI7 = 6 if WKI7_Aut=="TÂCHE MÉNAGÈRE"
+replace WKI7 = 4 if WKI7_Aut=="IL FAUT DES MOYENS FINANCIERS POUR FAIRE LE COMMERCE"
+replace WKI7 = 3 if WKI7_Aut=="POUR SUIVRE UNE FORMATION"
+replace WKI7 = 3 if WKI7_Aut=="LE NIVEAU SCOLAIRE NE LE PERMET PAS"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE MOYEN FINANCIER"
+replace WKI7 = 4 if WKI7_Aut=="BESOIN D’AIDE"
+replace WKI7 = 6 if WKI7_Aut=="JE SUIS ELEVE ACTUELLEMENT"
+replace WKI7 = 4 if WKI7_Aut=="ELLE CHERCHE LES MOYENS POUR OFFRIR SON PROPRE BUSINESS"
+replace WKI7 = 6 if WKI7_Aut=="JE SUIS ÉLÈVE, CET EMPLOI EST TEMPORAIRE"
+replace WKI7 = 3 if WKI7_Aut=="N'EST PAS ALLEE A L'ECOLE"
+replace WKI7 = 6 if WKI7_Aut=="PRÉFÈRE M'OCCUPER DE MON ENFANT EN BAS ÂGE POUR L'INSTANT"
+replace WKI7 = 3 if WKI7_Aut=="PREFERE CONTINUER SES ETUDES CAR CET EMPLOI EST UNIQUEMENT RESERVE AUX VACANCES SCOLAIRES"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE MOYENS POUR DEVELOPPER D'AUTRE ACTIVITEES"
+replace WKI7 = 6 if WKI7_Aut=="ELLE EST TOUJOURS ÉLÈVE"
+replace WKI7 = 4 if WKI7_Aut=="COMMENT TROUVER UN AUTRE EMPLOI"
+replace WKI7 = 6 if WKI7_Aut=="UN EMPLOI TEMPORAIRE CAR ELLE EST ELEVE"
+replace WKI7 = 6 if WKI7_Aut=="C EST JUSTE POUR OCCUPER MES VACANCES CAR SUIS ELEVE"
+replace WKI7 = 6 if WKI7_Aut=="DEJA OCCUPE PAR LES ETUDES"
+replace WKI7 = 6 if WKI7_Aut=="OCCUPER PAR L'ALLAITEMENT DE MON ENFANT"
+replace WKI7 = 4 if WKI7_Aut=="PROBLEME DE MOYEN FINANCIER"
+replace WKI7 = 4 if WKI7_Aut=="je  veux les moyens financiers pour m’installer à mon propre compte"
+replace WKI7 = 4 if WKI7_Aut=="SOUHAITE AVOIR UNE FERME DE POULETS COMME ACTIVITEE SUPPLÉMENTAIRE"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE MOYENS"
+replace WKI7 = 3 if WKI7_Aut=="ATTENDS LES PROCHAINS CONCOURS D’E TREE DANS LA FONCTION PUBLIQUE"
+replace WKI7 = 6 if WKI7_Aut=="JE SUIS EN STAGE"
+replace WKI7 = 3 if WKI7_Aut=="ATTEND LA PÉRIODE DES CONCOURS"
+replace WKI7 = 4 if WKI7_Aut=="JE NE SAIS PAS COMMENT CHERCHER UN AUTRE EMPLOI"
+replace WKI7 = 4 if WKI7_Aut=="PAR MANQUE DE MOYENS FINANCIERS"
+replace WKI7 = 6 if WKI7_Aut=="JE FAIS L’ÉCOLE CORANIQUE"
+replace WKI7 = 4 if WKI7_Aut=="MANQUE DE MOYENS FINANCIERS POUR AGRANDIR MON ACTIVITÉ ACTUELLE"
+replace WKI7 = 4 if WKI7_Aut=="INSUFFISANCE DE MOYENS FINANCIERS"
+replace WKI7 = 3 if WKI7_Aut=="Préoccupée par les études"
+
+
+replace WKI7=5 if WKI7_Aut=="ELLE SOUHAITE RÉNOVER SON RESTAURANT MAIS PAS CHARGER D'ACTIVITÉ"
+replace WKI7=6 if WKI7_Aut=="TACHES MÉNAGÈRES"
+replace WKI7=5 if WKI7_Aut=="MANQUE DE MOYEN POUR DEMARRER UNE NOUVELLE ACTIVITE"
+replace WKI7=6 if WKI7_Aut=="JE SUIS ENCORE ELEVES ET JE TRAVAIL AVEC POUR AIDER LES PARENTS"
+replace WKI7=3 if WKI7_Aut=="SOUHAITE  AMELIORER MON TRAVAIL"
+
+*TAK
+replace   WKI7=2  if WKI7_Aut =="Je suis âgé,  je pense pas trouver un emploi"
+replace   WKI7=1  if WKI7_Aut =="AMELIORATION DES HEURES DE TRAVAIL ET LE SALAIRE"
+replace   WKI7=6  if WKI7_Aut =="TÂCHES  MÉNAGÈRES"
+replace   WKI7=6  if WKI7_Aut =="RESPONSABILITES MENAGERE"
+replace   WKI7=1  if WKI7_Aut =="POUR SE CONCENTRER SUR SA FORMATION DE COUTURIÈRE"
+replace   WKI7=2  if WKI7_Aut =="PLUS DE FORCE POUR TRAVAILLER"
+replace   WKI7=4  if WKI7_Aut =="NE DISPOSE PAS SUFFISAMMENT DE TERRE"
+replace   WKI7=4  if WKI7_Aut =="je veux agrandir mon jardin et avoir les équipements agricoles, mais les moyens font défauts"
+replace   WKI7=2  if WKI7_Aut =="AFFAIBLI PAR LA MALADIE, JE PRÉFÈRE ARRÊTER LES ACTIVITÉS AGRICOLES"
+replace   WKI7=1  if WKI7_Aut =="JE SUIS SATISFAITE DE MON EMPLOI MAIS JE VEUX UN SOUTIEN FINANCIER POUR OUVRIR UN MAGASIN"
+
+**vider la variable
+replace WKI7_Aut="" if !inlist(WKI7,.,.a,7)
+
+**R4_Aut: RAS
+*export excel   R4_Aut using "D:\CAE\fichier exel\R4_Aut.xlsx" if R4_Aut!="", firstrow(variables) replace
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 R4_Aut  using "$folderpath/document/R4_Aut.xls" if R4_Aut!="", firstrow(variables) replace 
+
+
+replace R4__12=1 if R4_Aut =="EN ATTENTE D’AVOIR LES MOYENS FINANCIERS NÉCESSAIRES"
+replace R4__12=1 if R4_Aut =="EN ATTENTE D'UN FINANCEMENT"
+
+**avant vider 
+replace R4__19=0 if R4_Aut =="EN ATTENTE D’AVOIR LES MOYENS FINANCIERS NÉCESSAIRES"
+replace R4__19=0 if R4_Aut =="EN ATTENTE D'UN FINANCEMENT"
+**vider
+replace R4_Aut="" if (R4_Aut =="EN ATTENTE D’AVOIR LES MOYENS FINANCIERS NÉCESSAIRES" | R4_Aut == "EN ATTENTE D'UN FINANCEMENT")
+
+*TAK
+
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "POISSONNERIE"
+replace R4__13=1 if R4_Aut == "COMMERCE DE PAGNES"
+replace R4__7=1 if R4_Aut == "EST EN TRAIN DE REUNIR DES PAPIERS POUR UN CONCOURS"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "INITIATIVE PERSONNEL"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "ELEVAGE DE POULETS"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "COMMERCE DE FRIPERIE"
+replace R4__13=1 if R4_Aut == "COMMERCE DE PAGNES"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__13=1 if R4_Aut == "COMMERCE"
+replace R4__8=1 if R4_Aut == "IL A PASSÉ SON PERMIS POUR ÊTRE CHAUFFEUR"
+replace R4__13=1 if R4_Aut == "ÉPARGNE"
+replace R4__8=1 if R4_Aut == "IL A CHERCHÉ DES MARCHÉS DANS LE DOMAINE DE LA PLOMBERIE ET DU BATIMENT"
+
+*vider 
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "POISSONNERIE"
+replace R4__19=0 if R4_Aut == "COMMERCE DE PAGNES"
+replace R4__19=0 if R4_Aut == "EST EN TRAIN DE REUNIR DES PAPIERS POUR UN CONCOURS"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "INITIATIVE PERSONNEL"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "ELEVAGE DE POULETS"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "COMMERCE DE FRIPERIE"
+replace R4__19=0 if R4_Aut == "COMMERCE DE PAGNES"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "COMMERCE"
+replace R4__19=0 if R4_Aut == "IL A PASSÉ SON PERMIS POUR ÊTRE CHAUFFEUR"
+replace R4__19=0 if R4_Aut == "ÉPARGNE"
+replace R4__19=0 if R4_Aut == "IL A CHERCHÉ DES MARCHÉS DANS LE DOMAINE DE LA PLOMBERIE ET DU BATIMENT"
+
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "POISSONNERIE"
+replace R4_Aut="" if R4_Aut == "COMMERCE DE PAGNES"
+replace R4_Aut="" if R4_Aut == "EST EN TRAIN DE REUNIR DES PAPIERS POUR UN CONCOURS"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "INITIATIVE PERSONNEL"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "ELEVAGE DE POULETS"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "COMMERCE DE FRIPERIE"
+replace R4_Aut="" if R4_Aut == "COMMERCE DE PAGNES"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "COMMERCE"
+replace R4_Aut="" if R4_Aut == "IL A PASSÉ SON PERMIS POUR ÊTRE CHAUFFEUR"
+replace R4_Aut="" if R4_Aut == "ÉPARGNE"
+replace R4_Aut="" if R4_Aut == "IL A CHERCHÉ DES MARCHÉS DANS LE DOMAINE DE LA PLOMBERIE ET DU BATIMENT"
+
+
+
+
+
+
+**************************//////
+**WKI2
+*export excel   WKI2_Aut using "D:\CAE\fichier exel\WKI2_Aut.xlsx" if WKI2_Aut!="", firstrow(variables) replace
+
+*replace WKI2__8=8 if WKI2__13==1 & ES10_Aut=="DIFFICILE"
+*use "$datain_brute\membres.dta", clear 
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 WKI2_Aut  using "$folderpath/document/WKI2_Aut.xls" if WKI2_Aut!="", firstrow(variables) replace 
+
+
+replace WKI2__2 = 1 if (WKI2_Aut =="QUELQUE SOIT LE TRAVAIL TANT QUE C'EST BIEN RÉMUNÉRÉ" | WKI2_Aut == "mieux s'occuper des charges familiales" | WKI2_Aut == "POUR AIDER FINANCIÈREMENT SON CONJOINT" | WKI2_Aut == "salaire trop petit" | WKI2_Aut == "POUR COMPENSER LES BESOINS DE LA FAMILLE")
+
+*Vider la variable
+replace WKI2_Aut = "" if WKI2__2 == 1 & (WKI2_Aut == "QUELQUE SOIT LE TRAVAIL TANT QUE C'EST BIEN RÉMUNÉRÉ" | WKI2_Aut == "mieux s'occuper des charges familiales" | WKI2_Aut == "POUR AIDER FINANCIÈREMENT SON CONJOINT" | WKI2_Aut == "salaire trop petit" | WKI2_Aut == "POUR COMPENSER LES BESOINS DE LA FAMILLE")
+
+replace WKI2__3 = 1 if (WKI2_Aut == "CHERCHE A AVOIR UN MAGASIN ET ACHETER PLUS DE MARCHANDISES" |WKI2_Aut == "MANQUE DESPACE POUR FAIRE DES CULTURES"| WKI2_Aut == "OUVRIR UN MAGASIN DE VENTE DE CIMENT" | WKI2_Aut == "ACCROITRE SON BUSINESS" |WKI2_Aut == "A GRANDIR MON ACTIVITÉ" | WKI2_Aut == "AJOUTE UNE AUTRE ACTIVITES COMME LA VENTE DE BOISSON" | WKI2_Aut == "FAIRE SON PROPRE COMMERCE")
+
+*Vider la variable
+replace WKI2_Aut = "" if WKI2__3 == 1 & (WKI2_Aut == "CHERCHE A AVOIR UN MAGASIN ET ACHETER PLUS DE MARCHANDISES" |WKI2_Aut == "MANQUE DESPACE POUR FAIRE DES CULTURES"| WKI2_Aut == "OUVRIR UN MAGASIN DE VENTE DE CIMENT" | WKI2_Aut == "ACCROITRE SON BUSINESS" |WKI2_Aut == "A GRANDIR MON ACTIVITÉ" | WKI2_Aut == "AJOUTE UNE AUTRE ACTIVITES COMME LA VENTE DE BOISSON" | WKI2_Aut == "FAIRE SON PROPRE COMMERCE")
+
+****WKI2__4
+replace WKI2__4 = 1 if WKI2_Aut =="LE REPONDANT DIT QUE LE FAIT DE CONDUIRE LA MOTO EST RISQUE POUR SA VIE, IL DESIRE AUSSI TROUVER UN TRAVAIL PLUS SECURISE"
+
+**Vider la variable
+replace WKI2_Aut = "" if WKI2__4==1 & WKI2_Aut =="LE REPONDANT DIT QUE LE FAIT DE CONDUIRE LA MOTO EST RISQUE POUR SA VIE, IL DESIRE AUSSI TROUVER UN TRAVAIL PLUS SECURISE"
+
+replace   WKI2__8=1  if WKI2_Aut =="TROP D'ATTAQUE MYSTIQUE"
+replace   WKI2__8=1  if WKI2_Aut =="TROP DE STRESS"
+replace   WKI2__8=1  if WKI2_Aut =="NE VEUT PLUS TRAVAILLER PRES DU FEU"
+replace   WKI2__8=1  if WKI2_Aut =="TROP EPUISANT"
+replace   WKI2__8=1  if WKI2_Aut =="BOULOT ACTUEL FATIGANT"
+
+replace WKI2_Aut = "" if WKI2__8==1 & (WKI2_Aut =="TROP D'ATTAQUE MYSTIQUE"|WKI2_Aut =="TROP DE STRESS"|WKI2_Aut =="NE VEUT PLUS TRAVAILLER PRES DU FEU"|WKI2_Aut =="TROP EPUISANT"|WKI2_Aut =="BOULOT ACTUEL FATIGANT")
+
+****WKI2__10
+replace WKI2__10 = 1 if (WKI2_Aut == "METIER DIFFICILE" | WKI2_Aut == "FAIRE UN TRAVAIL MONIS PHYSIQUE" | WKI2_Aut == "TROP S ASSOIRE LUI FAIT MAL A LA HANCHE" | WKI2_Aut == "TROP FATIGANT ET DIFFICILE" | WKI2_Aut == "TELLEMENT DIFFICULTÉS LIÉ A SON EMPLOIE ACTUEL" | WKI2_Aut == "TROUVER UN TRAVAIL MOINS EPUISANT CAR ELLE EST VIEILLE" | WKI2_Aut == "UNE AMÉLIORATION DES CODITIONS DE TRAVAILLE"|WKI2_Aut =="UN BOULOT QUI N'EST PAS ÉPUISANT")
+
+**Vider la variable
+replace WKI2_Aut = "" if WKI2__10 ==1 & (WKI2_Aut == "METIER DIFFICILE" | WKI2_Aut == "FAIRE UN TRAVAIL MONIS PHYSIQUE" | WKI2_Aut == "TROP S ASSOIRE LUI FAIT MAL A LA HANCHE" | WKI2_Aut == "TROP FATIGANT ET DIFFICILE" | WKI2_Aut == "TELLEMENT DIFFICULTÉS LIÉ A SON EMPLOIE ACTUEL" | WKI2_Aut == "TROUVER UN TRAVAIL MOINS EPUISANT CAR ELLE EST VIEILLE" | WKI2_Aut == "UNE AMÉLIORATION DES CODITIONS DE TRAVAILLE"||WKI2_Aut =="UN BOULOT QUI N'EST PAS ÉPUISANT")
+
+****WKI2__11
+
+replace WKI2__11 = 1 if (WKI2_Aut =="REVENUE INSUFFISANT"|WKI2_Aut == "FAIRE UNE MEILLEURE ACTIVITE" | WKI2_Aut == "COMMERCE DE PAGNE KITA" | WKI2_Aut == "COMMERCE" | WKI2_Aut == "TRAVAIL LASSANT" | WKI2_Aut == "ELEVAGE DE POULETS" | WKI2_Aut == "EXERCER DANS LE COMMERCE"|WKI2_Aut =="FAIRE LE COMMERCE"|WKI2_Aut =="COMMERCE DE PAGNE ET ARTICLES"|WKI2_Aut =="VEUT FAIRE UN COMMERCE"|WKI2_Aut =="VENDRE DES PAGNES"|WKI2_Aut =="VENTE DE VETEMENT POUR ENFANT"|WKI2_Aut =="GERER UNE BOUTIQUE"|WKI2_Aut =="VEUT COMMENCER SON ACTIVITÉ INITIALE (COMMERCE)"|WKI2_Aut =="SOUHAITERAIS EFFECTUER DES VOYAGES POUR LE COMMERCE"|WKI2_Aut =="AVOIR UN MAGASIN POUR LA VENTE VETEMENTS, CHAUSSURES, POMMADES..."|WKI2_Aut =="DANS LE COMMERCE"|WKI2_Aut =="DÉBUTÉ SON COMMERCE DE CHAUSSURE"|WKI2_Aut =="DÉBUTÉ SON COMMERCE DE CHAUSSURE"|WKI2_Aut =="DANS LE COMMERCE")
+
+**vider
+replace WKI2_Aut = "" if (WKI2_Aut =="REVENUE INSUFFISANT"|WKI2_Aut == "FAIRE UNE MEILLEURE ACTIVITE" | WKI2_Aut == "COMMERCE DE PAGNE KITA" | WKI2_Aut == "COMMERCE" | WKI2_Aut == "TRAVAIL LASSANT" | WKI2_Aut == "ELEVAGE DE POULETS" | WKI2_Aut == "EXERCER DANS LE COMMERCE"|WKI2_Aut =="FAIRE LE COMMERCE"|WKI2_Aut =="COMMERCE DE PAGNE ET ARTICLES"|WKI2_Aut =="VEUT FAIRE UN COMMERCE"|WKI2_Aut =="VENDRE DES PAGNES"|WKI2_Aut =="VENTE DE VETEMENT POUR ENFANT"|WKI2_Aut =="GERER UNE BOUTIQUE"|WKI2_Aut =="VEUT COMMENCER SON ACTIVITÉ INITIALE (COMMERCE)"|WKI2_Aut =="SOUHAITERAIS EFFECTUER DES VOYAGES POUR LE COMMERCE"|WKI2_Aut =="AVOIR UN MAGASIN POUR LA VENTE VETEMENTS, CHAUSSURES, POMMADES..."|WKI2_Aut =="DANS LE COMMERCE"|WKI2_Aut =="DÉBUTÉ SON COMMERCE DE CHAUSSURE"|WKI2_Aut =="DANS LE COMMERCE")
+
+**** WKI2__12 
+replace WKI2__1 = 1 if (WKI2_Aut == "JUSTE FAIRE L'ELEVAGE DE PORCS POUR AIDER LA FAMILLE QUI S'AGGRANDIT." | WKI2_Aut == "FAIRE UNE FERME DE POULETS POUR CONTINUER LA VENTE DE POULETS BRAISES." | WKI2_Aut == "FAIRE L'ELEVAGE DE VOLAILLE" |WKI2_Aut == "REFAIRE LE CHAMP DE CACAO")
+
+**Vider:
+replace WKI2_Aut = "" if (WKI2_Aut == "JUSTE FAIRE L'ELEVAGE DE PORCS POUR AIDER LA FAMILLE QUI S'AGGRANDIT." | WKI2_Aut == "FAIRE UNE FERME DE POULETS POUR CONTINUER LA VENTE DE POULETS BRAISES." | WKI2_Aut == "FAIRE L'ELEVAGE DE VOLAILLE" |WKI2_Aut == "REFAIRE LE CHAMP DE CACAO")
+
+***
+* WKI2__1
+* Aucun élément associé à WKI2__1 dans le code fourni.
+
+* WKI2__2
+replace WKI2__2=1 if WKI2_Aut =="AVOIR UNE ACTIVITE MIEUX REMUNERER AUPRES DE SA FAMILLE"
+replace WKI2__2=1 if WKI2_Aut =="UNE ACTIVITE MIEUX REMUNERATRICE"
+replace WKI2__2=1 if WKI2_Aut =="POUR GENERER PLUS DE REVENUS"
+replace WKI2__2=1 if WKI2_Aut =="AVOIR UN METIER QUI LUI PERMETTRA  S ASSURE LES CHARGES DE SA FAMILLE"
+replace WKI2__2=1 if WKI2_Aut =="UNE ACTIVITE MIEUX REMUNEREE"
+replace WKI2__2=1 if WKI2_Aut =="CREER DE D'AUTRES SOURCES DE REVENUS"
+replace WKI2__2=1 if WKI2_Aut =="FINANCEMENT POUR AMMELIORER POUR SES REVENUES AVEC CE QU'IL A EN CE MOMENT"
+replace WKI2__2=1 if WKI2_Aut =="AVOIR PLUS DE REVENU"
+replace WKI2__2=1 if WKI2_Aut =="AUGMENTER MON BUDGET"
+replace WKI2__2=1 if WKI2_Aut =="UNE ACTIVITE RENTABLE"
+
+ ***Vider WKI2_Aut après avoir rempli WKI2__2
+replace WKI2_Aut = "" if (WKI2_Aut == "AVOIR UNE ACTIVITE MIEUX REMUNERER AUPRES DE SA FAMILLE" | ///
+                           WKI2_Aut == "UNE ACTIVITE MIEUX REMUNERATRICE" | ///
+                           WKI2_Aut == "POUR GENERER PLUS DE REVENUS" | ///
+                           WKI2_Aut == "AVOIR UN METIER QUI LUI PERMETTRA  S ASSURE LES CHARGES DE SA FAMILLE" | ///
+                           WKI2_Aut == "UNE ACTIVITE MIEUX REMUNEREE" | ///
+                           WKI2_Aut == "CREER DE D'AUTRES SOURCES DE REVENUS" | ///
+                           WKI2_Aut == "FINANCEMENT POUR AMMELIORER POUR SES REVENUES AVEC CE QU'IL A EN CE MOMENT" | ///
+                           WKI2_Aut == "AVOIR PLUS DE REVENU" | ///
+                           WKI2_Aut == "AUGMENTER MON BUDGET" | ///
+                           WKI2_Aut == "UNE ACTIVITE RENTABLE")
+
+
+* WKI2__3
+replace WKI2__3=1 if WKI2_Aut =="AGRANDIR SON COMMERCE DE PAGNE"
+replace WKI2__3=1 if WKI2_Aut =="AGRANDIR SON COMMERCE"
+replace WKI2__3=1 if WKI2_Aut =="AGRANDIR SON AFFAIRE"
+replace WKI2__3=1 if WKI2_Aut =="JE SOUHAITE AVOIR UN FINANCEMENT POUR AGRANDIR MON COMMERCE"
+replace WKI2__3=1 if WKI2_Aut =="AUGMENTER SES MARCHANDISES"
+replace WKI2__3=1 if WKI2_Aut =="FINANCEMENT SON ACTIVITE DE L'HABITUDE ET L'AGRANDIR"
+replace WKI2__3=1 if WKI2_Aut =="BESOIN D'AIDE POUR ACCROITRE SES ACTIVITES SURTOUT L'ELEVAGE"
+
+* Vider WKI2_Aut après avoir rempli WKI2__3
+replace WKI2_Aut = "" if (WKI2_Aut == "AGRANDIR SON COMMERCE DE PAGNE" | ///
+                           WKI2_Aut == "AGRANDIR SON COMMERCE" | ///
+                           WKI2_Aut == "AGRANDIR SON AFFAIRE" | ///
+                           WKI2_Aut == "JE SOUHAITE AVOIR UN FINANCEMENT POUR AGRANDIR MON COMMERCE" | ///
+                           WKI2_Aut == "AUGMENTER SES MARCHANDISES" | ///
+                           WKI2_Aut == "FINANCEMENT SON ACTIVITE DE L'HABITUDE ET L'AGRANDIR" | ///
+                           WKI2_Aut == "BESOIN D'AIDE POUR ACCROITRE SES ACTIVITES SURTOUT L'ELEVAGE")
+
+* WKI2__8
+replace WKI2__8=1 if WKI2_Aut =="UNE ACTIVITE ADAPTE A MON EMPLOI DU TEMPS SCOLAIRE"
+
+replace WKI2_Aut = "" if WKI2_Aut == "UNE ACTIVITE ADAPTE A MON EMPLOI DU TEMPS SCOLAIRE"
+
+* WKI2__9
+replace WKI2__9=1 if WKI2_Aut =="STABILITÉ DE L EMPLOI"
+
+replace WKI2_Aut = "" if WKI2_Aut == "STABILITÉ DE L EMPLOI"
+
+* WKI2__11
+replace WKI2__11=1 if WKI2_Aut =="CHAUFFEUR CAMION"
+replace WKI2__11=1 if WKI2_Aut =="PEDICURE MANICURE - COIFFURE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT FAIRE DU COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE PIECES DETACHEES"
+replace WKI2__11=1 if WKI2_Aut =="LE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="ENTREPRENDRE COMMERCE CHAUSSURES, SAVON"
+replace WKI2__11=1 if WKI2_Aut =="VENTE DE VETEMENTS"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT POUR FAIRE DU COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="COUTURE"
+replace WKI2__11=1 if WKI2_Aut =="ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="TRAVAILLER DANS UNE INSTITUTION INTERNATIONALE DE LA SANTE TELLE QUE L'OMS"
+replace WKI2__11=1 if WKI2_Aut =="ACTIVITE AGRO-PASTORALE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE TRAVAILLER DANS L'ELECTRICITE"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT BOUTIQUE ORDINAIRE"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT POUR VENTE DE PAGNE"
+replace WKI2__11=1 if WKI2_Aut =="CREATION D'UN ATELIER DE COIFFURE"
+replace WKI2__11=1 if WKI2_Aut =="AVEC LAGE UN TRAVAIL COMME LE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="FAIRE UN MAGASIN DE PIÈCE DÉTACHÉE DE MOTO"
+replace WKI2__11=1 if WKI2_Aut =="TRAVAIL DE CATEPILAR"
+replace WKI2__11=1 if WKI2_Aut =="CARRAULAGE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE, BOUTIQUES"
+replace WKI2__11=1 if WKI2_Aut =="JE SOUHAITE FAIRE UN COMMERCE DE PAGNES"
+replace WKI2__11=1 if WKI2_Aut =="AGRANDIR MA FERME"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE QUINCAILLERIE"
+replace WKI2__11=1 if WKI2_Aut =="TRAVAILLER A SON PROPRE COMPTE INVESTIR DANS LAGRICULTURE ET LELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT FAIRE L'ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="J'AIMERAI APPRENDRE LA COIFFURE"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT COMMERCE D'HABITS"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT COMMERCE DE MAIS"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT POUR FAIRE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PIECES DE MOTO"
+replace WKI2__11=1 if WKI2_Aut =="LA COUTURE"
+replace WKI2__11=1 if WKI2_Aut =="FAIRE LA RESTAURATION"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT DE COMMERCE DE BOUTIQUE"
+replace WKI2__11=1 if WKI2_Aut =="FINANCEMENT COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="FAIRE SON POULAILLER"
+
+***Vider
+replace WKI2_Aut = "" if (WKI2_Aut == "CHAUFFEUR CAMION" | ///
+                           WKI2_Aut == "PEDICURE MANICURE - COIFFURE" | ///
+                           WKI2_Aut == "COMMERCE" | ///
+                           WKI2_Aut == "VEUT FAIRE DU COMMERCE" | ///
+                           WKI2_Aut == "COMMERCE DE PIECES DETACHEES" | ///
+                           WKI2_Aut == "LE COMMERCE" | ///
+                           WKI2_Aut == "ENTREPRENDRE COMMERCE CHAUSSURES, SAVON" | ///
+                           WKI2_Aut == "VENTE DE VETEMENTS" | ///
+                           WKI2_Aut == "FINANCEMENT POUR FAIRE DU COMMERCE" | ///
+                           WKI2_Aut == "COUTURE" | ///
+                           WKI2_Aut == "ELEVAGE" | ///
+                           WKI2_Aut == "TRAVAILLER DANS UNE INSTITUTION INTERNATIONALE DE LA SANTE TELLE QUE L'OMS" | ///
+                           WKI2_Aut == "ACTIVITE AGRO-PASTORALE" | ///
+                           WKI2_Aut == "SOUHAITE TRAVAILLER DANS L'ELECTRICITE" | ///
+                           WKI2_Aut == "FINANCEMENT BOUTIQUE ORDINAIRE" | ///
+                           WKI2_Aut == "FINANCEMENT POUR VENTE DE PAGNE" | ///
+                           WKI2_Aut == "CREATION D'UN ATELIER DE COIFFURE" | ///
+                           WKI2_Aut == "AVEC LAGE UN TRAVAIL COMME LE COMMERCE" | ///
+                           WKI2_Aut == "FAIRE UN MAGASIN DE PIÈCE DÉTACHÉE DE MOTO" | ///
+                           WKI2_Aut == "TRAVAIL DE CATEPILAR" | ///
+                           WKI2_Aut == "CARRAULAGE" | ///
+                           WKI2_Aut == "COMMERCE, BOUTIQUES" | ///
+                           WKI2_Aut == "JE SOUHAITE FAIRE UN COMMERCE DE PAGNES" | ///
+                           WKI2_Aut == "AGRANDIR MA FERME" | ///
+                           WKI2_Aut == "COMMERCE QUINCAILLERIE" | ///
+                           WKI2_Aut == "TRAVAILLER A SON PROPRE COMPTE INVESTIR DANS LAGRICULTURE ET LELEVAGE" | ///
+                           WKI2_Aut == "VEUT FAIRE L'ELEVAGE" | ///
+                           WKI2_Aut == "J'AIMERAI APPRENDRE LA COIFFURE" | ///
+                           WKI2_Aut == "FINANCEMENT COMMERCE D'HABITS" | ///
+                           WKI2_Aut == "FINANCEMENT COMMERCE DE MAIS" | ///
+                           WKI2_Aut == "FINANCEMENT POUR FAIRE COMMERCE" | ///
+                           WKI2_Aut == "COMMERCE PIECES DE MOTO" | ///
+                           WKI2_Aut == "LA COUTURE" | ///
+                           WKI2_Aut == "FAIRE LA RESTAURATION" | ///
+                           WKI2_Aut == "FINANCEMENT DE COMMERCE DE BOUTIQUE" | ///
+                           WKI2_Aut == "FINANCEMENT COMMERCE" | ///
+                           WKI2_Aut == "FAIRE SON POULAILLER")
+
+* WKI2__12
+******______________________________________________________________________******
+replace WKI2__12=1 if WKI2_Aut =="FINANCEMENT ELEVAGE"
+
+replace WKI2__11=1 if WKI2_Aut=="VEUT REPRENDRE SON ANCIEN COMMERCE DE GLACE QUI EST STOPPÉ"
+replace WKI2__2=1 if WKI2_Aut=="Pour mieux subvenir aux besoins de la famille"
+replace WKI2__4=1 if WKI2_Aut=="INVESTIR PLUS DANS SES ACTIVITÉS"
+replace WKI2__8=1 if WKI2_Aut=="AVOIR UN EMPLOI MOINS FATIGANT"
+replace WKI2__8=1 if WKI2_Aut=="ETRE INDÉPENDANT"
+replace WKI2__6=1 if WKI2_Aut=="TRAVAILLER DANS LE SECTEUR D'ACTIVITE DE MA COMPETANCE"
+replace WKI2__10=1 if WKI2_Aut=="DESIRE DE SE PERFECTIONNER EN FAISANT UNE FORMATION"
+replace WKI2__12=1 if WKI2_Aut=="CONCOUR PROFESSIONNEL"
+replace WKI2__12=1 if WKI2_Aut=="VEUT FAIRE LE COMMERCE"
+replace WKI2__2=1 if WKI2_Aut=="AUGMENTER LES REVENUS"
+replace WKI2__11=1 if WKI2_Aut=="VEUT FAIRE UN POULAILLER"
+replace WKI2__8=1 if WKI2_Aut=="VEUT TRAVAILLER A SON PROPRE COMPTE"
+replace WKI2__12=1 if WKI2_Aut=="FINANCEMENT RESTAURANT"
+replace WKI2__11=1 if WKI2_Aut=="ARTISTE CHANTEUR"
+replace WKI2__10=1 if WKI2_Aut=="FAIRE UN PEU DE TOUT"
+replace WKI2__2=1 if WKI2_Aut=="PRET A TRAVAILLER PEU IMPORTE L'ACTIVITE"
+
+replace WKI2__3=1 if WKI2_Aut=="AMELIORER SON ACTIVITE / COMMERCE VETEMENTS"
+replace WKI2__3=1 if WKI2_Aut=="ETRE PROPRIETAIRE"
+replace WKI2__3=1 if WKI2_Aut=="SUBVENTIONS POUR AMELIORER COMMERCE DE DIVERS QU'IL FAIT PRESENTEMENT"
+replace WKI2__3=1 if WKI2_Aut=="FINANCEMENT POUR AUGMENTER SES PRODUITS DANS SON MAGASIN"
+replace WKI2__3=1 if WKI2_Aut=="FINANCEMENT POUR SE METTRE A SON PROPRE COMPTE TISSERAND"
+replace WKI2__3=1 if WKI2_Aut=="Agrandir le commerce"
+replace WKI2__3=1 if WKI2_Aut=="FINANCEMENT POUR OUVRIR UN MAGASIN ( VULGANISATEUR )"
+replace WKI2__3=1 if WKI2_Aut=="VEUT FAIRE UN MAGASIN"
+replace WKI2__3=1 if WKI2_Aut=="COMMERCE AUGMENTER SA PRODUCTION"
+replace WKI2__3=1 if WKI2_Aut=="AGRANDIR SON ACTIVITE"
+
+***
+replace WKI2__13=0 if WKI2_Aut=="VEUT REPRENDRE SON ANCIEN COMMERCE DE GLACE QUI EST STOPPÉ"
+replace WKI2__13=0 if WKI2_Aut=="Pour mieux subvenir aux besoins de la famille"
+replace WKI2__13=0 if WKI2_Aut=="INVESTIR PLUS DANS SES ACTIVITÉS"
+replace WKI2__13=0 if WKI2_Aut=="AVOIR UN EMPLOI MOINS FATIGANT"
+replace WKI2__13=0 if WKI2_Aut=="AMELIORER SON ACTIVITE / COMMERCE VETEMENTS"
+replace WKI2__13=0 if WKI2_Aut=="ETRE INDÉPENDANT"
+replace WKI2__13=0 if WKI2_Aut=="TRAVAILLER DANS LE SECTEUR D'ACTIVITE DE MA COMPETANCE"
+
+replace WKI2__13=0 if WKI2_Aut=="SUBVENTIONS POUR AMELIORER COMMERCE DE DIVERS QU'IL FAIT PRESENTEMENT"
+replace WKI2__13=0 if WKI2_Aut=="DESIRE DE SE PERFECTIONNER EN FAISANT UNE FORMATION"
+replace WKI2__13=0 if WKI2_Aut=="Agrandir le commerce"
+
+replace WKI2__13=0 if WKI2_Aut=="FINANCEMENT POUR OUVRIR UN MAGASIN ( VULGANISATEUR )"
+replace WKI2__13=0 if WKI2_Aut=="VEUT FAIRE UN MAGASIN"
+replace WKI2__13=0 if WKI2_Aut=="CONCOUR PROFESSIONNEL"
+replace WKI2__13=0 if WKI2_Aut=="AGRANDIR SON ACTIVITE"
+replace WKI2__13=0 if WKI2_Aut=="VEUT FAIRE LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut=="AUGMENTER LES REVENUS"
+replace WKI2__13=0 if WKI2_Aut=="COMMERCE AUGMENTER SA PRODUCTION"
+replace WKI2__13=0 if WKI2_Aut=="VEUT FAIRE UN POULAILLER"
+replace WKI2__13=0 if WKI2_Aut=="FINANCEMENT POUR SE METTRE A SON PROPRE COMPTE TISSERAND"
+replace WKI2__13=0 if WKI2_Aut=="VEUT TRAVAILLER A SON PROPRE COMPTE"
+replace WKI2__13=0 if WKI2_Aut=="FINANCEMENT POUR AUGMENTER SES PRODUITS DANS SON MAGASIN"
+replace WKI2__13=0 if WKI2_Aut=="FINANCEMENT RESTAURANT"
+replace WKI2__13=0 if WKI2_Aut=="ARTISTE CHANTEUR"
+replace WKI2__13=0 if WKI2_Aut=="FAIRE UN PEU DE TOUT"
+replace WKI2__13=0 if WKI2_Aut=="ETRE PROPRIETAIRE"
+replace WKI2__13=0 if WKI2_Aut=="PRET A TRAVAILLER PEU IMPORTE L'ACTIVITE"
+
+***Vider les variables 
+replace WKI2_Aut = "" if WKI2__11 == 1 & regexm(lower(itrim(WKI2_Aut)), "veut reprendre son ancien commerce de glace qui est stoppé|veut faire un poulailler|artiste chanteur")
+replace WKI2_Aut = "" if WKI2__11 == 1 &WKI2_Aut=="VEUT REPRENDRE SON ANCIEN COMMERCE DE GLACE QUI EST STOPPÉ"
+
+replace WKI2_Aut = "" if WKI2__12 == 1 & regexm(lower(itrim(WKI2_Aut)), "financement elevage|concour professionnel|veut faire le commerce|financement restaurant|veut faire un magasin")
+
+replace WKI2_Aut = "" if WKI2__8 == 1 & regexm(lower(itrim(WKI2_Aut)), "avoir un emploi moins fatigant|etre indépendant|veut travailler a son propre compte")
+
+replace WKI2_Aut = "" if WKI2__4 == 1 & regexm(lower(itrim(WKI2_Aut)), "investir plus dans ses activités")
+replace WKI2_Aut = "" if WKI2__4 == 1 &WKI2_Aut=="INVESTIR PLUS DANS SES ACTIVITÉS"
+
+replace WKI2_Aut = "" if WKI2__2 == 1 & regexm(lower(itrim(WKI2_Aut)),"pour mieux subvenir aux besoins de la famille|augmenter les revenus|pret a travailler peu importe l'activite")
+
+replace WKI2_Aut = "" if WKI2__6 == 1 & regexm(lower(itrim(WKI2_Aut)), "travailler dans le secteur d'activité de ma competence")
+
+replace WKI2_Aut = "" if WKI2__10 == 1 & regexm(lower(itrim(WKI2_Aut)), "desire de se perfectionner en faisant une formation|faire un peu de tout")
+
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="AGRANDIR SON ACTIVITE" 
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="COMMERCE AUGMENTER SA PRODUCTION"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="VEUT FAIRE UN MAGASIN"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="FINANCEMENT POUR OUVRIR UN MAGASIN ( VULGANISATEUR )" 
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="Agrandir le commerce"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="FINANCEMENT POUR SE METTRE A SON PROPRE COMPTE TISSERAND"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="FINANCEMENT POUR AUGMENTER SES PRODUITS DANS SON MAGASIN"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="SUBVENTIONS POUR AMELIORER COMMERCE DE DIVERS QU'IL FAIT PRESENTEMENT"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="ETRE PROPRIETAIRE"
+replace WKI2_Aut = "" if WKI2__3 == 1 &WKI2_Aut=="AMELIORER SON ACTIVITE / COMMERCE VETEMENTS"
+*****
+*export excel WKI2_Aut using "C:\Users\HP\Documents\FICHIER Excel\WKI2_Aut.xls" if WKI2_Aut!="", firstrow(variables)
+
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( VOLLAILE )"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( PAGNES )"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( BOUTIQUE )"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( VETEMENTS, CHAUSSURES )"
+replace WKI2__12=1 if WKI2_Aut=="ELEVAGE BOVINS"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE VETEMENTS"
+replace WKI2__12=1 if WKI2_Aut=="ELEVAGE VOLLAILE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ATTIEKE"
+replace WKI2__12=1 if WKI2_Aut=="LE DOMAINE DE L'ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE PAGNE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( PAGNE )"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE (ARACHIDE)"
+replace WKI2__11=1 if WKI2_Aut=="ELEVAGE DE POULET ET MOUTON"
+replace WKI2__11=1 if WKI2_Aut=="DEVENIR CONDUCTEUR DE REMORQUE"
+replace WKI2__10=1 if WKI2_Aut=="SOUHAITE SE LANCER DANS L'ÉLEVAGE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE CHAUSSURES"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE (BOUTIQUE)"
+replace WKI2__12=1 if WKI2_Aut=="CULTURE DE CACAO / CHERCHE TERRAIN"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE CHAUSSURE"
+replace WKI2__11=1 if WKI2_Aut=="ELEVAGE BETAIL"
+replace WKI2__11=1 if WKI2_Aut=="REVENDEUR DE BOEUFS"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( CHAINE, BOUCLE D'OREILLE  )"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE ( JUS )"
+replace WKI2__12=1 if WKI2_Aut=="ELEVAGE POULETS"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE VETEMENTS"
+replace WKI2__10=1 if WKI2_Aut=="IL VEUT ETRE DANS LA CONDUITE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE DE VETEMENTS"
+replace WKI2__12=1 if WKI2_Aut=="FAIRE L'ELEVAGE"
+replace WKI2__9=1 if WKI2_Aut=="AVOIR UN TRAVAIL À SON PROPRE COMPTE"
+replace WKI2__10=1 if WKI2_Aut=="AMBITION DE FAIRE DE LA MUSIQUE"
+replace WKI2__9=1 if WKI2_Aut=="AVOIR UNE ACTIVITÉ À SON PROPRE COMPTE"
+replace WKI2__12=1 if WKI2_Aut=="AVOIR UN POULAILLER"
+replace WKI2__9=1 if WKI2_Aut=="SOUHAITE CRÉER SON ENTREPRISE"
+replace WKI2__9=1 if WKI2_Aut=="AVOIR MA PROPRE ENTREPRISE"
+replace WKI2__10=1 if WKI2_Aut=="EXCERCER DANS LE DOMAINE DE LA COUTURE"
+replace WKI2__12=1 if WKI2_Aut=="ELEVAGE DE PORC"
+replace WKI2__9=1 if WKI2_Aut=="AVOIR SA PROPRE PARCELLE"
+replace WKI2__11=1 if WKI2_Aut=="VENDEUSE DE BIJOUX"
+replace WKI2__11=1 if WKI2_Aut=="EXCERCER DANS LE COMMERCE DE MARCHANDISES"
+replace WKI2__3=1 if WKI2_Aut=="DEVENIR CHAFFEUR ET ACCROITRE SON ACTIVITE DE PHOTOGRAPHIE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE COSMETIQUE"
+replace WKI2__12=1 if WKI2_Aut=="ELEVAGE VOLAILLE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE D'HABITS ET DE CHAUSSURES"
+replace WKI2__11=1 if WKI2_Aut=="L'ENSEIGNEMENT / COMMERCE POSSONNERIE"
+replace WKI2__11=1 if WKI2_Aut=="COMMERCE CIMENT"
+replace WKI2__6=1 if WKI2_Aut=="POUR POURSUIVRE LES ÉTUDES"
+
+
+
+**
+*
+replace WKI2__2 = 1 if inlist(WKI2_Aut, "AVOIR UNE ACTIVITE STABLE ET MIEUX REMUNERER","AVOIR PLUS D'ARGENT","AVOIR PLUS DE REVENUS", "AVOIR UN TRAVAIL MOINS PENIBLE ET MIEU RÉMUNÉRÉ", "BEAUCOUP PLUS DE CHARGE ET LES REVENUS PAS ASSEZ")
+	
+replace WKI2__3 = 1 if inlist(WKI2_Aut, "ACCROITRE SON ACTIVITE","SOUHAITE AGRANDIR SON ACTIVITÉ","VEUT AGRANDIR SON BUSINESS","VEUT AGRANDIR SON AFFAIRE","VEUT AGRANDIR SON ACTIVITE","VEUT GRANDIR SON ENTREPRISE PAR DES AGREMENTS")
+replace WKI2__3 = 1 if inlist(WKI2_Aut,"DIVERSIFIER SES ACTIVITES","ACCROITRE SON COMMERCE","AGRANDIR SON COMMERCE","AGRANDIR SON COMMERCE DE POISSON","AGRANDIR CE QU IL FAIT ACTUELLEMENT","ACCROITRE SON ACTIVITE D'ELEVAGE", "ACCROITRE SON COMMERCE ET L'ADAPTER A SON ETAT DE SANTE")
+replace WKI2__6 = 1 if inlist(WKI2_Aut,"APPRENTISSAGE DE METIER","EXCERCER DANS LE DOMAINE DE LA COUTURE","SUIVRE UNE FORMATION SUR LES PELLES HYDROLIQUES","DEVENIR CHAFFEUR ET ACCROITRE SON ACTIVITE DE PHOTOGRAPHIE","DEVENIR CONDUCTEUR DE REMORQUE","ASSISTANT COMPTABLE", "NETTOYAGE", "MECANIQUE")
+replace WKI2__8 = 1 if inlist(WKI2_Aut,"UN TRAVAIL MOINS FATIGUANT", "TRAVAIL MOINS PHYSIQUE", "PROBLÈME CHERCHE UN EMPLOIS MIEUX ADAPTÉ A SA CONDITION", "TRAVAUX CHAMPÊTRE TROP FATIGUANT", "ÉVITER LE FEU","AGE AVANCE", "SANTE", "J'AI UN HANDICAP AU PIEDS")
+replace WKI2__9 = 1 if WKI2_Aut == "ÇA NE MARCHE PAS"
+replace WKI2__10 = 1 if inlist(WKI2_Aut,"AMBITION DE FAIRE DE LA MUSIQUE", "DISPONIBLE POUR N'IMPORTE LAQUELLE DES ACTIVITES", "DISPONIBLE POUR TOUTES ACTIVITES", "TOUTES ACTIVITES AVEC DES REVENUS FAVORABLES", "POUR POURSUIVRE LES ÉTUDES")
+replace WKI2__11 = 1 if inlist(WKI2_Aut, "EXCERCER DANS LE COMMERCE DE MARCHANDISES", "L'ENSEIGNEMENT / COMMERCE POSSONNERIE")
+replace WKI2__12 = 1 if inlist(WKI2_Aut,"COMMERCE / ELEVAGE", "COMMERCE ET ELEVAGE","PERTUBATION DU RENDEMENT DE CACAO DÛ AU CHANGEMENT CLIMATIQUE")
+
+replace WKI2__4=1 if WKI2_Aut =="IL VEUT AGRANDIR SON CHAMP DE MANIOC"
+replace WKI2__11=1 if WKI2_Aut =="IL VEUT FAIRE L'ELEVAGE"
+replace WKI2__4=1 if WKI2_Aut =="IL VEUT AGRANDIR SON ACTIVITÉ"
+replace WKI2__12=1 if WKI2_Aut =="TRAVAILLER DANS LE COMMERCE"
+replace WKI2__12=1 if WKI2_Aut =="OBTENIR UNE ACTIVITE COMMERCIALE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE TRAVAILLER DANS LE COMMERCE"
+replace WKI2__4=1 if WKI2_Aut =="IL VEUT AGRANDIR SES AFFAIRES"
+replace WKI2__8=1 if WKI2_Aut =="AVOIR UN EMPLOI QUI NÉCESSITE MOINS D'EFFORTS PHYSIQUE"
+replace WKI2__4=1 if WKI2_Aut =="AUGMENTER SON ACTIVITE"
+replace WKI2__4=1 if WKI2_Aut =="ACCROITRE SON ACTIVITE"
+replace WKI2__11=1 if WKI2_Aut =="REPRENDRE SON MÉTIER"
+replace WKI2__11=1 if WKI2_Aut =="CULTURE DE PALMIER À HUILE"
+replace WKI2__11=1 if WKI2_Aut =="IL VEUT FAIRE LE COMMERCE"
+replace WKI2__12=1 if WKI2_Aut =="COMMERCE (BOUTIQUE)"
+replace WKI2__12=1 if WKI2_Aut =="COMMERCE ( BOUTIQUE )"
+replace WKI2__4=1 if WKI2_Aut =="ELLE VEUT AGRANDIR SON COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT CREER SON BUSINESS"
+replace WKI2__11=1 if WKI2_Aut =="PATISSERIE"
+replace WKI2__11=1 if WKI2_Aut =="CREATION D'UNE ACTIVITE D'ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="EXCERCER DANS UN ENTREPRISE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITERAIS DEVENIR UN OPERATEUR ECONOMIQUE UNE ACTIVITE MAITRISEE"
+replace WKI2__12=1 if WKI2_Aut =="VEUT FAIRE FERME DE POULETS"
+replace WKI2__9=1 if WKI2_Aut =="AVOIR UNE  ACTIVITE STABLE"
+replace WKI2__11=1 if WKI2_Aut =="MERCERIE"
+replace WKI2__4=1 if WKI2_Aut =="VEUT RENDRE SON ACTIVITE LEGALE ET L'AGRANDIR"
+replace WKI2__11=1 if WKI2_Aut =="ELEVAGE VOLAILLE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE VETEMENTS"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE VETEMENTS OU ACCESSOIRES"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PAGNES"
+replace WKI2__11=1 if WKI2_Aut =="ELECTRICITE - PEINTURE BATIMENT"
+replace WKI2__12=1 if WKI2_Aut =="COMMERCE VIVRIER"
+replace WKI2__11=1 if WKI2_Aut =="VENTE DE TELEPHONES PORTABLES"
+replace WKI2__11=1 if WKI2_Aut =="AGENCE ORANGE MONEY"
+replace WKI2__12=1 if WKI2_Aut =="ELEVAGE ET COMMERCE"
+replace WKI2__4=1 if WKI2_Aut =="VEUT AGRANDIR SON COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT FAIRE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE TRAVAILLER  AVEC LE BAC"
+replace WKI2__11=1 if WKI2_Aut =="DEVENIR PROPRIETAIRE"
+replace WKI2__11=1 if WKI2_Aut =="ELLE VEUT JUSTE ACCROÎTRE SON STOCK"
+replace WKI2__4=1 if WKI2_Aut =="REPRENDRE SON COMMERCE QU'ELLE A ARRÊTÉ A CAUSE D'UN ACCIDENT"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE (VENTE DE DABA)"
+replace WKI2__11=1 if WKI2_Aut =="COMEMRCE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PIECES DETACHEES"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PAGNES VETEMENTS"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE / ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="ELEVAGE MOUTON OU BOEUF"
+replace WKI2__4=1 if WKI2_Aut =="REPRENDRE SON ACTIVITE DE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE VETEMENT"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PIECES DETACHEES AUTO"
+replace WKI2__11=1 if WKI2_Aut =="PROJET DE RESTAURATION"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE EN MAGASIN"
+replace WKI2__11=1 if WKI2_Aut =="FAIT LE COMMERCE DE PRODUITS PHYTO"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE PAGNES"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE (BIENS ALIMENTAIRES)"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE CHAUSSURES"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE LEGUMES"
+replace WKI2__4=1 if WKI2_Aut =="CHAUFFEUR DE VEHICULE SI POSSIBLE A SON PROPRE COMPTE"
+replace WKI2__2=1 if WKI2_Aut =="BESOIN D'UNE ACTIVITE STABLE ET MIEUX REMUNERE"
+replace WKI2__11=1 if WKI2_Aut =="POISSONNERIE / MAGASIN"
+replace WKI2__4=1 if WKI2_Aut =="ACCROITRE SES ACTIVITES"
+replace WKI2__8=1 if WKI2_Aut =="CREER SON ENTREPRISE"
+replace WKI2__11=1 if WKI2_Aut =="AVOIR UNE FERME"
+replace WKI2__9=1 if WKI2_Aut =="UNE AUTRE ACTIVITE STABLE"
+replace WKI2__11=1 if WKI2_Aut =="AMBITION DE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="UNE ACTIVITE REMUNEREE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT FAIRE L ELEVAGE"
+replace WKI2__11=1 if WKI2_Aut =="VEUT FAIRE ELEVAGE"
+replace WKI2__12=1 if WKI2_Aut =="DANS LE DOMAINE DE L'INFORMATIQUE"
+replace WKI2__8=1 if WKI2_Aut =="UNE ACTIVITE QUI NE NECESSITE PAS TROP DE FORCE PHYSIQUE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE VETEMENTS"
+
+* avant vider
+replace WKI2__13 = 0 if inlist(WKI2_Aut,"COMMERCE / ELEVAGE", "COMMERCE ET ELEVAGE","PERTUBATION DU RENDEMENT DE CACAO DÛ AU CHANGEMENT CLIMATIQUE")
+
+replace WKI2__13=0 if inlist(WKI2_Aut,"EXCERCER DANS LE COMMERCE DE MARCHANDISES","L'ENSEIGNEMENT","COMMERCE","POSSONNERIE","AMBITION DE FAIRE DE LA MUSIQUE", "DISPONIBLE POUR N'IMPORTE LAQUELLE DES ACTIVITES", "DISPONIBLE POUR TOUTES ACTIVITES","TOUTES ACTIVITES AVEC DES REVENUS FAVORABLES")
+replace WKI2__13=0 if inlist(WKI2_Aut,"POUR POURSUIVRE LES ÉTUDES","UN TRAVAIL MOINS FATIGUANT","TRAVAIL MOINS PHYSIQUE", "PROBLÈME CHERCHE UN EMPLOIS MIEUX ADAPTÉ A SA CONDITION", "TRAVAUX CHAMPÊTRE TROP FATIGUANT","ÉVITER LE FEU","AGE AVANCE","SANTE","J'AI UN HANDICAP AU PIEDS")
+replace WKI2__13= 0 if inlist(WKI2_Aut,"APPRENTISSAGE DE METIER","EXCERCER DANS LE DOMAINE DE LA COUTURE","SUIVRE UNE FORMATION SUR LES PELLES HYDROLIQUES","DEVENIR CHAFFEUR ET ACCROITRE SON ACTIVITE DE PHOTOGRAPHIE","DEVENIR CONDUCTEUR DE REMORQUE","ASSISTANT COMPTABLE", "NETTOYAGE", "MECANIQUE")
+replace WKI2__13 = 0 if inlist(WKI2_Aut, "AVOIR UNE ACTIVITE STABLE ET MIEUX REMUNERER","AVOIR PLUS D'ARGENT","AVOIR PLUS DE REVENUS", "AVOIR UN TRAVAIL MOINS PENIBLE ET MIEU RÉMUNÉRÉ", "BEAUCOUP PLUS DE CHARGE ET LES REVENUS PAS ASSEZ")
+	
+replace WKI2__13 = 0 if inlist(WKI2_Aut, "ACCROITRE SON ACTIVITE","SOUHAITE AGRANDIR SON ACTIVITÉ","VEUT AGRANDIR SON BUSINESS","VEUT AGRANDIR SON AFFAIRE","VEUT AGRANDIR SON ACTIVITE","VEUT GRANDIR SON ENTREPRISE PAR DES AGREMENTS")
+replace WKI2__13 = 0 if inlist(WKI2_Aut,"DIVERSIFIER SES ACTIVITES","ACCROITRE SON COMMERCE","AGRANDIR SON COMMERCE","AGRANDIR SON COMMERCE DE POISSON","AGRANDIR CE QU IL FAIT ACTUELLEMENT","ACCROITRE SON ACTIVITE D'ELEVAGE", "ACCROITRE SON COMMERCE ET L'ADAPTER A SON ETAT DE SANTE")
+
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT AGRANDIR SON CHAMP DE MANIOC"
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT FAIRE L'ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT AGRANDIR SON ACTIVITÉ"
+replace WKI2__13=0 if WKI2_Aut =="TRAVAILLER DANS LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="OBTENIR UNE ACTIVITE COMMERCIALE"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE TRAVAILLER DANS LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT AGRANDIR SES AFFAIRES"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UN EMPLOI QUI NÉCESSITE MOINS D'EFFORTS PHYSIQUE"
+replace WKI2__13=0 if WKI2_Aut =="AUGMENTER SON ACTIVITE"
+replace WKI2__13=0 if WKI2_Aut =="ACCROITRE SON ACTIVITE"
+replace WKI2__13=0 if WKI2_Aut =="REPRENDRE SON MÉTIER"
+replace WKI2__13=0 if WKI2_Aut =="CULTURE DE PALMIER À HUILE"
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT FAIRE LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE (BOUTIQUE)"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE ( BOUTIQUE )"
+replace WKI2__13=0 if WKI2_Aut =="ELLE VEUT AGRANDIR SON COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT CREER SON BUSINESS"
+replace WKI2__13=0 if WKI2_Aut =="PATISSERIE"
+replace WKI2__13=0 if WKI2_Aut =="CREATION D'UNE ACTIVITE D'ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="EXCERCER DANS UN ENTREPRISE"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITERAIS DEVENIR UN OPERATEUR ECONOMIQUE UNE ACTIVITE MAITRISEE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT FAIRE FERME DE POULETS"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UNE  ACTIVITE STABLE"
+replace WKI2__13=0 if WKI2_Aut =="MERCERIE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT RENDRE SON ACTIVITE LEGALE ET L'AGRANDIR"
+replace WKI2__13=0 if WKI2_Aut =="ELEVAGE VOLAILLE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE VETEMENTS"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE VETEMENTS OU ACCESSOIRES"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE PAGNES"
+replace WKI2__13=0 if WKI2_Aut =="ELECTRICITE - PEINTURE BATIMENT"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE VIVRIER"
+replace WKI2__13=0 if WKI2_Aut =="VENTE DE TELEPHONES PORTABLES"
+replace WKI2__13=0 if WKI2_Aut =="AGENCE ORANGE MONEY"
+replace WKI2__13=0 if WKI2_Aut =="ELEVAGE ET COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT AGRANDIR SON COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT FAIRE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE TRAVAILLER  AVEC LE BAC"
+replace WKI2__13=0 if WKI2_Aut =="DEVENIR PROPRIETAIRE"
+replace WKI2__13=0 if WKI2_Aut =="ELLE VEUT JUSTE ACCROÎTRE SON STOCK"
+replace WKI2__13=0 if WKI2_Aut =="REPRENDRE SON COMMERCE QU'ELLE A ARRÊTÉ A CAUSE D'UN ACCIDENT"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE (VENTE DE DABA)"
+replace WKI2__13=0 if WKI2_Aut =="COMEMRCE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE PIECES DETACHEES"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE PAGNES VETEMENTS"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE / ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="ELEVAGE MOUTON OU BOEUF"
+replace WKI2__13=0 if WKI2_Aut =="REPRENDRE SON ACTIVITE DE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE VETEMENT"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE PIECES DETACHEES AUTO"
+replace WKI2__13=0 if WKI2_Aut =="PROJET DE RESTAURATION"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE EN MAGASIN"
+replace WKI2__13=0 if WKI2_Aut =="FAIT LE COMMERCE DE PRODUITS PHYTO"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE PAGNES"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE (BIENS ALIMENTAIRES)"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE CHAUSSURES"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE LEGUMES"
+replace WKI2__13=0 if WKI2_Aut =="CHAUFFEUR DE VEHICULE SI POSSIBLE A SON PROPRE COMPTE"
+replace WKI2__13=0 if WKI2_Aut =="BESOIN D'UNE ACTIVITE STABLE ET MIEUX REMUNERE"
+replace WKI2__13=0 if WKI2_Aut =="POISSONNERIE / MAGASIN"
+replace WKI2__13=0 if WKI2_Aut =="ACCROITRE SES ACTIVITES"
+replace WKI2__13=0 if WKI2_Aut =="CREER SON ENTREPRISE"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UNE FERME"
+replace WKI2__13=0 if WKI2_Aut =="UNE AUTRE ACTIVITE STABLE"
+replace WKI2__13=0 if WKI2_Aut =="AMBITION DE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="UNE ACTIVITE REMUNEREE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT FAIRE L ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="VEUT FAIRE ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="DANS LE DOMAINE DE L'INFORMATIQUE"
+replace WKI2__13=0 if WKI2_Aut =="UNE ACTIVITE QUI NE NECESSITE PAS TROP DE FORCE PHYSIQUE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE VETEMENTS"
+
+
+
+
+**vider
+
+replace WKI2_Aut = "" if WKI2__2 == 1 & inlist(WKI2_Aut, "AVOIR UNE ACTIVITE STABLE ET MIEUX REMUNERER", "AVOIR PLUS D'ARGENT", "AVOIR PLUS DE REVENUS", "AVOIR UN TRAVAIL MOINS PENIBLE ET MIEU RÉMUNÉRÉ", "BEAUCOUP PLUS DE CHARGE ET LES REVENUS PAS ASSEZ")
+replace WKI2_Aut = "" if WKI2__3 == 1 & inlist(WKI2_Aut, "ACCROITRE SON ACTIVITE", "SOUHAITE AGRANDIR SON ACTIVITÉ", "VEUT AGRANDIR SON BUSINESS", "VEUT AGRANDIR SON AFFAIRE", "VEUT AGRANDIR SON ACTIVITE", "VEUT GRANDIR SON ENTREPRISE PAR DES AGREMENTS")
+replace WKI2_Aut = "" if WKI2__3 == 1 & inlist(WKI2_Aut,"DIVERSIFIER SES ACTIVITES", "ACCROITRE SON COMMERCE", "AGRANDIR SON COMMERCE", "AGRANDIR SON COMMERCE DE POISSON", "AGRANDIR CE QU IL FAIT ACTUELLEMENT", "ACCROITRE SON ACTIVITE D'ELEVAGE", "ACCROITRE SON COMMERCE ET L'ADAPTER A SON ETAT DE SANTE")
+replace WKI2_Aut = "" if WKI2__6 == 1 & inlist(WKI2_Aut, "APPRENTISSAGE DE METIER", "EXCERCER DANS LE DOMAINE DE LA COUTURE", "SUIVRE UNE FORMATION SUR LES PELLES HYDROLIQUES", "DEVENIR CHAFFEUR ET ACCROITRE SON ACTIVITE DE PHOTOGRAPHIE", "DEVENIR CONDUCTEUR DE REMORQUE", "ASSISTANT COMPTABLE", "NETTOYAGE", "MECANIQUE")
+replace WKI2_Aut = "" if WKI2__8 == 1 & inlist(WKI2_Aut, "UN TRAVAIL MOINS FATIGUANT", "TRAVAIL MOINS PHYSIQUE", "PROBLÈME CHERCHE UN EMPLOIS MIEUX ADAPTÉ A SA CONDITION", "TRAVAUX CHAMPÊTRE TROP FATIGUANT", "ÉVITER LE FEU")
+replace WKI2_Aut = "" if WKI2__9 == 1 & WKI2_Aut == "ÇA NE MARCHE PAS"
+replace WKI2_Aut = "" if WKI2__10 == 1 & inlist(WKI2_Aut, "AMBITION DE FAIRE DE LA MUSIQUE", "DISPONIBLE POUR N'IMPORTE LAQUELLE DES ACTIVITES", "DISPONIBLE POUR TOUTES ACTIVITES", "TOUTES ACTIVITES AVEC DES REVENUS FAVORABLES", "POUR POURSUIVRE LES ÉTUDES")
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut, "EXCERCER DANS LE COMMERCE DE MARCHANDISES", "L'ENSEIGNEMENT / COMMERCE POSSONNERIE")
+replace WKI2_Aut = "" if WKI2__12 == 1 & inlist(WKI2_Aut, "COMMERCE / ELEVAGE", "COMMERCE ET ELEVAGE", "PERTUBATION DU RENDEMENT DE CACAO DÛ AU CHANGEMENT CLIMATIQUE")
+
+
+replace WKI2_Aut = "" if WKI2__4 == 1  & inlist(WKI2_Aut, "IL VEUT AGRANDIR SON CHAMP DE MANIOC", "IL VEUT AGRANDIR SON ACTIVITÉ", "IL VEUT AGRANDIR SES AFFAIRES", "AUGMENTER SON ACTIVITE", "ACCROITRE SON ACTIVITE")
+replace WKI2_Aut = "" if WKI2__4 == 1  & inlist(WKI2_Aut,"VEUT RENDRE SON ACTIVITE LEGALE ET L'AGRANDIR", "VEUT AGRANDIR SON COMMERCE", "ELLE VEUT AGRANDIR SON COMMERCE", "REPRENDRE SON COMMERCE QU'ELLE A ARRÊTÉ A CAUSE D'UN ACCIDENT", "REPRENDRE SON ACTIVITE DE COMMERCE", "ACCROITRE SES ACTIVITES")
+
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut, "IL VEUT FAIRE L'ELEVAGE", "SOUHAITE TRAVAILLER DANS LE COMMERCE", "REPRENDRE SON MÉTIER", "CULTURE DE PALMIER À HUILE", "IL VEUT FAIRE LE COMMERCE", "VEUT CREER SON BUSINESS", "PATISSERIE", "CREATION D'UNE ACTIVITE D'ELEVAGE")
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut, "EXCERCER DANS UN ENTREPRISE", "SOUHAITERAIS DEVENIR UN OPERATEUR ECONOMIQUE UNE ACTIVITE MAITRISEE", "MERCERIE", "ELEVAGE VOLAILLE", "COMMERCE VETEMENTS", "COMMERCE VETEMENTS OU ACCESSOIRES", "COMMERCE PAGNES")
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut,"ELECTRICITE - PEINTURE BATIMENT", "VENTE DE TELEPHONES PORTABLES", "AGENCE ORANGE MONEY", "COMMERCE (VENTE DE DABA)", "COMEMRCE", "COMMERCE PIECES DETACHEES", "COMMERCE PAGNES VETEMENTS", "COMMERCE / ELEVAGE", "ELEVAGE MOUTON OU BOEUF")
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut, "COMMERCE DE VETEMENT", "COMMERCE PIECES DETACHEES AUTO", "PROJET DE RESTAURATION", "COMMERCE EN MAGASIN", "FAIT LE COMMERCE DE PRODUITS PHYTO", "COMMERCE DE PAGNES", "COMMERCE (BIENS ALIMENTAIRES)")
+replace WKI2_Aut = "" if WKI2__11 == 1 & inlist(WKI2_Aut,"COMMERCE CHAUSSURES", "COMMERCE DE LEGUMES", "POISSONNERIE / MAGASIN", "AVOIR UNE FERME", "AMBITION DE COMMERCE", "UNE ACTIVITE REMUNEREE", "VEUT FAIRE L ELEVAGE", "VEUT FAIRE ELEVAGE", "COMMERCE DE VETEMENTS")
+
+replace WKI2_Aut = "" if WKI2__12 == 1 & inlist(WKI2_Aut, "TRAVAILLER DANS LE COMMERCE", "OBTENIR UNE ACTIVITE COMMERCIALE", "COMMERCE (BOUTIQUE)", "COMMERCE ( BOUTIQUE )", "COMMERCE VIVRIER", "ELEVAGE ET COMMERCE", "DANS LE DOMAINE DE L'INFORMATIQUE")
+
+replace WKI2_Aut = "" if WKI2__8 == 1  & inlist(WKI2_Aut, "AVOIR UN EMPLOI QUI NÉCESSITE MOINS D'EFFORTS PHYSIQUE", "CREER SON ENTREPRISE", "UNE ACTIVITE QUI NE NECESSITE PAS TROP DE FORCE PHYSIQUE")
+
+replace WKI2_Aut = "" if WKI2__9 == 1  & inlist(WKI2_Aut, "AVOIR UNE  ACTIVITE STABLE", "UNE AUTRE ACTIVITE STABLE")
+
+replace WKI2_Aut = "" if WKI2__2 == 1  & inlist(WKI2_Aut, "BESOIN D'UNE ACTIVITE STABLE ET MIEUX REMUNERE")
+
+/*
+Voici la **numérotation propre et claire** :
+
+1. Emploi(s) actuel(s) est/sont temporaire(s)
+2. Avoir un emploi mieux rémunéré
+3. Pour avoir plus de clients/d'affaires
+4. Pour travailler plus d'heures
+5. Pour travailler moins d'heures
+6. Pour mieux faire correspondre les compétences
+7. Pour travailler plus près de chez soi
+8. Améliorer d'autres conditions de travail (rythme horaire, temps de transport, ambiance, etc.)
+9. Fuir l'incertitude de l'emploi actuel
+10. Trouver un travail plus intéressant (que vous aimez)
+11. Changer de métier
+12. Changer de secteur ou de branche
+13. Autre (préciser)
+*/
+
+
+
+replace WKI2__11=1 if WKI2_Aut=="NE VEUX PLUS FZIRE LE TRAVAIL DU FEU"
+replace WKI2__8 = 1 if WKI2_Aut == "TROUVER UN EMPLOI MOYEN FATIGUANT"
+
+replace WKI2__10 = 1 if WKI2_Aut == "AVOIR UN MELLEUR GRADE"
+
+
+replace WKI2__6=1 if WKI2_Aut=="SOUHAITE TRAVAILLER  AVEC LE BAC"
+replace WKI2__3=1 if strpos(lower(WKI2_Aut), "affai") > 0
+
+replace WKI2__8 = 1 if WKI2_Aut == "LE TRAVAIL ACTUEL EST FATIGUANT POUR LES VIEUX"
+replace WKI2__8 = 1 if WKI2_Aut == "AUTRE ACTIVITE MOINS EPUISANTE"
+replace WKI2__8 = 1 if WKI2_Aut == "DEVENIR PROPRIETAIRE"
+
+replace WKI2__10 = 1 if WKI2_Aut == "OBTENIR UN NIVEAU SUPERIEUR"
+replace WKI2__10 = 1 if WKI2_Aut == "AVOIR PLUS DE PORMOTIONS"
+
+*vider la variable 
+
+replace WKI2_Aut="" if (WKI2__11==1 & WKI2_Aut=="NE VEUX PLUS FZIRE LE TRAVAIL DU FEU"|WKI2__8 == 1 & WKI2_Aut == "TROUVER UN EMPLOI MOYEN FATIGUANT"|WKI2__10 == 1 & WKI2_Aut == "AVOIR UN MELLEUR GRADE"|WKI2__6==1 & WKI2_Aut=="SOUHAITE TRAVAILLER  AVEC LE BAC"|WKI2__3==1 & strpos(lower(WKI2_Aut), "affai") > 0|WKI2__8 == 1 & WKI2_Aut == "LE TRAVAIL ACTUEL EST FATIGUANT POUR LES VIEUX"|WKI2__8 == 1 & WKI2_Aut == "AUTRE ACTIVITE MOINS EPUISANTE"|WKI2__8 == 1 & WKI2_Aut == "DEVENIR PROPRIETAIRE"|WKI2__10 == 1 & WKI2_Aut == "OBTENIR UN NIVEAU SUPERIEUR"|WKI2__10 == 1 & WKI2_Aut == "AVOIR PLUS DE PORMOTIONS")
+
+**TAK
+replace WKI2__3=1 if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENTS POUR SA PRODUCTION DE BEURRE DE KARITE"
+replace WKI2__2=1 if WKI2_Aut =="UNE ACTIVITE RENUMERATRICE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE/COIFFURE"
+replace WKI2__11=1 if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2__4=1 if WKI2_Aut =="ACTIVITE SUPPLEMENTAIRE"
+replace WKI2__3=1 if WKI2_Aut =="ELLE VEUT AGRANDIR SON ACTIVITÉ"
+replace WKI2__11=1 if WKI2_Aut =="TRANSPORT"
+replace WKI2__9=1 if WKI2_Aut =="AVOIR UNE ACTIVITE AVEC UN REVENU SALARIAL"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE GROS"
+replace WKI2__4=1 if WKI2_Aut =="ACITIVITE SUPPLEMENTAIRE"
+replace WKI2__4=1 if WKI2_Aut =="AUTRE ACTIVITE SECONDAIRE"
+replace WKI2__11=1 if WKI2_Aut =="PLANTEUR"
+replace WKI2__11=1 if WKI2_Aut =="DÉVELOPPER SON ACTIVITÉ"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE ETRE A COMPTE PROPRE"
+replace WKI2__4=1 if WKI2_Aut =="POUR COMPLÉTER MES REVENUS"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE VIVRES"
+replace WKI2__11=1 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__11=1 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__5=1 if WKI2_Aut =="UNE ACTIVITE MOINS EPUISANTE"
+replace WKI2__11=1 if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2__11=1 if WKI2_Aut =="ACHETEUR"
+replace WKI2__2=1 if WKI2_Aut =="POUR AUGMENTER SES REVENUS"
+replace WKI2__11=1 if WKI2_Aut =="DEVENIR COMMERCANT"
+replace WKI2__11=1 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE , QUINCAILLERIE"
+replace WKI2__11=1 if WKI2_Aut =="REVENDEUSE DE RIZ"
+replace WKI2__11=1 if WKI2_Aut =="REVENDEUSE DE PRODUITS AGRICOLES"
+replace WKI2__11=1 if WKI2_Aut =="AMBITION DE CREATION DE BOUTIQUE"
+replace WKI2__2=1 if WKI2_Aut =="AVOIR UNE ACTIVITE REMUNERATRICE"
+replace WKI2__11=1 if WKI2_Aut =="CREER UNE BOUTIQUE"
+replace WKI2__11=1 if WKI2_Aut =="ÊTRE À SON PROPRE COMPTE"
+replace WKI2__11=1 if WKI2_Aut =="ETRE A COMPTE PROPRE"
+replace WKI2__11=1 if WKI2_Aut =="TRANSPORT DE PERSONNEL OU CONDUCTEUR DE CAR"
+replace WKI2__3=1 if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2__11=1 if WKI2_Aut =="ENVIE DE FAIRE AUTRE CHOSE"
+replace WKI2__11=1 if WKI2_Aut =="ENTREPRENDRE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE OBTENIR SON CONCOURS DANS LE DOMAINE DE LA SANTE"
+replace WKI2__11=1 if WKI2_Aut =="OBTENIR UN MAGASIN"
+replace WKI2__11=1 if WKI2_Aut =="AMBITION DE COMMERCE DE VETEMENTS"
+replace WKI2__11=1 if WKI2_Aut =="ELEVAGE BOEUF"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE PAGNE"
+replace WKI2__11=1 if WKI2_Aut =="GESTION DE BOUTIQUE"
+replace WKI2__11=1 if WKI2_Aut =="ATELEIER DE MENUISERIE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE OU ELEVAGE"
+replace WKI2__3=1 if WKI2_Aut =="ETENDRE SON ACTIVITE"
+replace WKI2__6=1 if WKI2_Aut =="AVOIR UN EMPLOI A LA HAUTEUR DE SES DIPLOMES"
+replace WKI2__3=1 if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2__3=1 if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENT"
+replace WKI2__11=1 if WKI2_Aut =="ACTIVITE DE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE DE ROBE IMPORTEE"
+replace WKI2__11=1 if WKI2_Aut =="COIFFURE"
+replace WKI2__2=1 if WKI2_Aut =="AUGMENTER SES REVENUS"
+replace WKI2__11=1 if WKI2_Aut =="EXERCER DANS L'AGRICULTURE / COMMERCE DE PAGNE"
+replace WKI2__11=1 if WKI2_Aut =="ALIMENTAIRE"
+replace WKI2__2=1 if WKI2_Aut =="POUR SUBVENIR CORRECTEMENT A MES BESOINS"
+replace WKI2__11=1 if WKI2_Aut =="IL VEUT FAIRE ELEVAGE DE POULETS"
+replace WKI2__11=1 if WKI2_Aut =="ELLE VEUT FAIRE LE COMMERCE"
+replace WKI2__11=1 if WKI2_Aut =="MAQUIS"
+replace WKI2__11=1 if WKI2_Aut =="VENRDRE DES LEGUMES AU MARCHE"
+replace WKI2__11=1 if WKI2_Aut =="TRAVAILLER A SON PROPRE COMPTE"
+replace WKI2__11=1 if WKI2_Aut =="POISSONNERIE"
+replace WKI2__11=1 if WKI2_Aut =="ETRE UN MEDECIN"
+replace WKI2__11=1 if WKI2_Aut =="CHAMPS DE CACAO"
+replace WKI2__11=1 if WKI2_Aut =="TRAVAILLER À COMPTE PROPRE"
+replace WKI2__11=1 if WKI2_Aut =="SOUHAITE EXERCER DANS LE COMMERCE"
+replace WKI2__2=1 if WKI2_Aut =="AVOIR UNE MEILLEURE ACTIVITE REMUNERATRICE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE PAGNE"
+replace WKI2__11=1 if WKI2_Aut =="FATIGUÉ PAR L'ÂGE"
+replace WKI2__11=1 if WKI2_Aut =="COMMERCE  /  ELEVAGE"
+
+*vider 
+
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENTS POUR SA PRODUCTION DE BEURRE DE KARITE"
+replace WKI2__13=0 if WKI2_Aut =="UNE ACTIVITE RENUMERATRICE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE/COIFFURE"
+replace WKI2__13=0 if WKI2_Aut =="QUINCAILLERIE"
+
+replace WKI2__13=0 if WKI2_Aut =="ACTIVITE SUPPLEMENTAIRE"
+replace WKI2__13=0 if WKI2_Aut =="ELLE VEUT AGRANDIR SON ACTIVITÉ"
+replace WKI2__13=0 if WKI2_Aut =="TRANSPORT"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UNE ACTIVITE AVEC UN REVENU SALARIAL"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE GROS"
+replace WKI2__13=0 if WKI2_Aut =="ACITIVITE SUPPLEMENTAIRE"
+replace WKI2__13=0 if WKI2_Aut =="AUTRE ACTIVITE SECONDAIRE"
+replace WKI2__13=0 if WKI2_Aut =="PLANTEUR"
+replace WKI2__13=0 if WKI2_Aut =="DÉVELOPPER SON ACTIVITÉ"
+
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE ETRE A COMPTE PROPRE"
+replace WKI2__13=0 if WKI2_Aut =="POUR COMPLÉTER MES REVENUS"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE VIVRES"
+replace WKI2__13=0 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__13=0 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__13=0 if WKI2_Aut =="UNE ACTIVITE MOINS EPUISANTE"
+replace WKI2__13=0 if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2__13=0 if WKI2_Aut =="ACHETEUR"
+replace WKI2__13=0 if WKI2_Aut =="POUR AUGMENTER SES REVENUS"
+replace WKI2__13=0 if WKI2_Aut =="DEVENIR COMMERCANT"
+replace WKI2__13=0 if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE , QUINCAILLERIE"
+replace WKI2__13=0 if WKI2_Aut =="REVENDEUSE DE RIZ"
+replace WKI2__13=0 if WKI2_Aut =="REVENDEUSE DE PRODUITS AGRICOLES"
+replace WKI2__13=0 if WKI2_Aut =="AMBITION DE CREATION DE BOUTIQUE"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UNE ACTIVITE REMUNERATRICE"
+replace WKI2__13=0 if WKI2_Aut =="CREER UNE BOUTIQUE"
+replace WKI2__13=0 if WKI2_Aut =="ÊTRE À SON PROPRE COMPTE"
+replace WKI2__13=0 if WKI2_Aut =="ETRE A COMPTE PROPRE"
+replace WKI2__13=0 if WKI2_Aut =="TRANSPORT DE PERSONNEL OU CONDUCTEUR DE CAR"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2__13=0 if WKI2_Aut =="ENVIE DE FAIRE AUTRE CHOSE"
+replace WKI2__13=0 if WKI2_Aut =="ENTREPRENDRE"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE OBTENIR SON CONCOURS DANS LE DOMAINE DE LA SANTE"
+replace WKI2__13=0 if WKI2_Aut =="OBTENIR UN MAGASIN"
+replace WKI2__13=0 if WKI2_Aut =="AMBITION DE COMMERCE DE VETEMENTS"
+replace WKI2__13=0 if WKI2_Aut =="ELEVAGE BOEUF"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE PAGNE"
+replace WKI2__13=0 if WKI2_Aut =="GESTION DE BOUTIQUE"
+replace WKI2__13=0 if WKI2_Aut =="ATELEIER DE MENUISERIE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE OU ELEVAGE"
+replace WKI2__13=0 if WKI2_Aut =="ETENDRE SON ACTIVITE"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UN EMPLOI A LA HAUTEUR DE SES DIPLOMES"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENT"
+replace WKI2__13=0 if WKI2_Aut =="ACTIVITE DE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="PROBLEME DE SANTE"
+replace WKI2__13=0 if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE DE ROBE IMPORTEE"
+replace WKI2__13=0 if WKI2_Aut =="COIFFURE"
+replace WKI2__13=0 if WKI2_Aut =="AUGMENTER SES REVENUS"
+replace WKI2__13=0 if WKI2_Aut =="EXERCER DANS L'AGRICULTURE / COMMERCE DE PAGNE"
+replace WKI2__13=0 if WKI2_Aut =="ALIMENTAIRE"
+replace WKI2__13=0 if WKI2_Aut =="POUR SUBVENIR CORRECTEMENT A MES BESOINS"
+
+replace WKI2__13=0 if WKI2_Aut =="IL VEUT FAIRE ELEVAGE DE POULETS"
+replace WKI2__13=0 if WKI2_Aut =="ELLE VEUT FAIRE LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="MAQUIS"
+replace WKI2__13=0 if WKI2_Aut =="VENRDRE DES LEGUMES AU MARCHE"
+replace WKI2__13=0 if WKI2_Aut =="TRAVAILLER A SON PROPRE COMPTE"
+replace WKI2__13=0 if WKI2_Aut =="POISSONNERIE"
+replace WKI2__13=0 if WKI2_Aut =="ETRE UN MEDECIN"
+replace WKI2__13=0 if WKI2_Aut =="CHAMPS DE CACAO"
+replace WKI2__13=0 if WKI2_Aut =="TRAVAILLER À COMPTE PROPRE"
+replace WKI2__13=0 if WKI2_Aut =="SOUHAITE EXERCER DANS LE COMMERCE"
+replace WKI2__13=0 if WKI2_Aut =="AVOIR UNE MEILLEURE ACTIVITE REMUNERATRICE"
+
+
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE PAGNE"
+replace WKI2__13=0 if WKI2_Aut =="FATIGUÉ PAR L'ÂGE"
+replace WKI2__13=0 if WKI2_Aut =="COMMERCE  /  ELEVAGE"
+
+*
+replace WKI2_Aut="" if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENTS POUR SA PRODUCTION DE BEURRE DE KARITE"
+replace WKI2_Aut="" if WKI2_Aut =="UNE ACTIVITE RENUMERATRICE"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE/COIFFURE"
+replace WKI2_Aut="" if WKI2_Aut =="QUINCAILLERIE"
+
+replace WKI2_Aut="" if WKI2_Aut =="ACTIVITE SUPPLEMENTAIRE"
+replace WKI2_Aut="" if WKI2_Aut =="ELLE VEUT AGRANDIR SON ACTIVITÉ"
+replace WKI2_Aut="" if WKI2_Aut =="TRANSPORT"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR UNE ACTIVITE AVEC UN REVENU SALARIAL"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE DE GROS"
+replace WKI2_Aut="" if WKI2_Aut =="ACITIVITE SUPPLEMENTAIRE"
+replace WKI2_Aut="" if WKI2_Aut =="AUTRE ACTIVITE SECONDAIRE"
+replace WKI2_Aut="" if WKI2_Aut =="PLANTEUR"
+replace WKI2_Aut="" if WKI2_Aut =="DÉVELOPPER SON ACTIVITÉ"
+
+replace WKI2_Aut="" if WKI2_Aut =="SOUHAITE ETRE A COMPTE PROPRE"
+replace WKI2_Aut="" if WKI2_Aut =="POUR COMPLÉTER MES REVENUS"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE VIVRES"
+replace WKI2_Aut="" if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2_Aut="" if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2_Aut="" if WKI2_Aut =="UNE ACTIVITE MOINS EPUISANTE"
+replace WKI2_Aut="" if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2_Aut="" if WKI2_Aut =="ACHETEUR"
+replace WKI2_Aut="" if WKI2_Aut =="POUR AUGMENTER SES REVENUS"
+replace WKI2_Aut="" if WKI2_Aut =="DEVENIR COMMERCANT"
+replace WKI2_Aut="" if WKI2_Aut =="DEVENIR COMMERCANTE"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE , QUINCAILLERIE"
+replace WKI2_Aut="" if WKI2_Aut =="REVENDEUSE DE RIZ"
+replace WKI2_Aut="" if WKI2_Aut =="REVENDEUSE DE PRODUITS AGRICOLES"
+replace WKI2_Aut="" if WKI2_Aut =="AMBITION DE CREATION DE BOUTIQUE"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR UNE ACTIVITE REMUNERATRICE"
+replace WKI2_Aut="" if WKI2_Aut =="CREER UNE BOUTIQUE"
+replace WKI2_Aut="" if WKI2_Aut =="ÊTRE À SON PROPRE COMPTE"
+replace WKI2_Aut="" if WKI2_Aut =="ETRE A COMPTE PROPRE"
+replace WKI2_Aut="" if WKI2_Aut =="TRANSPORT DE PERSONNEL OU CONDUCTEUR DE CAR"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2_Aut="" if WKI2_Aut =="ENVIE DE FAIRE AUTRE CHOSE"
+replace WKI2_Aut="" if WKI2_Aut =="ENTREPRENDRE"
+replace WKI2_Aut="" if WKI2_Aut =="SOUHAITE OBTENIR SON CONCOURS DANS LE DOMAINE DE LA SANTE"
+replace WKI2_Aut="" if WKI2_Aut =="OBTENIR UN MAGASIN"
+replace WKI2_Aut="" if WKI2_Aut =="AMBITION DE COMMERCE DE VETEMENTS"
+replace WKI2_Aut="" if WKI2_Aut =="ELEVAGE BOEUF"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE DE PAGNE"
+replace WKI2_Aut="" if WKI2_Aut =="GESTION DE BOUTIQUE"
+replace WKI2_Aut="" if WKI2_Aut =="ATELEIER DE MENUISERIE"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE OU ELEVAGE"
+replace WKI2_Aut="" if WKI2_Aut =="ETENDRE SON ACTIVITE"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR UN EMPLOI A LA HAUTEUR DE SES DIPLOMES"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR PLUS D'OPPORTUNITES DE TRAVAIL"
+replace WKI2_Aut="" if WKI2_Aut =="SOUHAITE AVOIR PLUS DE CLIENT"
+replace WKI2_Aut="" if WKI2_Aut =="ACTIVITE DE COMMERCE"
+replace WKI2_Aut="" if WKI2_Aut =="PROBLEME DE SANTE"
+replace WKI2_Aut="" if WKI2_Aut =="QUINCAILLERIE"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE DE ROBE IMPORTEE"
+replace WKI2_Aut="" if WKI2_Aut =="COIFFURE"
+replace WKI2_Aut="" if WKI2_Aut =="AUGMENTER SES REVENUS"
+replace WKI2_Aut="" if WKI2_Aut =="EXERCER DANS L'AGRICULTURE / COMMERCE DE PAGNE"
+replace WKI2_Aut="" if WKI2_Aut =="ALIMENTAIRE"
+replace WKI2_Aut="" if WKI2_Aut =="POUR SUBVENIR CORRECTEMENT A MES BESOINS"
+
+replace WKI2_Aut="" if WKI2_Aut =="IL VEUT FAIRE ELEVAGE DE POULETS"
+replace WKI2_Aut="" if WKI2_Aut =="ELLE VEUT FAIRE LE COMMERCE"
+replace WKI2_Aut="" if WKI2_Aut =="MAQUIS"
+replace WKI2_Aut="" if WKI2_Aut =="VENRDRE DES LEGUMES AU MARCHE"
+replace WKI2_Aut="" if WKI2_Aut =="TRAVAILLER A SON PROPRE COMPTE"
+replace WKI2_Aut="" if WKI2_Aut =="POISSONNERIE"
+replace WKI2_Aut="" if WKI2_Aut =="ETRE UN MEDECIN"
+replace WKI2_Aut="" if WKI2_Aut =="CHAMPS DE CACAO"
+replace WKI2_Aut="" if WKI2_Aut =="TRAVAILLER À COMPTE PROPRE"
+replace WKI2_Aut="" if WKI2_Aut =="SOUHAITE EXERCER DANS LE COMMERCE"
+replace WKI2_Aut="" if WKI2_Aut =="AVOIR UNE MEILLEURE ACTIVITE REMUNERATRICE"
+
+
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE PAGNE"
+replace WKI2_Aut="" if WKI2_Aut =="FATIGUÉ PAR L'ÂGE"
+replace WKI2_Aut="" if WKI2_Aut =="COMMERCE  /  ELEVAGE"
+
+
+
+*** On arrive pas à vider a cause des parenthèses 
+
+******______________________________________________________________________******
+*export excel SRH3_Aut using "D:\CAE\fichier exel\SRH3_Aut.xls" if SRH3_Aut!="", firstrow(variables) replace
+
+***SRH3
+replace SRH3=13 if regexm(SRH3_Aut,"A DEMANDÉ DE LA PARCELLE POUR")
+replace SRH3=4 if regexm(SRH3_Aut,"A POSTULER AU PROJET DE RECRUT")
+replace SRH3=5 if regexm(SRH3_Aut,"EMPLOI JEUNES")
+replace SRH3=12 if regexm(SRH3_Aut,"ELLE A DEMANDÉ UN FINANCEMENT")
+replace SRH3=15 if regexm(SRH3_Aut,"SON MARI A ACHETE UN REFRIGERA")
+replace SRH3=15 if regexm(SRH3_Aut,"ON M'A FAIT APPEL POUR DEPESE")
+******
+
+*replace SRH3=6 if SRH3_Aut=="Elle dit ne l'avoir jamais fait"
+replace SRH3=16 if SRH3_Aut=="ATTEND UNE OPORTUNITE DE VENTE EN LIGNE"
+*replace SRH3=6 if SRH3_Aut=="A EFFECTUÉ UNE ACTIVITÉ REMUNÉNATRICE PENDANT LES CONGÉS DE NOEL (DU 23 DECEMBRE 2024 AU 26 DECEMBRE 2024)."
+*replace SRH3=6 if SRH3_Aut=="JE FAIS MON PETIT COMMERCE D'OEUF"
+*replace SRH3=6 if SRH3_Aut=="SONGER A CREER UNE ACTIVITE DE VENTE DE FARGOT DE BOIS"
+*replace SRH3=6 if SRH3_Aut=="JE NE SAIS PAS COMMENT CHERCHER UN EMPLOI"
+
+******
+replace SRH3=9 if SRH3_Aut=="ALLER SUR LE LIEUX DE TRAVAIL  POUR D AIDER DE L’AIDE"
+replace SRH3=12 if SRH3_Aut=="RECHERCE D'UN FOND DE COMMERCE"
+replace SRH3=13 if SRH3_Aut=="IL S'EST PROCURER UNE PARCELLE POUR FAIRE DU CACAO QUI N'EST PAS ENCORE PRODUCTIF"
+replace SRH3=15 if SRH3_Aut=="TRAVAIL EN COLLABORATION AVEC SON MARI"
+
+*
+
+replace SRH3=3 if SRH3_Aut == "recherche un fond pour entreprendre dans le commerce"
+replace SRH3=7 if SRH3_Aut == "J'AI CREER MON BISTRO A COTE DE MA MAISON"
+replace SRH3=8 if SRH3_Aut == "TROP AGE POUR TRAVAILLER"
+replace SRH3=11 if SRH3_Aut == "CONSTRUCTION D'UN BATIMENT POUR UN PROJET D'ELEVAGE"
+replace SRH3=11 if SRH3_Aut == "A DEMANDÉ PARCELLE A LA FAMILLE POUR CULTIVER"
+replace SRH3=12 if SRH3_Aut == "A FAIT UN CHAMP D’IGNAMES"
+replace SRH3=10 if SRH3_Aut == "J’AI TRAVAILLÉ DANS UNE ACTIVITÉ PERSONNELLE"
+
+
+replace SRH3 = 12 if SRH3_Aut=="OPTION DE DEMANDER UN PRET A LA BANQUE POUR METTRE EN PLACE UN BUSINESS"
+replace SRH3 = 12 if SRH3_Aut=="CHERCHER UN FINANCEMENT"
+replace SRH3 = 13 if SRH3_Aut=="A CREER UNE EXPLOITATION AGRICOLE A TRES FAIBLE PRODUCTION"
+replace SRH3 = 13 if SRH3_Aut=="créer une exploitation agricole"
+
+****Vider la variable
+
+
+replace SRH3_Aut = "" if (regexm(SRH3_Aut, "A DEMANDÉ DE LA PARCELLE POUR") | ///
+                          regexm(SRH3_Aut, "A POSTULER AU PROJET DE RECRUT") | ///
+                          regexm(SRH3_Aut, "EMPLOI JEUNES") | ///
+                          regexm(SRH3_Aut, "ELLE A DEMANDÉ UN FINANCEMENT") | ///
+                          regexm(SRH3_Aut, "SON MARI A ACHETE UN REFRIGERA") | ///
+                          regexm(SRH3_Aut, "ON M'A FAIT APPEL POUR DEPESE"))
+
+*IVANNA
+
+replace SRH3 = 9 if SRH3_Aut==" A TRAVAILLER DANS CHAMP POUR PRODUIT DE LA NOURRITURE"
+replace SRH3 = 12 if SRH3_Aut==" EN ATTENTE DE MOYENS FINANCIERS"
+replace SRH3 = 13 if SRH3_Aut==" COMMENCER A PREPARER LE TERRAIN"
+replace SRH3 = 13 if SRH3_Aut==" CHAMPS DE MANIOC"
+replace SRH3 = 13 if SRH3_Aut==" A ACHETE UN CONTENEUR POUR VENDRE"
+replace SRH3 = 13 if SRH3_Aut==" EN ATTENTE DE LA PRODUCTION DE SA PLANTATION"
+replace SRH3 = 13 if SRH3_Aut==" À CRÉER UNE ENTREPRISE DE VENTE"
+replace SRH3 = 13 if SRH3_Aut==" CULTURE POUR LA NOURRITURE FAMILIALE"
+replace SRH3 = 13 if SRH3_Aut==" création de plantation"
+replace SRH3 = 13 if SRH3_Aut==" A CREE UN CHAMP POUR NOURRIR LA FAMILLE"
+replace SRH3 = 8 if SRH3_Aut==" SUIVRE UNE FORMATION"
+replace SRH3 = 8 if regexm(SRH3_Aut,"SUIVRE UNE FORMATION")
+replace SRH3 = 9 if regexm(SRH3_Aut,"A TRAVAILLER DANS CHAMP POUR PRODUIT DE LA NOURRITURE")
+replace SRH3 = 12 if regexm(SRH3_Aut,"EN ATTENTE DE MOYENS FINANCIERS")
+replace SRH3 = 13 if regexm(SRH3_Aut,"COMMENCER A PREPARER LE TERRAIN")
+replace SRH3 = 13 if regexm(SRH3_Aut,"CHAMPS DE MANIOC")
+replace SRH3 = 13 if regexm(SRH3_Aut,"A ACHETE UN CONTENEUR POUR VENDRE")
+replace SRH3 = 13 if regexm(SRH3_Aut,"EN ATTENTE DE LA PRODUCTION DE SA PLANTATION")
+replace SRH3 = 13 if regexm(SRH3_Aut,"À CRÉER UNE ENTREPRISE DE VENTE")
+replace SRH3 = 13 if regexm(SRH3_Aut,"CULTURE POUR LA NOURRITURE FAMILIALE")
+replace SRH3 = 13 if regexm(SRH3_Aut,"création de plantation")
+replace SRH3 = 13 if regexm(SRH3_Aut,"A CREE UN CHAMP POUR NOURRIR LA FAMILLE")
+
+
+
+						  
+replace SRH3_Aut = "" if !inlist(SRH3,.,.a,19)
+
+***SRH7
+*export excel SRH7_Aut using "D:\CAE\fichier exel\SRH7_Aut.xls" if SRH7_Aut!="", firstrow(variables) replace 
+
+replace SRH7=13 if SRH7_Aut=="PERIODE DE GROSSESSE"
+replace SRH7=5 if SRH7_Aut=="ETAIT EN EXAMEN"
+replace SRH7=6 if SRH7_Aut=="VOUS  SUVIEZ UNE FORMATION"
+replace SRH7=6 if SRH7_Aut=="TERMINER MON APPRENTISSAGE"
+****
+replace   SRH7=12  if SRH7_Aut =="JE SUIS NOURRICE"
+replace   SRH7=7  if SRH7_Aut =="LE CHEF DE MENAGE EST MALADE D'OU NE PEUT PAS TRAVAILLER"
+replace   SRH7=7  if SRH7_Aut =="TROP AGER"
+replace   SRH7=5  if SRH7_Aut =="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"
+replace   SRH7=5  if SRH7_Aut =="eleve"
+replace   SRH7=14  if SRH7_Aut =="MENAGERE"
+replace   SRH7=5  if SRH7_Aut =="ENCORE ELEVE"
+replace   SRH7=8  if SRH7_Aut =="AVEUGLE"
+replace   SRH7=7  if SRH7_Aut =="SUBIR UNE OPERATION CHIRURGICALE"
+replace   SRH7=7  if SRH7_Aut =="FONCTIONNAIRE DANS LE  PRIVÉ"
+replace   SRH7=7  if SRH7_Aut =="TROP AGEE"
+replace   SRH7=14  if SRH7_Aut =="ASSISTER MA GRAND MERE MALADE"
+replace   SRH7=14  if SRH7_Aut =="MENAGE"
+replace   SRH7=14  if SRH7_Aut =="PRENDRE SOIN DE SON MARI"
+replace   SRH7=7  if SRH7_Aut =="SOUFFRANT"
+replace   SRH7=7  if SRH7_Aut =="PAR PROBLEME DE SANTE"
+replace   SRH7=5  if SRH7_Aut =="OCCUPE PAR LES ETUDES"
+replace   SRH7=5  if SRH7_Aut =="IL VA TOUJOURS A L ECOLE"
+replace   SRH7=5  if SRH7_Aut =="ELLE EST ELEVE"
+replace   SRH7=12  if SRH7_Aut =="ELLE S OCCUPE DE SES ENFANTS"
+replace   SRH7=5  if SRH7_Aut =="UN ELEVE EN VACANCE"
+replace   SRH7=4  if SRH7_Aut =="pas de competence"
+replace   SRH7=13  if SRH7_Aut =="ENCEINTE"
+replace   SRH7=5  if SRH7_Aut =="ELLE SUIT LES COURS SCOLAIRES"
+replace   SRH7=5  if SRH7_Aut =="EN FORMATION DE MECANIQUE"
+replace   SRH7=5  if SRH7_Aut =="ETUDES"
+replace   SRH7=5  if SRH7_Aut =="SUIVRE LES COURS CORANIQUES"
+replace   SRH7=5  if SRH7_Aut =="SE FORMER EN LECTURE CORANIQUE AFIN D'ENSEIGNER DES ENFANTS"
+replace   SRH7=14  if SRH7_Aut =="S OCCUPER DE LA FAMILLE"
+replace   SRH7=7  if SRH7_Aut =="POSSEDÉ PAR DES GENIES"
+replace   SRH7=14  if SRH7_Aut =="OCCUPER A PRENDRE SOIN D UNE PERSONNE  AGEE"
+replace   SRH7=7  if SRH7_Aut =="PERSONNE TRES AGEE"
+replace   SRH7=14  if SRH7_Aut =="OCCUPEE PAR MES RESPONSABILITES FAMILIALES"
+replace   SRH7=5  if SRH7_Aut =="CONTINUE LE FRANCO ARABE"
+replace   SRH7=13  if SRH7_Aut =="POUR CAUSE DE GROSSESSE"
+replace   SRH7=5  if SRH7_Aut =="Occuper par les études"
+replace   SRH7=13  if SRH7_Aut =="JE SUIS ENCEINTE PRESQUE A TERME"
+replace   SRH7=5  if SRH7_Aut =="OCCUPE PAR LES ÉTUDES"
+replace   SRH7=5  if SRH7_Aut =="FORMATION A L'ECOLE CORANIQUE"
+replace   SRH7=7  if SRH7_Aut =="MAL DE PIED"
+replace   SRH7=5  if SRH7_Aut =="VACCANCES SCOLAIRE"
+replace   SRH7=15  if SRH7_Aut =="ATTENT D'ÊTRE APPELÉ POUR UN NOUVEAU EMPLOI"
+replace   SRH7=7  if SRH7_Aut =="TROP AGER POUR TRAVAILLER"
+replace   SRH7=12  if SRH7_Aut =="ELLE VIENT D'ACCOUCHER"
+replace   SRH7=12  if SRH7_Aut =="JE SUIS UNE NOURRICE"
+replace   SRH7=5  if SRH7_Aut =="ELEVE FRANCO ARRABE"
+replace   SRH7=5  if SRH7_Aut =="ELEVE PARTI POUR LES VACANCES AVANT LA DATE DE RÉFÉRENCE"
+replace   SRH7=4  if SRH7_Aut =="JE NE SAIS NI LIRE NI ECRIRE"
+replace   SRH7=4  if SRH7_Aut =="JE NE SAIT PAS ECRIRE NI LIRE"
+replace   SRH7=5  if SRH7_Aut =="POUR MES ETUDES"
+replace   SRH7=5  if SRH7_Aut =="FAIRE L'ECOLE CORANIQUE"
+**
+replace   SRH7=20  if SRH7_Aut =="REFUS DU PARTENAIRE"
+replace   SRH7=26  if SRH7_Aut =="ÂGÉ"
+replace   SRH7=26  if SRH7_Aut =="mineur"
+replace   SRH7=5  if SRH7_Aut =="ELEVE"
+replace   SRH7=26  if SRH7_Aut =="TROP AGE"
+replace   SRH7=20  if SRH7_Aut =="REFUS DU CONJOINT POUR QUELLE TRAVAILLE PAS"
+replace   SRH7=26  if SRH7_Aut =="RETRAITEE"
+replace   SRH7=23  if SRH7_Aut =="OCCUPEE DANS LES ACTIVITES AGRICOLES POUR LE MENAGE"
+replace   SRH7=23  if SRH7_Aut =="OCCUPE DANS LA PRODUCTION AGRICOLE POUR LA CONSOMMATION DU MENAGE"
+replace   SRH7=23  if SRH7_Aut =="OCCUPE PAR LES TRAVAUX CHAMPETRES DU MENAGE"
+replace   SRH7=26  if SRH7_Aut =="RETRAITÉ"
+replace   SRH7=26  if SRH7_Aut =="JE M'INVESTIS POUR LE MOMENT DANS LA PRODUCTION AGRICOLE DESTINÉE A LA CONSOMMATION DU MENAGE"
+replace   SRH7=15  if SRH7_Aut =="EN ATTENTE DE PASSER UN CONCOURS"
+replace   SRH7=20  if SRH7_Aut =="ELLE ATTEND LE RETOUR DE SON MARI"
+replace   SRH7=23  if SRH7_Aut =="ELLE A DEJA UNE PLANTATION EN SON NOM, MAIS N'Y TRAVAIL PAS VU L'AGE AVANCE."
+replace   SRH7=23  if SRH7_Aut =="CHAMP D AUBERGINE ET DE HARICOT"
+replace  SRH7=26  if SRH7_Aut == "retraité"
+
+replace   SRH7=1  if SRH7_Aut =="SON CONJOINT REFUSE QUELLE TRAVAILLE"
+replace   SRH7=6  if SRH7_Aut =="ENQUETE DIT VOULOIR SE FORMER LA OU IL ES EN APPRENTISSAGE AVANT DE CHERCHER UN EMPLOI DANS CE DOMAINE"
+replace   SRH7=1  if SRH7_Aut =="L'enquêté a un champ d'anacarde qui lui permet de nourrir sa famille mais ce n'est pas encore la traite"
+replace   SRH7=1  if SRH7_Aut =="occupée par les etudes"
+replace   SRH7=1  if SRH7_Aut =="EN MATERNITÉ ELLE VIENT D'ACCOUCHER"
+replace   SRH7=1  if SRH7_Aut =="JE M OCCUPE DE MA MERE A CAUSE DE LA FRAGILITE DE SON ETAT DE SANTE"
+replace   SRH7=6  if SRH7_Aut =="OCCUPE PAR L'APPRENTISSAGE DE SOUDURE"
+replace   SRH7=1  if SRH7_Aut =="EST EN APPRENTISSAGE"
+replace   SRH7=1  if SRH7_Aut =="EN APPRENTISSAGE"
+replace   SRH7=13  if SRH7_Aut =="EN ÉTAT DE GROSSESSE"
+replace   SRH7=1  if SRH7_Aut =="TRAVAILLE DANS LE CHAMP DE SON PERE COMME AIDE MAIS N'EST PAS PAYE"
+replace   SRH7=1  if SRH7_Aut =="SUIVRE LES COURS ECOLE CORANIQUE"
+replace   SRH7=5  if SRH7_Aut =="FINIR  LES ÉTUDES"
+replace   SRH7=1  if SRH7_Aut =="JE SUIS ENCEINTE"
+replace   SRH7=1  if SRH7_Aut =="j'étais enceinte"
+replace   SRH7=26  if SRH7_Aut =="TROP ÂGÉ"
+replace   SRH7=1  if SRH7_Aut =="elle veut continuer les études"
+replace   SRH7=25  if SRH7_Aut =="A LA RETRAITE"
+replace   SRH7=1  if SRH7_Aut =="ACTIVITE AGRICOLE POUR LA CONSOMMATION DU MENAGE"
+replace   SRH7=12  if SRH7_Aut =="ELLE EST NOURRICE"
+replace   SRH7=1  if SRH7_Aut =="il est en apprentissage"
+replace   SRH7=13  if SRH7_Aut =="situation de grossesse"
+replace   SRH7=6  if SRH7_Aut =="apprenti couturière"
+replace   SRH7=12  if SRH7_Aut =="JE SUIS MENAGERE"
+replace   SRH7=23  if SRH7_Aut =="VOUS AIDE VOS PARENTS AU CHAMPS"
+replace   SRH7=23  if SRH7_Aut =="TRAVAILLE DANS LE CHAMP DE LA FAMILLE"
+replace SRH7=26  if SRH7_Aut =="TRES ÂGÉS"
+replace SRH7=26  if SRH7_Aut =="très âgé"
+
+
+****vider
+replace SRH7_Aut = "" if !inlist(SRH7,.,.a,27) 
+
+
+replace SRH7=13 if regexm(SRH7_Aut,"GROSSESSE|ENCEINTE|MATERNITÉ")
+replace SRH7=20 if inlist(SRH7_Aut, "MON MARI REFUSE","REFUS DE MON MARI","LA COUTUME EXIGE QUE LA FEMME","C'EST LE MARI QUI DECIDE")
+replace SRH7=25 if  regexm(SRH7_Aut,"RETRAITE|ELLE MEME NE VEUX PAS TRAVAILL|N'A PAS L'ENVIE DE TRAVAILLE|FIDELE SERVITEUR DE DIEU|IMAM|PASTEUR")
+replace SRH7=14 if regexm(SRH7_Aut,"VOUS  VOUS  OCCUPER  DE VOTRE|OCCUPER AUX OBSÈQUES D'UN PRO|JE M OCCUPE DE MA MERE A CAUSE")
+replace SRH7=7 if  regexm(SRH7_Aut,"MALADE|SANTE")
+replace SRH7=5 if  regexm(SRH7_Aut,"EN APPRENTISSAGE|ELEVE|EN VACANCE J ATTENTS QUE LES C")
+replace SRH7=6 if SRH7_Aut=="ENQUETE DIT VOULOIR SE FORMER"
+replace SRH7=26 if  regexm(SRH7_Aut,"VIEUX|TROP AGE|VIEILLESSE")
+
+* Remplir SRH7 en fonction des conditions sur SRH7_Aut
+replace SRH7=13 if regexm(SRH7_Aut, "GROSSESSE|ENCEINTE|MATERNITÉ")
+replace SRH7=20 if inlist(SRH7_Aut, "MON MARI REFUSE", "REFUS DE MON MARI", "LA COUTUME EXIGE QUE LA FEMME", "C'EST LE MARI QUI DECIDE")
+replace SRH7=25 if regexm(SRH7_Aut, "RETRAITE|ELLE MEME NE VEUX PAS TRAVAILL|N'A PAS L'ENVIE DE TRAVAILLE|FIDELE SERVITEUR DE DIEU|IMAM|PASTEUR")
+replace SRH7=14 if regexm(SRH7_Aut, "VOUS  VOUS  OCCUPER  DE VOTRE|OCCUPER AUX OBSÈQUES D'UN PRO|JE M OCCUPE DE MA MERE A CAUSE")
+replace SRH7=7 if regexm(SRH7_Aut, "MALADE|SANTE")
+replace SRH7=5 if regexm(SRH7_Aut, "EN APPRENTISSAGE|ELEVE|EN VACANCE J ATTENTS QUE LES C")
+replace SRH7=6 if SRH7_Aut == "ENQUETE DIT VOULOIR SE FORMER"
+replace SRH7=26 if regexm(SRH7_Aut, "VIEUX|TROP AGE|VIEILLESSE")
+
+* Vider SRH7_Aut après avoir rempli SRH7
+replace SRH7_Aut = "" if (regexm(SRH7_Aut, "GROSSESSE|ENCEINTE|MATERNITÉ") | ///
+                          inlist(SRH7_Aut, "MON MARI REFUSE", "REFUS DE MON MARI", "LA COUTUME EXIGE QUE LA FEMME", "C'EST LE MARI QUI DECIDE") | ///
+                          regexm(SRH7_Aut, "RETRAITE|ELLE MEME NE VEUX PAS TRAVAILL|N'A PAS L'ENVIE DE TRAVAILLE|FIDELE SERVITEUR DE DIEU|IMAM|PASTEUR") | ///
+                          regexm(SRH7_Aut, "VOUS  VOUS  OCCUPER  DE VOTRE|OCCUPER AUX OBSÈQUES D'UN PRO|JE M OCCUPE DE MA MERE A CAUSE") | ///
+                          regexm(SRH7_Aut, "MALADE|SANTE") | ///
+                          regexm(SRH7_Aut, "EN APPRENTISSAGE|ELEVE|EN VACANCE J ATTENTS QUE LES C") | ///
+                          SRH7_Aut == "ENQUETE DIT VOULOIR SE FORMER" | ///
+                          regexm(SRH7_Aut, "VIEUX|TROP AGE|VIEILLESSE"))
+
+*****						  
+replace SRH7=6 if SRH7_Aut=="Formation coranique"
+replace SRH7=14 if SRH7_Aut=="TRAVAILLE DANS UNE BOUTIQUE AU COMPTE DU MENAGE"
+replace SRH7=14 if SRH7_Aut=="AIDE SON ONCLE A VENDRE"
+replace SRH7=6 if SRH7_Aut=="école CORANIQUE"
+replace SRH7=6 if SRH7_Aut=="études CORANIQUE"
+replace SRH7=12 if SRH7_Aut=="NOURRISSE"
+replace SRH7=6 if SRH7_Aut=="FINIR LE STAGE"
+replace SRH7=6 if SRH7_Aut=="APPRENTISSAGE"
+replace SRH7=6 if SRH7_Aut=="APPRENTI MÉCANICIEN"
+replace SRH7=5 if SRH7_Aut=="Vous suiviez (ou aviez le projet de suivre) des études (madrassa)"
+replace SRH7=15 if SRH7_Aut=="IL SE PREPARE POUR LE COUCOURS DE POLICE"
+replace SRH7=7 if SRH7_Aut=="VIELLESSE"
+replace SRH7=16 if SRH7_Aut=="ce n'est pas encore la période des travaux agricoles"
+replace SRH7=9 if SRH7_Aut=="LES OPPORTUNITÉS DE TRAVAIL SON TRES RARES DANS MON DÉPARTEMENT"
+replace SRH7=7 if SRH7_Aut=="JE SUIS AGÉ"
+replace SRH7=7 if SRH7_Aut=="JE SUIS DEVENU VIELLE JE N'A PLUS DE FORCE POUR TRAVAILLER"
+replace SRH7=6 if SRH7_Aut=="stagiaire infirmière"
+replace SRH7=5 if SRH7_Aut=="ETUDIANTE A L'INFAS"
+replace SRH7=5 if SRH7_Aut=="ETUDIANTE A L'INFAS"
+replace SRH7=16 if SRH7_Aut=="AIDE DANS LE CHAMP  FAMILLIALE"
+replace SRH7=14 if SRH7_Aut=="JE SUIS MARIÉE,JE FAIS LE MENAGE POUR MA BELLE FAMILLE"
+*****
+replace SRH7=5 if SRH7_Aut=="occuper par l école"
+replace SRH7=5 if SRH7_Aut=="SOUHAITE REPRENDRE LES ETUDES"
+replace SRH7=5 if SRH7_Aut=="POURSUIT SES ETUDES"
+replace SRH7=5 if SRH7_Aut=="EST ÉLEVÉ"
+replace SRH7=5 if SRH7_Aut=="actuellement à l'école"
+replace SRH7=5 if SRH7_Aut=="OCCUPER PAR LES ETUDES"
+replace SRH7=5 if SRH7_Aut=="POUR LES ETUDES"
+replace SRH7=6 if SRH7_Aut=="JOUE AU FOOTBALL DANS UN CENTRE DE FORMATION"
+replace SRH7=7 if SRH7_Aut=="MALADIE"
+replace SRH7=12 if SRH7_Aut=="NOURRICE"
+replace SRH7=12 if SRH7_Aut=="FEMME AU FOYER"
+replace SRH7=7 if SRH7_Aut=="problème de santé"
+replace SRH7=14 if SRH7_Aut=="RESPONSABILITE FAMILIALE"
+replace SRH7=23 if SRH7_Aut=="CHAMPS BRULE"
+replace SRH7=23 if SRH7_Aut=="CULTURE POUR LA NOURRITURE QUOTIDIENNE"
+replace SRH7=22 if SRH7_Aut=="TÂCHE DOMESTIQUE"
+replace SRH7=22 if SRH7_Aut=="AIDE SA TANTE DANS LE MENAGE"
+replace SRH7=14 if SRH7_Aut=="COMPTE TENU DE L'ACCIDENT DE MONSIEUR MELEDJE  ELLE NE FAIT AUCUNE ACTIVITE.ELLE EST A SON CHEVET POUR SES SOINS"
+replace SRH7=22 if SRH7_Aut=="Venir pour aide la tante dans ces ménages"
+replace SRH7=22 if SRH7_Aut=="MENAGERE. PAS INTERESSE PAS UN TRAVAIL"
+
+
+replace SRH7=15 if SRH7_Aut=="IL ATTENDAIT LE RESULTAT DE SON CONCOUR QUI S'EST AVERE NEGATIF"
+replace SRH7=8 if SRH7_Aut=="A CAUSE DE SON ENDICAPE(SOUCI A LA MAIN DROITE ET AU PIED DROIT) IL EST DIFFICILE DE TROUVER UN BOULOT, DIFFICULTÉ FINANCIERS POUR ENTREPRENDRE  UN COMMERCE"
+replace SRH7=21 if SRH7_Aut=="BESOIN DE FOND DE COMMERCE POUR L'OUVERUTRE D'UN RESTAURANT"
+replace SRH7=6 if SRH7_Aut=="TRAVAILLE COMME APPRENTI NON PAYÉ"
+replace SRH7=26 if SRH7_Aut=="TROP JEUNE"
+replace SRH7=6 if SRH7_Aut=="EST EN STAGE CAFOP"
+replace SRH7=21 if SRH7_Aut=="MANQUE DE FINANCEMENT"
+replace SRH7=14 if SRH7_Aut=="AIDE SA MERE DANS SON COMMERCE"
+replace SRH7=14 if SRH7_Aut=="TRAVAIL EN COLLABORATION AVEC SON MARI"
+replace SRH7=24 if SRH7_Aut=="MOMENT DE VEUVAGE"
+replace SRH7=6 if SRH7_Aut=="APPRENTI NON PAYÉ"
+replace SRH7=14 if SRH7_Aut=="Aide dans le business familial"
+replace SRH7=21 if SRH7_Aut=="MANQUE DE MOYEN FINANCIERS"
+replace SRH7=21 if SRH7_Aut=="PROBLEME FINANCIER"
+replace SRH7=23 if SRH7_Aut=="AIDE LE PÈRE  DANS LES TRAVEAUX  CHAMPETE"
+replace SRH7=6 if SRH7_Aut=="EN PERIODE D'APPRENTISSAGE"
+replace SRH7=21 if SRH7_Aut=="MANQUE DE MOYENS FINANCIERS"
+replace SRH7=23 if SRH7_Aut=="SA PLANTATION DE CACAO N'A PAS ENCORE DONNEE DE RECOLTE"
+replace SRH7=24 if SRH7_Aut=="EN ATTENTE DE TROUVER UN TRAVAIL"
+replace SRH7=6 if SRH7_Aut=="JE SUIS APPRENTI NON PAYE"
+replace SRH7=21 if SRH7_Aut=="MANQUE DE FINANCEMENT POUR FAIRE LE COMMERCE"
+replace SRH7=20 if SRH7_Aut=="MES ENFANTS N’ACCEPTERONS PAS"
+replace SRH7=6 if SRH7_Aut=="DEJA OCCUPE COMME APPRENTI SOUDEUR"
+replace SRH7=14 if SRH7_Aut=="ASSISTE SA TANTE DANS SES ACTIVITES"
+replace SRH7=24 if SRH7_Aut=="EN QUÊTE D'EMPLOI"
+replace SRH7=24 if SRH7_Aut=="TOUJOURS EN QUÊTE D'EMPLOI"
+replace SRH7=8 if SRH7_Aut=="MAL VOYANT"
+replace SRH7=6 if SRH7_Aut=="APPRENTI COUTURIER"
+replace SRH7=5 if SRH7_Aut=="Vous suiviez (ou aviez le projet de suivre) des études"
+replace SRH7=6 if SRH7_Aut=="APPRENTISSAGE MENUISERIE"
+replace SRH7=15 if SRH7_Aut=="VOUS ATTENDIEZ LE RESULTAT D'UN EXAMEN SCOLAIRE"
+		
+
+replace SRH7=18 if SRH7_Aut=="AMBITION DE DEMARRER UNE ACTIVITE DE COIFFURE"
+replace SRH7=25 if SRH7_Aut=="SERVIR DIEU"
+
+replace SRH7 = 14 if SRH7_Aut=="RESPONSABILITÉS FAMILIALES ET MÉNAGER"
+replace SRH7 = 25 if SRH7_Aut=="A ARRETER DE TRAVAILLER VOLONTAIREMENT PARCEQUE L'ENTREPRISE NE LE RENUMERE PAS"
+replace SRH7 = 6 if SRH7_Aut=="SUIVRE UNE FORMATION"
+replace SRH7 = 21 if SRH7_Aut=="PROBLEME DE FINANCEMENT"
+replace SRH7 = 25 if SRH7_Aut=="AUCUNE RAISON VALABLE L’ENQUETÉ REFUSE DE TRAVAILLER"
+replace SRH7 = 25 if SRH7_Aut=="PROHETESSE DANS UN CAMP DE PRIERE SANS SALAIRE"
+replace SRH7 = 13 if SRH7_Aut=="JE SUIS SUR LE POINT D’ACCOUCHER"
+replace SRH7 = 22 if SRH7_Aut=="ménagère"
+replace SRH7 = 21 if SRH7_Aut=="MANQUE DE MOYEN FINANCIER"
+replace SRH7 = 6 if SRH7_Aut=="APPRENTI DANS UN SALON COIFFURE"
+replace SRH7 = 25 if SRH7_Aut=="TROP AGÉ"
+replace SRH7 = 5 if SRH7_Aut=="SUIS LES COURS COURANIQUES"
+replace SRH7 = 25 if SRH7_Aut=="OCCUPER PAR  LA PRIÈRE"
+replace SRH7 = 18 if SRH7_Aut=="VENTE DES VÊTEMENTS"
+replace SRH7 = 21 if SRH7_Aut=="PROBLEM FINANCIER"
+replace SRH7 = 5 if SRH7_Aut=="SITUATION D’APPRENTISSAGE"
+replace SRH7 = 5 if SRH7_Aut=="SUIT DES ETUDES CORANIQUE"
+replace SRH7 = 5 if SRH7_Aut=="ATTEND DE REPRENDRE LES ETUDES"
+replace SRH7 = 21 if SRH7_Aut=="MANQUE DE MOYEN"
+replace SRH7 = 25 if SRH7_Aut=="Activités religieuses (Pasteur)"
+replace SRH7 = 21 if SRH7_Aut=="EN ATTENTE DE FINANCEMENT POUR COMMENCER UNE ACTIVITE"
+replace SRH7 = 25 if SRH7_Aut=="Pas intéressé"
+replace SRH7 = 18 if SRH7_Aut=="En attente de nouveau contrat de topographie"
+replace SRH7 = 5 if SRH7_Aut=="VACANCE SCOLAIRE"
+replace SRH7 = 5 if SRH7_Aut=="EN ATTENTE DE RESULTAT SCOLAIRE"
+replace SRH7 = 6 if SRH7_Aut=="SUIT UNE FORMATION DE JOUEUR"
+replace SRH7 = 25 if SRH7_Aut=="RAS"
+replace SRH7 = 6 if SRH7_Aut=="APPRENTISSAGE CARRELAGE"
+replace SRH7 = 14 if SRH7_Aut=="RESPONSABLE FAMILIALE"
+replace SRH7 = 5 if SRH7_Aut=="REPOS ( VACANCES SCOLAIRE)"
+replace SRH7 = 5 if SRH7_Aut=="EN ATTENTE DES COURS (VACANCE)"
+replace SRH7 = 21 if SRH7_Aut=="PAS D OPORTUNITE ET MANQUE DE FINANCES"
+replace SRH7 = 21 if SRH7_Aut=="EN ATTENTE DE L’AIDE DE SON FRÈRE"
+replace SRH7 = 22 if SRH7_Aut=="NOURRICIÈRE"
+replace SRH7 = 5 if SRH7_Aut=="INSCRIT A L'ÉCOLE CORANIQUE"
+replace SRH7 = 6 if SRH7_Aut=="APPRENTI NON PAYE DU PERE"
+
+replace  SRH7=21 if SRH7_Aut=="EN ATTENTE D'UN FINANCEMENT POUR DEBUTER UNE NOUVELLE ACTIVITE"
+replace  SRH7=7 if SRH7_Aut=="PLUS LA FORCE POUR TRAVAILLER"
+replace  SRH7=6 if SRH7_Aut=="EN STAGE"
+replace  SRH7=24 if SRH7_Aut=="pasteur"
+replace  SRH7=26 if SRH7_Aut=="TROP JEUNES"
+replace  SRH7=6 if SRH7_Aut=="APPRENTIE COUTURE"
+replace  SRH7=24 if SRH7_Aut=="HOMME RELIGIEUX"
+replace  SRH7=21 if SRH7_Aut=="EN ATTENTE DE FINANCEMENT"
+replace  SRH7=6 if SRH7_Aut=="JE SUIS DES FORMATIONS POUR DEVENIR ENSEIGNANT D'ÉCOLE CORANIQUE"
+replace  SRH7=6 if SRH7_Aut=="SOUHAITE JUSTE REPRENDRE CES ETUDES"
+replace  SRH7=6 if SRH7_Aut=="APPRENTI COUTURIÈRE"
+replace  SRH7=24 if SRH7_Aut=="IL ŒUVRE POUR DIEU"
+replace  SRH7=23 if SRH7_Aut=="TRAVAUX CHAMPÊTRES"
+
+*Ivanna
+
+replace SRH7 = 5 if SRH7_Aut =="je suis élève"
+replace SRH7 = 5 if SRH7_Aut =="JE SUIS ÉLÈVE"
+replace SRH7 = 3 if SRH7_Aut =="ATTEND D'ETRE MAJEUR AVANT DE COMMENCER UN METIER"
+replace SRH7 = 3 if SRH7_Aut =="TRAVAILLEUSE DU SEXE"
+replace SRH7 = 5 if SRH7_Aut =="OCCUPER PAR LES ETUDES (MADRASSA)"
+replace SRH7 = 5 if SRH7_Aut =="L'ENQUÊTÉ DÉCLARE QU'ELLE EST EN ATTENTE DE SA SOUTENANCE"
+replace SRH7 = 6 if SRH7_Aut =="IL DOIT RENTRE AU SERVICE CIVIQUE POUR CORRECTION ET FORMATION"
+replace SRH7 = 6 if SRH7_Aut =="FORMATION POUR ETRE PASTEUR"
+replace SRH7 = 6 if SRH7_Aut =="SUIS UNE FORMATION"
+replace SRH7 = 7 if SRH7_Aut =="PROBLÈME DE SANTÉ,TROUBLE MENTALE"
+replace SRH7 = 7 if SRH7_Aut =="MALVOYANTE"
+replace SRH7 = 7 if SRH7_Aut =="MALADIE"
+replace SRH7 = 7 if SRH7_Aut =="PROBLÈMES DE SANTE"
+replace SRH7 = 7 if SRH7_Aut =="Effectue un apprentissage non payé"
+replace SRH7 = 7 if SRH7_Aut =="Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace SRH7 = 7 if SRH7_Aut =="MALADIE"
+replace SRH7 = 7 if SRH7_Aut =="TROUBLE MENTAL"
+replace SRH7 = 7 if SRH7_Aut =="PROBLÈMES DE SANTÉ ET VIEILLESSE"
+replace SRH7 = 7 if SRH7_Aut =="L INDIVIDU EST RENTRE DANS LA DROGUE"
+replace SRH7 = 7 if SRH7_Aut =="PERSONNE MALADE"
+replace SRH7 = 7 if SRH7_Aut =="MALADIE"
+replace SRH7 = 9 if SRH7_Aut =="LES OPPORTUNITÉ DE TRAVAIL  SON RARE"
+replace SRH7 = 12 if SRH7_Aut =="NOURRICE"
+replace SRH7 = 12 if SRH7_Aut =="NOURRISSE"
+replace SRH7 = 13 if SRH7_Aut =="CAS DE GROSSESSE"
+replace SRH7 = 13 if SRH7_Aut =="JE SUIS ENCEINTE ET J ATTEND L'ACCOUCHEMENT"
+replace SRH7 = 13 if SRH7_Aut =="GROSSESSE"
+replace SRH7 = 13 if SRH7_Aut =="JE SUIS ENCEINTE DONC J ATTEND L ACCOUCHEMENT"
+replace SRH7 = 14 if SRH7_Aut =="s'OCCUPER DE SA MERE MALADE ET SES PETITS ENFANTS"
+replace SRH7 = 14 if SRH7_Aut =="AIDE A LA MAISON"
+replace SRH7 = 14 if SRH7_Aut =="S'OCCUPER DE SA MERE MALADE"
+replace SRH7 = 14 if SRH7_Aut =="CULTIVER POUR JUSTE NOURRIR LA FAMILLE PAS POUR LA VENTE"
+replace SRH7 = 14 if SRH7_Aut =="AIDE DANS LE MENAGE DE MAMAN"
+replace SRH7 = 14 if SRH7_Aut =="ELLE S'OCCUPE DE SON MARI MALADE"
+replace SRH7 = 14 if SRH7_Aut =="EN SITUATION DE DEUIL"
+replace SRH7 = 14 if SRH7_Aut =="EN SITUATION DE DEUIL"
+replace SRH7 = 15 if SRH7_Aut =="EN ATTENTE D'UNE AFFECTATION"
+replace SRH7 = 15 if SRH7_Aut =="EN ATTENTE DE STAGE"
+replace SRH7 = 15 if SRH7_Aut =="VOUS ATTENDEZ   VOTRE AFFECTION"
+replace SRH7 = 15 if SRH7_Aut =="VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH7 = 15 if SRH7_Aut =="ATTEND LA PERIODE DE CONCOURS"
+replace SRH7 = 16 if SRH7_Aut =="EST ARRIVEE APRES LA SAISON DES SEMENCES"
+replace SRH7 = 17 if SRH7_Aut =="ATTEND QUE LES FORCES ARMÉES DONNENT L'ORDRE DE REPRENDRE LES TRAVAUX D'ORPAILLAGES"
+replace SRH7 = 18 if SRH7_Aut =="J'ETAIS HORS DU PAYS JE SUIS REVENU MAIS J'AI DECIDE DE TRAVAILLER A MON PROPRE COMPTE SEULEMENT QUE JE N'AI PAS ENCORE COMMENCE DONC PRESENTEMENT JE NE RIEN"
+replace SRH7 = 18 if SRH7_Aut =="PAS ENCORE DE MOYENS POUR DEMARRER UNE ACTIVITE"
+replace SRH7 = 18 if SRH7_Aut =="RN ATTENTE DE PRISE DE SERVICE"
+replace SRH7 = 18 if SRH7_Aut =="ATTEND D'ÊTRE APPELÉ POUR CONSTRUIRE DES MAISONS"
+replace SRH7 = 18 if SRH7_Aut =="ÉTAIT EN EMPLOI À CETTE PÉRIODE"
+replace SRH7 = 18 if SRH7_Aut =="SOUHAITE EXERCER DANS LE COMMERCE"
+replace SRH7 = 18 if SRH7_Aut =="JE TRAVAILLAIS AVEC L'ENTREPRISE PEFO MAIS MON CONTRAT EST FINI JE SUIS A PRESENT A LA MAISON JE NE FAIS RIEN"
+replace SRH7 = 20 if SRH7_Aut =="SON MARI NE VEUT PAS QU'ELLE TRAVAILLE"
+replace SRH7 = 20 if SRH7_Aut =="DANS LEUR COUTUME LA FEMME RESTE AU MENAGE ET N'A PAS DROIT  DE TRAVAILLER"
+replace SRH7 = 22 if SRH7_Aut =="MENAGERE"
+replace SRH7 = 22 if SRH7_Aut =="MENAGERE"
+replace SRH7 = 23 if SRH7_Aut =="AIDE SON PÈRE DANS SA PLANTATION"
+replace SRH7 = 25 if SRH7_Aut =="ACTIVITES PASTORALES"
+replace SRH7 = 25 if SRH7_Aut =="POUR DES RAISONS DE VOYAGE"
+replace SRH7 = 25 if SRH7_Aut =="RETRAITÉ"
+replace SRH7 = 25 if SRH7_Aut =="ACTIVITES RELIGIEUSES"
+replace SRH7 = 25 if SRH7_Aut =="MARABOUT"
+replace SRH7 = 26 if SRH7_Aut =="TROP AGEE"
+replace SRH7 = 26 if SRH7_Aut =="TROP AGE"
+replace SRH7 = 26 if SRH7_Aut =="TROP AGE"
+replace SRH7 = 26 if SRH7_Aut =="PERSONNE ÂGÉE"
+replace SRH7 = 26 if SRH7_Aut =="TROP AGÉ"
+replace SRH7 = 26 if SRH7_Aut =="TROP AGER"
+replace SRH7 = 25 if SRH7_Aut =="EN VOYAGE"
+replace SRH7 = 21 if SRH7_Aut =="BESOIN DE FINANCEMENT POUR SE LANCER DANS L AGRONOME"
+replace SRH7 = 25 if SRH7_Aut =="CHARGER DES COMMISSIONS DU VALLAGE"
+replace SRH7 = 21 if SRH7_Aut =="ATTEND LE RESULTAT D'UNE DEMARCHE DE VOYAGE"
+replace SRH7 = 21 if SRH7_Aut =="BESOIN DE FINANCEMENT POUR DEVELOPPER UNE ACTIVITE"
+replace SRH7 = 18 if SRH7_Aut =="PAS ENCORE DEBUTE UNE ACTIVITE"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYENS"
+replace SRH7 = 21 if SRH7_Aut =="IL N A PLUS DE MOYEN POUR DEBUTER UNE ACTIVITE"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYENS"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYENS"
+replace SRH7 = 18 if SRH7_Aut =="NE FAIRE RIEN POUR L'INSTANT"
+replace SRH7 = 21 if SRH7_Aut =="ATTEND LE FINANCEMENT DE SON MARI"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE D'ARGENT"
+replace SRH7 = 25 if SRH7_Aut =="PESANTEUR  CULTURELLE"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYENS FINANCIERS POUR DEMARER UNE ACTIVITÉ"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYEN FINANCIER"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYENS FINANCIERS POUR DÉMARRER L'ACTIVITÉ"
+replace SRH7 = 21 if SRH7_Aut =="A LA RECHERCHE DE MOYEN FINANCIER POUR COMMERCER"
+replace SRH7 = 21 if SRH7_Aut =="PAS DE MOYENS POUR DEBITERIUNE ACTIVITÉ"
+replace SRH7 = 21 if SRH7_Aut =="MANQUE DE MOYEN FINANCIER"
+	
+		
+*****Vider la variable
+replace SRH7_Aut = "" if !inlist(SRH7,.,.a,27) 
+					  
+						  
+***SRH7A
+*export excel  SRH7A_Aut using "D:\CAE\fichier exel\SRH7A_Aut.xlsx" if SRH7A_Aut!="", firstrow(variables) replace
+
+
+
+
+**Vider la variable
+replace SRH7A_Aut="" if !inlist(SRH7A,.,.a,7)
+
+*****
+*export excel SRH7A_Aut using "C:\Users\Laurenne\Documents\Tableau excell\SRH7A_Aut.xls" if SRH7A_Aut!="", firstrow(variables) 
+
+export excel interview__key membres__id EP1a EP1b EP3 EP11 SRH7A_Aut  using "$folderpath/document/SRH7A_Aut.xls" if SRH7A_Aut!="" & !regexm(lower(SRH7A_Aut),"maladie|malade|sante|santé|souffrant|vieux|vieillesse|age|menagère") , firstrow(variables) replace 
+
+replace SRH7A=6 if SRH7A_Aut=="Formation coranique"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPER PAR UNE FORMATION (FOOTBALL)"
+replace SRH7A=6 if SRH7A_Aut=="IL EST EN FORMATION"
+replace SRH7A=5 if SRH7A_Aut=="IL A ESSAYÉ ÇA N'A PAS ABOUTIT"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPE PAR LA FORMATION EN COUTURE"
+replace SRH7A=2 if SRH7A_Aut=="PAS DE QUALIFICATION"
+replace SRH7A=4 if SRH7A_Aut=="N'A PAS DE REVENUS"
+
+replace SRH7A=3 if SRH7A_Aut=="JE VOUDRAIS FAIRE LA LIVRAISON A MOTO MAIS JE N AI PAS DE PERMIS DE CONDUITE"
+replace SRH7A=6 if SRH7A_Aut=="APPRENTI NON RENUMERE"
+replace SRH7A=6 if SRH7A_Aut=="PARCEQUE JE SUIS UN ELEVE"
+
+replace SRH7A=1 if SRH7A_Aut=="PAS INTÉRESSÉ"
+replace SRH7A=6 if SRH7A_Aut=="APPRENTI NON PAYÉ"
+replace SRH7A=6 if SRH7A_Aut=="école CORANIQUE"
+replace SRH7A=6 if SRH7A_Aut=="APPRENTI NON PAYE"
+replace SRH7A=3 if SRH7A_Aut=="En attente de la reprise du travail"
+
+replace SRH7A=6 if SRH7A_Aut=="SUIS UNE FORMATION"
+replace SRH7A=4 if SRH7A_Aut=="PAS DE PARCELLE"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPER PAR LA FORMATION"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPER A FINIR SON STAGE"
+replace SRH7A=6 if SRH7A_Aut=="APPRENTISSAGE DE COIFFURE"
+
+replace SRH7A=6 if SRH7A_Aut=="FORMATION AU CAFOP"
+
+replace SRH7A=6 if SRH7A_Aut=="Vous suiviez (ou aviez le projet de suivre) des études (madrassa)"
+replace SRH7A=6 if SRH7A_Aut=="L'ENQUÊTÉ DIT ATTENDRE DE COMMENCER LES COURS DU SOIR"
+replace SRH7A=6 if SRH7A_Aut=="IL PREPARE SON CONCOURS"
+replace SRH7A=6 if SRH7A_Aut=="ELLE FAISAIT LE FRANCO-ARABE"
+replace SRH7A=3 if SRH7A_Aut=="travaille deja dans l'entreprise familiale"
+replace SRH7A=3 if SRH7A_Aut=="L'ENQUETE PREFERE LA COIFFURE"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPE PAR SA FORMATION"
+replace SRH7A=6 if SRH7A_Aut=="APPRENTISSAGE EN CONDUITE DE VÉHICULES POIDS LOURDS"
+replace SRH7A=6 if SRH7A_Aut=="OCCUPER PAR LA FORMATION DE MECANIQUE"
+
+*IVANNA
+
+replace SRH7A= 2 if SRH7A_Aut=="MARABOUT"
+replace SRH7A= 3 if SRH7A_Aut=="EN QUETE D EMPLOI"
+replace SRH7A= 3 if SRH7A_Aut=="IL APPREND EN CONDUIRE"
+replace SRH7A= 3 if SRH7A_Aut=="IL APPREND UN METIER"
+replace SRH7A= 3 if SRH7A_Aut=="EN ATTENTE DE PRISE DE SERVICE"
+replace SRH7A= 3 if SRH7A_Aut=="EN ATTENTE D'UNE RÉPONSE"
+replace SRH7A= 3 if SRH7A_Aut=="JE TRAVAILLAIS AVEC L'ENTREPRISE PEFO MAIS MON CONTRAT EST FINI JE SUIS A PRESENT A LA MAISON JE NE FAIS RIEN"
+replace SRH7A= 3 if SRH7A_Aut=="LES OPPORTUNITES D'EMPLOI SONT RARES"
+replace SRH7A= 4 if SRH7A_Aut=="PAS ENCORE DE MOYENS POUR DEMARRER UNE ACTIVITE"
+replace SRH7A= 4 if SRH7A_Aut=="PAS ENCORE DEBUTE UNE ACTIVITE"
+replace SRH7A= 4 if SRH7A_Aut=="SUR LE CHEMIN DE METTRE EN PLACE UN RESTAURANT"
+replace SRH7A= 5 if SRH7A_Aut=="INCAPACITÉ À LE FAIRE"
+replace SRH7A= 5 if SRH7A_Aut=="INCAPACITÉ A TRAVAILLER"
+replace SRH7A= 5 if SRH7A_Aut=="INCAPACITÉ À TRAVAILLER"
+replace SRH7A= 5 if SRH7A_Aut=="J'ETAIS HORS DU PAYS JE SUIS REVENU MAIS J'AI DECIDE DE TRAVAILLER A MON PROPRE COMPTE SEULEMENT QUE JE N'AI PAS ENCORE COMMENCE DONC PRESENTEMENT JE NE RIEN"
+replace SRH7A= 5 if SRH7A_Aut=="TROUVE PAS LA NÉCESSITÉ"
+replace SRH7A= 5 if SRH7A_Aut=="TROUVE PAS LA NÉCESSITÉ"
+replace SRH7A= 6 if SRH7A_Aut=="ELEVE"
+replace SRH7A= 6 if SRH7A_Aut=="ELEVE"
+replace SRH7A= 6 if SRH7A_Aut=="ELEVE"
+replace SRH7A= 6 if SRH7A_Aut=="ELEVE"
+replace SRH7A= 6 if SRH7A_Aut=="ÉLÈVE"
+replace SRH7A= 6 if SRH7A_Aut=="En attente de stage"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION DANS LA MACONNERIE"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION DE COUTURE"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION D'ESTHÉTIQUE"
+replace SRH7A= 6 if SRH7A_Aut=="EN FORMATION INFAS"
+replace SRH7A= 6 if SRH7A_Aut=="ENTRAIN DE SE FORMER"
+replace SRH7A= 6 if SRH7A_Aut=="FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="Formation"
+replace SRH7A= 6 if SRH7A_Aut=="FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="FORMATION DE CAFOP"
+replace SRH7A= 6 if SRH7A_Aut=="FORMATON EN MECANIQUE"
+replace SRH7A= 6 if SRH7A_Aut=="IL EST EN FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="JE SUIS ENCORE PETIT MALGRÉ MON AGE"
+replace SRH7A= 6 if SRH7A_Aut=="JE SUIS UNE FORMATION ACTUELLEMENT"
+replace SRH7A= 6 if SRH7A_Aut=="J'ETAIS ELEVE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ  PAR LES ÉTUDES"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE A SE FORMER DANS LA COUTURE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE A SUIVRE UNE FORMATION EN COUTURE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR LA FORMATION DE COIFFURE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR LA FORMATION EN CONDUITE AUTOMOBILE"
+replace SRH7A= 6 if SRH7A_Aut=="occupé par les formations"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR MA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR MA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR MA FORMATION (APPRENTI EN PLOMBERIE NON PAYÉ)"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPE PAR UNE FORMATION EN COUTURE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉ PAS LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPEE PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPER PAR LA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPER PAR LA FORMATION EN MENUISERIE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPER PAR MA FORMATION EN PÂTISSERIE"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉS PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPÉS PAR UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="OCCUPEZ PAR SA FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SE FORMER"
+replace SRH7A= 6 if SRH7A_Aut=="SUIT UNE FORMATION DE COUTURE"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="SUIVRE UNE FORMATION DE COUTURIERE"
+replace SRH7A= 6 if SRH7A_Aut=="VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH7A= 6 if SRH7A_Aut=="Vous suiviez (ou aviez le projet de suivre) des études"
+replace SRH7A= 6 if SRH7A_Aut=="Vous suiviez (ou aviez le projet de suivre) des formations"
+replace SRH7A= 6 if SRH7A_Aut=="Vous suiviez (ou aviez le projet de suivre) des formations"
+replace SRH7A= 6 if SRH7A_Aut=="Vous suiviez des formations"
+replace SRH7A= 6 if SRH7A_Aut=="Vous suiviez des formations"
+replace SRH7A= 6 if SRH7A_Aut=="EN PERIODE DE FORMATION"
+replace SRH7A= 6 if SRH7A_Aut=="IL EST EN PASSAGE D'UN CONCOURS"
+replace SRH7A= 6 if SRH7A_Aut=="MADRASSA"
+
+******
+**
+
+
+replace SRH7A=6 if regexm(lower(SRH7A_Aut),"formation|etudes|études|etude|étude|élève|eleve|metier|apprendre")
+
+replace SRH7A=5 if regexm(lower(SRH7A_Aut),"financier")
+
+
+
+**Vider la variable
+replace SRH7A_Aut="" if !inlist(SRH7A,.,.a,7)
+*replace SRH7A_Aut="" if regexm(lower(SRH7A_Aut),"maladie|malade|sante|santé|souffrant|vieux|vieillesse")
+replace SRH7A_Aut="" if  SRH7A==5 & regexm(lower(SRH7A_Aut),"financier")
+
+
+
+
+
+**********C12b_Aut RAS
+*export excel  C12b_Aut using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
+
+
+***SRH13
+*export excel SRH13_Aut using "D:\CAE\fichier exel\SRH13_Aut.xls" if SRH13_Aut!="", firstrow(variables) replace
+
+
+replace SRH13=5 if SRH13_Aut=="PERSONNE ÂGÉE"
+replace SRH13=5 if SRH13_Aut=="MALADE"
+replace SRH13=2 if SRH13_Aut=="J'ACCOMPAGNE MES PARENTS AU CHAMP."
+replace SRH13=7 if SRH13_Aut=="JOUE AU FOOTBALL"
+replace SRH13=5 if SRH13_Aut=="TROP AGE"
+replace SRH13=6 if SRH13_Aut=="RESPONSABILITÉS PASTORALES"
+replace SRH13=5 if SRH13_Aut=="HANDICAP"
+replace SRH13=5 if SRH13_Aut=="MALADE MANTEAU"
+replace SRH13=5 if SRH13_Aut=="VIEILLESSE ET CAS DE MALADIE"
+replace SRH13=5 if SRH13_Aut=="VIEILLE"
+replace SRH13=6 if SRH13_Aut=="PASTEUR"
+replace SRH13=5 if SRH13_Aut=="MALADIE"
+replace SRH13=5 if SRH13_Aut=="MUETTE"
+replace SRH13=2 if SRH13_Aut=="AIDE FAMILIALE"
+replace SRH13=5 if SRH13_Aut=="PERSONNE ÂGÉE"
+replace SRH13=2 if SRH13_Aut=="TACHE MENAGERE"
+replace SRH13=2 if SRH13_Aut=="OCCUPATION DU FOYERS DE SA MÈRE ABSENTE POUR DES RAISONS DE SANTE DE SON GRAND-PÈRE"
+replace SRH13=7 if SRH13_Aut=="OISIVE"
+replace SRH13=5 if SRH13_Aut=="VIENT DE SORTIE D UNE MALADIE"
+replace SRH13=5 if SRH13_Aut=="VIEILLE ET NE PEUT PLUS TRAVAILLER"
+replace SRH13=2 if SRH13_Aut=="JE VEUX RESTER AUPRES DE MA FAMILLE"
+replace SRH13=2 if SRH13_Aut=="TRAVAUX MENAGER"
+replace SRH13=5 if SRH13_Aut=="PROBLEME DE SANTE ET AGEE"
+**
+replace   SRH13=5  if SRH13_Aut =="PARALYSEE DES MEMBRES INFERIEURS"
+replace   SRH13=2  if SRH13_Aut =="OCCUPE DE SA FAMILLE"
+replace   SRH13=5  if SRH13_Aut =="CONVALESCENCE D'ACCOUCHEMENT PRENDRE SOIN DU NOUVEAU NE"
+replace   SRH13=5  if SRH13_Aut =="MALADE"
+replace   SRH13=2  if SRH13_Aut =="Vous effectuiez des travaux ménagers"
+replace   SRH13=5  if SRH13_Aut =="RAISON DE SANTE"
+replace   SRH13=1  if SRH13_Aut =="Formation"
+replace   SRH13=2  if SRH13_Aut =="S'OCCUPER DE SES ENFANTS"
+replace   SRH13=5  if SRH13_Aut =="HANDICAP"
+replace   SRH13=2  if SRH13_Aut =="TACHE MENAGERE"
+replace   SRH13=2  if SRH13_Aut =="ENCEINTE"
+replace   SRH13=2  if SRH13_Aut =="AIDE FAMILIALE DANS LE MENAGE"
+replace   SRH13=1  if SRH13_Aut =="SUIVRE UNE FORMATION INFORMELLE D'ELECTRICITE AUTO"
+replace   SRH13=2  if SRH13_Aut =="AIDE CUISINIERE A LA MAISION"
+replace   SRH13=5  if SRH13_Aut =="MALADE DEPUIS UN CERTAINES TEMPS  MAIS SA VA MIEUX  MAINTENANT POUR FAIRE UNE ACTIVITEE"
+replace   SRH13=2  if SRH13_Aut =="MENAGERE"
+replace   SRH13=2  if SRH13_Aut =="AIDE A LA FAMILLE"
+replace   SRH13=2  if SRH13_Aut =="nourrisse"
+replace   SRH13=5  if SRH13_Aut =="AVEUGLE"
+replace   SRH13=5  if SRH13_Aut =="JE SUIS ENCEINTE"
+replace   SRH13=5  if SRH13_Aut =="trop âgé et pas en bonne santé"
+replace   SRH13=1  if SRH13_Aut =="SUIT UNE FORMATION DE COIFFURE"
+replace   SRH13=1  if SRH13_Aut =="APPRENTI TRANSPORTEUR"
+replace   SRH13=1  if SRH13_Aut =="JE SUIS UNE ELEVE"
+replace   SRH13=2  if SRH13_Aut =="ELLE EST NOURRISSE"
+replace   SRH13=2  if SRH13_Aut =="AIDE MÉNAGÈRE"
+replace   SRH13=2  if SRH13_Aut =="menagre"
+replace   SRH13=3  if SRH13_Aut =="aide a surveiller des  boeufs"
+replace   SRH13=2  if SRH13_Aut =="MENAGE"
+replace   SRH13=2  if SRH13_Aut =="AIDE FAMILIALE"
+replace   SRH13=1  if SRH13_Aut =="APPRENTI CHAUFFEUR ATTENDANT D'AVOIR UN PERMIS DE CONDUIT"
+replace   SRH13=2  if SRH13_Aut =="S'OCCUPER DES TRAVEAUX MENAGERS"
+replace   SRH13=2  if SRH13_Aut =="occuper de ses enfant"
+replace   SRH13=5  if SRH13_Aut =="MALADIE"
+replace   SRH13=1  if SRH13_Aut =="APPRENTI MENUISIER"
+replace   SRH13=2  if SRH13_Aut =="TRAVAILLEUR FAMILIAL"
+replace   SRH13=2  if SRH13_Aut =="OCCUPER DE LA FAMILLE"
+replace   SRH13=5  if SRH13_Aut =="GROSSESSE"
+replace   SRH13=2  if SRH13_Aut =="OCCUPATION DES ENFANTS"
+replace   SRH13=6  if SRH13_Aut =="RECHERCHE D'EMPLOI ET BENEVOLAT"
+replace   SRH13=5  if SRH13_Aut =="DONNE LA POSSIBILITE A MON CORPS DE BIEN GUERRIR"
+replace   SRH13=5  if SRH13_Aut =="PROBLEME DE SANTE"
+replace   SRH13=5  if SRH13_Aut =="VIENT DE SORTIE D UNE MALADIE"
+replace   SRH13=5  if SRH13_Aut =="PROBLEME DE VUE"
+replace   SRH13=2  if SRH13_Aut =="OCCUPATIONS FAMILLIALES"
+replace   SRH13=5  if SRH13_Aut =="TRES MALADE"
+replace   SRH13=2  if SRH13_Aut =="AIDER LA FAMILLE A LA MAISSON CAR ELLE EST SOUS MUET"
+replace   SRH13=5  if SRH13_Aut =="MUETTE"
+replace   SRH13=2  if SRH13_Aut =="ACTUELLEMENT JE A LA MAISON JE M'OCCUPE DE MES ENFANTS"
+replace   SRH13=1  if SRH13_Aut =="AUCUNE ACTIVITE,  J'ATTEND MON ORIENTATION UNIVERSITAIRE"
+replace   SRH13=1  if SRH13_Aut =="CONTINUE LE FRANCO ARABE"
+replace   SRH13=2  if SRH13_Aut =="LE MÉNAGE À LA MAISON"
+replace   SRH13=5  if SRH13_Aut =="VOUS  ATTENDEZ  UN ENFANT"
+replace   SRH13=2  if SRH13_Aut =="AIDER LA FAMILLE"
+replace   SRH13=2  if SRH13_Aut =="Vous vous occupiez de vos enfants"
+replace   SRH13=2  if SRH13_Aut =="JE VEUX RESTER AUPRES DE MA FAMILLE"
+replace   SRH13=2  if SRH13_Aut =="APPRENTI NON RÉMUNÉRÉ"
+replace   SRH13=1  if SRH13_Aut =="FAIRE LA MAÇONNERIE"
+replace   SRH13=2  if SRH13_Aut =="MÉNAGÈRE"
+replace   SRH13=1  if SRH13_Aut =="APRENTI ÉLECTRICIEN"
+replace   SRH13=4  if SRH13_Aut =="RETRAITE"
+replace   SRH13=5  if SRH13_Aut =="EN SITUATION DE GROSSESSE"
+replace   SRH13=5  if SRH13_Aut =="JE NE FAIS RIEN ACTUELLEMENT PARCEQUE JE SUIS ENCEINTE ET CA ME FATIGUE"
+replace   SRH13=3  if SRH13_Aut =="CULTIVER DU COTON"
+replace   SRH13=2  if SRH13_Aut =="ELLE EST RENTRER CHEZ ELLE S'OCCUPER DE SA FAMILLE ET DE SON CHAMP"
+replace   SRH13=5  if SRH13_Aut =="MALADE MANTEAU"
+replace   SRH13=1  if SRH13_Aut =="APPRENTISSAGE EN MECANIQUE"
+replace   SRH13=5  if SRH13_Aut =="PROBLEME PSYCHIQUES,  SOURD, MUET"
+replace   SRH13=5  if SRH13_Aut =="PROBLÈME DE SANTÉ"
+replace   SRH13=3  if SRH13_Aut =="J'ACCOMPAGNE MES PARENTS AU CHAMP."
+replace   SRH13=2  if SRH13_Aut =="NOURRICE"
+replace   SRH13=2  if SRH13_Aut =="ELLE S OCCUPE DE SA FILLE VEUVE A RESPCTER LA TRADITON"
+replace   SRH13=5  if SRH13_Aut =="TROUBLES PSYCHIQUES"
+replace   SRH13=2  if SRH13_Aut =="JE SUIS UNE NOURRICE"
+replace   SRH13=2  if SRH13_Aut =="OCCUPATION DU FOYERS DE SA MÈRE ABSENTE POUR DES RAISONS DE SANTE DE SON GRAND-PÈRE"
+replace   SRH13=1  if SRH13_Aut =="FAIT L ECOLE FRANCO ARRABE"
+replace   SRH13=2  if SRH13_Aut =="NOURISSE"
+replace   SRH13=5  if SRH13_Aut =="PROBLEME DE SANTE ET AGEE"
+replace   SRH13=2  if SRH13_Aut =="ACTUELLEMENT JE FAIS RIEN JE SUIS A LA MAISON JE PREND SOIN DE MES ENFANTS."
+replace   SRH13=1  if SRH13_Aut =="APPRENTI-COUTURIERE"
+replace   SRH13=2  if SRH13_Aut =="menagère"
+replace   SRH13=1  if SRH13_Aut =="FAIRE L'ECOLE CORANIQUE"
+replace   SRH13=1  if SRH13_Aut =="EN FORMATION DANS LE DOMAINE DE LA MENUISERIE (NON FORMELLE SANS REMUNERATION)"
+replace   SRH13=5  if SRH13_Aut =="SITUATION DE HANDICAP"
+replace   SRH13=5  if SRH13_Aut == "APPRENTI  NON PAYER"
+replace   SRH13=5  if SRH13_Aut == "APPRENTI FERRAILLEUR NON PAYÉ"
+replace   SRH13=2  if SRH13_Aut == "JE M'OCCUPE DE MES ENFANTS A LA MAISON"
+replace   SRH13=2  if SRH13_Aut == "OCCUPER A PRENDRE SOIN D UNE PERSONNE  AGEE"
+
+replace   SRH13=5  if SRH13_Aut == "VOUS  ATTENDEZ UN  ENFANT"
+replace   SRH13=5  if SRH13_Aut == "APPRENTI  NON PAYER"
+replace   SRH13=5  if SRH13_Aut == "maladie"
+
+
+***SRH13
+replace SRH13=5 if SRH13_Aut=="ELLE EST SUR LE POINT DE DONNER NAISSANCE"
+replace SRH13=5 if SRH13_Aut=="SITUATION D HANDICAP"
+replace SRH13=4 if SRH13_Aut=="INSTITUTEUR A LA RETRAITE"
+replace SRH13=5 if SRH13_Aut=="PSYCHOLOGIQUEMENT MALADE"
+replace SRH13=5 if SRH13_Aut=="PROBLEMES DE SANTE"
+replace SRH13=5 if SRH13_Aut=="MALADE"
+replace SRH13=5 if SRH13_Aut=="SUR LE POINT DE DONNER NAISSANCE"
+replace SRH13=5 if SRH13_Aut=="JE M OCCUPE DE MES ENFANTS"
+replace SRH13=2 if SRH13_Aut=="EN QUETE D'EMPLOI POUR POURSUIVRE LES COURS"
+replace SRH13=5 if SRH13_Aut=="CONGÉ DE MATERNITÉ"
+replace SRH13=2 if SRH13_Aut=="M'OCCUPER DE LA MAISON"
+replace SRH13=5 if SRH13_Aut=="EN QUETE D'EMPLOI ACTUELLEMENT"
+replace SRH13=2 if SRH13_Aut=="ACTIVITE AGRICOLE POUR LE MENAGE"
+replace SRH13=2 if SRH13_Aut=="ACTIVITE AGRICOLE POUR LA CONSOMMATION DU MENAGE"
+replace SRH13=5 if SRH13_Aut=="PROBLEME DE SANTE"
+replace SRH13=4 if SRH13_Aut=="RETRAITE"
+replace SRH13=1 if SRH13_Aut=="APPRENTI DE SOUDURE"
+replace SRH13=5 if SRH13_Aut=="CAS DE GROSSESSE"
+replace SRH13=1 if SRH13_Aut=="EST EN APPRENTISSAGE"
+replace SRH13=2 if SRH13_Aut=="PREPARER LE REPAS A LA MAISON"
+replace SRH13=5 if SRH13_Aut=="PROBLÈME DE SANTE"
+replace SRH13=5 if SRH13_Aut=="ELLE VIENT D'ACCOUCHER PAR CESARIENNE"
+replace SRH13=2 if SRH13_Aut=="travailleur pour entreprise familiale"
+replace SRH13=2 if SRH13_Aut=="TRAVAILLER DANS L'ENTREPRISE FAMILIALE"
+replace SRH13=2 if SRH13_Aut=="S'OCCUPER DE SON ENFANTS"
+replace SRH13=1 if SRH13_Aut=="Redaction de mémoire"
+replace SRH13=2 if SRH13_Aut=="MENAGERE"
+replace SRH13=1 if SRH13_Aut=="ÉLÈVE"
+replace SRH13=2 if SRH13_Aut=="MENAGE DE MAISON"
+replace SRH13=2 if SRH13_Aut=="MÉNAGÈRE"
+replace SRH13=5 if SRH13_Aut=="SITUATION DE HANDICAP"
+replace SRH13=5 if SRH13_Aut=="JE NE FAIS RIEN ACTUELLEMENT PARCE QUE JE SUIS ENCEINTE"
+replace SRH13=2 if SRH13_Aut=="TRAVAUX MÉNAGÈRE"
+replace SRH13=5 if SRH13_Aut=="TROP AGE MAIS AVEC MAL DE LA HANCHE"
+replace SRH13=5 if SRH13_Aut=="SITUATION HANDICAP"
+replace SRH13=2 if SRH13_Aut=="JE ME OCCUPE DE MES ENFANTS"
+replace SRH13=5 if SRH13_Aut=="FEMME ANCIENTE"
+replace SRH13=2 if SRH13_Aut=="JE ME OCCUPE DES ENFANTS"
+replace SRH13=5 if SRH13_Aut=="JE SUIS AGE ET MALADE"
+replace SRH13=1 if SRH13_Aut=="SUIVRE UNE FORMATION EN COIFFURE"
+replace SRH13=1 if SRH13_Aut=="STAGE"
+replace SRH13=1 if SRH13_Aut=="EN APPRENTISSAGE"
+replace SRH13=5 if SRH13_Aut=="EN CONGÉ POUR UN CAS DE MALADIE, CONGÉ NON PAYÉ"
+replace SRH13=2 if SRH13_Aut=="AIDE FAMILIALE"
+replace SRH13=2 if SRH13_Aut=="S OCCUPER DE MES ENFANTS"
+replace SRH13=1 if SRH13_Aut=="APPRENTISSAGE"
+replace SRH13=1 if SRH13_Aut=="SUIVRE UNE FORMATION CHEZ UNE PERSONNE DANS LE DOMAINE DE LA COUTURE"
+replace SRH13=2 if SRH13_Aut=="AIDE FAMILIALE DANS LES TRAVAUX CHAMPETRE"
+replace SRH13=2 if SRH13_Aut=="TRAVAUX  MENAGERE"
+replace SRH13=5 if SRH13_Aut=="JE SUIS MALADE"
+replace SRH13=5 if SRH13_Aut=="trop âgée et malade"
+replace SRH13=2 if SRH13_Aut=="Vous effectuiez des travaux ménagers"
+replace SRH13=5 if SRH13_Aut=="JE NE FAIS RIEN ACTUELLEMENT JE SUIS NOURISSE"
+replace SRH13=5 if SRH13_Aut=="VIENT DE DONNER NAISSANCE"
+***
+
+replace   SRH13=1  if inlist(SRH13_Aut,"FRÉQUENTE ECOLE CORANIQUE","FORMATION EN COUTURE","PERSONNE FAISANT LE MADRASSA","IL FAIT LE MADRASSA ET VAS AIDER SES PARENTS QUAND C'EST LA SAISON DES RECOLTES","ELLE SUIVAIT SA FORMATION FRANCO-ARABE")
+replace   SRH13=1  if inlist(SRH13_Aut,"JE SUIS APPRENTI COIFEUSE NON-PAYE","APPRENTI  NON PAYE","FORMATION EN COURS","ENQUETE EST JEUNE IL FAIT DES ETUDES","FORMATION DANS LA COUTURE","APPRENTI COUTURIÈRE")
+replace   SRH13=1  if inlist(SRH13_Aut,"APPRENTISSAGE MECANIQUE AUTO","OCCUPER PAR L APPRENTISSAGE D UN METIER","école CORANIQUE","EN PLEIN APPRENTISSAGE","APPRENTI NON PAYE")
+replace   SRH13=1  if inlist(SRH13_Aut,"en apprentissage","stage pour validation bts 2024","APPRENTI NON PAYÉ")
+replace   SRH13=2  if inlist(SRH13_Aut,"ELLE FAIT SON VEUVAGE","SUIVI DE SANTE D'UN ENFANT QUI A EU UN ACCIDENT DEPUIS PLUS DE UN AN","JE M'OCCUPE DE MON ENFANT","ELLE S'OCUPE DE SES JUMEAUX ET DE LA MAISON","AIDER DANS LES RESPONSABILITÉS MÉNAGÈRE","SUR LE POINT D'AVOIR UN ENFANT")
+replace   SRH13=2  if inlist(SRH13_Aut,"travaux managers","ELLE EST A MANKONO DEPUIS QUELQUES ANNÉES POUR S'OCCUPER DE SA GRAND-MERE QUI NE SE PORTE PAS BIEN. C'EST SON PERE (IL VIT A ABIDJAN) QUI LUI ENVOIE DE L'ARGENT POUR LES AIDER A SUBVENIR A LEUR BESOIN.","JE M'OCCUPE DE MON BÉBÉ")
+replace   SRH13=2  if inlist(SRH13_Aut,"CONGÉS DE MATERNITÉ","cas de grossesse","AIDER LES PARENTS","accouchement")
+replace   SRH13=3  if inlist(SRH13_Aut,"J'AI MON CHAMP A NIARALA","plantation/ferme/pisciculture/pêche pour le compte du ménage","surveiller le cheptel de papa")
+replace   SRH13=4  if inlist(SRH13_Aut,"JE SUIS AGE ET FATIGUÉ","TROP AGÉ POUR TRAVAILLER","TROP VIEUX","trop âgé pour travailler","ÂGE TRÈS AVANCÉ POUR TRAVAILLER","TROP ÂGÉ POUR TRAVAILLER","PERSONNE AGEE")
+replace   SRH13=4  if inlist(SRH13_Aut,"TROP AGE POUR TRAVAILLER","ENQUETE A LA RETRAITE","TROP ÂGÉ","VIEILLESSE","PERSONNE AGÉE","TROP AGE POUR TRAVAILLER","VIEILLESSE","TRÈS ÂGÉ")
+replace   SRH13=5  if inlist(SRH13_Aut,"PROBLÈME DE SANTE DÛ AUPOIDS DE L'AGE","CAS DE MALADIE ET VIEILLESSE","ACCIDENT DE CIRCULATION","SUBIT UNE OPÉRATION","PROBLÈME  DE SANTÉ MENTALE","VIEILLESSE ET HANDICAP PHYSIQUE","VIEILLESSE ET SANTÉ")
+
+*****
+replace SRH13=1 if SRH13_Aut=="APPRENTISSAGE DE METIER"
+replace SRH13=1 if SRH13_Aut=="JOUE AU FOOTBALL DANS UN CENTRE DE FORMATION"
+replace SRH13=1 if SRH13_Aut=="FORMATION EN FERRONNERIE"
+replace SRH13=1 if SRH13_Aut=="JE SUIS APPRENTI DE GROS CAMILLON NON-PAYE"
+replace SRH13=1 if SRH13_Aut=="JE SUIS APPRENTI MENUISIER NON-PAYER"
+replace SRH13=1 if SRH13_Aut=="JE SUIS APPRNTI MENUISIER NON-PAYER"
+replace SRH13=1 if SRH13_Aut=="JE SUIS APPRENTI NON-PAYER"
+replace SRH13=1 if SRH13_Aut=="JE SUIS APPRENTI COUTURIERE NON-PAYE"
+replace SRH13=1 if SRH13_Aut=="OCCUPER PAR LES ETUDE FRANCO ARABE"
+replace SRH13=1 if SRH13_Aut=="ÉTUDIANTE"
+replace SRH13=1 if SRH13_Aut=="ATTEND DE FAIRE UN METIER"
+replace SRH13=1 if SRH13_Aut=="VEUT DEVENIR MILITAIRE"
+replace SRH13=1 if SRH13_Aut=="APPRENTISSAGE DE REMORQUE"
+replace SRH13=1 if SRH13_Aut=="DEJA OCCUPE COMME APPRENTI SOUDEUR"
+replace SRH13=1 if SRH13_Aut=="APPRENDRE LA COIFFURE"
+replace SRH13=1 if SRH13_Aut=="PASSER CONCOUR"
+replace SRH13=1 if SRH13_Aut=="APPRENTISSAGE MECANIQUE"
+replace SRH13=1 if SRH13_Aut=="EN APPRENTISSAGE MECANIQUE"
+replace SRH13=1 if SRH13_Aut=="EN APPRENTISSAGE COUTURE"
+
+replace SRH13=2 if SRH13_Aut=="PLANIFIER LES REPAS ET AIDER LA FAMILLE"
+replace SRH13=2 if SRH13_Aut=="FEMME AU FOYER"
+replace SRH13=2 if SRH13_Aut=="TRAVAUX MENAGERS"
+replace SRH13=2 if SRH13_Aut=="MON MARI NE VAS PAS ACCEPTER A CAUSE DES ENFANTS"
+replace SRH13=2 if SRH13_Aut=="EN ETAT DE GROSSESSE"
+replace SRH13=2 if SRH13_Aut=="PRENDRE DE MON NOUVEAU NE"
+replace SRH13=2 if SRH13_Aut=="AIDE DANS LES TÂCHES MENAGERES"
+replace SRH13=2 if SRH13_Aut=="les travaux de la maison"
+replace SRH13=2 if SRH13_Aut=="ELLES EST sur le point d’avoir un enfant"
+replace SRH13=2 if SRH13_Aut=="PERIODE DE VEUVAGE"
+replace SRH13=2 if SRH13_Aut=="JE M'OCCUPAIS DE MA FAMILLE"
+replace SRH13=2 if SRH13_Aut=="ELLE AIDE SA BELLE MERE DANS SON COMMERCE SANS AUCUNE REMUNERATION"
+replace SRH13=2 if SRH13_Aut=="Aide dans le business familial"
+replace SRH13=2 if SRH13_Aut=="A ACCOUCHE LE 13/05/2025"
+replace SRH13=2 if SRH13_Aut=="J EFFECTUE LES TACHES MENAGERE DE LA FAMILLE"
+replace SRH13=2 if SRH13_Aut=="FEMME ENCEINTE"
+replace SRH13=2 if SRH13_Aut=="ETAT DE GROSSESSE"
+replace SRH13=2 if SRH13_Aut=="S OCCUPER DE SA FILLE ET PETITE FILLE"
+replace SRH13=2 if SRH13_Aut=="LES OBSEQUES DE SA MÈRE"
+replace SRH13=2 if SRH13_Aut=="JE M'OCCUPE D'UN MALADE"
+
+replace SRH13=3 if SRH13_Aut=="AIDE SON PERE AU CHAMP"
+replace SRH13=3 if SRH13_Aut=="AIDE LES PARENTS AU CHAMP"
+replace SRH13=3 if SRH13_Aut=="EN ATTENTE D'UN CHANTIER"
+replace SRH13=3 if SRH13_Aut=="AIDER SON PERE AU CHAMP"
+replace SRH13=3 if SRH13_Aut=="AIDER LE CHEF DE MENAGE AU CHAMP"
+replace SRH13=3 if SRH13_Aut=="SON CHAMP EST BROULER"
+replace SRH13=3 if SRH13_Aut=="ENTRETIEN SON CHAMP"
+replace SRH13=3 if SRH13_Aut=="CULTURE POUR LA NOURRITURE QUOTIDIENNE"
+replace SRH13=3 if SRH13_Aut=="TRAVAILLE EN COLLABORATION AVEC SON MARI DANS UN CHAMP"
+
+replace SRH13=4 if SRH13_Aut=="A LA RETRAITE"
+replace SRH13=4 if SRH13_Aut=="JE SUIS ÂGÉE"
+replace SRH13=4 if SRH13_Aut=="TROP AGEE POUR TRAVAILLER"
+replace SRH13=4 if SRH13_Aut=="PERSONNE AGÉE. CE SONT SES ENFANTS QUI VIVENT AILLEURS QUI LUI ENVOIENT DE L'ARGENT POUR QU'ELLE PUISSE SURVIVRE AVEC SES PETITS (ES) FILS ET FILLES"
+replace SRH13=4 if SRH13_Aut=="Trop âgé"
+replace SRH13=4 if SRH13_Aut=="je suis chez ma fille"
+replace SRH13=4 if SRH13_Aut=="TRO AGE"
+replace SRH13=4 if SRH13_Aut=="TROP ÀGÉE"
+replace SRH13=4 if SRH13_Aut=="TROP AGEE"
+replace SRH13=4 if SRH13_Aut=="Trope âgé"
+replace SRH13=4 if SRH13_Aut=="VIELLE"
+replace SRH13=4 if SRH13_Aut=="Elle est trop âgée pour travailler"
+replace SRH13=4 if SRH13_Aut=="ELLE EST TRES AGEE"
+replace SRH13=4 if SRH13_Aut=="AGE AVANCE"
+replace SRH13=4 if SRH13_Aut=="ENQUETE AGEE"
+replace SRH13=4 if SRH13_Aut=="JE SUIS UN VEIL HOMME"
+replace SRH13=4 if SRH13_Aut=="TROP AGER"
+replace SRH13=4 if SRH13_Aut=="trop agé"
+replace SRH13=4 if SRH13_Aut=="PERSONNE TRES ÂGÉE"
+replace SRH13=4 if SRH13_Aut=="TROP ÂGÉE"
+replace SRH13=4 if SRH13_Aut=="AGE TROP AVANCE"
+replace SRH13=4 if SRH13_Aut=="VIT GRACE AUX PETITE SOMME QUE SA FILLE LUI DONNE"
+replace SRH13=4 if SRH13_Aut=="Vous vous considérez trop jeune/trop âgé pour travailler"
+
+replace SRH13=5 if SRH13_Aut=="PROBLEME DE SANTÉ"
+replace SRH13=5 if SRH13_Aut=="ETAT DE VIEILLESSE ET DE MALADIE"
+replace SRH13=5 if SRH13_Aut=="PROBLÈMES DE SANTÉ"
+replace SRH13=5 if SRH13_Aut=="problème de santé"
+replace SRH13=5 if SRH13_Aut=="Vous aviez des problèmes de santé"
+replace SRH13=5 if SRH13_Aut=="TROP AGE ET QUELQUE PEPIN PHYSIQUE"
+replace SRH13=5 if SRH13_Aut=="SITUATION D'HANDICAP"
+replace SRH13=5 if SRH13_Aut=="SOUFFRANTE ET AVEUGLE"
+
+replace SRH13=6 if SRH13_Aut=="DES AMIS L'APPELLENT POUR CONDUIRE PAR MOMENT DES GRUMIERS, DES REMORQUES"
+
+***
+replace SRH13=6 if SRH13_Aut=="RESPONSABILITÉS COMMUNAUTAIRES ET RELIGIEUSES"
+replace SRH13=2 if SRH13_Aut=="CONGÉ MATERNITÉ"
+replace SRH13=2 if SRH13_Aut=="CONGE DE MATERNITÉ"
+replace SRH13=2 if SRH13_Aut=="NOURRISSE"
+replace SRH13=3 if SRH13_Aut=="AIDANT LA FAMILLE AU CHAMP POUR LE MOMENT"
+replace SRH13=1 if SRH13_Aut=="Vous attendiez le résultat de concours"
+replace SRH13=6 if SRH13_Aut=="AIDE SA MERE DANS SON ACTIVITE REMUNERATRICE SANS REMUNERATION"
+replace SRH13=5 if SRH13_Aut=="CAS DE MALADIE,ADJOUA RACHELLE EST MUETTE,ELLE A DES DIFFICULTÉS À S'EXPRIMER"
+replace SRH13=3 if SRH13_Aut=="AIDE DANS UN CHAMP DE LA FAMILLE"
+replace SRH13=6 if SRH13_Aut=="AIDE SA MERE DANS SON COMMERCE"
+replace SRH13=5 if SRH13_Aut=="J'ETAIS SOUFFRANT"
+replace SRH13=5 if SRH13_Aut=="VIEILLESSE ET PROBLÈME DE SANTÉ"
+replace SRH13=1 if SRH13_Aut=="CONCOURS"
+replace SRH13=5 if SRH13_Aut=="VIEILLESSE CAS DE MALADIE,MANQUE DE MOYEN FINANCIER"
+replace SRH13=3 if SRH13_Aut=="TRAVAILLE DANS LA PLANTATION POUR LE COMPTE DE LA FAMILLE"
+replace SRH13=2 if SRH13_Aut=="J'AI DES ENFANTS ET UN NOUVEAU NÉE SOUS MA RESPONSABILITÉ ACTUELLEMENT"
+replace SRH13=6 if SRH13_Aut=="AIDE SA MERE DANS SES ACTIVITES"
+replace SRH13=5 if SRH13_Aut=="PROBLEME SANTE"
+replace SRH13=6 if SRH13_Aut=="AIDE POUR LES TRAVEAUX  CHAMPÊTRE"
+replace SRH13=2 if SRH13_Aut=="EFFECTUER  DES TRAVEAUX  MENAGERS"
+replace SRH13=1 if SRH13_Aut=="EN PERIODE D'APPRENTISSAGE"
+replace SRH13=4 if SRH13_Aut=="RETRAITER"
+replace SRH13=4 if SRH13_Aut=="PERSONNE AGÉE / C'EST SA SOEUR KOUAKOU AKISSI MADELAINE QUI LUI DONNE DE L'ARGENT POUR QU'IL PUISSE SUBVENIR A SES BESOINS"
+replace SRH13=1 if SRH13_Aut=="ECOLE CORANIQUE"
+replace SRH13=7 if SRH13_Aut=="ACTIVITE PASTORALE"
+replace SRH13=2 if SRH13_Aut=="S'OCCUPE DE SON ENFANT"
+replace SRH13=4 if SRH13_Aut=="IL EST AGÉ CE SONT CES ENFANTS QUI VIVENT A ABIDJAN QUI LUI ENVOIE DE L'ARGENT POUR QU'IL PUISSE SUBVENIR A SES BESOINS"
+replace SRH13=7 if SRH13_Aut=="SERVIR DIEU"
+replace SRH13=1 if SRH13_Aut=="IL A REUSSI SON CONCOUR DE FONCTION PUBLIQUE IL EST EN ATTENTE DE DEBUTE"
+replace SRH13=7 if SRH13_Aut=="IMAM"
+replace SRH13=5 if SRH13_Aut=="mal voyant"
+replace SRH13=4 if SRH13_Aut=="PAS BESOIN DE TRAVAILLER/ AGE AVANCE"
+replace SRH13=4 if SRH13_Aut=="PERSONNE AGÉE / C'EST SON FILS QUI LUI DONNE DE L'ARGENT POUR QU'ELLE PUISSE SUBVENIR A SES BESOINS"
+replace SRH13=1 if SRH13_Aut=="ATTENDIEZ DE PASSAER CONCOURS"
+replace SRH13=5 if SRH13_Aut=="SE SOIGNE"
+replace SRH13=4 if SRH13_Aut=="Vous vous considérer trop jeune/trop âgé pour travailler"
+replace SRH13=1 if SRH13_Aut=="APPRENTISSAGE MENUISERIE"
+replace SRH13=3 if SRH13_Aut=="AIDE SON PÈRE AU CHAMPS"
+replace SRH13=3 if SRH13_Aut=="AIDE SON PERE AU CHAMPS"
+replace SRH13=4 if SRH13_Aut=="PERSONNE ÂGÉ RETRAITÉ"
+replace SRH13=2 if SRH13_Aut=="SUR LE POINT D'AVOIR ENFANT"
+replace SRH13=1 if SRH13_Aut=="VOUS ATTENDIEZ LE RESULTAT D'UN EXAMEN SCOLAIRE"
+replace SRH13=2 if SRH13_Aut=="NOURRISSE D'UN BEBE DE 3 MOIS"
+
+
+replace SRH13 = 5 if SRH13_Aut=="PROBLÈME DE SANTER"
+replace SRH13 = 7 if SRH13_Aut=="ELEVE DANS UNE ECOLE CORANIQUE"
+replace SRH13 = 2 if SRH13_Aut=="Elle s’occupe de son nouveau né."
+replace SRH13 = 2 if SRH13_Aut=="TACHES MENAGERE"
+replace SRH13 = 2 if SRH13_Aut=="Vous étiez sur le point d’avoir un enfant"
+replace SRH13 = 2 if SRH13_Aut=="ménagère"
+replace SRH13 = 2 if SRH13_Aut=="EFFECTUEE LES TRAVAUX MENAGERES"
+replace SRH13 = 4 if SRH13_Aut=="PRIS EN CHARGES PAR SES ENFANTS"
+replace SRH13 = 2 if SRH13_Aut=="SUR LE POINT D AVOIR UN ENFANT"
+replace SRH13 = 1 if SRH13_Aut=="VACANCE SCOLAIRE"
+replace SRH13 = 7 if SRH13_Aut=="JE SUIS GUIDE RELIGIEUX"
+replace SRH13 = 5 if SRH13_Aut=="CAS DE MALADIE"
+replace SRH13 = 4 if SRH13_Aut=="JE SUIS TROP AGE"
+replace SRH13 = 4 if SRH13_Aut=="PERSONNE AGÉE, CE SONT SES ENFANTS QUI VIVENT A ABIDJAN QUI LUI ENVOIE DE L'ARGENT POUR QU'ELLE PUISSE SUBVENIR A SES BESOINS"
+replace SRH13 = 7 if SRH13_Aut=="OCCUPER PAS LE TRAVAIL DU SEIGNEUR"
+replace SRH13 = 3 if SRH13_Aut=="AIDE SON PERE DANS L'EXPLOITATION D'UN NOUVEAU CHAMP"
+replace SRH13 = 2 if SRH13_Aut=="OCCUPE DE  L ENFANTS"
+replace SRH13 = 4 if SRH13_Aut=="Personne âgée avec des problèmes de santé"
+replace SRH13 = 7 if SRH13_Aut=="Activités religieuses (Pasteur)"
+replace SRH13 = 1 if SRH13_Aut=="Passer concours"
+replace SRH13 = 3 if SRH13_Aut=="EN ATTENTE DE LA REPRISE DES AGRICOLES"
+replace SRH13 = 1 if SRH13_Aut=="SE PREPARE POUR SE RENDRE A ABIDJAN POUR LE DEBUT DE LA FORMATION DE L'ENS"
+replace SRH13 = 2 if SRH13_Aut=="MES ENFANTS SONT ENCORE PETIT DONC JE NE PEUX PAS ME DÉPLACER"
+replace SRH13 = 4 if SRH13_Aut=="PERSONNE AGÉ"
+replace SRH13 = 2 if SRH13_Aut=="JE M OCCUPE DE MA FAMILLE DONC JE NE PEUX PAS ME DÉPLACER"
+replace SRH13 = 4 if SRH13_Aut=="VIEILLESSE ET MALADIE"
+replace SRH13 = 1 if SRH13_Aut=="JE SUIS EN APPRENTISSAGE D'UN METIER"
+replace SRH13 = 2 if SRH13_Aut=="TRAVAUX MENAGE"
+replace SRH13 = 1 if SRH13_Aut=="EN PERIODE D APPRENTISSAGE"
+replace SRH13 = 4 if SRH13_Aut=="TROP ÂGÉE ET FATIGUÉE"
+replace SRH13 = 5 if SRH13_Aut=="RADE SANTE"
+replace SRH13 = 1 if SRH13_Aut=="APPRENTI CARRELEUR"
+replace SRH13 = 1 if SRH13_Aut=="APPRENTI PHOTOGRAPHE NON PAYE"
+replace SRH13 = 1 if SRH13_Aut=="APPRENTI MECANIQUE"
+replace SRH13 = 5 if SRH13_Aut=="problèmes de santé"
+replace SRH13 = 1 if SRH13_Aut=="EN ATTENTE DES (COURS VACANCES)"
+replace SRH13 = 1 if SRH13_Aut=="EN ATTENTE  DES COURS ( VACANCE)"
+replace SRH13 = 4 if SRH13_Aut=="TROP AGE POUR LES TRAVAUX CHAMPETRE"
+replace SRH13 = 4 if SRH13_Aut=="AGE ET FATIGUE"
+replace SRH13 = 5 if SRH13_Aut=="SITUATION D'HANDICAPE DEPUIS LA NAISSANCE"
+replace SRH13 = 1 if SRH13_Aut=="Vous attendiez le résultat de démarches antérieures (emploi/concours)"
+replace SRH13 = 3 if SRH13_Aut=="créer une exploitation agricole"
+replace SRH13 = 1 if SRH13_Aut=="APPRENTI NON PAYE DU PERE"
+
+
+replace  SRH13=5 if SRH13_Aut=="OCCUPEE PAR UNE GROSSESSE"
+replace  SRH13=1 if SRH13_Aut=="EN FORMATION"
+replace  SRH13=5 if SRH13_Aut=="OCCUPEE PAR LA GROSSESSE"
+replace  SRH13=6 if SRH13_Aut=="MISSIONNAIRE"
+replace  SRH13=1 if SRH13_Aut=="APPRENTI DE COIFFURE"
+replace  SRH13=5 if SRH13_Aut=="NOURRISSANTE"
+replace  SRH13=2 if SRH13_Aut=="occupé par les tâches ménagères"
+replace  SRH13=1 if SRH13_Aut=="APPRENTI SANS ÊTRE PAYÉ"
+replace  SRH13=1 if SRH13_Aut=="ALLER APPREDRE LA COIFFURE"
+replace  SRH13=5 if SRH13_Aut=="À SUIVIE UNE OPÉRATION"
+replace  SRH13=1 if SRH13_Aut=="EN STAGE"
+replace  SRH13=5 if SRH13_Aut=="VOUS ÊTRE ENCEINTE"
+replace  SRH13=6 if SRH13_Aut=="SITUATION DE MALADIE"
+replace  SRH13=1 if SRH13_Aut=="APPRENTIE COUTURE"
+replace  SRH13=6 if SRH13_Aut=="OCCUPER DE MA FILLE MALADE"
+replace  SRH13=1 if SRH13_Aut=="APPRENTI DANS UN SALON DE COUTURE"
+replace  SRH13=1 if SRH13_Aut=="SOUHAITE JUSTE REPRENDRE CES ETUDES"
+replace  SRH13=6 if SRH13_Aut=="IL ŒUVRE POUR DIEU"
+replace  SRH13=2 if SRH13_Aut=="S'OCCUPE DE LA FAMILLE ET DU MENAGE"
+replace  SRH13=3 if SRH13_Aut=="TRAVAUX CHAMPÊTRES"
+replace  SRH13=2 if SRH13_Aut=="Menager"
+replace  SRH13=2 if SRH13_Aut=="OCCUPEZ PAS LES TRAVAUX DU MENAGE"
+
+*Ivanna
+replace SRH13 = 1 if SRH13_Aut == "TROP JEUNE"
+replace SRH13 = 1 if SRH13_Aut == "Entrain de se former"
+replace SRH13 = 1 if SRH13_Aut == "EN ATTENTE D'UNE AFFECTATION"
+replace SRH13 = 1 if SRH13_Aut == "EN FORMATION EN ÉLECTRICITÉ BÂTIMENT"
+replace SRH13 = 1 if SRH13_Aut == "DANS L ATTENTE DE PRESENTER LE CONCOURS DE LA GENDARMERIE"
+replace SRH13 = 1 if SRH13_Aut == "Formation en cours"
+replace SRH13 = 1 if SRH13_Aut == "APPRENTISSAGE DE RÉPARATION DE MOTO"
+replace SRH13 = 1 if SRH13_Aut == "ATTENTE DES RÉSULTATS DE MON CONCOURS"
+replace SRH13 = 1 if SRH13_Aut == "SE CONSIDERE TROP JEUNE"
+replace SRH13 = 1 if SRH13_Aut == "EN ATTENTE DAFFECTATION"
+replace SRH13 = 1 if SRH13_Aut == "TROP JEUNE"
+replace SRH13 = 1 if SRH13_Aut == "VOUS ATTEDIEZ VOTRE AFFECTION"
+replace SRH13 = 1 if SRH13_Aut == "APPRENTI MÉCANICIEN"
+replace SRH13 = 1 if SRH13_Aut == "STAGE"
+replace SRH13 = 2 if SRH13_Aut == "Vous effectuiez des travaux ménagers"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "NOURRISSE"
+replace SRH13 = 2 if SRH13_Aut == "ENCEINTE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "Vous vous occupiez de vos enfants"
+replace SRH13 = 2 if SRH13_Aut == "faire les travaux ménagers"
+replace SRH13 = 2 if SRH13_Aut == "GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "RESPONSABILITÉS FAMILIALES ET MÉNAGÈRES"
+replace SRH13 = 2 if SRH13_Aut == "RESPONSABILITÉS FAMILIALES ET MÉNAGÈRES"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "Occuper par le ménage"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "ENCEINTE"
+replace SRH13 = 2 if SRH13_Aut == "MENAGERE"
+replace SRH13 = 2 if SRH13_Aut == "Elle a perdu son mari  tout récemment. Elle ne peut pas travailler actuellement."
+replace SRH13 = 2 if SRH13_Aut == "JE SUIS SUR LE POINT D'AVOIR UN ENFANT"
+replace SRH13 = 2 if SRH13_Aut == "Elle s'occupe des travaux ménager"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "OCCUPEE PAR MON ENFANT"
+replace SRH13 = 2 if SRH13_Aut == "OCCUPEE PAR L'ACCOUCHEMENT"
+replace SRH13 = 2 if SRH13_Aut == "OCCUPÉE PAR SON BEBE"
+replace SRH13 = 2 if SRH13_Aut == "CAS DE GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "CAS DE GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "CAS DE GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "ELLE VIENT D'AVOIR UN BEBE"
+replace SRH13 = 2 if SRH13_Aut == "FAIRE LES TRAVAUX MÉNAGERS"
+replace SRH13 = 2 if SRH13_Aut == "Vous effectuiez des travaux ménagers"
+replace SRH13 = 2 if SRH13_Aut == "ménager"
+replace SRH13 = 2 if SRH13_Aut == "Occuper par les travaux ménagers"
+replace SRH13 = 2 if SRH13_Aut == "MENAGERE"
+replace SRH13 = 2 if SRH13_Aut == "ménager"
+replace SRH13 = 2 if SRH13_Aut == "ENCEINTE"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "CAS DE GROSSESSE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE FAMILIALE"
+replace SRH13 = 2 if SRH13_Aut == "OCCUPER AVEC MES ENFANTS"
+replace SRH13 = 2 if SRH13_Aut == "MENAGERE"
+replace SRH13 = 2 if SRH13_Aut == "MENAGERE"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "DEMENAGEMENT"
+replace SRH13 = 2 if SRH13_Aut == "FAIRE LE MENAGE"
+replace SRH13 = 2 if SRH13_Aut == "TACHE MÉNAGÈRE"
+replace SRH13 = 2 if SRH13_Aut == "S'OCCUPE DES MENAGES DE LA MAISON"
+replace SRH13 = 2 if SRH13_Aut == "TRAVAUX MÉNAGERS"
+replace SRH13 = 2 if SRH13_Aut == "MÉNAGÈRE"
+replace SRH13 = 2 if SRH13_Aut == "GROSSES"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "VEUVAGE"
+replace SRH13 = 2 if SRH13_Aut == "NOURRICE"
+replace SRH13 = 2 if SRH13_Aut == "REFUS DU CONJOINT"
+replace SRH13 = 2 if SRH13_Aut == "EN SITUATION DE DEUIL"
+replace SRH13 = 2 if SRH13_Aut == "EN SITUATION DE DEUIL"
+replace SRH13 = 2 if SRH13_Aut == "AIDER LA FAMILLE"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENDANT LES RÉCOLTE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE VENDEUR POUR LA FAMILLE"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENTE DE LA SAISON AGRICOLE PROCHAINE"
+replace SRH13 = 2 if SRH13_Aut == "AIDE SON PÈRE DANS SA PLANTATION"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENTE DE LA SAISON AGRICOLE PROCHAINE"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENTE DE LA SAISON AGRICOLE PROCHAINE"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENTE DE LA SAISON AGRICOLE PROCHAINE"
+replace SRH13 = 3 if SRH13_Aut == "EN ATTENTE DE LA SAISON AGRICOLE PROCHAINE"
+replace SRH13 = 4 if SRH13_Aut == "Vous vous considérez trop jeune/trop âgé pour travailler"
+replace SRH13 = 4 if SRH13_Aut == "RETRAITE"
+replace SRH13 = 4 if SRH13_Aut == "Vous n'aviez pas besoin ou envie de travailler (retraité, pensionné, autres sources de revenus)"
+replace SRH13 = 4 if SRH13_Aut == "Vous n'aviez pas besoin ou envie de travailler (retraité, pensionné, autres sources de revenus)"
+replace SRH13 = 4 if SRH13_Aut == "Vous vous considérez trop jeune/trop âgé pour travailler"
+replace SRH13 = 4 if SRH13_Aut == "RETRAITÉ"
+replace SRH13 = 4 if SRH13_Aut == "RETRAITÉ,PENSIONNÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "VIEILLESSE ET MALADIE"
+replace SRH13 = 5 if SRH13_Aut == "RAISON DE SANTE"
+replace SRH13 = 5 if SRH13_Aut == "JE SUIS AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE MAIS EN ATTENDE DE LA PRODUCTION DE SON CHAMPS"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "âgée"
+replace SRH13 = 5 if SRH13_Aut == "trop âgée"
+replace SRH13 = 5 if SRH13_Aut == "problème de santé"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "Trop âgé pour travailler"
+replace SRH13 = 5 if SRH13_Aut == "problème de santé"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGER POUR TRAVAILLER"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGEE"
+replace SRH13 = 5 if SRH13_Aut == "L'AGE"
+replace SRH13 = 5 if SRH13_Aut == "âgée"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "PERSONNE ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "trop âgée"
+replace SRH13 = 5 if SRH13_Aut == "trop âgé pour travailler"
+replace SRH13 = 5 if SRH13_Aut == "INVALIDE ATTEINT D'UN AVC"
+replace SRH13 = 5 if SRH13_Aut == "UN RECULE POUR POUVOIR MIEUX GUERRIR"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "C'EST UNE PERSONNE AGÉE CE SONT SES ENFANTS, QUI VIVENT AILLEURS, QUI LUI ENVOIENT DE L'ARGENT POUR L'AIDER A SUBVENIR A SES BESOINS"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGEE POUR TRAVAILLER ACTUELLEMENT"
+replace SRH13 = 5 if SRH13_Aut == "trop âgée"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "trop âgée"
+replace SRH13 = 5 if SRH13_Aut == "JE SUIS AGE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ POUR TRAVAILLER"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "PROBLÈMES DE SANTÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "RAISON DE SANTÉ"
+replace SRH13 = 5 if SRH13_Aut == "trop âgé"
+replace SRH13 = 5 if SRH13_Aut == "Vous aviez des problèmes de santé"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGER"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGER"
+replace SRH13 = 5 if SRH13_Aut == "PERSONNE AGEE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉE"
+replace SRH13 = 5 if SRH13_Aut == "PROBLEME DE SANTE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE"
+replace SRH13 = 5 if SRH13_Aut == "âgée et malade"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ POUR TRAVAILLER"
+replace SRH13 = 5 if SRH13_Aut == "problème de santé"
+replace SRH13 = 5 if SRH13_Aut == "SON TRAVAIL EST EN PAUSE POUR LE MOMENT CAR ELLE A DES PROBLEMES DE SANTÉ, C'EST SON MARI QUI TRAVAILLE DANS UNE AUTRE VILLE QUI LUI ENVOIE DE L'ARGENT POUR QU'ELLE PUISSE SUBVENIR A SES BESOINS ET S'OCCUPER DES ENFANTS"
+replace SRH13 = 5 if SRH13_Aut == "VIEILLESSE"
+replace SRH13 = 5 if SRH13_Aut == "VIEILLESSE"
+replace SRH13 = 5 if SRH13_Aut == "TROP ÂGÉ POUR TRAVAILLER"
+replace SRH13 = 5 if SRH13_Aut == "PROBLEME DE SANTE"
+replace SRH13 = 5 if SRH13_Aut == "TROP AGE ET RAISON DE SANTÉ"
+replace SRH13 = 5 if SRH13_Aut == "MON AGE NE ME PERMET PAS DE FAIRE LES TRAVAUX CHAMPETRE"
+replace SRH13 = 5 if SRH13_Aut == "Trop âgé pour travailler"
+replace SRH13 = 5 if SRH13_Aut == "L'ENQUÊTÉ EST UNE PERSONNE ÂGÉ"
+replace SRH13 = 6 if SRH13_Aut == "AIDE LES VOISINS POUR AVOIR UN PEU SUR SOIT"
+replace SRH13 = 6 if SRH13_Aut == "CONTRACTUEL À LA SUCAF DE FERKESSEDOUGOU"
+replace SRH13 = 6 if SRH13_Aut == "ATTEND CLIENT"
+replace SRH13 = 6 if SRH13_Aut == "AIDE OCCASIONNELLEMENT UN AMI QUAND LE BESOIN SE PRESENTE"
+replace SRH13 = 6 if SRH13_Aut == "JE SUIS UN APPRENTI MACON NON PAYE"
+replace SRH13 = 6 if SRH13_Aut == "TRAVAILLEUSE DU SEXE"
+replace SRH13 = 6 if SRH13_Aut == "APPRENTI NON PAYER DANS UN GARAGE"
+replace SRH13 = 6 if SRH13_Aut == "AIDE SON ONCLE A VEILLER SUR LES ANIMAUX DES GENS"
+replace SRH13 = 6 if SRH13_Aut == "VIT DES REVENUS LOCATIFS D'UN ESPACE EVENEMENTIEL ET D'UNE BOUTIQUE"
+replace SRH13 = 7 if SRH13_Aut == "FAIRE TOUT CE QU IL GAGNE JOURNALIER"
+replace SRH13 = 7 if SRH13_Aut == "MARABOUT"
+replace SRH13 = 7 if SRH13_Aut == "SYNDICALISTE A LA GARE"
+
+
+
+**Vider la variable
+replace SRH13_Aut="" if !inlist(SRH13,.,.a,8)
+
+
+
+*TP3A_Aut
+replace TP3aA = 1 if TP3aA_Aut=="AIDE SAGE FEMME"
+replace TP3aA = 1 if TP3aA_Aut=="INSTITUTEUR"
+replace TP3aA = 1 if TP3aA_Aut=="JOURNALIER"
+replace TP3aA = 1 if TP3aA_Aut=="MANOEUVRE A SUCAF"
+replace TP3aA = 1 if TP3aA_Aut=="PERSONNE TRAVAILLANT POUR UNE AUTRE PERSONNE"
+replace TP3aA = 1 if TP3aA_Aut=="SERVITEURBDE DIEU  A L EGLISE PAPA NOUVEAU"
+replace TP3aA = 1 if TP3aA_Aut=="SERVANTE DE DIEU"
+***
+replace TP3aA = 1 if TP3aA_Aut=="MENAGERE"
+replace TP3aA = 1 if TP3aA_Aut=="ELEVES"
+replace TP3aA = 1 if TP3aA_Aut=="ENSEIGNEMENT FRANCO ARABE"
+replace TP3aA = 1 if TP3aA_Aut=="CHAUFFEUR"
+
+replace TP3aA = 1 if TP3aA_Aut=="CHAUFFEUR D ETAT"
+
+*Vider la variable
+replace TP3aA_Aut = "" if !inlist(TP3aA,.,.a,10) 
+ 
+***********E
+*S10_Aut: RAS
+***********R4_Aut: 
+*export excel   R4_Aut using "C:\Users\HP\Documents\FICHIER Excel\R4_Aut.xls" if R4_Aut!="", firstrow(variables) replace
+
+*les *autres* ne sont pas en rapport avec les modalités
+ 
+
+
+***Vider la variable
+
+
+
+save "$datain_brute\membres.dta", replace

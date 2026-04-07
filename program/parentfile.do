@@ -1,0 +1,53 @@
+/*                          *                      ENQUETE NATIONALE SUR L'EMPLOI  -  VOLET MENAGE                  *
+
+							----------------------------------PHASE APUREMENT DES DONNEES T1 2025 -------------------------------------------------------
+							-------------------------DATE: 20 MAI-29 MAI 2025  -------------------------------------------------------
+							-----------------------------------------------------------------------------------------
+																																						*/
+clear all
+********Paramétrages de départ*****************
+set more off
+*===============Création du répertoire de travail=============*
+global folderpath = "C:\Users\f.migone\GOUVCI\ENEM - Menages\ENE-M_T4_2025\T4_2025_v"
+****Création des dossiers de travail ( lancer uniquement la première fois)
+
+/*
+cap !mkdir "$folderpath/datain"
+cap !mkdir "$folderpath/dataout"	
+cap !mkdir "$folderpath/datatemp"		
+cap !mkdir "$folderpath/document"	
+cap !mkdir "$folderpath/docs"
+cap !mkdir "$folderpath/program"
+cap !mkdir "$folderpath/datain/compressed"
+cap !mkdir "$folderpath/datain/decompressed"
+cap !mkdir "$folderpath/datain/archive"
+cap !mkdir "$folderpath/datain/standard"
+cap !mkdir "$folderpath/datain/merged"
+cap !mkdir "$folderpath/datain/standard/menage"
+cap !mkdir "$folderpath/datain/standard/individu"
+cap !mkdir "$folderpath/dataout/menage"
+cap !mkdir "$folderpath/dataout/individu"
+*/
+local today=c(current_date)
+local c_today= "`today'"
+global date="`c_today'"
+
+*global date=subinstr("`c_today'", " ", "",.)
+
+global datain "$folderpath/datain"
+global dataout "$folderpath/dataout"	
+global datatemp "$folderpath/datatemp"		
+global document "$folderpath/document"	
+global docs "$folderpath/docs"
+global dofiles "$folderpath/program"
+global datain_source   "$folderpath/datain/source"
+global datain_brute    "$folderpath/datain/brute"
+global datain_standard "$folderpath/datain/standard"
+global standard_menage  "$folderpath/dataout/standard/menage"
+global standard_individu  "$folderpath/dataout/standard/individu"
+global standard_annexe  "$folderpath/datain/standard/annexe"
+global dataout_menage "$folderpath/dataout/menage"
+global dataout_individu "$folderpath/dataout/individu"
+
+*include "$dofiles/apurement.do"
+*include "$dofiles/standard_db.do"
