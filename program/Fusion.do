@@ -33,13 +33,14 @@ foreach d of global individu {
 
 
 
-/*Suppression des personnes pour lesquels l'age et le sexe sont des valeurs manquantes
+/*Suppression des personnes pour lesquels l'age et le sexe sont des valeurs manquantes*/
 cap drop tag*
 gen tag1 = 1 if M5==. | M5==.a
 gen tag2 =1 if AgeAnnee ==. | AgeAnnee ==.a | AgeAnnee == 9898
 gen tag = 0 if tag1 ==1 | tag2 == 1
 replace tag = 1 if tag ==.
-drop if tag==0*/
+drop if tag==0
+
 
 save "$dataout_individu\membres.dta", replace
 *-----------------------------------------------*	

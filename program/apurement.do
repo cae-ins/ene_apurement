@@ -21,6 +21,8 @@ save "$datain_brute\membres.dta", replace */
 *** A executer en premier : supprime les entretiens vides et de trop de tous les fichiers bruts
 include "$dofiles/Suppression_entretiens_T4-2025.do"
 
+include "$dofiles/Suppression_entretiens_individuels_T4_2025.do"
+
 ///////////////////////////////////////////////***DOFILES DES BASES MENAGES***************************************//////////////////////
 
 *** Dofile préalable

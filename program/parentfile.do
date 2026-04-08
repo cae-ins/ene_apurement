@@ -8,7 +8,7 @@ clear all
 ********Paramétrages de départ*****************
 set more off
 *===============Création du répertoire de travail=============*
-global folderpath = "C:\Users\f.migone\GOUVCI\ENEM - Menages\ENE-M_T4_2025\T4_2025_v"
+global folderpath = "C:\Users\f.migone\Desktop\ENE_APUREMENT"
 ****Création des dossiers de travail ( lancer uniquement la première fois)
 
 /*
