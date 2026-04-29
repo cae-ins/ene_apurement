@@ -48,7 +48,10 @@ drop  _merge
 ///////////////////////////////////////////////////////////////////////////
 ******SE1
 ***Etape1: Valeurs manquantes et corrrection
-count if missing(SE1) & M4Confirm>=15 & !inlist(M4Confirm, ., .a)
+count if missing(SE1) & M4Confirm>=15 & !inlist(M4Confirm, ., .a) // 18 cas
+
+*br if missing(SE1) & M4Confirm>=15 & !inlist(M4Confirm, ., .a)
+
 
 * Exporter ces individus
 
@@ -91,9 +94,11 @@ count if !(inrange(SE2, 1, 10)) & !missing(SE2)
 ***Etape1: Valeurs manquantes et corrrection
 count if missing(SE3) & SE2 == 10 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a)
 *export excel interview__key HH13 SE3  using "$folderpath/document/SE3" if missing(SE3) & SE2 == 10 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a), firstrow(variables) replace
+
 ***Etape2: coherence des sauts
 count if !missing(SE3) & SE2 != 10
 count if !missing(SE3) & M4Confirm < 15 & !inlist(M4Confirm, ., .a)
+
 ***Etape3: Coherence des reponses attendues RAS
 count if !inrange(SE3,1,5) & !missing(SE3)
 
@@ -107,11 +112,15 @@ count if missing(SE4) & inlist(SE3,3,4,5) & M4Confirm >= 15 & !inlist(M4Confirm,
 ***Etape2: coherence des sauts
 count if !missing(SE4) & !inlist(SE3,3,4,5)
 count if !missing(SE4) & M4Confirm < 15 & !inlist(M4Confirm, ., .a)
+
 ***Etape3: Coherence des reponses attendues RAS
 count if !missing(SE4) & !inlist(SE4,1,2)
+
 *Etape4:  Verifier si des individus n'ont pas travaillés pour une activité remunérée au cours de la semaine SE2 et affirment avoir effectué une activité économique, agricole ou une autre activité pour générer un revenu, même si cela n’a duré qu’une heure ? SE4
 count if !missing(SE4) & SE2!=10 
 *br SE1 SE4 if !missing(SE4) & SE2!=10 
+
+
 *****SE5
 ***Etape1: Valeurs manquantes et corrrection
 count if missing(SE5) & SE4 ==2 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a)
