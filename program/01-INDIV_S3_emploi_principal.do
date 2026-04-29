@@ -16,7 +16,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S2_situation
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND) // CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 cap drop _merge
 
@@ -136,7 +136,7 @@ count if !missing(EP2a) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant r
 
 //3)
 
-count if EP2a == "##N/A##" // Certains individu (15) dans il est renseigné "##N/A##". 
+count if EP2a == "##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // Certains individu (45) dans il est renseigné "##N/A##". 
 
 br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP2a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
@@ -154,11 +154,11 @@ export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP3 EP11   usin
 
 //1)
 
-count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 15 individus pour qui la question n'a pas été répondu
+count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 55 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
-*export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2a1" if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2a1" if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 *
 
 
@@ -185,7 +185,7 @@ count if !missing(EP2b) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant r
 //3)
 
 
-count if EP2b == "##N/A##" // Certains individu (24) dans il est renseigné "##N/A##". 
+count if EP2b == "##N/A##" // Certains individu (51) dans il est renseigné "##N/A##". 
 
 br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1   EP1a EP1b  EP2a EP2b EP3 EP11 if EP2b == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
@@ -203,7 +203,7 @@ export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP2b EP3 EP11  
 
 //1)
 
-count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 20 individus pour qui la question n'a pas été répondu
+count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 58 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
@@ -223,7 +223,7 @@ count if !missing(EP2b1) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant 
 
 //1) 
 
-count if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 16 individus pour qui la question n'a pas été répondu
+count if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 40 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
@@ -258,7 +258,7 @@ count if !missing(EP2d) &  inlist(EP2c,2,3) // tous les individus ayant répondu
 
 //1)
 
-count if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 14 individus pour qui la variable n'a pas été répondu
+count if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 37 individus pour qui la variable n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
@@ -305,17 +305,25 @@ count if !missing(EP2f) & (EP2e==1 | (membre_id_v1_IND !="##N/A##" & membre_id_v
 
 //1) 
 
-*count if missing(EP2f_loc) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP2e==1 & membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !=""  
+count if missing(EP2f_loc) & !missing(EP2f) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP2e==1 & membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !=""  
 
 /////// EP2g1. Quels types de transport vous utilisez dans le cadre de votre déplacement (du lieu de r ésidence au lieu de travail) pour votre emploi/a ctivité principale ?
 
 
 //1) 
 
-count if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 37 individu pour qui la question n'a pas été répondu
+count if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 346 individus pour qui la question n'a pas été répondu
 
-*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2g1_miss" if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
+* Exportation
+export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2g1_miss" if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
 *
+
+*Proposition de correction : remplacer par le mode selon l'emplacement du lieu ded travail
+cap drop EP2g1_mod 
+egen EP2g1_mod = mode(EP2g1), by(EP2e)
+replace EP2g1 = EP2g1_mod if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+drop EP2g1_mod 
+
 
 //2) 
 
@@ -349,17 +357,21 @@ replace EP2g1_Aut = "" if !missing( EP2g1_Aut) & inlist(EP2g1,1,2,3,4,5,7,8) // 
 
 count if missing(EP2g) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP2g1,1,2,3,4,6) // tous ceux qui devraient repondre ont répondus
 
+*Proposition de correction : remplacer par le mode selon l'emplacement du lieu de travail
+cap drop EP2g_mod 
+egen EP2g_mod = mode(EP2g), by(EP2e EP2g1)
+replace EP2g = EP2g_mod if missing(EP2g) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP2g1,1,2,3,4,6)
+drop EP2g_mod 
+
+
 //2) 
 
 count if !missing(EP2g) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") |EN_EMP==0 | M4Confirm <15 | !inlist(EP2g1,1,2,3,4,6)) // RAS
 
 
-
 *proposition de correction (ponctuelle)
 //RAS
-
 count if EP2g1 == 5 & !missing(EP2g)
-
 replace EP2g =. if EP2g1 == 5
 
 
@@ -371,7 +383,6 @@ count if EP2g1 == 4 & inlist(EP2g,1,7,8,9,10,11,12,13) // certaines personnes on
 br EP2g1 EP2g if EP2g1 == 4 & inlist(EP2g,1,7,8,9,10,11,12,13)
 
 *proposition de corrections(non ponctuelle)
-
 replace EP2g1 = 2 if inlist(EP2g,1,7,9,10,11,12,13) & EP2g1==4    
 *
 
@@ -384,16 +395,6 @@ count if missing(EP2g_aut) & EP2g==16 & EN_EMP==1 & M4Confirm >=15 & !inlist(M4C
 
 count if !missing(EP2g_aut) & (EP2g !=16 | EN_EMP==0 | M4Confirm <15) // 1 individu pour qui il y a incoherence
 
-*proposition de correction (poctuelle)
-
-replace EP2g = 5 if interview__key == "89-39-31-19" & membres__id == 3
-
-replace EP2g1 = 1 if interview__key == "89-39-31-19" & membres__id == 3
-
-replace EP2g_aut = "" if interview__key == "89-39-31-19" & membres__id == 3
-
-
-*replace EP2g_aut = "" if EP2g1 == 5 
 
 //3) & //4) la variable a déjà été controlé pour les vraissemblances lors du récodage des autres à préciser. 
 
@@ -402,26 +403,15 @@ replace EP2g_aut = "" if interview__key == "89-39-31-19" & membres__id == 3
 
 //1) 
 
-count if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // RAS
+count if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 
 
 *proposition de correction //imputation de la median de temps des individus avec les memes caractéristiques 
 
 br EP1a EP1b EP2h EP2g EP2g1 EP2e if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 
 cap drop med_EP2h
-
-egen med_EP2h = median(EP2h), by(EP2g1 EP2g code_citp_emp_principal )
-
-replace EP2h = med_EP2h if missing(EP2h) & interview__key == "97-27-09-61" & membres__id == 1
-
-drop med_EP2h 
-
-cap drop med_EP2h
-
-egen med_EP2h = median(EP2h), by(EP2g1 EP2g code_citp_emp_principal ) 
-
-replace EP2h = med_EP2h if missing(EP2h) & ((interview__key == "39-37-17-88" & membres__id == 1) | (interview__key == "41-43-63-70" & membres__id == 1))
-
+egen med_EP2h = median(EP2h), by(EP2e EP2g1 EP2g)
+replace EP2h = med_EP2h if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 drop med_EP2h 
 
 
@@ -433,72 +423,33 @@ count if !missing(EP2h) & (!inlist(EP2g1,1,2,3,4,5,6) | membre_id_v1_IND !="##N/
 
 count if EP2h <= 0 // la valeur renseigné ne peut pas etre inférieure ou égale à zero. RAS
 
-br EP2h EP2g1 EP2e EP2i if EP2h <= 0 
+br EP2h EP2g1 EP2e EP2i if EP2h <=0 
 
-
-
-*proposition de correction
-
-*(il s'agit d'un vendeur à domicile)
-
-/*
-replace EP2g1 = 7 if interview__key == "50-42-79-56" & membres__id ==2
-replace EP2g1_Aut = "" if interview__key == "50-42-79-56" & membres__id ==2
-
-foreach var of varlist EP2g EP2h EP2i EP2i_unit {
-
-replace `var' =. if interview__key == "50-42-79-56" & membres__id ==2
-	
-	
-}
-*/
-
-
-
-
-/*
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if inlist(EP2g1,6) & EP2i == 30 & EP2h != 0 & EP2i_unit == 2
-
-ta med_EP2h
-
-replace EP2h = 20 if EP2h <= 0 & inlist(EP2g1,4) & EP2i == 9998 // nous imputons la mediane du temps de trajet des individus qui utilisent le meme moyens de transport
-
-cap drop med_EP2h
-*/
 //4) 
 
-*les personnes declarant plus de 120 min pour moins de 15km
-count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // RAS
+ta EP2h
 
+* i-les personnes declarant plus de 120 min pour moins de 15km
+count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // RAS
 
 br EP2h EP2g1 EP2e EP2i if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // un individu qui declare parcourir  plus de 120 min pour moins de 15 Km dans la meme localité
 
 *exportation des individus potentiellement concernés
-
-*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_120" if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) , firstrow(varl) replace
-
+export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_120" if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) , firstrow(varl) replace
 
 *proposition de correction (non ponctuelle)
-
-*cap drop med_EP2h_1
+cap drop med_EP2h_1
 egen med_EP2h_1 = median(EP2h) if EP2i <=15 & EP2g1 == 4 & EP2h < 120 & EP2e == 1 
-*egen med_EP2h_1 = median(EP2h),by(EP2i EP2g EP2h EP2e code_citp_emp_principal ) if EP2i <=15 & EP2g1 == 4 & EP2h < 120 & EP2e == 1 
+ta med_EP2h_1
+replace EP2h = 20 if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a)
+drop med_EP2h_1
 
-*ta med_EP2h_1 // la median est de 20 minutes pour les individus utilisant les memes moyens de transport et parcourant les memes nombres de Km
 
-*replace EP2h = 20 if EP2i <=15 & EP2g1 == 4 & EP2h > 120 & EP2e == 1
 
-/*cap drop med_EP2h_2
-egen med_EP2h_2 = median(EP2h) if inrange(EP2i,1,7) & EP2g1 == 4 & EP2h < 120 & EP2e == 1 // la median est de 10 minutes pour les individus utilisant les memes moyens de transport et parcourant les memes nombres de Km
-replace EP2h = 20 if inrange(EP2i,1,7) & EP2g1 == 4 & EP2h > 120 & EP2e == 1*/
-*
-
-*les personnes declarant plus de 180 min pour moins de 30km
+* ii-les personnes declarant plus de 180 min pour moins de 30km
 count if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a) //RAS
 
-
-br EP2h EP2g1 EP2e EP2i if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // aucun individu qui declare faire plus de 180 min pour moins de 30 Km dans la meme localité
+*br EP2h EP2g1 EP2e EP2i if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // aucun individu qui declare faire plus de 180 min pour moins de 30 Km dans la meme localité
 
 *exportation des individus potentiellement concernés
 
@@ -513,12 +464,11 @@ egen med_EP2h_3 = median(EP2h) if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h < 180 
 replace EP2h = 40 if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h >= 180 & EP2e == 1 // nous imputons la median
 */
 
-*Pour les valeurs beaucoup trop grande
 
-
+* iv-Pour les valeurs beaucoup trop grande
 count if EP2h >= 180 & !inlist(EP2h,.,.a) //7 individus ont déclaré des valeurs trop grande
 
-br EP2h EP2g1 EP2e EP2i  if EP2h >= 180 & !inlist(EP2h,.,.a)
+br EP2h EP2g1 EP2e EP2i EP2i_unit  if EP2h >= 180 & !inlist(EP2h,.,.a)
 
 *exportation des individus potentiellement concernés
 
@@ -531,85 +481,102 @@ export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using 
 br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2g1 == 5 & EP2h >= 180 & EP2h !=.a & EP2e == 1
   
 cap drop med_EP2h_4
-egen med_EP2h_4 = median(EP2h) if EP2g1 == 5 & EP2h < 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1, by(code_citp_emp_principal) // la mediane est de 30 min pour les personnes se deplaçant à pieds dans la meme localité 
+egen med_EP2h_4 = median(EP2h) if EP2g1 == 5 & EP2h < 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1 //, by(code_citp_emp_principal) // la mediane est de 30 min pour les personnes se deplaçant à pieds dans la meme localité 
 ta med_EP2h_4 
 
 replace EP2h = 30 if EP2g1 == 5 & EP2h >= 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1
-
 replace EP2h = 30 if EP2g1 == 5 & EP2h >= 180 & EP2e == 1 & EP2i == 9998
+drop med_EP2h_4
+
 
 //pour les personnes se deplaçant en transport en commun 
-
 cap drop med_EP2h_5
-egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3) & EP2h < 180 & EP2e == 1, by(code_citp_emp_principal) // la mediane est de 10 min pour les personnes se deplaçant en transport commun dans la meme localité 
+egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3) & EP2h < 180 & EP2e == 1 //, by(code_citp_emp_principal) // la mediane est de 10 min pour les personnes se deplaçant en transport commun dans la meme localité 
 
-br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1 // RAS
-
-*replace EP2h = 10 if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1
+br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1 // RAS
+ta med_EP2h_5
+replace EP2h = 15 if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1
 
 //pour les personnes travaillant dans une autre localite et se deplaçant en transport en commun
 
+br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & inlist(EP2g1,2,3,4) & EP2e == 2 // 
 
-cap drop med_EP2h_5
-egen med_EP2h_5 = median(EP2h) if EP2e == 2 & EP2h < 180, by(code_citp_emp_principal) // la mediane est de 25 min pour les personnes se deplaçant dans une autre localité 
+*cap drop med_EP2h_5
+*egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3,4) & EP2e == 2 & EP2h < 180 //, by(code_citp_emp_principal) // la mediane est de 25 min pour les personnes se deplaçant dans une autre localité 
+*ta med_EP2h_5
+*replace EP2h = 30 if EP2h >= 180 & EP2e == 2 & inlist(EP2g1,2,3,4)
+*drop med_EP2h_5
 
-ta med_EP2h_5
 
-replace EP2h = 25 if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 2
+* Pour les personnes marchant plus de trois heures, on les ramènes à ttrois heures
+
+br EP2h EP2g EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1 & inlist(EP2g1,4,5)
+
+*replace EP2h = 180 if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1 & inlist(EP2g1,4,5)
 
 
 
 /*
+br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1
+
 cap drop med_EP2h_5
-egen med_EP2h_5 = median(EP2h) if EP2e == 2 & EP2h < 180 // la mediane est de 35 min pour les personnes se deplaçant dans une autre localité
-
-*br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1
-
+egen med_EP2h_5 = mode(EP2h) if !inlist(EP2h,.,.a) & EP2e == 1 & EP2h < 180 & inlist(EP2g1,5) // la mediane est de 35 min pour les personnes se deplaçant dans une autre localité
 
 replace EP2h = 35 if EP2h >= 180 & EP2e == 2 & !inlist(EP2h,.,.a)
 
-
-cap drop med_EP2h_1 med_EP2h_2 med_EP2h_3 med_EP2h_4 med_EP2h_5
+ta med_EP2h_5
 */
+cap drop med_EP2h_1 med_EP2h_2 med_EP2h_3 med_EP2h_4 med_EP2h_5
+
+
+
+
+
 
 
 /////////EP2i. A quelle distance (en km ou Mètre) estime z-vous votre lieu de travail de votre lieu de rési dence dans le cadre de votre emploi principale ?
 
 //1) 
 
-count if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6) // tous les individus ont répondu
+count if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6) // 12 les individus n'ont pas répondu
 
-br EP1a EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
+br EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
 
 *proposition de correction 
 //imputation de la median de distance des individus avec les memes caractéristiques 
 
 
 *personne se deplaçant à pieds en 20 minutes
-cap drop med_EP2i
-
-egen med_EP2i = median(EP2i) if EP2g1 == 5 & EP2h ==20 & EP2i_unit == 1, by(code_citp_emp_principal)
-ta med_EP2i
-
-
-replace EP2i = 2 if interview__key == "41-43-63-70" & membres__id == 1
-
-replace EP2i_unit = 1 if interview__key == "41-43-63-70" & membres__id == 1
-
-*personne se deplaçant en transport personnel à moto
-cap drop med_EP2i
-
-egen med_EP2i = median(EP2i) if EP2g1 == 4 & EP2g==2 & EP2h ==15 & EP2i_unit == 1,  by(code_citp_emp_principal)
-ta med_EP2i
+cap drop med_EP2i_1
+egen med_EP2i_1 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2g1 == 5 & EP2h == 20 // la médiane est de 2 km
+ta med_EP2i_1
+replace EP2i = 2 if missing(EP2i) & EP2g1 == 5 & EP2h == 20
+drop med_EP2i_1
 
 
-replace EP2i = 3 if interview__key == "97-27-09-61" & membres__id == 1
+*personne se deplaçant en transport personnel en bus à plus de 45 minutes
+cap drop med_EP2i_2
+egen med_EP2i_2 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2e==2 & EP2g1 == 2 & EP2h == 45 
+ta med_EP2i_2
+replace EP2i = 20 if missing(EP2i) & EP2e==2 & EP2g1 == 2 & EP2h == 45
+drop med_EP2i_2
 
-replace EP2i_unit = 1 if interview__key == "97-27-09-61" & membres__id == 1
+*Personne se déplacant à moto pendant 15 minutes
+cap drop med_EP2i_3
+egen med_EP2i_3 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2e==1 & EP2g1 == 4 & EP2h == 15 
+ta med_EP2i_3
+replace EP2i = 4 if missing(EP2i) & EP2e==1 & EP2g1 == 4 & EP2h == 15
+drop med_EP2i_3
 
-drop med_EP2i
+*Personne de deplaçant à vélo pendant 48 minutes
+cap drop med_EP2i_4
+egen med_EP2i_4 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2e==1 & EP2g1 == 3 & EP2g == 4 
+ta med_EP2i_4
+replace EP2i = 2 if missing(EP2i) & EP2e==1 & EP2g1 == 3 & EP2h == 47.5
+drop med_EP2i_4
 
-/*
+ta EP2i if EN_EMP==1 & M4Confirm>=15,m
+
 
 /*proposition de correction 
 //imputation de la median de temps des individus avec les memes caractéristiques 
@@ -635,125 +602,107 @@ count if !missing(EP2i) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND != "
 
 //3)
 
-//4)
-*les personnes parcourant plus de 75km alors que le lieu de travail se trouve dans la meme localité   
 
-count if EP2i > 75 & EP2i_unit == 1 & EP2e == 1 // 3 personnes qui declare parcourir plus de 75km pour retrouver leur lieu de travail dans la meme localité. 
+//4) Vraisemblance des données
 
-br EP2e EP2i EP2h  EP2i_unit if EP2i > 75 & EP2i_unit == 1 & EP2e == 1 // ces personnes se deplacent à peids et au vu des valeurs mentionnées, il semble que la distance renseigné ici soit en metre. nous appliquons une correction ponctuelle 
 
+*Personne marchant plus de 50 km avec un temps invraisemblable
+count if EP2i >=50 & EP2i_unit==1 & EP2g1 == 5
+
+br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2i >=50 & EP2i_unit==1 & EP2g1 == 5
+
+
+*On remplace les valeurs invraisemblables du temps et de la distance par les médianes
+cap drop med_EP2h_5
+egen med_EP2h_5 = median(EP2h) if EP2i < 50 & EP2i_unit==1 & EP2g1 == 5 
+ta med_EP2h_5
+replace EP2h = 30 if EP2i >= 50 & EP2i_unit==1 & EP2g1 == 5
+cap drop med_EP2h_5
+
+cap drop med_EP2i_5
+egen med_EP2i_5 = median(EP2i) if EP2i < 50 & EP2i_unit==1 & EP2g1 == 5 
+ta med_EP2i_5
+replace EP2i = 2 if EP2i >= 50 & EP2i_unit==1 & EP2g1 == 5
+cap drop med_EP2i_5
+
+
+***Les personnes parcourant plus de 75km en transport alors que le lieu de travail se trouve dans la meme localité   
+
+count if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 5 personnes qui declare parcourir plus de 75km pour retrouver leur lieu de travail dans la meme localité. 
+
+br EP2e EP2i EP2h EP2g1 EP2i_unit if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 
 
 
 *exportation des individus potentiellement concernés
-
 export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_75km" if EP2i > 75 & EP2i_unit == 1 & EP2e == 1, firstrow(varl) replace
-*
-
-replace EP2i_unit = 2 if (interview__key == "33-85-34-39" & membres__id == 3) | (interview__key == "88-11-80-39" & membres__id == 1) | (interview__key == "95-81-49-11" & membres__id == 1)
 
 
+*On remplace les valeurs invraisemblables du temps et de la distance par les médianes
+cap drop med_EP2h_6
+egen med_EP2h_6 = median(EP2h) if EP2i < 75 & EP2i_unit==1 & inlist(EP2g1,1,2,3,4) 
+ta med_EP2h_6
+replace EP2h = 20 if EP2i >= 75 & EP2i_unit==1 & inlist(EP2g1,1,2,3,4)
+cap drop med_EP2h_6
 
-*proposition de correction (non poctuelle)
-
-gen EP2i_ = EP2i
-
-cap drop mean_EP2i
-egen mean_EP2i = median(EP2i) if EP2i_ <= 75 & EP2i_unit == 1& EP2e == 1 // la median est de 5km pour les personnes parcourant moins de 75 km dans un lieu de travail dans la meme localité
-
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2i_ <= 75 & EP2i_unit == 1 & EP2e == 1 // la mediane est de 30 min pour les personnes parcourant moins de 75km pour se rendre au lieu de travail dans la meme localité
-
-replace EP2i = 3 if EP2i_ > 75 & EP2i_unit == 1 & EP2e == 1
-/*
-replace EP2h = 30 if EP2i_ > 75 & EP2i_unit == 1 & EP2e == 1
-*/
+cap drop med_EP2i_6
+egen med_EP2i_6 = median(EP2i) if EP2i < 75 & EP2i_unit==1 & inlist(EP2g1,1,2,3,4) & EP2h==20
+ta med_EP2i_6
+replace EP2i = 5 if EP2i >= 75 & EP2i_unit==1 & inlist(EP2g1,1,2,3,4) & EP2h==20
+cap drop med_EP2i_6
 
 
-cap drop EP2i_ med_EP2h mean_EP2i
-
-*/
-
-*les personnes parcourant plus de 80 km pour aller travailler dans une autre localité
-
-count if EP2i >= 80 & EP2i_unit == 1 & EP2e == 2
-
-br EP2i EP2h EP2g1 EP2i_unit EP2e if EP2i >= 80 & EP2i_unit == 1 & EP2e == 2 // 4 individus qui parcourent plus de 80 km pour aller travailler dans une autre localité
-
-*exportation des individus potentiellement concernés
-
-export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_80km" if EP2i >= 80 & EP2i_unit == 1 & EP2e == 2, firstrow(varl) replace
-*
-
-*proposition de correction (non-ponctuelle)
-cap drop EP2i_ mean_EP2i mean_EP2h
-gen EP2i_ = EP2i
-
-egen mean_EP2i = mean(EP2i) if EP2i_ < 80 & EP2i_unit == 1 & EP2e == 2 & EP2h<100, by(code_citp_emp_principal) // la moyenne est de 12 km pour les personnes parcourant moins de 80 km en moins de 100 min pour aller travailler dans une autre localité
-
-egen mean_EP2h = mean(EP2h) if EP2i_ < 80 & EP2i_unit == 1 & EP2e == 2 & EP2h<100, by(code_citp_emp_principal) // la moyenne est de 31 min pour les personnes parcourant moins de 80 km en moins de 100 min pour aller travailler dans une autre localité
-
-
-
-
-replace EP2i = 12 if EP2i_ >= 80 & EP2i_unit == 1 & EP2e == 2 & EP2h < 100
-
-replace EP2h = 31 if EP2i_ >= 80 & EP2i_unit == 1 & EP2e == 2 & EP2h < 100
-
-drop mean_EP2i mean_EP2h EP2i_
 
 *certains individus pour qui les valeurs de la distance ou du temps parcouru sont visiblement des outliers
+count if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
 
-br EP2e EP2g1 EP2h EP2i EP2i_unit if (EP2h>=120 & !missing(EP2h) | EP2i >200 & !missing(EP2i)) & EP2i_unit == 1
+
+br EP2e EP2g1 EP2h EP2i EP2i_unit if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
+
 
 *exportation des individus potentiellement concernés
-
-export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_metre" if (EP2h>=120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1, firstrow(varl) replace
-*
+export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_metre" if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1, firstrow(varl) replace
 
 *proposition de correction 
+cap drop med_EP2h
+egen med_EP2h = median(EP2h) if !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,3,8) & EP2i_unit == 1 //,  by(code_citp_emp_principal) // la median est de 30km pour les personnes avec les memes caractéristiques (à pieds)
+ta med_EP2h
+replace EP2h = 30 if inrange(EP2h,140,160) & EP2g1 == 5 & inrange(EP2i,3,8) & EP2i_unit == 1
+
+
+
+*Personne parcourant moins de 5km en 2heures
+br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,5) & EP2i_unit == 1
+
+cap drop mean_EP2h
+egen mean_EP2h = mean(EP2h) if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,4) & EP2i_unit == 1 // la median est de 30min pour les personnes avec les memes caractéristiques (à pieds)
+ta mean_EP2h
+replace EP2h = 30 if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,5) & EP2i_unit == 1
+cap drop mean_EP2h
+
+
+**Personne se deplacant en transport et parcourant moins de 40km en plus de 2 heures
+br EP2e EP2g1 EP2g EP2h EP2i EP2i_unit if EP2h>=120 & inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4)
 
 cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,30) & EP2i_unit == 1,  by(code_citp_emp_principal) // la median est de 30km pour les personnes avec les memes caractéristiques (à pieds)
-
-
-replace EP2h = 30 if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,30) & EP2i_unit == 1
-
-*pour les personnes à pieds il y a deux individu pour qui il convient de faire une correction ponctuelle
-
-replace EP2i_unit = 2 if EP2g1 == 5 & EP2i>=200 & !missing(EP2i) & inrange(EP2h,1,50) & EP2i_unit==1
+egen med_EP2h  = median(EP2h) if inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4) //, by(code_citp_emp_principal) // 20 minutes pour les personnes avec les memes caractéristiques
+ta med_EP2h
+replace EP2h = 20 if EP2h>=120 & inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4)
 
 
 
-/*
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,20) & EP2i_unit == 1 // la median est de 30km pour les personnes avec les memes caractéristiques (à pieds)
+*Personne parcourant plus de 15km en moins de 2heures
+br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & EP2i>10 & EP2i_unit == 1
+ 
+* Il parait invraisemblable que quelqu'un parcours plus de 15km à pieds pour se rendre au boulot. On ramène ceux qui font plus de 15km à 15km avec la moyenne des temps de parcours de ceux faisant 15km
+cap drop mean_EP2h
+egen mean_EP2h = mean(EP2h) if !missing(EP2h) & EP2g1 == 5 & EP2i==15 & EP2i_unit == 1 // la median est de 60 min pour les personnes avec les memes caractéristiques
+ta mean_EP2h
+replace EP2h = 45 if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,15,50) & EP2i_unit == 1 
 
-replace EP2h = 30 if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,20) & EP2i_unit == 1
-*/
-
-
-
-**pour les personnes mettant 120 minutes pour moins de 50 km
-
-cap drop med_EP2h
-egen med_EP2h  = median(EP2h) if inrange(EP2i,1,50) & EP2i_unit == 1 & inlist(EP2g1,3,4,2,1), by(code_citp_emp_principal) // 20 minutes pour les personnes avec les memes caractéristiques
-
-replace EP2h = med_EP2h if EP2h>=120 & inrange(EP2i,1,50) & EP2i_unit == 1 & inlist(EP2g1,3,4,2,1)
-
-/*
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & inlist(EP2g1,4,6) & inrange(EP2i,1,20) & EP2i_unit == 1  // la median est de 30km pour les personnes avec les memes caractéristiques (à pieds)
-
-replace EP2h = 20 if EP2h>=120 & !missing(EP2h) & inlist(EP2g1,4,6) & inrange(EP2i,1,20) & EP2i_unit == 1 
-*/
-
-
-/*
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,21,50) & EP2i_unit == 1 // la median est de 60 min pour les personnes avec les memes caractéristiques
-
-replace EP2h = 60 if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,21,50) & EP2i_unit == 1 
-*/
+cap drop med_EP2i
+egen med_EP2i = median(EP2i) if !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,15,50) & EP2i_unit == 1 // la median est de 60 min pour les personnes avec les memes caractéristiques
+ta med_EP2h
+replace EP2h = 45 if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,15,50) & EP2i_unit == 1 
 
 
 /*
@@ -763,45 +712,30 @@ egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & !inlist(EP2g1,.,.a,5
 replace EP2h = 60 if EP2h>=120 & !missing(EP2h) & !inlist(EP2g1,.,.a,5) & inrange(EP2i,21,50) & EP2i_unit == 1
 */
 
-/*
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2h<120 & !missing(EP2h) & !inlist(EP2g1,.,.a,5) & inrange(EP2i,21,50) & EP2i_unit == 1 // la median est de 60 min pour les personnes avec les memes caractéristiques
-
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2e == 2 & inlist(EP2g1,1,2) // la median est de 30 min pour les personnes travaillant dans une autre localité
-
-replace EP2h = 38 if EP2h>=300 & EP2h<. & EP2e == 2 & EP2i >=300 & EP2i <. & EP2i_unit == 1
-
-cap drop med_EP2i
-egen med_EP2i = median(EP2i) if EP2e == 2 & inlist(EP2g1,4,2) // la median est de 23 km pour les personnes travaillant dans une autre localité
-
-cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2e == 2 & inlist(EP2g1,4,2) // la median est de 38 min pour les personnes travaillant dans une autre localité
-
-replace EP2i = 23 if (interview__key == "00-61-20-53" & membres__id == 1) | (interview__key == "08-57-79-48" | membres__id == 1) | (interview__key == "72-67-32-12" | membres__id == 1)
-
-replace EP2h = 38 if (interview__key == "00-61-20-53" & membres__id == 1) | (interview__key == "08-57-79-48" | membres__id == 1) | (interview__key == "72-67-32-12" | membres__id == 1)
-*/
 
 
 *certaines valeurs semblent trop grande. Nous essayons de les traiter
 
-br EP2e EP2g1 EP2h EP2i EP2i_unit  if EP2h>=120 & !missing(EP2h)
+br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h>=120 & !missing(EP2h)
 
 cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2e == 1 & inlist(EP2g1,3,4) & EP2i_unit == 1 & EP2h<120, by(code_citp_emp_principal)  // la median est de 20 min pour les personnes travaillant dans la meme localité , en transport commun/personnel
+egen med_EP2h = median(EP2h) if EP2e == 1 & inlist(EP2g1,3,4) & EP2i_unit == 1 & EP2h<120 //, by(code_citp_emp_principal)  // la median est de 20 min pour les personnes travaillant dans la meme localité , en transport commun/personnel
+ta med_EP2h
 
 replace EP2h = 20 if EP2h>=120 & EP2e == 1 & inlist(EP2g1,3,4) & EP2i_unit == 1 
 
 replace EP2h = 20 if EP2h>=120 & EP2e == 1 & inlist(EP2g1,3,4) & EP2i_unit == .
 
 cap drop med_EP2h
-egen med_EP2h = median(EP2h) if EP2e == 1 & inlist(EP2g1,5) & EP2i_unit == 2 & EP2h<120, by(code_citp_emp_principal)  // la median est de 5 min pour les personnes travaillant dans la meme localité , à pieds
+egen med_EP2h = median(EP2h) if EP2e == 1 & inlist(EP2g1,5) & EP2i_unit == 2 & EP2h<120 //, by(code_citp_emp_principal)  // la median est de 5 min pour les personnes travaillant dans la meme localité , à pieds
+ta med_EP2h
 
 replace EP2h = 5 if EP2h>=120 & EP2e == 1 & inlist(EP2g1,5) & EP2i_unit == 2
 
 replace EP2h = 5 if EP2h>=120 & EP2e == 1 & inlist(EP2g1,5) & EP2i_unit ==.
 
+
+ 
 /*
 cap drop med_EP2h
 egen med_EP2h = median(EP2h) if EP2e == 1 & inlist(EP2g1,5) & EP2i_unit == 2 & EP2h<120  // la median est de 5 min pour les personnes travaillant dans la meme localité , à pieds
