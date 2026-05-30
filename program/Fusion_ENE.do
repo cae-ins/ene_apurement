@@ -41,7 +41,7 @@ save "$dataout_individu\membres.dta", replace
 *include "$dofiles\codif_emploi_principale.do"
 *include "$dofiles\codif_emploi_secondaire.do"
 
-*-- Copie vers ENE_SURVEY_WEIGHTS --*
+*-- Publication MinIO pour ENE_SURVEY_WEIGHTS --*
 include "$dofiles\copy_to_cleaned.do"
 
 
