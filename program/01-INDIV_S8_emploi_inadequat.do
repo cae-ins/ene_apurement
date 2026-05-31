@@ -3,7 +3,8 @@
 
 ****RESPONSABLE: SEKONGO 
 *=============================================
-
+*** Brou
+*=============================================
 **********Importation 
 *global datain_brute "C:\apurement_ENE\bases"
 *display "$datain_brute"
@@ -12,7 +13,7 @@ use "$datain_standard\INDIV_S8_emploi_inadequat.dta", clear
 
 *****Appel des autres variables 
 cap drop _merge 
-merge m:1 interview__key  using "$datain_standard\QM_S0_identification.dta", keepusing(HH13)
+merge m:1 interview__key  using "$datain_standard\QM_S0_identification.dta", keepusing(HH1 HH2 HH3 HH13)
 
 drop if _merge!=3
 cap drop _merge
@@ -33,6 +34,7 @@ drop if _merge!=3
 cap drop _merge
 
 
+
 **************Fin appel de variables*****************
 
 ********************************
@@ -44,28 +46,39 @@ cap drop _merge
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
 ///////////////////////////////////////////////////////////////////////////
 
+**# Supprimer les espaces au tour des variables textes dans la base
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = ustrregexra(`var', "\s+$", "")
+	replace `var' = strltrim(`var')
+}
 
-***WKI1. Souhaitez-vous changer votre emploi actuel?
+
+**# Convertir les champs vides représentés par ##N/A## par ""
+
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = "" if `var' == "##N/A##"
+
+}
+
+
+**#WKI1. Souhaitez-vous changer votre emploi actuel?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(WKI1) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 if r(N) > 0 {
-export excel interview__key HH13 WKI1  using "$folderpath/document/WKI1" if missing(WKI1) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
+export excel interview__key HH13 WKI1  using "$folderpath/document/WKI1_Manquants" if missing(WKI1) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
 }
-***Correction:Toute la section est vide pour ces individus
-
-/*
-ed  interview__key interview__id membres__id if missing(WKI1) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
-*/
-
-
-  
+//Toute la section est vide pour ces individus
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(WKI1) & (EN_EMP == 0 | M4Confirm<15) // RAS car il s'agit des personnes qui n'était pas en emploi et qui ont été identifié dans la section emploi principal
+count if !missing(WKI1) & (EN_EMP == 0 | M4Confirm<15) 
 
+/*
 *correction
 replace WKI1=. if !missing(WKI1) & (EN_EMP == 0 | M4Confirm<15)
+*/
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(WKI1) & !inrange(WKI1,1,3)
@@ -84,46 +97,35 @@ count if  missing(WKI2__`i') & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm
     
     * Si il existe des réponses manquantes, les exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH13 WKI2__`i' using "$folderpath/document/WKI2__`i'.xlsx" if  EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a) & inlist(WKI1, 1, 2) & missing(WKI2__`i'), firstrow(variables) replace
+        export excel interview__key HH13 WKI2__`i' using "$folderpath/document/WKI2__`i'_Manquants.xlsx" if  EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a) & inlist(WKI1, 1, 2) & missing(WKI2__`i'), firstrow(variables) replace
         display "Exportation terminée pour WKI2__`i' avec " r(N) " réponses manquantes"
     }
 	*Si pas d'erreurs alors  le message suivant apparaittra
     else {
         display "Pas de réponses manquantes pour WKI2__`i'"
     }
+br 	if  EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a) & inlist(WKI1, 1, 2) & missing(WKI2__`i')
+
 }
 
 
 **correction
-/*
+
 forvalues i = 1/13 {
     * Remplace les valeurs manquantes .a par 0 dans chaque variable WKI2__`i'
     replace WKI2__`i' = 0 if WKI2__`i' == .a
 }
-*/
+
 
 
 *************Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-***Les identifier et les exporter s'ils existent apres identification____
+***Les identifier et les exporter s'ils existent apres identification
 forvalues i = 1/13 {
     * Vérification des individus qui ont répondu à WKI2 mais ne devaient pas y répondre
     *count if !inlist(WKI1, 1, 2) & !missing(WKI2__`i')
     
-	count if !missing(WKI2__`i') & (EN_EMP ==0  | M4Confirm < 15 |  !inlist(WKI1, 1, 2)) & !inlist(M4Confirm, ., .a)
-	
-	
-} // RAS car il s'agit des personnes qui n'était pas en emploi et qui ont été identifié dans la section emploi principal 
-
-
-*correction
-
-forvalues i = 1/13 {
-   
-	replace WKI2__`i' =. if !missing(WKI2__`i') & (EN_EMP ==0  | M4Confirm < 15 |  !inlist(WKI1, 1, 2)) & !inlist(M4Confirm, ., .a)
-    	
-}
-
-
+	count if !missing(WKI2__`i') & (EN_EMP ==0  | M4Confirm < 15 |  !inlist(WKI1, 1, 2)) & !inlist(M4Confirm, ., .a)	
+} 
 
 *********Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 
@@ -142,8 +144,7 @@ forvalues i = 1/13 {
 }
 
 
-
-*Etape4: Les reponses données sont elles coherentes au regard des precedentes?: RAS 
+****Etape4: Les reponses données sont elles coherentes au regard des precedentes?: RAS 
 
 ***WKI2_Aut. Veuillez préciser ?
 
@@ -151,16 +152,14 @@ forvalues i = 1/13 {
 
 count if missing(WKI2_Aut) & WKI2__13 == 1
 
+
 if r(N) > 0 {
-export excel interview__key HH13 WKI2__13 WKI2_Aut using "$folderpath/document/WKI2_Aut_manquants" if missing(WKI2_Aut) & WKI2__13 == 1, firstrow(variables) replace
+export excel interview__key HH13 WKI2__13 WKI2_Aut using "$folderpath/document/WKI2_Aut" if !missing(WKI2_Aut) & WKI2__13 == 1, firstrow(variables) replace
 }
-***Correction: necessite de revenir aux agents
+
 
 **Etape2: Coherence des sauts
 count if !missing(WKI2_Aut) & WKI2__13 == 0
-
-**Correction
-replace WKI2_Aut = "" if !missing(WKI2_Aut) & WKI2__13 == 0
 
 ** Etape3 et 4 : Dejà effectué lors du récodage des autres à préciser
 
@@ -170,16 +169,17 @@ replace WKI2_Aut = "" if !missing(WKI2_Aut) & WKI2__13 == 0
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
+br if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+
 if r(N) > 0 {
-export excel interview__key HH13 WKI3  using "$folderpath/document/WKI3" if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
+export excel interview__key HH13 WKI3  using "$folderpath/document/WKI3_Manquants" if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
 }
 
 ***Correction : elle necessite de revenir aux agents
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(WKI3) & (EN_EMP == 0 |  M4Confirm<15) // RAS car il s'agit des personnes qui n'était pas en emploi et qui ont été identifié dans la section emploi principal 
+count if !missing(WKI3) & (EN_EMP == 0 |  M4Confirm<15) 
 
-replace WKI3 =. if !missing(WKI3) & (EN_EMP == 0 |  M4Confirm<15)
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(WKI3) & !inrange(WKI3,1,3)
@@ -192,18 +192,17 @@ count if !missing(WKI3) & !inrange(WKI3,1,3)
 
 count if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
+br if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+
 if r(N) > 0 {
-export excel interview__key HH13 WKI4  using "$folderpath/document/WKI4" if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
+export excel interview__key HH13 WKI4  using "$folderpath/document/WKI4_Manquants" if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
 }
 
 ***Correction : Les reponses données sont elles coherentes au regard des precedentes?
 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(WKI4) & (EN_EMP == 0 |  M4Confirm<15) // RAS car il s'agit des personnes qui n'était pas en emploi et qui ont été identifié dans la section emploi principal 
-
-replace WKI4=. if !missing(WKI4) & (EN_EMP == 0 |  M4Confirm<15)
-
+count if !missing(WKI4) & (EN_EMP == 0 |  M4Confirm<15) 
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(WKI4) & !inrange(WKI4,1,2)
@@ -213,14 +212,9 @@ count if !missing(WKI4) & !inrange(WKI4,1,2)
 
 count if missing(WKI5) & EN_EMP == 1 & WKI4 == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
-if r(N) > 0 {
-export excel interview__key HH13 WKI5  using "$folderpath/document/WKI5" if missing(WKI5) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
-}
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(WKI5) & (EN_EMP == 0 |  M4Confirm<15 | WKI4 ==2) 
-
-replace WKI5=. if !missing(WKI5) & (EN_EMP == 0 |  M4Confirm<15 | WKI4 ==2) 
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(WKI5) & !inrange(WKI5,1,2)
@@ -228,43 +222,59 @@ count if !missing(WKI5) & !inrange(WKI5,1,2)
 
 ***WKI6. Combien d’heures supplémentaires par semaine pourriez-vous travailler ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "##N/A##" 
+count if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "" 
 
-/*
+br membre_id_v1_IND WKI5 WKI6 if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "" 
+
+
 if r(N) > 0 {
-export excel interview__key HH13 WKI6  using "$folderpath/document/WKI6" if missing(WKI6) & WKI5==1 & membre_id_v1 == "##N/A## " & EN_EMP == 1, firstrow(variables) replace
+export excel interview__key HH13 WKI6  using "$folderpath/document/WKI6_Manquants" if missing(WKI6) & WKI5==1 & membre_id_v1_IND == "" & EN_EMP == 1, firstrow(variables) replace
 }
-*/
+
+** Correction
+cap drop mod
+egen mod = mode(WKI6)
+replace WKI6 = mod if missing(WKI6) & WKI5==1 & membre_id_v1_IND== ""
+
+drop mod
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(WKI6) & (WKI5==2 | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND !=""))
-
-*export excel interview__key HH13 WKI6  using "$folderpath/document/WKI6_1" if !missing(WKI6) & (WKI5==2 | membre_id_v1 == "##N/A## " | membre_id_v1 == ""), firstrow(variables) replace
+count if !missing(WKI6) & (WKI5==2 | membre_id_v1_IND != "")
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
-count if !missing(WKI6) & WKI6<=0
-count if !missing(WKI6) & WKI6>168 & WKI6!=9998
+count if !missing(WKI6) & WKI6 >= 70 & WKI6 != 9998
+count if !missing(WKI6) & WKI6 < 0
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
 *Verifier voir si un individu affirme pouvoir commencer à travailler plus d’heures au cours des deux semaines suivantes (WKI5) et viens affirmer qu'il ne peut pas travailler des heures supplémentaires c'est dire WKI6 =0
-count if WKI5==1 & WKI6<=0
 
-***WKI7. Pourquoi n’avez-vous pas cherché un aut re emploi ou pourquoi ne souhaitez-vous pas c hercher un nouvel emploi ? 
+
+***WKI7. Pourquoi n’avez-vous pas cherché un autre emploi ou pourquoi ne souhaitez-vous pas chercher un nouvel emploi ? 
 
 *Etape1
 
-count if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "##N/A##")
+count if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
+
+br if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
+
+count if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
+if r(N)>0 {
+    export excel interview__key HH13 WKI7  using "$folderpath/document/WKI7_manquants" if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == ""), firstrow(variables) replace
+}
+
+***Correction
+egen mod = mode(WKI7)
+replace WKI7 = mod if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
+drop mod
+
 
 *Etape2 
+count if !missing(WKI7) & ((WKI3 != 3 &  WKI1!=3) | membre_id_v1_IND != "" & membre_id_v1_IND !="")
 
-count if !missing(WKI7) & ((WKI3 != 3 &  WKI1!=3) | membre_id_v1_IND != "##N/A##" & membre_id_v1_IND !="") // RAS car il s'agit des personnes n'étant pas en emploi identifié dans la section EP
+*Etape3  
+count if !missing(WKI7) & !inlist(WKI7, 1,2,3,4,5,6,7)
 
-*correction 
-
-replace WKI7=. if EN_EMP ==0
-
-
-*Etape3 & Etape4 RAS
+*Etape4 RAS
 
 
 *****WKI7_Aut. Veuillez préciser ?
@@ -276,16 +286,17 @@ count if missing(WKI7_Aut) & WKI7 == 7
 **Etape2
 count if !missing(WKI7_Aut) & WKI7 != 7
 
-*Des individus ont repondu pourtant ils ne devaient pas le faire 
-*br WKI7_Aut WKI7 if !missing(WKI7_Aut) & WKI7 != 7
 
-/*
-export excel interview__key HH13 WKI7 WKI7_Aut  using "$folderpath/document/WKI7_Aut_Incoherants" if !missing(WKI7_Aut) & WKI7 != 7, firstrow(variables) replace
-*/
+
+count if !missing(WKI7_Aut) & WKI7 == 7
+if r(N)>0 {
+    export excel interview__key HH13 WKI7 WKI7_Aut  using "$folderpath/document/WKI7_Aut" if !missing(WKI7_Aut) & WKI7 == 7, firstrow(variables) replace
+}
+
 
 **Etape3 & Etape1 : dejà regardé lors du recodage des autres à préciser. 
 
 
-drop HH13 M4Confirm EN_EMP membre_id_v1_IND
+drop HH13 M4Confirm EN_EMP membre_id_v1_IND HH2 HH1 HH2 HH3
 
 save "$standard_individu\INDIV_S8_emploi_inadequat.dta", replace

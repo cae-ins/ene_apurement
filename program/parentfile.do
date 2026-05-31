@@ -1,14 +1,14 @@
 /*                          *                      ENQUETE NATIONALE SUR L'EMPLOI  -  VOLET MENAGE                  *
 
-							----------------------------------PHASE APUREMENT DES DONNEES T1 2025 -------------------------------------------------------
-							-------------------------DATE: 20 MAI-29 MAI 2025  -------------------------------------------------------
+							----------------------------------PHASE APUREMENT DES DONNEES T1   2026-------------------------------------------------------
+							-------------------------DATE: MAI 2026  -------------------------------------------------------
 							-----------------------------------------------------------------------------------------
 																																						*/
 clear all
 ********Paramétrages de départ*****************
 set more off
 *===============Création du répertoire de travail=============*
-global folderpath = "C:\Users\f.migone\Desktop\ENE_APUREMENT"
+global folderpath = "C:\Users\f.migone\GOUVCI\ENEM-Suite - Documents\ENE-M-T1_2026\apurement"
 ****Création des dossiers de travail ( lancer uniquement la première fois)
 
 /*
@@ -37,12 +37,15 @@ global date="`c_today'"
 global datain "$folderpath/datain"
 global dataout "$folderpath/dataout"	
 global datatemp "$folderpath/datatemp"		
-global document "$folderpath/document"	
+global document "$folderpath/document"
+global codification "$folderpath/document/codification"
 global docs "$folderpath/docs"
 global dofiles "$folderpath/program"
-global datain_source   "$folderpath/datain/source"
-global datain_brute    "$folderpath/datain/brute"
-global datain_standard "$folderpath/datain/standard"
+global datain_staging "$folderpath/datain/staging"
+global datain_brute  "$folderpath/datain/brute"
+global brute_menage_source "$datain_brute/ENEM_2026T1.dta"
+global brute_menage_work "$datain_brute/QX_EEC_VF.dta"
+global datain_standard  "$folderpath/datain/standard"
 global standard_menage  "$folderpath/dataout/standard/menage"
 global standard_individu  "$folderpath/dataout/standard/individu"
 global standard_annexe  "$folderpath/datain/standard/annexe"

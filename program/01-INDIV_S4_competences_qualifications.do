@@ -7,7 +7,7 @@
  
 use "$datain_brute\membres.dta", clear
 cap drop _merge
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
+merge m:1 interview__key using "$brute_menage_work", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
 drop if _merge!=3
 cap drop _merge
 */
@@ -50,7 +50,7 @@ keep if rgmen==1
 
 * Nous avons fait un merge à la ligne 
 
-gen annee = 2025
+gen annee = 2026
 
 *=================================
 *CQ1.Selon vous,quel est le niveau d’études nécessaire pour mener à bien vos tâches dans le cadre de votre emploi principal
@@ -73,7 +73,7 @@ count if missing(CQ1) & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" 
 
 *Etape de correction 1
 count if  missing(CQ1) & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
-
+/**
 ta CQ1 if EP1b1==521103, matrow(unique_value)
 
 
@@ -94,16 +94,21 @@ ta CQ1 if EP1b1==613001, matrow(unique_value) // Agriculteur culture vivrière
 replace CQ1=unique_value[1,1] if EP1b1==613001 & CQ1==.a
 
 ta CQ1 if EP1b1==613001, matrow(unique_value)
-
+*/
 
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 **# Bookmark #2
-count if !missing(CQ1) & (EN_EMP==0 | M4Confirm<15 |membre_id_v1_IND=="1"  )
+count if !missing(CQ1) & (EN_EMP==0 | M4Confirm<15 |membre_id_v1_IND=="1")
+
+*br CQ1 EN_EMP M4Confirm if !missing(CQ1) & EN_EMP==0
+
 *0 individus sont concernés 
 *Identification des Agents ayant fait des erreurs 
 *export excel interview__key membres__id HH12 HH13 CQ1 commentaire_competence using "$folderpath/document/Erreur_CQ1_NA" if !missing(CQ1) & (EN_EMP==0 | M4Confirm<15 |membre_id_v1_IND=="1"  ), firstrow(varlabels) replace 
 
+* Proposition de correction RAS
+*replace CQ1=. if !missing(CQ1) & (EN_EMP==0 | M4Confirm<15 |membre_id_v1_IND=="1")
 
 
 
@@ -115,13 +120,13 @@ count if !inrange(CQ1,0,10)& !missing(CQ1)
 *RAS
 
 *========================
-*CQ2.Selonvous,quelest le domaine d’études nécessaire pour mener à bien vos tâches dans le cadre de votree mploi principal
+*CQ2.Selon vous,quelest le domaine d’études nécessaire pour mener à bien vos tâches dans le cadre de votree mploi principal
 *===========================
 
 *Problem 1: CEux qui devaient repondre ont ils repondus 
 count if missing(CQ2) & CQ1!=0 & !missing(CQ1)
-
-replace CQ2=2 if EP1b1==541203 & CQ2==.a
+*RAS
+*replace CQ2=2 if EP1b1==541203 & CQ2==.a
 
 * Pour CQ2, il ne devrait y avoir de réponse CQ2 que si CQ1 ≠ 0 et CQ1 n'est pas manquant.
 count if !missing(CQ2) & (CQ1==0 | missing(CQ1))
@@ -167,7 +172,7 @@ count if !missing(CQ2_aut) & CQ2!=13
 
 *Problem 1: ceux qui devaient repondre à la question CQ3 mais n'ont pas repondus 
 count if missing(CQ3) & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
-*5 individus sont concernés 
+*1 individus sont concernés 
 
 *replace commentaire_competence="ceux qui devaient repondre à la question CQ3 mais n'ont pas repondus " if missing(CQ3) & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
 
@@ -197,13 +202,15 @@ ta CQ3 if EN_EMP==1 & CQ3U==2,m
 ta CQ3 if EN_EMP==1 & CQ3U==3,m
 
 
-replace CQ3=. if CQ3==2009
+replace CQ3=anne - 1980 if CQ3==1980 
+replace CQ3=anne - 2025 if CQ3==2025
 
 
 *replace CQ3=. if CQ3==320 & CQ3U==3
-replace CQ3=. if CQ3==9998
+ed CQ3 CQ3U  EN_EMP CQ1 if  CQ3==9998 & EN_EMP == 1 & M4Confirm >= 15
+count if CQ3==9998
 
-replace CQ3=. if CQ3>=15 & CQ3U==3
+
 
 summarize CQ3 if EN_EMP ==1 & CQ3U==3, detail
 
@@ -218,23 +225,24 @@ summarize CQ3 if EN_EMP ==1 & CQ3U==1, detail
 
 * ---------------------------------------------------------
 *  1️ Homogénéiser les unités de CQ3 en années
-gen CQ3_year = .
-replace CQ3_year = CQ3/365 if CQ3U == 1  & EN_EMP==1 // jours → années
-replace CQ3_year = CQ3/12 if CQ3U == 2  &  EN_EMP==1 // mois → années
-replace CQ3_year = CQ3 if CQ3U == 3  & EN_EMP==1   // déjà en années
+gen CQ3_year = . 
+replace CQ3_year = CQ3/365 if CQ3U == 1  & EN_EMP==1 & !inlist(CQ3,9998) // jours → années
+replace CQ3_year = CQ3/12 if CQ3U == 2  &  EN_EMP==1 & !inlist(CQ3,9998) // mois → années
+replace CQ3_year = CQ3 if CQ3U == 3  & EN_EMP==1 & !inlist(CQ3,9998)   // déjà en années
 
 * ---------------------------------------------------------
 * 2️ Calculer moyenne, écart type et médiane par EP1b1 (poste)
-bysort HH6 EP1b1 : egen median_CQ3_year = mean(CQ3_year) if   EN_EMP==1
+bysort HH6 EP1b1 : egen median_CQ3_year = mean(CQ3_year) if   EN_EMP==1 & !inlist(CQ3,9998)
 
 * ---------------------------------------------------------
 * 3️ Créer variable d'imputation
 gen CQ3_year_impute = .
-replace CQ3_year_impute = median_CQ3_year if EN_EMP==1
+replace CQ3_year_impute = median_CQ3_year if EN_EMP==1 & !inlist(CQ3,9998)
 
 * ---------------------------------------------------------
 * 4️ Imputer CQ3_year si manquant et remplir CQ3
-*replace CQ3_year = CQ3_year_impute if missing(CQ3_year) & EN_EMP == 1 & M4Confirm >= 15 & membre_id_v1_IND == "##N/A##" & CQ3>10 & CQ3<.
+replace CQ3_year = CQ3_year_impute if missing(CQ3_year) & EN_EMP == 1 & M4Confirm >= 15  & !inlist(CQ3,9998)
+
 
 *********************
 * IMPUTATION YEAR	*
@@ -243,25 +251,29 @@ replace CQ3_year_impute = median_CQ3_year if EN_EMP==1
 
 
 * Reconvertir en unité initiale (en années si CQ3U==3 ou plus simple: imputer CQ3U manquant en 3 - années)
-replace CQ3U = 3 if CQ3==. & EN_EMP==1  // On suppose que l'unité est en années si manquante
+replace CQ3U = 3 if CQ3==. & EN_EMP==1  & !inlist(CQ3,9998)  // On suppose que l'unité est en années si manquante
 
-replace CQ3 = CQ3_year_impute*365 if CQ3U==1 & EN_EMP==1 & CQ3==.
-replace CQ3 = CQ3_year_impute*12 if CQ3U==2 & EN_EMP==1 & CQ3==.
-replace CQ3 = CQ3_year_impute if CQ3U==3 & EN_EMP==1 & CQ3==.
+replace CQ3 = CQ3_year_impute*365 if CQ3U==1 & EN_EMP==1 & CQ3==. & !inlist(CQ3,9998)
+replace CQ3 = CQ3_year_impute*12 if CQ3U==2 & EN_EMP==1 & CQ3==. & !inlist(CQ3,9998)
+replace CQ3 = CQ3_year_impute if CQ3U==3 & EN_EMP==1 & CQ3==. & !inlist(CQ3,9998)
 
 *On avait des CQ3_year_impute<1 pour CQ3U==3
-replace CQ3 = CQ3_year_impute*12 if CQ3U==3 & EN_EMP==1 & CQ3_year_impute <1 
+replace CQ3 = CQ3_year_impute*12 if CQ3U==3 & EN_EMP==1 & CQ3_year_impute <1  & !inlist(CQ3,9998)
 
-replace CQ3U = 2 if CQ3U==3 & EN_EMP==1 & CQ3_year_impute <1
+replace CQ3U = 2 if CQ3U==3 & EN_EMP==1 & CQ3_year_impute <1 & !inlist(CQ3,9998)
 
 ******  On a une observation qui a CQ3==0 pour CQ3U==3
-replace CQ3 = CQ3_year_impute if CQ3==0 & CQ3U==3
+replace CQ3 = CQ3_year_impute if CQ3==0 & CQ3U==3 & !inlist(CQ3,9998)
 
-ta CQ3 if EN_EMP==1 & CQ3U==1,m
+ta CQ3 if EN_EMP==1 & CQ3U==1 & !inlist(CQ3,9998),m
 
-ta CQ3 if EN_EMP==1 & CQ3U==2,m
+ta CQ3 if EN_EMP==1 & CQ3U==2 & !inlist(CQ3,9998),m
 
-ta CQ3 if EN_EMP==1 & CQ3U==3,m
+ta CQ3 if EN_EMP==1 & CQ3U==3 & !inlist(CQ3,9998),m
+
+******** La avleur du 99ieme percentile est CQ3==12 pour CQ3U==3
+
+replace CQ3=12  if EN_EMP ==1 & CQ3U==3 & CQ3 >= 12
 
 *********************
 * IMPUTATION MOIS	*
@@ -271,18 +283,18 @@ ta CQ3 if EN_EMP==1 & CQ3U==3,m
 
 *On avait des CQ3=0 pour CQ3U==2
 
-replace CQ3 = CQ3_year_impute*12 if  CQ3U==2 & EN_EMP==1 & CQ3==0
+replace CQ3 = CQ3_year_impute*12 if  CQ3U==2 & EN_EMP==1 & CQ3==0 & !inlist(CQ3,9998)
 
 
-replace CQ3 = CQ3_year_impute*365 if CQ3U==2 & EN_EMP==1 & CQ3_year_impute <1
+replace CQ3 = CQ3_year_impute*365 if CQ3U==2 & EN_EMP==1 & CQ3_year_impute <1 & !inlist(CQ3,9998)
 
-replace CQ3U = 1 if CQ3U==2 & EN_EMP==1 & CQ3_year_impute <1
+replace CQ3U = 1 if CQ3U==2 & EN_EMP==1 & CQ3_year_impute <1 & !inlist(CQ3,9998)
 
-g z =1 if 12<=CQ3 & CQ3<. & EN_EMP ==1 & CQ3U==2
+gen z =1 if 12<=CQ3 & CQ3<. & EN_EMP ==1 & CQ3U==2 & !inlist(CQ3,9998)
 
-replace CQ3=CQ3/12 if z==1
+replace CQ3=CQ3/12 if z==1 & !inlist(CQ3,9998)
 
-replace CQ3U=3 if z==1
+replace CQ3U=3 if z==1 & !inlist(CQ3,9998)
 
 cap drop z  
 
@@ -295,21 +307,55 @@ cap drop z
 
 *Pour CQ3=0 et CQ3U=1 on impute par CQ3=1
 
-replace CQ3 = CQ3_year_impute*365 if CQ3U==1 & CQ3==0 & EN_EMP==1
+replace CQ3 = CQ3_year_impute*365 if CQ3U==1 & CQ3==0 & EN_EMP==1 & !inlist(CQ3,9998)
 
 
 *On a des CQ3 superieur a 31 avec CQ3U=1
-g z = 1 if CQ3U==1 & EN_EMP==1 &  31 < CQ3 & CQ3<.
+g z = 1 if CQ3U==1 & EN_EMP==1 &  31 < CQ3 & CQ3<. & !inlist(CQ3,9998)
 
-replace CQ3=CQ3/31 if CQ3U==1 & EN_EMP==1 &  31 < CQ3 & CQ3<.
+replace CQ3=CQ3/31 if CQ3U==1 & EN_EMP==1 &  31 < CQ3 & CQ3 & !inlist(CQ3,9998)
 
-replace CQ3U=2 if z==1
+replace CQ3U=2 if z==1 & !inlist(CQ3,9998)
 
 cap drop z
 
 *Pour CQ3=0 et CQ3U=1 on impute par CQ3=1
 
-replace CQ3 = 1 if CQ3U==1 & CQ3==0 & EN_EMP==1
+replace CQ3 = 1 if CQ3U==1 & CQ3==0 & EN_EMP==1 & !inlist(CQ3,9998)
+
+
+****************************************
+*			Appurement pour CQ3==9998
+*										
+****************************************
+
+
+count if CQ3==9998 & EN_EMP==1
+
+* CQ3a = Moins de 1 mois
+replace CQ3U =1 if CQ3==9998 & CQ3a == 1 & EN_EMP==1
+replace CQ3 = 14 if CQ3==9998 & CQ3a == 1 & EN_EMP==1
+
+* CQ3a = 1 à 3 mois
+replace CQ3U =2 if CQ3==9998 & CQ3a == 2 & EN_EMP==1
+replace CQ3 = 2 if CQ3==9998 & CQ3a == 2 & EN_EMP==1
+
+* CQ3a = 3 à 12 mois
+replace CQ3U =2 if CQ3==9998 & CQ3a == 3 & EN_EMP==1
+replace CQ3 = 8 if CQ3==9998 & CQ3a == 3 & EN_EMP==1
+
+
+* CQ3a = 1 à 3 ans
+replace CQ3U =3 if CQ3==9998 & CQ3a == 4 & EN_EMP==1
+replace CQ3 = 2 if CQ3==9998 & CQ3a == 4 & EN_EMP==1
+
+* CQ3a = 3 à 6 ans
+replace CQ3U =3 if CQ3==9998 & CQ3a == 5 & EN_EMP==1
+replace CQ3 = 5 if CQ3==9998 & CQ3a == 5 & EN_EMP==1
+
+* CQ3a = 6 ans et plus
+replace CQ3U =3 if CQ3==9998 & CQ3a == 6 & EN_EMP==1
+replace CQ3 = 8 if CQ3==9998 & CQ3a == 6 & EN_EMP==1
 
 
 
@@ -332,17 +378,48 @@ ta CQ4 if EN_EMP ==1 & CQ4U==2,m
 ta CQ4 if EN_EMP ==1 & CQ4U==3,m
 
 
-
-*Une valeur extrême CQ4==2017
-
-replace CQ4U=.a if CQ4==2017
-
+count if CQ4==9998 & EN_EMP==1
 
 summarize CQ4 if EN_EMP ==1 & CQ4U==3, detail
 
 summarize CQ4 if EN_EMP ==1 & CQ4U==2, detail
 
 summarize CQ4 if EN_EMP ==1 & CQ4U==1, detail
+
+
+
+****************************************
+*			Appurement pour CQ4==9998
+*										
+****************************************
+
+
+count if CQ4==9998 & EN_EMP==1
+
+* CQ4a = Moins de 1 mois
+replace CQ4U =1 if CQ4==9998 & CQ4a == 1 & EN_EMP==1
+replace CQ4 = 14 if CQ4==9998 & CQ4a == 1 & EN_EMP==1
+
+* CQ4a = 1 à 3 mois
+replace CQ4U =2 if CQ4==9998 & CQ4a == 2 & EN_EMP==1
+replace CQ4 = 2 if CQ4==9998 & CQ4a == 2 & EN_EMP==1
+
+* CQ4a = 3 à 12 mois
+replace CQ4U =2 if CQ4==9998 & CQ4a == 3 & EN_EMP==1
+replace CQ4 = 8 if CQ4==9998 & CQ4a == 3 & EN_EMP==1
+
+
+* CQ4a = 1 à 3 ans
+replace CQ4U =3 if CQ4==9998 & CQ4a == 4 & EN_EMP==1
+replace CQ4 = 2 if CQ4==9998 & CQ4a == 4 & EN_EMP==1
+
+* CQ4a = 3 à 6 ans
+replace CQ4U =3 if CQ4==9998 & CQ4a == 5 & EN_EMP==1
+replace CQ4 = 5 if CQ4==9998 & CQ4a == 5 & EN_EMP==1
+
+* CQ4a = 6 ans et plus
+replace CQ4U =3 if CQ4==9998 & CQ4a == 6 & EN_EMP==1
+replace CQ4 = 8 if CQ4==9998 & CQ4a == 6 & EN_EMP==1
 
 
 
@@ -385,28 +462,21 @@ count if !inrange(CQ3U,1,3) & !missing(CQ3U)
 *Problem 4: Vraisemblance des reponses 
 *La durée minimale pour bien exerer son travail ne peut exceder 10ans. Ce n'est pas tres raisonnable
 
-count if CQ3U==3 & CQ3>15 
-*53 individus sont concernés. Nous pensons que la valeur entrée correspond à leur experience plutot 
+count if CQ3U==3 & CQ3>5
+*96 individus sont concernés. Nous pensons que la valeur entrée correspond à leur experience plutot 
 
+
+br CQ1 CQ2 CQ3 CQ3U EP1b1 if CQ3U==3 & CQ3>5
+ta CQ3 CQ3U
 replace commentaire_competence="La durée minimale pour bien exerer son travail ne peut exceder 10ans. Ce n'est pas tres raisonnable" if CQ3U==3 & CQ3>10  
 
 *Identification des agents ayant fait des erreurs 
-export excel interview__key HH12 HH13 CQ3U  commentaire_competence using "$folderpath/document/Erreur_CQ3_coh" if CQ3U==3 & CQ3>10 , firstrow(varlabels) replace
+count if CQ3U==3 & CQ3>10 
+if r(N)>0 {
+    export excel interview__key HH12 HH13 CQ3U  commentaire_competence using "$folderpath/document/Erreur_CQ3_coh" if CQ3U==3 & CQ3>10 , firstrow(varlabels) replace
+}
 
 
-*Etape de correction
-/*
-count if CQ3U==3   & CQ3==. & EN_EMP==1 
-
-cap drop var_repl
-
-bysort HH2 HH6 EP1b1 : egen var_repl = median(CQ3)
-
-
-replace CQ3 = var_repl if  CQ3U==3   & CQ3==. & EN_EMP==1 
-  
-cap drop var_repl
-*/
 
  
 
@@ -502,12 +572,12 @@ count if !inrange(CQ4U,1,3) & !missing(CQ4U)
 
 *Problem 4: Vraisemblance des reponses 
 *Les valeurs entrées en années doivent etre superieur ou egale à EP2k sinon "Incoherence"
-count if CQ4U==3 & !inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998)
+*count if CQ4U==3 & !inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998)
 
-replace commentaire_competence="Les valeurs entrées en années doivent etre superieur ou egale à EP2k sinon "Incoherence"" if CQ4U==3 &!inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998)
+*replace commentaire_competence="Les valeurs entrées en années doivent etre superieur ou egale à EP2k sinon "Incoherence"" if CQ4U==3 &!inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998)
 
 *Identification des agents ayant fit des erreurs 
-export excel interview__key HH12 HH13 CQ4 CQ4U EP2k commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh" if CQ4U==3 &!inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998), firstrow(varlabels) replace 
+*export excel interview__key HH12 HH13 CQ4 CQ4U EP2k commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh" if CQ4U==3 &!inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) & !missing(CQ4) & !inlist(EP2k,.,.a,9998), firstrow(varlabels) replace 
 
 **# Bookmark #3
 *Etape correction
@@ -517,11 +587,14 @@ replace CQ4 = EP2k if CQ4U==3 &!inlist(CQ4,9998) & CQ4 < EP2k & !missing(EP2k) &
 
 *on verifie que CQ4 est bien coherent avec l'age
 
-count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998) // 3 individu concernés
+count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998) // 4 individu concernés
 
 replace commentaire_competence="Le nombre d'année d'expérience est supérieur a son âge" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
 
-export excel interview__key HH12 HH13 CQ4 CQ4U M4Confirm commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh_2" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998), firstrow(varlabels) replace 
+count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
+if r(N)>0 {
+    export excel interview__key HH12 HH13 CQ4 CQ4U M4Confirm commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh_2" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998), firstrow(varlabels) replace 
+}
 
 *correction 
 
@@ -591,7 +664,10 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des Agents ayant fait des erreurs 
 foreach var of varlist CQ6__1-CQ6__12{ 
-	export excel interview__key HH12 HH13 `var' using "$folderpath/document/Erreur_CQ6_NA" if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm), firstrow(varlabels) replace 
+	count if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
+	if r(N)>0 {
+	    export excel interview__key HH12 HH13 `var' using "$folderpath/document/Erreur_CQ6_NA" if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm), firstrow(varlabels) replace 
+	}
 }
 
 *proposition de correction 
@@ -649,7 +725,7 @@ keep if _merge == 3
 
 cap drop _merge
 
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta" , keepus(MODINTR HH13)
+merge m:1 interview__key using "$brute_menage_work" , keepus(MODINTR HH13)
 
 keep if _merge == 3
 
@@ -670,7 +746,7 @@ keep if _merge == 3
 
 cap drop _merge
 
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta" , keepus(MODINTR HH13)
+merge m:1 interview__key using "$brute_menage_work" , keepus(MODINTR HH13)
 
 keep if _merge == 3
 
@@ -700,7 +776,10 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des agents ayant fait des erreurs : Cette synthase est mal formulé
 foreach var of varlist CQ6__1-CQ6__12{ 
-	export excel interview__key HH13 `var' CQ7 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ7), firstrow(varlabels) replace 
+	count if `var'==0 & !missing(CQ7)
+	if r(N)>0 {
+	    export excel interview__key HH13 `var' CQ7 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ7), firstrow(varlabels) replace 
+	}
 }
 
 *Correction
@@ -737,7 +816,10 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des agents ayant fait des erreurs 
 foreach var of varlist CQ6__1-CQ6__12{ 
-	export excel interview__key HH13 `var' CQ8 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ8), firstrow(varlabels) replace 
+	count if `var'==0 & !missing(CQ8)
+	if r(N)>0 {
+	    export excel interview__key HH13 `var' CQ8 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ8), firstrow(varlabels) replace 
+	}
 }
 
 /*

@@ -14,26 +14,25 @@ drop if tag==0
 
 save "$datain_brute\membres.dta", replace */
 
+include "$dofiles/00-initialisation_brute_depuis_staging.do"  //Copie des versions brutes des données
 
+include "$dofiles/00-protections_sauvegarde_brute.do" // Définition des commandes de sauvegarde sécurisée (save_safe)
 
-//////////////////////////////////////////////////***SUPPRESSION DES ENTRETIENS INVALIDES***************************************//////////////////////
+include "$dofiles/00-suppression_doublons.do" // Suppression des entretiens doublons (CITP/CIAP)
 
-*** A executer en premier : supprime les entretiens vides et de trop de tous les fichiers bruts
-include "$dofiles/Suppression_entretiens_T4-2025.do"
-
-include "$dofiles/Suppression_entretiens_individuels_T4_2025.do"
+include "$dofiles/00-nettoyage_individus_brute.do" // Nettoyage des individus invalides (Âge/Sexe/M4Confirm)
 
 ///////////////////////////////////////////////***DOFILES DES BASES MENAGES***************************************//////////////////////
 
-*** Dofile préalable
+*** Dofile préalable 
 
 include "$dofiles/01-traitrement_autres.do" // Traitement des autres à préciser
 
-include "$dofiles/Codification_T4_2025.do" // codification des activités et des emplois
-
 include "$dofiles/Rename_label_var.do" //  labelisation des variables binaires découlant des variables à choix multiples
 
-include "$dofiles/standard_db.do" // Stardisation de la base prenant en compte les autres à préciser 
+include "$dofiles/00-codification_brute.do" // Intégration des codes CIAP dans membres.dta avant les sections
+
+include "$dofiles/standard_db.do" // Stardisation de la base prenant en compte les autres à préciser
 
 ***section 0:IDENTIFICATION ET RENSEIGNEMENTS DE CONTROLE
 

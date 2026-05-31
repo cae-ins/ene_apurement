@@ -1,19 +1,19 @@
 param(
+    [string]$Period = $(if ($env:ENE_PERIOD) { $env:ENE_PERIOD } else { "quarterly" }),
     [string]$Quarter = $(if ($env:ENE_QUARTER) { $env:ENE_QUARTER } else { "T4_2025" }),
+    [string]$Year = $(if ($env:ENE_YEAR) { $env:ENE_YEAR } else { "2025" }),
+    [string]$TargetDir,
     [string]$OrchestrationRoot = "C:\Users\f.migone\Desktop\ENE_MEDALLION_ORCHESTRATION",
-    [string]$QualityDir,
-    [switch]$SkipQualityReports,
     [switch]$DryRun,
     [switch]$Overwrite
 )
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
-$ScriptPath = Join-Path $OrchestrationRoot "ene_medallion_io\02_upload_apurement_outputs.py"
+$ScriptPath = Join-Path $OrchestrationRoot "ene_medallion_io\05_download_tabulation_inputs.py"
 
-$ArgsList = @($ScriptPath, "--quarter", $Quarter, "--base-dir", $ProjectRoot)
-if ($QualityDir) { $ArgsList += @("--quality-dir", $QualityDir) }
-if ($SkipQualityReports) { $ArgsList += "--skip-quality-reports" }
+$ArgsList = @($ScriptPath, "--period", $Period, "--quarter", $Quarter, "--year", $Year, "--base-dir", $ProjectRoot)
+if ($TargetDir) { $ArgsList += @("--target-dir", $TargetDir) }
 if ($DryRun) { $ArgsList += "--dry-run" }
 if ($Overwrite) { $ArgsList += "--overwrite" }
 

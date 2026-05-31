@@ -6,7 +6,7 @@
 
 use "$datain_standard\INDIV_S6_emploi_secondaire.dta", clear
 cap drop _merge
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
+merge m:1 interview__key using "$brute_menage_work", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
 drop if _merge!=3
 cap drop _merge
 
@@ -245,7 +245,7 @@ count if !missing(ES2f_loc) & ES2e!=2
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
 count if missing(ES2g) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
-*RAS
+*22
 *proposition de correction 
 br ES1a ES1b ES2g if missing(ES2g) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm) // toutes la section semble etre manquante 
 
@@ -353,7 +353,8 @@ count if ES4_2__6==1 & ES4_2__10==1
 
 
 
-drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+// membre_id_v1 droppé ici pour éviter "variable already defined" lors du second merge (l.543) commentés hors keepus (l.18) — absents du dataset
+drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1 membre_id_v1_IND PL3
 
 save "$datain_standard\INDIV_S6_emploi_secondaire.dta", replace
 
@@ -368,7 +369,7 @@ keep if _merge == 3
 
 cap drop _merge
 
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta" , keepus(HH13 HH2)
+merge m:1 interview__key using "$brute_menage_work" , keepus(HH13 HH2)
 
 keep if _merge == 3
 
@@ -526,12 +527,12 @@ export excel interview__key HH13 ES4_6 using "$folderpath/document/Erreur_ES4_6_
 *Problem 4 : Vraisemblance des reponses  
 *RAS
 
-drop ES4_2__7 ES4_2__10 HH2 HH13 med_ES4_4 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+drop ES4_2__7 ES4_2__10 HH2 HH13 med_ES4_4
 save "$dataout\Revenu_es.dta" , replace
 
 use "$datain_standard\INDIV_S6_emploi_secondaire.dta", clear
 cap drop _merge
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
+merge m:1 interview__key using "$brute_menage_work", keepusing(HH2 HH3 HH4 HH12 HH13 HH3 annee)
 drop if _merge!=3
 cap drop _merge
 
@@ -676,9 +677,9 @@ count if missing(ES10) & inrange(ES2g,3,7)
 
 br ES1a ES1b ES2g ES10 if missing(ES10) & inrange(ES2g,3,7)
 
-replace ES10 = 10 if ES2g == 4
-replace ES10 = 9 if ES1b == "VENTE DE BOISSONS"
-replace ES10 = 5 if ES1a == "MAÇON"
+replace ES10 = 1 if missing(ES10) & inrange(ES2g,3,7) & ES2g == 4 & ES1b=="TOUS TYPES DE TRAVEAUX"
+*replace ES10 = 9 if ES1b == "VENTE DE BOISSONS"
+*replace ES10 = 5 if ES1a == "MAÇON"
 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
@@ -1059,6 +1060,6 @@ count if !inlist(ES20,1,2,9998) & !missing(ES20)
 *RAS
 
 
-drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3
 
 save "$standard_individu\INDIV_S6_emploi_secondaire.dta", replace

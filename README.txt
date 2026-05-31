@@ -1,16 +1,49 @@
-Ce fichier a pour objectif d'expliquer ce projet STATA de traitement de la base de données du troisième trimestre de l'ENE_M 2024, depuis les bases brutes, jusqu'à l'obtention des bases apurées, incluant les éléments de codification : Emploi principal, Emploi secondaire et branche d'activité. Nous recapitulons ci-après les étapes d'utilisation du projet : 
+ENE_M T1 2026 - apurement Stata
 
-1) Assurer vous que vous aviez bel et bien la dernière version des bases brutes à apurer qui date en principe du 07/11/2024 
-2) Ouvrier le projet dénommé ENE_2024T3 sur STATA
-3) Exécuter premièrement le dofile parentfile.do
-4) Ensuite, exécuter le dofile apurement.do qui lancera tout les dofiles d'apurement des sections du questionnaire
-5) Enfin, exécuter le dofile Fusion.do qui fusionne les bases apurées et intègre les éléments de codification.
+Documentation operationnelle detaillee:
 
- 
+  README.md
 
-Si vous aviez suivi correctement toutes ces étapes, vous devriez avoir toutes vos bases apurées, se trouvant dans le dossier dénommé "dataout" 
+Organisation locale des donnees:
 
+  datain/staging : copie immuable de l'export Survey Solutions original
+  datain/brute   : copie de travail modifiable par les do-files Stata
+  datain/standard: sections standardisees intermediaires
+  dataout        : sorties apurees
 
-Merci !!!!!!!!!!, On se retrouve au prochain trimestre pour une nouvelle aventure d'apurement aussi passionnante que chalengeant    
+Ne jamais lancer l'apurement directement sur l'unique copie d'un export brut.
+Les do-files existants modifient datain/brute pendant le traitement.
 
-T.A.K
+Preparation recommandee:
+
+1. Telecharger l'export Survey Solutions original depuis MinIO vers datain/staging:
+
+   python tools\ene_medallion_io\01_download_apurement_inputs.py --quarter T1_2026 --overwrite
+
+2. Ouvrir ENE_2026T1.stpr dans Stata.
+3. Executer program/parentfile.do.
+4. Executer program/apurement.do.
+5. Executer program/Fusion.do.
+
+program/apurement.do execute automatiquement
+program/00-initialisation_brute_depuis_staging.do avant les traitements. Ce
+do-file remplace le contenu de datain/brute par le snapshot datain/staging.
+
+Les sauvegardes modifiant les fichiers bruts passent ensuite par
+program/00-protections_sauvegarde_brute.do. Ces protections arretent le
+pipeline si un roster est sur le point d'ecraser membres.dta, ou inversement.
+
+Les exports Excel conditionnels sont proteges contre l'absence d'observations.
+Pour verifier statiquement les protections Stata:
+
+   python tools\validate_stata_raw_saves.py
+   python tools\validate_stata_excel_exports.py
+
+Le nom de l'export menage trimestriel est centralise dans program/parentfile.do:
+
+  brute_menage_source : ENEM_2026T1.dta, export Survey Solutions restaure
+  brute_menage_work   : QX_EEC_VF.dta, copie menage corrigee par l'apurement
+
+Pour reconstruire manuellement la copie de travail hors Stata:
+
+   python tools\ene_medallion_io\prepare_apurement_working_copy.py --reset-working-copy

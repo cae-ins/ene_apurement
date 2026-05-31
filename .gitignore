@@ -1,34 +1,28 @@
-# Données Stata
-*.dta
+# ENEM Apurement - Git Ignore
 
-# Fichiers Excel
-*.xls
-*.xlsx
-~$*
-
-# Archives
-*.zip
-
-# Dossiers de données
+# --- Données (Ne jamais committer) ---
 datain/
 dataout/
+datatemp/
+*.dta
 
-# Fichiers Stata temporaires
-*.stswp
-*.stsym
+# --- Documents de travail et rapports d'erreurs ---
+# On garde le dossier document/ mais on ignore les fichiers Excel générés
+document/*.xlsx
+document/*.xls
+!document/codification/ # On peut garder les templates de codification si besoin (sans les données)
 
-# Logs Stata
+# --- Python ---
+**/__pycache__/
+*.pyc
+.venv/
+env/
+
+# --- Stata ---
+*.stpr.bak
 *.log
 *.smcl
 
-# Credentials et config locale
-.env
-*.env
-
-# Claude Code
-.claude/
-
-# Fichiers système
+# --- OS ---
 .DS_Store
 Thumbs.db
-desktop.ini

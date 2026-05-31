@@ -5,12 +5,14 @@
 ****RESPONSABLE: SEKONGO MAMADOU (PECHOUX )
 *=============================================
 
+****RESPONSABLE: BROU
+*=============================================
 /*
 
 use "$datain_brute\membres.dta", clear
 
 cap drop _merge
-merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepusing(HH12 HH13 HH3)
+merge m:1 interview__key using "$brute_menage_work", keepusing(HH12 HH13 HH3)
 
 drop if _merge!=3
 cap drop _merge
@@ -47,26 +49,42 @@ cap drop _merge
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
 ////////////////
+**# Supprimer les espaces au tour des variables textes dans la base
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = ustrregexra(`var', "\s+$", "")
+	replace `var' = strltrim(`var')
+}
+
+
+**# Convertir les champs vides représentés par ##N/A## par ""
+
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = "" if `var' == "##N/A##"
+
+}
+
+**********************
 ********************RECHERCHE D’EMPLOI ET DISPONIBILITÉ (SRH)********
+
 ****SRH1:SRH1. Au cours de la période allant du %DateJ3 0% au %DateJ0% (30 jours), avez-vous cherché un emploi à titre indépendant ou salarié, à tem ps partiel ou non, ou un travail de type apprent issage rémunéré?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
-*13
+*count if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
+list EN_EMP M4Confirm SRH1 if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
 
-cap drop commentaire_SRH
-gen commentaire_SRH=""
-
-replace commentaire_SRH="Valeurs manquantes: Est ce que ceux qui devaient repondre à la question SRH1 et n'ont pas  repondu? " if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+br if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 SRH1 commentaire_SRH using "$folderpath/document/SRH1_Manquants.xlsx" if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) ,firstrow(variables) replace
+export excel interview__key HH12 HH13 SRH1 using "$folderpath/document/SRH1_Manquants.xlsx" if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) ,firstrow(variables) replace
 }
 
+/*
 ***Correction: Pas de correction possible
 replace SRH1=2 if missing(SRH1) & !missing(SRH2)
-
+*/
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH1) & !(EN_EMP == 0 & M4Confirm>=15) & !inlist(M4Confirm,.,.a)
@@ -78,10 +96,19 @@ count if !missing(SRH1) & !inlist(SRH1,1,2)
 
 ****SRH2
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(SRH2) & SRH1 == 2 
 
-*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
+list SRH1 SRH2 if SRH1 == 2 & missing(SRH2)
+count if missing(SRH2) & SRH1 == 2 
+ br if missing(SRH2) & SRH1 == 2 
+ 
+ if r(N) > 0 {
+export excel interview__key HH12 HH13 SRH1 SRH2 using "$folderpath/document/SRH2_Manquants.xlsx" if SRH1 == 2 & missing(SRH2), firstrow(variables) replace
+}
+ 
+*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre?
+
 count if !missing(SRH2) & SRH1 != 2
+
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
 count if  !missing(SRH2) & !inlist(SRH2,1,2)
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
@@ -90,13 +117,11 @@ count if  !missing(SRH2) & !inlist(SRH2,1,2)
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH2A) & SRH2 == 2 
 
-replace commentaire_SRH="ceux qui devaient repondre à la question SRH2A et n'ont pas repondu" if missing(SRH2A) & SRH1 == 2 
-
+/*
 if r(N) > 0 {
 *export excel interview__key HH13 SRH2A  commentaire_SRH using "$folderpath/document/SRH2A_Manquants.xlsx" if missing(SRH2A) & SRH1 == 2 ,firstrow(variables) replace
 }
-
-**********COrrection: RAS
+*/
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH2A) & SRH1 != 2
@@ -110,11 +135,13 @@ count if !missing(SRH2) & !inlist(SRH2,1,2)
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH3) & (SRH1==1 | SRH2==1 | SRH2A==1) 
 
-replace commentaire_SRH="ceux qui devaient repondre à la question ont veritablement repondu" if missing(SRH3) & (SRH1==1 | SRH2==1 | SRH2A==1) 
-
+/*
+ 
 if r(N) > 0 {
 *export excel interview__key HH12 HH13 SRH3 commentaire_SRH using "$folderpath/document/SRH3_Manquants.xlsx" if missing(SRH3) & (SRH1==1 | SRH2==1 | SRH2A==1)  ,firstrow(variables) replace
 }
+*/
+
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH3) & !((SRH1==1 | SRH2==1 | SRH2A==1) )
 
@@ -122,21 +149,37 @@ count if !missing(SRH3) & !((SRH1==1 | SRH2==1 | SRH2A==1) )
 count if !missing(SRH3) & !inrange(SRH3,1,19)
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
+****SRH3_Aut
+*Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
+
+list SRH3 SRH3_Aut if SRH3 == 19 & missing(SRH3_Aut)
+
+ 
+if r(N) > 0 {
+export excel interview__key HH12 HH13 SRH3 commentaire_SRH using "$folderpath/document/SRH3_Aut.xlsx" if SRH3 == 19 & !missing(SRH3_Aut)  ,firstrow(variables) replace
+}
+
+*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre?
+list SRH3 SRH3_Aut if SRH3 != 19 & !missing(SRH3_Aut)
+
 ****SRH4 Depuis quel mois êtes-vous sans emploi et essayez-vous de trouve
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH4) & (SRH1==1 | SRH2==1 | SRH2A==1) 
 
-*replace commentaire_SRH="ceux qui devaient repondre à la question ont veritablement repondu" if missing(SRH4) & (SRH1==1 | SRH2==1 | SRH2A==1) 
-
+/*
 if r(N) > 0 {
 *export excel interview__key HH12 HH13 SRH4 commentaire_SRH using "$folderpath/document/SRH4_Manquants.xlsx" if  missing(SRH4) & (SRH1==1 | SRH2==1 | SRH2A==1)   ,firstrow(variables) replace
 }
+
+*/
+
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH4) & !((SRH1==1 | SRH2==1 | SRH2A==1) )
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
 count if !missing(SRH4) & !inrange(SRH4,1,12) & SRH4!=9998
+
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
 
@@ -146,20 +189,17 @@ count if !missing(SRH4) & !inrange(SRH4,1,12) & SRH4!=9998
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH4A) & (SRH1==1 | SRH2==1 | SRH2A==1)
 
-*replace commentaire_SRH="ceux qui devaient repondre à la question ont veritablement repondu" if missing(SRH4A) & (SRH1==1 | SRH2==1 | SRH2A==1)
-
+/*
 
 if r(N) > 0 {
 *export excel interview__key HH12 HH13 SRH4A commentaire_SRH using "$folderpath/document/SRH4A_Manquants.xlsx" if  missing(SRH4A) & (SRH1==1 | SRH2==1 | SRH2A==1)   ,firstrow(variables) replace
 }
+*/
+
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(SRH4A) & !((SRH1==1 | SRH2==1 | SRH2A==1) )
+count if !missing(SRH4A) & (SRH4A > 2026 | SRH4A<1922 ) & SRH4A !=9998
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if !missing(SRH4A) & (SRH4A > 2025 | SRH4A<1922 ) & SRH4A !=9998
-
-replace SRH4A =2025 if !missing(SRH4A) & (SRH4A > 2025 | SRH4A<1922 ) & SRH4A !=9998
-*Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
 
 ***SRH4B
@@ -169,18 +209,24 @@ count if missing(SRH4B) & (SRH1==1 | SRH2==1 | SRH2A==1) & SRH4A==9998
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH4B) & !((SRH1==1 | SRH2==1 | SRH2A==1) & SRH4A==9998)
 
-*Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if !missing(SRH4B) & !inrange(SRH4B,1,6) 
+*Etape3: Est ce que les reponses données sont celles qu'on attendait?
+count if !missing(SRH4B) & !inrange(SRH4B, 1,6)
+
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
 ******SRH5 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH5) & (SRH2==2 & SRH2A==2)
 
-replace commentaire_SRH="ceux qui devaient repondre à la question SRH5 n'ont pas repondu" if missing(SRH5) & (SRH2==2 & SRH2A==2)
+br if missing(SRH5) & (SRH2==2 & SRH2A==2)
+
 if r(N) > 0 {
-*export excel interview__key HH12 HH13 SRH5 commentaire_SRH using "$folderpath/document/SRH5_Manquants.xlsx" if missing(SRH5) & (SRH2==2 & SRH2A==2) ,firstrow(variables) replace
+export excel interview__key HH12 HH13 SRH5 using "$folderpath/document/SRH5_Manquants.xlsx" if missing(SRH5) & (SRH2==2 & SRH2A==2) ,firstrow(variables) replace
 }
+
+**correction
+replace SRH5 = 2 if missing(SRH5) & (SRH2==2 & SRH2A==2)
+
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH5) & !(SRH2==2 & SRH2A==2)
 
@@ -193,8 +239,9 @@ count if !missing(SRH5) & !inlist(SRH5,1,2)
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH6) &  SRH2A==2
 
+/*
 replace commentaire_SRH="ceux qui devaient repondre à la question SRH6 n'ont pas repondu" if missing(SRH6) &  SRH2A==2
-
+*/
 
 *export excel interview__key HH12  HH13 SRH6  commentaire_SRH using "$folderpath/document/SRH6_Manquants.xlsx" if missing(SRH6) &  SRH2A==2,firstrow(variables) replace
 
@@ -209,35 +256,13 @@ count if !missing(SRH5) & !inlist(SRH5,1,2)
 ******SRH7
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7) & SRH2== 2
-*count if inlist(SRH7,24,27)
-
-/*
-ENSEIGNANT EN PERIODE DE VACANCES
-TRAVAIL
-FONCTIONNAIRE DANS LE  PRIVÉ
-NE SOUHAITE PAS CHANGER D'EMPLOI DE COUTURE
-EN CONGES
-ELLE A DEJA UNE PLANTATION EN SON NOM, MAIS N'Y TRAVAIL PAS VU L'AGE AVANCE.
-CHAMP D AUBERGINE ET DE HARICOT
-ENSEIGNANT EN VACANCE
 
 
-*/
+br if missing(SRH7) & SRH2== 2
 
-br interview__key membres__id  SRH7_Aut if inlist(SRH7,24,27) & SRH7_Aut!=""
+***correction
+replace SRH7 = 26 if missing(SRH7) & SRH2== 2 // l'individus déclare à la question SRH7A qu'il se considère trop âgé pour travailler.
 
-replace commentaire_SRH="Ils sont en emploi, mais il se retrouve en SRH" if  inlist(SRH7_Aut,"ÉTAIT EN EMPLOI À CETTE PÉRIODE","MARABOUT","TRAVAILLEUSE DU SEXE")
-
-*export excel interview__key membres__id HH12 HH13 SRH7_Aut rgmen using "$folderpath/document/SRH7_en_emploi.xlsx" if  inlist(SRH7_Aut,"ÉTAIT EN EMPLOI À CETTE PÉRIODE","MARABOUT","TRAVAILLEUSE DU SEXE"),firstrow(variables) replace
-
-
-count if missing(SRH7) &  SRH2A==2
-
-replace commentaire_SRH="ceux qui devaient repondre à la question SRH7 et n'ont repondu" if missing(SRH7) &  SRH2A==2
-
-if r(N) > 0 {
-*export excel interview__key membres__id HH12 HH13 SRH7 commentaire_SRH  using "$folderpath/document/SRH7_Manquants.xlsx" if missing(SRH7) &  SRH2A==2,firstrow(variables) replace
-}
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH7) & SRH2A!=2
@@ -260,47 +285,47 @@ count if !missing(SRH7) & !inrange(SRH7,1,27)
 ******SRH7_Aut
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7_Aut) &  (SRH7 == 24 | SRH7== 27)
-
+/*
 if r(N) > 0 {
 export excel interview__key HH13 SRH7_Aut using "$folderpath/document/SRH7_Aut_Manquants.xlsx" if missing(SRH7_Aut) &  (SRH7 == 24 | SRH7== 27),firstrow(variables) replace
 }
-
+*/
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH7_Aut) &  SRH7 != 24 & SRH7!= 27
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if SRH7_Aut=="##N/A##"
+
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ****SRH7A.Spécifiquement, quelle est la principale raison pour laquelle vous n’avez pas créé une exploitation agricole (champs, élevage, etc.) au c ours de la période allant du %DateJ30% au %Da teJ0% (30 jours) ?
 
-
-
-/*
-
-
-
-*/
-
-br interview__key membres__id SRH7A SRH7A_Aut if inlist(SRH7A,7) & SRH7A_Aut!=""
-
-
+*Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7A) & SRH2A==2
 
-*replace commentaire_SRH="Ils sont en emploi, mais il se retrouve en SRH" if  inlist(SRH7A_Aut,"APPRENTI COUTURE", "APPRENTI MÉCANICIEN", "APPRENTI DE COIFFURE", "APPRENTI DE COUTURE", "EN APPRENTISSAGE", "Activités religieuses (Pasteur)", "OCCUPE DANS LE CHAMP FAMILIAL") | inlist(SRH7A_Aut, "APPRENTISSAGE", "AIDE SON MARI DANS LE CHAMP DE RIZ POUR LA CONSOMMATION DU MENAGE", "STAGIAIRE NON PAYÉ", "OCCUPÉ PAR MON APPRENTISSAGE DE MÉCANIQUE", "APPRENTI FRIGORISTE","JE TRAVAILLE DANS LE CHAMP DE MON MARI","TRAVAUX CHAMPÊTRES") | inlist(SRH7A_Aut,"EN DEUIL DEPUIS MAINTENANT DEUX MOIS, ELLE A STOPPÉ TOUTES SES ACTIVITÉS COMME LE VEUT LEUR TRADITION ET NE SAIT PAS QUAND ELLE VA REPRENDRE SES ACTIVITÉS. C'EST SON MARI QUI LUI DONNE DE L'ARGENT POUR SUBVENIR A SES BESOINS POUR LE MOMENT","JE CULTIVE LE JARDIN POTAGER FAMILIAL","TRAVAUX CHAMPÊTRES", "apprenti non payé", "TRAVAUX CHAMPÊTRES", "Vous travailliez dans la plantation/ferme/pisciculture/pêche pour le compte du ménage") | inlist(SRH7A_Aut, "TRAVAUX CHAMPÊTRES", "APPREND LA COUTURIERE ACTUELLEMENT"; "APPRENTI NON PAYE DU PERE", "JE TRAVAILLE DANS LE CHAMP FAMILIALE", "AIDE SON MARI A TRAVAILLER DANS SON CHAMP DE RIZ POUR LA CONSOMMATION DU MENAGE", "EN APPRENTISSAGE")
+br if missing(SRH7A) & SRH2A==2
 
+**Correction
+cap drop mod
+egen mod = mode(SRH7A)
+replace SRH7A = mod if missing(SRH7A) & SRH2A==2
+drop mod
 
-*export excel interview__key membres__id HH12 HH13 SRH7A_Aut commentaire_SRH rgmen HH2 using "$folderpath/document/SRH7A_en_emploi.xlsx" if  inlist(SRH7A_Aut,"Travailles dans la plantation pour le compte du ménage", "AIDE SON PERE DANS LE CHAMP FAMILIAL", "APPRENTI DE COIFFURE", "APPRENTI DE COUTURE", "EN APPRENTISSAGE", "Activités religieuses (Pasteur)", "OCCUPE DANS LE CHAMP FAMILIAL") | inlist(SRH7A_Aut, "APPRENTISSAGE", "AIDE SON MARI DANS LE CHAMP DE RIZ POUR LA CONSOMMATION DU MENAGE", "STAGIAIRE NON PAYÉ", "OCCUPÉ PAR MON APPRENTISSAGE DE MÉCANIQUE", "APPRENTI FRIGORISTE","JE TRAVAILLE DANS LE CHAMP DE MON MARI","TRAVAUX CHAMPÊTRES") | inlist(SRH7A_Aut,"EN DEUIL DEPUIS MAINTENANT DEUX MOIS, ELLE A STOPPÉ TOUTES SES ACTIVITÉS COMME LE VEUT LEUR TRADITION ET NE SAIT PAS QUAND ELLE VA REPRENDRE SES ACTIVITÉS. C'EST SON MARI QUI LUI DONNE DE L'ARGENT POUR SUBVENIR A SES BESOINS POUR LE MOMENT","JE CULTIVE LE JARDIN POTAGER FAMILIAL","TRAVAUX CHAMPÊTRES", "apprenti non payé", "TRAVAUX CHAMPÊTRES", "Vous travailliez dans la plantation/ferme/pisciculture/pêche pour le compte du ménage") | inlist(SRH7A_Aut, "TRAVAUX CHAMPÊTRES", "APPREND LA COUTURIERE ACTUELLEMENT"; "APPRENTI NON PAYE DU PERE", "JE TRAVAILLE DANS LE CHAMP FAMILIALE", "AIDE SON MARI A TRAVAILLER DANS SON CHAMP DE RIZ POUR LA CONSOMMATION DU MENAGE", "EN APPRENTISSAGE"),firstrow(variables) replace
-
-*export excel interview__key HH12 HH13 SRH7A  using "$folderpath/document/SRH7A_Incoherance.xlsx" if  missing(SRH7A) & SRH2A==2,firstrow(variables) replace
+*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
+count if !missing(SRH7A) & SRH2A!=2
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
 
-count if !missing(SRH7A) & SRH2A!=2
+count if !missing(SRH7A) & !inrange(SRH7A, 1,7)
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
-******SRH7A_Aut
+******SRH7A_Aut 
+br interview__key membres__id SRH7A SRH7A_Aut if inlist(SRH7A,7) & SRH7A_Aut!=""
+
+if r(N) > 0 {
+export excel interview__key HH13 SRH7A_Aut using "$folderpath/document/SRH7A_Aut.xlsx" if missing(SRH7_Aut) &  (SRH7 == 24 | SRH7== 27),firstrow(variables) replace
+}
+
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7A_Aut) &  SRH7A == 7
 
@@ -309,11 +334,6 @@ count if !missing(SRH7A_Aut) &  SRH7A != 7
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
 
-count if SRH7A_Aut=="##N/A##"
-
-if r(N) > 0 {
-*export excel interview__key HH12 HH13 SRH7A_Aut  using "$folderpath/document/SRH7A_Aut_Inattendu.xlsx" if SRH7A_Aut=="##N/A##",firstrow(variables) replace
-}
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 
@@ -338,7 +358,7 @@ count if missing(SRH9) &  SRH7 == 18
 count if !missing(SRH9) & SRH7 != 18
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if !missing(SRH9) & !inrange( SRH9,1,2)
+count if !missing(SRH9) & !inlist( SRH9,1,2)
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
 
@@ -351,6 +371,8 @@ count if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,
 if r(N) > 0 {
 export excel interview__key HH12 HH13 SRH11  using "$folderpath/document/SRH11_Aut_manquants.xlsx" if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,.a),firstrow(variables) replace
 }
+
+br if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,.a)
 
 ****Correction: RAS
 
@@ -373,7 +395,7 @@ forvalues i = 1/27 {
     
     * Si il existe des réponses manquantes, les exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH12 HH13 SRH12A__`i' using "$folderpath/document/SRH12A__`i'.xlsx" if if missing(SRH12A__`i') & (EN_EMP == 0 & M4Confirm >= 15 & !inlist(M4Confirm, .,.a) ) & SRH11 == 2 , firstrow(variables) replace
+        export excel interview__key HH12 HH13 SRH12A__`i' using "$folderpath/document/SRH12A__`i'.xlsx" if missing(SRH12A__`i') & (EN_EMP == 0 & M4Confirm >= 15 & !inlist(M4Confirm, .,.a) ) & SRH11 == 2 , firstrow(variables) replace
         display "Exportation terminée pour SRH12A__`i' avec " r(N) " réponses manquantes"
     }
 	*Si pas d'erreurs alors  le message suivant apparaittra
@@ -421,45 +443,27 @@ forvalues i = 1/27 {
 
 ****SRH12A_Aut1 raison involontaire à préciser
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(SRH12A_Aut1) & SRH12A__27 == 1 // presence de valeurs manquantes
+count if missing(SRH12A_Aut1) & SRH12A__24 == 1
 
-***Exportation
-if r(N) > 0 {
-export excel interview__key HH12 HH13  SRH12A__27  SRH12A_Aut1  using "$folderpath/document/SRH12A_Aut1_manquants.xlsx" if missing(SRH12A_Aut1) & SRH12A__27 == 1,firstrow(variables) replace
-}
-
-***Correction: RAS car necessite de revenir aux agents
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(SRH12A_Aut1) & SRH12A__27 == 0 // le saut ne marche pas 
+count if !missing(SRH12A_Aut1) & SRH12A__24 == 0
 
-replace SRH12A__27=1 if !missing(SRH12A_Aut1) & SRH12A__27 == 0
-*15
+*Etape3: RAS
 
-**Exportation: 
-if r(N) > 0 {
-*export excel interview__key HH12 HH13 SRH12A__27  SRH12A_Aut1  using "$folderpath/document/SRH12A_Aut1_sauts.xlsx" if !missing(SRH12A_Aut1) & SRH12A__27 == 0,firstrow(variables) replace
-}
-
-*Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if SRH12A_Aut1=="##N/A##"
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
 
 
 ***SRH12A_Aut2. Autre raison volontaire à précise 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(SRH12A_Aut2) & SRH12A__27 == 1 // pas de valeurs manquantes
-
-br SRH12A_Aut2 SRH12A__27 if missing(SRH12A_Aut2) & SRH12A__27 == 1 
-
-replace SRH12A__27=2 if missing(SRH12A_Aut2) & SRH12A__27 == 1 
+count if missing(SRH12A_Aut2) & SRH12A__27 == 1
+ 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH12A_Aut2) & SRH12A__27 != 1
 
-*Etape3: Est ce que les reponses données sont celles qu'on attendait? 
-count if SRH12A_Aut2=="##N/A##"
+*Etape3: Est ce que les reponses données sont celles qu'on attendait? RAS
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
@@ -467,6 +471,12 @@ count if SRH12A_Aut2=="##N/A##"
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH12B) & (SRH6==1 | SRH11==1)
+
+br if missing(SRH12B) & (SRH6==1 | SRH11==1) 
+
+*** Correction
+
+replace SRH12B = 2 if missing(SRH12B) & (SRH6==1 | SRH11==1) // car l'individu déclare ne pas vouloir travailler à l'heure actuelle et qu'il poursuit ses études. on voit qu'il est prêt à travailler mais dans sa localité. 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH12B) & !(SRH6==1 | SRH11==1)
@@ -496,13 +506,16 @@ TRAVAILLEUR  SAISONNIER
 count if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 *58
 
-br SRH13 SRH13_Aut if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+br if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
+**Exportation au fichier excel
 if r(N) > 0 {
 export excel interview__key HH13 SRH13  using "$folderpath/document/SRH13_Manquants.xlsx" if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) ,firstrow(variables) replace
 }
 
-***Correction: LRAS : La correction necessite de revenir aux agents
+
+
+***Correction: RAS : La correction necessite de revenir aux agents
 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
@@ -514,21 +527,21 @@ count if !missing(SRH13) & !inrange(SRH13,1,8)
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS 
 
 *** SRH13_Aut. Veuillez préciser ?
+
+count if !missing(SRH13_Aut) & SRH13 == 8
+if r(N) > 0 {
+export excel interview__key HH13 SRH13_Aut using "$folderpath/document/SRH13_Aut.xlsx" if !missing(SRH13_Aut) & SRH13 == 8, firstrow(variables) replace
+}
+
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH13_Aut) &  SRH13 == 8 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH13_Aut) &  SRH13 != 8 
 
-*Etape3: Est ce que les reponses données sont celles qu'on attendait? 
+*Etape3: Est ce que les reponses données sont celles qu'on attendait? RAS
 
-count if SRH13_Aut=="##N/A##"
-
-if r(N) > 0 {
-*export excel interview__key HH12 HH13 SRH7A_Aut  using "$folderpath/document/SRH13_Aut_Inattendu.xlsx" if SRH13_Aut=="##N/A##",firstrow(variables) replace
-}
-
-drop HH2 HH3 HH4 HH6 HH8B HH12 HH13 EN_EMP M4Confirm commentaire_SRH rgmen  EP1a  hhb HH14a
+drop HH2 HH3 HH4 HH6 HH8B HH12 HH13 EN_EMP M4Confirm  rgmen  EP1a  hhb HH14a
 
 
 save "$standard_individu\INDIV_S10_recherche_emploi_disponibilite.dta", replace

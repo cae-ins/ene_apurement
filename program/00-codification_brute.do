@@ -1,157 +1,180 @@
-*importation de la base membres apurés appurés
+*================================================
+* 00-codification_brute.do
+*
+* Intègre les codes CIAP dans membres.dta brute
+* AVANT standard_db.do, pour que les sections
+* d'apurement (S3, S5, S6) puissent y accéder.
+*
+* Prérequis : les fichiers Excel de codification
+* doivent être présents dans $codification
+* (= $document/codification, sous-dossier dédié
+* pour ne pas les mélanger aux exports d'erreurs).
+* Noms attendus :
+*   codification_emploi_principal_T1_2026_cp.xlsx
+*   codification_emploi_secondaire_T1_2026_cp.xlsx
+*   codification_autre_emploi_T1_2026_cp.xlsx
+*================================================
 
 use "$datain_brute\membres.dta", clear
 
+* ---- 1. Emploi principal : code_citp_emp_principal ----
 
-****code activité *****************
-preserve 
+preserve
+    import excel "$codification\codification_emploi_principal_T1_2026_cp.xlsx", ///
+        sheet("Sheet1") firstrow clear
 
-import excel "$document\activites_principales_T425.xlsx", sheet("Feuil1") firstrow clear
+    rename InterviewkeyidentifierinXX interview__key
+    rename Idinmembres membres__id
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    keep interview__key membres__id code_citp_emp_principal
 
-destring membres__id, replace
-*rename InterviewkeyidentifierinXX interview__key
-*rename Idinmembres membres__id
+    save "$datatemp\codif_emploi_principal.dta", replace
+restore
 
-drop if missing(interview__key)
+cap drop code_citp_emp_principal
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\codif_emploi_principal.dta", ///
+    keepus(code_citp_emp_principal)
+drop if _merge == 2
+cap drop _merge
 
-save "$datatemp\codif_activite_principal_T4_2025.dta" , replace 
+* ---- 2. Emploi secondaire : code_citp_emp_secondaire ----
 
-restore 
+preserve
+    import excel "$codification\codification_emploi_secondaire_T1_2026_cp.xlsx", ///
+        sheet("Sheet1") firstrow clear
 
-cap drop _merge 
-merge 1:1 interview__key membres__id  using "$datatemp\codif_activite_principal_T4_2025.dta", keepus(CodeCIAPactivité)
+    rename InterviewkeyidentifierinXX interview__key
+    rename Idinmembres membres__id
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    keep interview__key membres__id code_citp_emp_secondaire
 
-drop if _merge == 2 
-cap drop _merge 
+    save "$datatemp\codif_emploi_secondaire.dta", replace
+restore
 
+cap drop code_citp_emp_secondaire
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\codif_emploi_secondaire.dta", ///
+    keepus(code_citp_emp_secondaire)
+drop if _merge == 2
+cap drop _merge
+
+* ---- 3. Pluriactivité : code_citp_autre_emploi → reshape wide ----
+
+preserve
+    import excel "$codification\codification_autre_emploi_T1_2026_cp.xlsx", ///
+        sheet("Sheet1") firstrow clear
+
+    rename InterviewkeyidentifierinXX interview__key
+    rename Idinmembres membres__id
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    keep interview__key membres__id Idinr_activite_s code_citp_autre_emploi
+
+    reshape wide code_citp_autre_emploi, i(interview__key membres__id) j(Idinr_activite_s)
+
+    cap rename code_citp_autre_emploi1 pluriactivite1_codif
+    cap rename code_citp_autre_emploi2 pluriactivite2_codif
+    cap rename code_citp_autre_emploi3 pluriactivite3_codif
+    cap rename code_citp_autre_emploi4 pluriactivite4_codif
+    cap rename code_citp_autre_emploi5 pluriactivite5_codif
+
+    save "$datatemp\codif_pluriactivite.dta", replace
+restore
+
+cap drop pluriactivite1_codif pluriactivite2_codif pluriactivite3_codif ///
+         pluriactivite4_codif pluriactivite5_codif
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\codif_pluriactivite.dta"
+drop if _merge == 2
+cap drop _merge
+
+* ---- 4. Stub pour CodeCIAPactivité (en attente du fichier) ----
+* ---- 3b. CIAP Emploi secondaire ----
+preserve
+    import excel "$codification\\Activite_secondaire_T126.xlsx", sheet("Feuil1") firstrow clear
+    cap rename Codeactivité CodeCIAPactivite_sec
+    cap rename CodeactivitÃ© CodeCIAPactivite_sec
+    keep interview__key membres__id CodeCIAPactivite_sec
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    save "$datatemp\\codif_ciap_secondaire.dta", replace
+restore
+cap drop CodeCIAPactivite_sec
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\\codif_ciap_secondaire.dta", keepus(CodeCIAPactivite_sec)
+drop if _merge == 2
+cap drop _merge
+
+* ---- 3c. CIAP Pluriactivité ----
+preserve
+    import excel "$codification\\Pluriactivite_AllT126.xls", sheet("Sheet1") firstrow clear
+    cap rename Code CodeCIAPactivite_pluri
+    keep interview__key membres__id r_activite_s__id CodeCIAPactivite_pluri
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    reshape wide CodeCIAPactivite_pluri, i(interview__key membres__id) j(r_activite_s__id)
+    save "$datatemp\\codif_ciap_pluri.dta", replace
+restore
+cap drop CodeCIAPactivite_pluri*
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\\codif_ciap_pluri.dta"
+drop if _merge == 2
+cap drop _merge
+
+cap drop CodeCIAPactivité
+gen CodeCIAPactivité = ""
+
+* ---- 4. CIAP Emploi principal (En attente du fichier) ----
+/*
+* DÉCOMMENTER CE BLOC QUAND LE FICHIER SERA DISPONIBLE
+* (Pensez à vérifier le nom exact du fichier et de la feuille)
+preserve
+    import excel "$codification\activites_principales_T126.xlsx", sheet("Feuil1") firstrow clear
+    cap rename Codeactivité CodeCIAPactivité // Ajuster le nom de la colonne si besoin
+    keep interview__key membres__id CodeCIAPactivité
+    destring membres__id, replace force
+    drop if missing(interview__key)
+    save "$datatemp\codif_ciap_principal.dta", replace
+restore
+cap drop CodeCIAPactivité
+cap drop _merge
+merge 1:1 interview__key membres__id using "$datatemp\codif_ciap_principal.dta", keepus(CodeCIAPactivité)
+drop if _merge == 2
+cap drop _merge
+*/
+
+
+* ---- 5. Création des variables branches à partir de CodeCIAPactivité ----
 cap drop Code_1er
-gen Code_1er=substr(CodeCIAPactivité,1,1) 
+gen Code_1er=substr(CodeCIAPactivité,1,1)
 
 cap drop branche2
 gen branche2=99 if Code_1er != ""
-
 replace branche2=1  if Code_1er=="A"
-replace branche2=2  if Code_1er=="B"
-replace branche2=2  if Code_1er=="C"
-replace branche2=2  if Code_1er=="D"
-replace branche2=2  if Code_1er=="E"
-replace branche2=2  if Code_1er=="F"
-replace branche2=3  if Code_1er=="G"
-replace branche2=3  if Code_1er=="H"
-replace branche2=3  if Code_1er=="I"
-replace branche2=3  if Code_1er=="J"
-replace branche2=3  if Code_1er=="K"
-replace branche2=3  if Code_1er=="L"
-replace branche2=3  if Code_1er=="M"
-replace branche2=3  if Code_1er=="N"
-replace branche2=3  if Code_1er=="O"
-replace branche2=3  if Code_1er=="P"
-replace branche2=3  if Code_1er=="Q"
-replace branche2=3  if Code_1er=="R"
-replace branche2=3  if Code_1er=="S"
-replace branche2=3  if Code_1er=="T"
+replace branche2=2  if inlist(Code_1er, "B", "C", "D", "E", "F")
+replace branche2=3  if inlist(Code_1er, "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T")
 
-lab var branche2 "Brache d'activité 2"
-		cap label drop branche
-		label define branche 1 "Secteur primaire" 2 "Secteur secondaire" ///
-			3 "Secteur tertiaire" 99 "Non-classés"
-		label values branche2 branche
-		
-		
+lab var branche2 "Branche d'activité 2"
+cap label drop branche
+label define branche 1 "Secteur primaire" 2 "Secteur secondaire" 3 "Secteur tertiaire" 99 "Non-classés"
+label values branche2 branche
+
 cap drop branche1
 gen branche1=4 if Code_1er != ""
-
 replace branche1=1  if Code_1er=="A"
-replace branche1=2  if Code_1er=="B"
-replace branche1=2  if Code_1er=="C"
+replace branche1=2  if inlist(Code_1er, "B", "C")
 replace branche1=3  if Code_1er=="G"
 
-
-lab var branche1 "Brache d'activité 1"
-		cap label drop branche1
-		label define branche1 1 "Agriculture" 2 "Industrie" ///
-			3 "Commerce" 4 "Autre service"
-		label values branche1 branche1		
+lab var branche1 "Branche d'activité 1"
+cap label drop branche1
+label define branche1 1 "Agriculture" 2 "Industrie" 3 "Commerce" 4 "Autre service"
+label values branche1 branche1
 
 
-save "$datain_brute\membres.dta", replace
-
-*e
-
-
-
-****emploi principal*****************
-preserve 
-
-import excel "$document\codification_emploi_principal_T4_2025.xlsx", sheet("Feuil1") firstrow clear
-
-rename InterviewkeyidentifierinXX interview__key
-rename Idinmembres membres__id
-
-save "$datatemp\codif_emploi_principal_T4_2025.dta" , replace 
-
-restore 
-
-cap drop _merge 
-merge 1:1 interview__key membres__id  using "$datatemp\codif_emploi_principal_T4_2025.dta", keepus(code_citp_emp_principal)
-
-drop if _merge == 2 
-cap drop _merge 
-
-
-
-****emploi secondaire*****************
-
-preserve 
-
-import excel "$document\codification_emploi_secondaire_T4_2025.xlsx", sheet("Feuil1") firstrow clear
-
-rename InterviewkeyidentifierinXX interview__key
-rename Idinmembres membres__id
-save "$datatemp\codif_emploi_second_T4_2025.dta" , replace 
-
-restore 
-
-
-cap drop _merge 
-merge 1:1 interview__key membres__id  using "$datatemp\codif_emploi_second_T4_2025.dta", keepus(code_citp_emp_secondaire)
-drop if _merge == 2 
-cap drop _merge 
-
-
-
-******pluriactivité***************
-
-
-preserve 
-
-import excel "$document\codification_autre_emploi_T4_2025.xlsx", sheet("Feuil1") firstrow clear
-
-rename InterviewkeyidentifierinXX interview__key
-rename Idinmembres membres__id
-
-keep interview__key membres__id Idinr_activite_s code_citp_autre_emploi
-
-reshape wide code_citp_autre_emploi, i(interview__key membres__id) j(Idinr_activite_s)
-
-rename code_citp_autre_emploi1 pluriactivite1_codif
-rename code_citp_autre_emploi2 pluriactivite2_codif
-rename code_citp_autre_emploi3 pluriactivite3_codif
-rename code_citp_autre_emploi4 pluriactivite4_codif
-*rename code_citp_autre_emploi5 pluriactivite5_codif
-
-save "$datatemp\codif_pluriactivite_T4_2025.dta" , replace 
-
-restore 
-
-
-cap drop _merge 
-merge 1:m interview__key membres__id  using "$datatemp\codif_pluriactivite_T4_2025.dta", keepus(pluriactivite1_codif pluriactivite2_codif pluriactivite3_codif pluriactivite4_codif)
-drop if _merge == 2 
-cap drop _merge 
-
-
-
+* ---- 6. Labels de la codification ----
 **Labels de la codification
 
 cap label drop codification 
@@ -6662,7 +6685,19 @@ label define codification 521105 "Vendeur de vivres frais (alloco, igname, taro,
 label define codification 541401 "Agent de sécurité" , modify
 label define codification 541401 "Agent de sécurité" , modify
 
-destring code_citp_emp_principal,replace 
+cap destring code_citp_emp_principal, replace force
+cap destring code_citp_emp_secondaire, replace force
+cap destring pluriactivite1_codif, replace force
+cap destring pluriactivite2_codif, replace force
+cap destring pluriactivite3_codif, replace force
+cap destring pluriactivite4_codif, replace force
+cap destring pluriactivite5_codif, replace force
+cap destring code_citp_emp_secondaire, replace force
+cap destring pluriactivite1_codif, replace force
+cap destring pluriactivite2_codif, replace force
+cap destring pluriactivite3_codif, replace force
+cap destring pluriactivite4_codif, replace force
+cap destring pluriactivite5_codif, replace force
 
 label values code_citp_emp_principal codification 
 label values code_citp_emp_secondaire codification
@@ -6670,7 +6705,7 @@ label values pluriactivite1_codif codification
 label values pluriactivite2_codif codification
 label values pluriactivite3_codif codification
 label values pluriactivite4_codif codification
-*label values pluriactivite5_codif codification
+label values pluriactivite5_codif codification
 
 label var code_citp_emp_principal "Emploi principal codifié"
 label var code_citp_emp_secondaire "Emploi secondaire codifié"
@@ -6678,89 +6713,15 @@ label var pluriactivite1_codif "Pluriactiité 1"
 label var pluriactivite2_codif "Pluriactiité 2"
 label var pluriactivite3_codif "Pluriactiité 3"
 label var pluriactivite4_codif "Pluriactiité 4"
-*label var pluriactivite5_codif "Pluriactiité 5"
+label var pluriactivite5_codif "Pluriactiité 5"
 
 
 cap drop Code_1er
-gen Code_1er=substr(CodeCIAPactivité,1,1) 
+gen Code_1er=substr(CODEACTIVITE,1,1) 
 
 cap drop branche2
 gen branche2=99 if Code_1er !=""
 
-replace branche2=1  if Code_1er=="A"
-replace branche2=2  if Code_1er=="B"
-replace branche2=2  if Code_1er=="C"
-replace branche2=2  if Code_1er=="D"
-replace branche2=2  if Code_1er=="E"
-replace branche2=2  if Code_1er=="F"
-replace branche2=3  if Code_1er=="G"
-replace branche2=3  if Code_1er=="H"
-replace branche2=3  if Code_1er=="I"
-replace branche2=3  if Code_1er=="J"
-replace branche2=3  if Code_1er=="K"
-replace branche2=3  if Code_1er=="L"
-replace branche2=3  if Code_1er=="M"
-replace branche2=3  if Code_1er=="N"
-replace branche2=3  if Code_1er=="O"
-replace branche2=3  if Code_1er=="P"
-replace branche2=3  if Code_1er=="Q"
-replace branche2=3  if Code_1er=="R"
-replace branche2=3  if Code_1er=="S"
-replace branche2=3  if Code_1er=="T"
+* 4. Sauvegarde finale
 
-lab var branche2 "Brache d'activité 2"
-		cap label drop branche
-		label define branche 1 "Secteur primaire" 2 "Secteur secondaire" ///
-			3 "Secteur tertiaire" 99 "Non-classés"
-		label values branche2 branche
-		
-		
-cap drop branche1
-gen branche1=4 if Code_1er !=""
-
-replace branche1=1  if Code_1er=="A"
-replace branche1=2  if Code_1er=="B"
-replace branche1=2  if Code_1er=="C"
-replace branche1=3  if Code_1er=="G"
-
-
-lab var branche1 "Brache d'activité 1"
-		cap label drop branche1
-		label define branche1 1 "Agriculture" 2 "Industrie" ///
-			3 "Commerce" 4 "Autre service"
-		label values branche1 branche1
-
-
-* Construction des codes CITP a 3 positions (groupe de base CITP-08)
-* Le code 6 chiffres (ex: 111206) -> 3 chiffres (ex: 111) par division entiere par 1000
-
-cap drop code_citp3_emp_principal
-gen code_citp3_emp_principal = int(code_citp_emp_principal / 1000) if !missing(code_citp_emp_principal)
-label var code_citp3_emp_principal "Emploi principal codifié CITP-3 positions"
-
-cap destring code_citp_emp_secondaire, replace
-cap drop code_citp3_emp_secondaire
-gen code_citp3_emp_secondaire = int(code_citp_emp_secondaire / 1000) if !missing(code_citp_emp_secondaire)
-label var code_citp3_emp_secondaire "Emploi secondaire codifié CITP-3 positions"
-
-cap destring pluriactivite1_codif, replace
-cap drop code_citp3_pluriactivite1
-gen code_citp3_pluriactivite1 = int(pluriactivite1_codif / 1000) if !missing(pluriactivite1_codif)
-label var code_citp3_pluriactivite1 "Pluriactivité 1 codifiée CITP-3 positions"
-
-cap destring pluriactivite2_codif, replace
-cap drop code_citp3_pluriactivite2
-gen code_citp3_pluriactivite2 = int(pluriactivite2_codif / 1000) if !missing(pluriactivite2_codif)
-label var code_citp3_pluriactivite2 "Pluriactivité 2 codifiée CITP-3 positions"
-
-cap destring pluriactivite3_codif, replace
-cap drop code_citp3_pluriactivite3
-gen code_citp3_pluriactivite3 = int(pluriactivite3_codif / 1000) if !missing(pluriactivite3_codif)
-label var code_citp3_pluriactivite3 "Pluriactivité 3 codifiée CITP-3 positions"
-
-cap destring pluriactivite4_codif, replace
-cap drop code_citp3_pluriactivite4
-gen code_citp3_pluriactivite4 = int(pluriactivite4_codif / 1000) if !missing(pluriactivite4_codif)
-label var code_citp3_pluriactivite4 "Pluriactivité 4 codifiée CITP-3 positions"
-
-save "$datain_brute\membres.dta", replace
+save_brute_membres_safe

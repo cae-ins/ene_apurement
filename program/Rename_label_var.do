@@ -106,4 +106,4 @@ foreach var of varlist *__* {
 	global var_Binary $var_Binary `var'
 }*/
 
-save "$datain_brute/membres.dta", replace 
+save_brute_membres_safe

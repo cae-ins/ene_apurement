@@ -8,7 +8,7 @@ use "$datain_standard\INDIV_S7_temps_travail.dta", clear
 ****************
 *****Appel des autres variables 
 
-merge m:1 interview__key  using "$datain_standard\QM_S0_identification.dta", keepusing(HH13 HH12 HH6)
+merge m:1 interview__key  using "$datain_standard\QM_S0_identification.dta", keepusing(HH13 HH12 )
 
 keep if _merge == 3
 drop  _merge
@@ -23,7 +23,10 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S3_emploi_pr
 keep if _merge == 3
 drop  _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp3_emp_principal code_citp_emp_secondaire)
+*merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+
 
 keep if _merge == 3
 drop  _merge
@@ -41,14 +44,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S5_pluriacti
 keep if _merge == 3
 drop  _merge
 
-* Derivation de branche1 depuis CodeCIAPactivité (Agriculture / Industrie / Commerce / Autre service)
-cap drop _Code_1er branche1
-gen _Code_1er = substr(CodeCIAPactivité, 1, 1)
-gen branche1 = 4 if _Code_1er != ""
-replace branche1 = 1 if _Code_1er == "A"
-replace branche1 = 2 if inlist(_Code_1er, "B", "C", "D", "E", "F")
-replace branche1 = 3 if _Code_1er == "G"
-cap drop _Code_1er
+
 
 *****************------------------------
 
@@ -74,19 +70,11 @@ export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_0.xlsx
 
 **Correction (des vrais manquants):
 
-   *** imputation par la mediane (strategie en 3 passes)
+   *** imputation par la mediane 
 cap drop med_WKT1
-egen med_WKT1 = median(WKT1), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT1 = med_WKT1 if missing(WKT1)
-cap drop med_WKT1
+*egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11) , by(EP3 EP11 code_citp_emp_principal)
+egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11) , by(EP3 EP11)
 
-cap drop med_WKT1
-egen med_WKT1 = median(WKT1), by(EP3 branche1 HH12 HH6)
-replace WKT1 = med_WKT1 if missing(WKT1)
-cap drop med_WKT1
-
-cap drop med_WKT1
-egen med_WKT1 = median(WKT1), by(EP3 branche1)
 replace WKT1 = med_WKT1 if missing(WKT1)
 
 
@@ -104,6 +92,7 @@ replace WKT1 =. if !missing(WKT1) & (EN_EMP == 0 |(M4Confirm<15 & !inlist(M4Conf
 
 ***Etape3: Coherence des reponses attendues 
 count if !missing(WKT1) & WKT1==0 
+*RAS
 
 count if !missing(WKT1) & WKT1>168 & WKT1!=9998
 
@@ -123,20 +112,13 @@ export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_Cohere
 
 count if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 ==9998  
 
-***COrrection: imputation par la mediane (strategie en 3 passes)
+***COrrection: imputation par la mediane 
 
+	*************Generalisation
 cap drop med_WKT2
-egen med_WKT2 = median(WKT2), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT2 = med_WKT2 if WKT2 == .a
-cap drop med_WKT2
+egen med_WKT2 = median(WKT2), by(EP3 EP11)
+*egen med_WKT2 = median(WKT2), by(EP3 EP11 code_citp_emp_principal)
 
-cap drop med_WKT2
-egen med_WKT2 = median(WKT2), by(EP3 branche1 HH12 HH6)
-replace WKT2 = med_WKT2 if WKT2 == .a
-cap drop med_WKT2
-
-cap drop med_WKT2
-egen med_WKT2 = median(WKT2), by(EP3 branche1)
 replace WKT2 = med_WKT2 if WKT2 == .a
 cap drop med_WKT2
 
@@ -157,20 +139,13 @@ count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 < =0
 ***Etape1: Valeurs manquantes et corrrection
 count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & !inlist(M4Confirm,.,.a) 
 
-   ***Correction: imputation par la mediane (strategie en 3 passes)
+   ***Correction: imputation par la mediane 
 
+	*************Generalisation
 cap drop med_WKT3
-egen med_WKT3 = median(WKT3), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT3 = med_WKT3 if WKT3 == .a
-cap drop med_WKT3
+egen med_WKT3 = median(WKT3), by(EP3 EP11 )
+*egen med_WKT3 = median(WKT3), by(EP3 EP11 code_citp_emp_principal)
 
-cap drop med_WKT3
-egen med_WKT3 = median(WKT3), by(EP3 branche1 HH12 HH6)
-replace WKT3 = med_WKT3 if WKT3 == .a
-cap drop med_WKT3
-
-cap drop med_WKT3
-egen med_WKT3 = median(WKT3), by(EP3 branche1)
 replace WKT3 = med_WKT3 if WKT3 == .a
 cap drop med_WKT3
 
@@ -298,21 +273,11 @@ count if !missing(WKT6) & WKT6<=0 // RAS
 ***Etape1: Valeurs manquantes et corrrection
 count if EN_EMP==1 & M4Confirm >= 15 & missing( WKT7) &  WKT5==2 & WKT4==2
 
-********Correction: (strategie en 3 passes)
+********Correction: 
 
 cap drop med_WKT7
-egen med_WKT7 = median(WKT7), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT7 = med_WKT7 if WKT7 == .a
-cap drop med_WKT7
-
-cap drop med_WKT7
-egen med_WKT7 = median(WKT7), by(EP3 branche1 HH12 HH6)
-replace WKT7 = med_WKT7 if WKT7 == .a
-cap drop med_WKT7
-
-cap drop med_WKT7
-egen med_WKT7 = median(WKT7), by(EP3 branche1)
-replace WKT7 = med_WKT7 if WKT7 == .a
+egen med_WKT7 = median(WKT7), by(EP3 EP11)
+replace WKT7 = med_WKT7 if WKT7 ==.a
 cap drop med_WKT7
 
 
@@ -340,22 +305,27 @@ export excel interview__key HH13 WKT4  WKT5 WKT7 WKT7A using "$folderpath/docume
 
 }
 
-*Correction : Imputation par la mediane (strategie en 3 passes)
+*Correction : Imputation par la mediane
 
-cap drop med_WKT7A
-egen med_WKT7A = median(WKT7A) if !missing(WKT7A) & WKT7A > 0, by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT7A = med_WKT7A if !missing(WKT7A) & WKT7A <= 0 & WKT7 == 1 & !missing(med_WKT7A)
-cap drop med_WKT7A
+*br WKT4  WKT5 WKT7 WKT7A EP3 EP11 if !missing(WKT7A) & WKT7A <=0 
 
-cap drop med_WKT7A
-egen med_WKT7A = median(WKT7A) if !missing(WKT7A) & WKT7A > 0, by(EP3 branche1 HH12 HH6)
-replace WKT7A = med_WKT7A if !missing(WKT7A) & WKT7A <= 0 & WKT7 == 1 & !missing(med_WKT7A)
-cap drop med_WKT7A
+cap drop med_WKT7A_1
+*egen  med_WKT7A_1 = median(WKT7A) if !missing(WKT7A) & WKT7A > 0 & inlist(EP3,3), by(code_citp_emp_principal)
 
-cap drop med_WKT7A
-egen med_WKT7A = median(WKT7A) if !missing(WKT7A) & WKT7A > 0, by(EP3 branche1)
-replace WKT7A = med_WKT7A if !missing(WKT7A) & WKT7A <= 0 & WKT7 == 1
-cap drop med_WKT7A
+*replace WKT7A = med_WKT7A_1 if !missing(WKT7A) & WKT7A <= 0 & inlist(EP3,3) & WKT7==1
+
+cap drop med_WKT7A_2
+*egen  med_WKT7A_2 = median(WKT7A) if !missing(WKT7A) & WKT7A > 0 & inlist(EP3,1,10), by(code_citp_emp_principal)
+
+*replace WKT7A = med_WKT7A_2 if !missing(WKT7A) & WKT7A <= 0 & inlist(EP3,1,10) & WKT7==1
+
+cap drop med_WKT7A_3
+egen med_WKT7A_3 = median(WKT7A), by(EP3 EP11)
+replace WKT7A = med_WKT7A_3 if WKT7A == 0 & WKT7==1
+cap drop med_WKT7A_3
+
+
+cap drop med_WKT7A_1 med_WKT7A_2 med_WKT7A_3
 
 *WKT8.Plus tôt, vous m’avez dit que vous étiez absent de votre emploi, juste pour confirmer, la semaine dernière (( %DateJ7% au %DateJ0% )) n’avez-vous pas travaillé des heures du tout dans votre emploi principal ?
 ***Etape1: Valeurs manquantes et corrrection
@@ -385,20 +355,10 @@ count if !missing(WKT9) & (M4Confirm < 15 | EN_EMP != 1 |  WKT8!=1)
 ***Etape3: Coherence des reponses attendues:
 count if !missing(WKT9) & WKT9 <=0
 
-***Correction: imputation (strategie en 3 passes)
+***Correction: imputation
 cap drop med_WKT9
-egen med_WKT9 = median(WKT9), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT9 = med_WKT9 if WKT9 == 0 & !missing(med_WKT9)
-cap drop med_WKT9
-
-cap drop med_WKT9
-egen med_WKT9 = median(WKT9), by(EP3 branche1 HH12 HH6)
-replace WKT9 = med_WKT9 if WKT9 == 0 & !missing(med_WKT9)
-cap drop med_WKT9
-
-cap drop med_WKT9
-egen med_WKT9 = median(WKT9), by(EP3 branche1)
-replace WKT9 = med_WKT9 if WKT9 == 0
+*egen med_WKT9 = median(WKT9), by(EP3 EP11 code_citp_emp_principal)
+*replace WKT9 = med_WKT9 if WKT9 ==0
 cap drop med_WKT9
 
 ***Etape 4: Vraisemblence des reponses 
@@ -413,20 +373,10 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT10  using "$folderpath/document/WKT1O.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT10) & (PL1 == 1 | PL2 == 1) & !inlist(M4Confirm,.,.a) ,firstrow(variables) replace
 }
 
-***Corrrection (strategie en 3 passes)
+***Corrrection
 cap drop med_WKT10
-egen med_WKT10 = median(WKT10), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT10 = med_WKT10 if WKT10 == .a & !missing(med_WKT10)
-cap drop med_WKT10
-
-cap drop med_WKT10
-egen med_WKT10 = median(WKT10), by(EP3 branche1 HH12 HH6)
-replace WKT10 = med_WKT10 if WKT10 == .a & !missing(med_WKT10)
-cap drop med_WKT10
-
-cap drop med_WKT10
-egen med_WKT10 = median(WKT10), by(EP3 branche1)
-replace WKT10 = med_WKT10 if WKT10 == .a
+*egen med_WKT10 = median(WKT10), by(EP3 EP11 code_citp_emp_principal)
+*replace WKT10 = med_WKT10 if WKT10 == .a
 cap drop med_WKT10
 
 ***Etape2: coherence des sauts
@@ -436,22 +386,23 @@ count if !missing(WKT10) & (PL1 == 2 & PL2 == 2)
 count if  !missing(WKT10) & WKT10<=0  // le nombres d'heures habituel dans l'emploi secondaire ne peut etre nul. 
 
 
-*Correction des valeurs aberrantes (WKT10 <= 0) par la mediane (strategie en 3 passes)
+*proposition de correction 
+
+br WKT10 EP3 EP11 if !missing(WKT10) & WKT10<=0 // on regarde d'abord les caractéristiques de l'individu
 
 cap drop med_WKT10
-egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10 > 0, by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT10 = med_WKT10 if !missing(WKT10) & WKT10 <= 0 & !missing(med_WKT10)
-cap drop med_WKT10
+egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10>0 & inlist(EP3,3), by(EP3 EP11) // la median est de 16H pour les personnes à propre compte 
 
-cap drop med_WKT10
-egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10 > 0, by(EP3 branche1 HH12 HH6)
-replace WKT10 = med_WKT10 if !missing(WKT10) & WKT10 <= 0 & !missing(med_WKT10)
-cap drop med_WKT10
+replace WKT10 = 16 if !missing(WKT10) & WKT10<=0 & inlist(EP3,3)
 
-cap drop med_WKT10
-egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10 > 0, by(EP3 branche1)
-replace WKT10 = med_WKT10 if !missing(WKT10) & WKT10 <= 0
-cap drop med_WKT10
+/*
+cap drop med_WKT10_1
+egen med_WKT10_1 = median(WKT10) if !missing(WKT10) & WKT10>0 & inlist(EP3,5)
+
+replace WKT10 = med_WKT10_1 if !missing(WKT10) & WKT10<=0 & inlist(EP3,5)
+
+drop med_WKT10_1 med_WKT10
+*/
 
 ***Etape4 Vraisemblence
 
@@ -459,20 +410,11 @@ cap drop med_WKT10
 *Etape1: valeurs manquantes et corrrection
 count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT11) & WKT10!=9998 & WKT10!=. & WKT10!=.a
 
-***Corrrection (strategie en 3 passes)
+***Corrrection
 cap drop med_WKT11
-egen med_WKT11 = median(WKT11), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT11 = med_WKT11 if WKT11 == .a & !missing(med_WKT11)
-cap drop med_WKT11
-
-cap drop med_WKT11
-egen med_WKT11 = median(WKT11), by(EP3 branche1 HH12 HH6)
-replace WKT11 = med_WKT11 if WKT11 == .a & !missing(med_WKT11)
-cap drop med_WKT11
-
-cap drop med_WKT11
-egen med_WKT11 = median(WKT11), by(EP3 branche1)
-replace WKT11 = med_WKT11 if WKT11 == .a
+*egen med_WKT11 = median(WKT11), by(EP3 EP11 code_citp_emp_principal)
+egen med_WKT11 = median(WKT11), by(EP3 EP11 )
+replace WKT11 = med_WKT11 if WKT11 ==.a
 cap drop med_WKT11
 
 
@@ -499,20 +441,10 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT13 PL3 PL1 PL2 using "$folderpath/document/WKT13.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT13) & ( PL3 >= 2 & (PL1 ==1 | PL2 == 1 )) ,firstrow(variables) replace
 }
 
-***Corection: Imputation (strategie en 3 passes)
+***Corection: Imputation
 
 cap drop med_WKT13
-egen med_WKT13 = median(WKT13), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT13 = med_WKT13 if WKT13 == .a & !missing(med_WKT13)
-cap drop med_WKT13
-
-cap drop med_WKT13
-egen med_WKT13 = median(WKT13), by(EP3 branche1 HH12 HH6)
-replace WKT13 = med_WKT13 if WKT13 == .a & !missing(med_WKT13)
-cap drop med_WKT13
-
-cap drop med_WKT13
-egen med_WKT13 = median(WKT13), by(EP3 branche1)
+egen med_WKT13 = median(WKT13), by(EP3 EP11 )
 replace WKT13 = med_WKT13 if WKT13 == .a
 cap drop med_WKT13
 
@@ -529,20 +461,10 @@ count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT14) & WKT13!=. & WKT13!=.a &
 if r(N) > 0 {
 export excel interview__key HH13 WKT14  using "$folderpath/document/WKT14_Manquants .xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT14) & WKT13!=. & WKT13!=.a & WKT13!=9998 ,firstrow(variables) replace
 }
-***Correction (strategie en 3 passes)
+***Correction: RAS
 
 cap drop med_WKT14
-egen med_WKT14 = median(WKT14), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT14 = med_WKT14 if WKT14 == .a & !missing(med_WKT14)
-cap drop med_WKT14
-
-cap drop med_WKT14
-egen med_WKT14 = median(WKT14), by(EP3 branche1 HH12 HH6)
-replace WKT14 = med_WKT14 if WKT14 == .a & !missing(med_WKT14)
-cap drop med_WKT14
-
-cap drop med_WKT14
-egen med_WKT14 = median(WKT14), by(EP3 branche1)
+egen med_WKT14 = median(WKT14), by(EP3 EP11 )
 replace WKT14 = med_WKT14 if WKT14 == .a
 cap drop med_WKT14
 
@@ -613,21 +535,16 @@ export excel interview__key HH13 WKT17A  using "$folderpath/document/WKT17A.xlsx
 }
 
 
-**Correction pour NB_HEURE_TRAVAIL_TOTAL (valeurs > 168h impossibles, imputation par mediane en 3 passes)
+**Correction pour NB_HEURE_TRAVAIL_TOTAL
+
+br NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // visualisation des caractéristiques de l'individus
 
 cap drop med_NB_HEURE_TRAVAIL_TOTAL
-egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace NB_HEURE_TRAVAIL_TOTAL = med_NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) & !missing(med_NB_HEURE_TRAVAIL_TOTAL)
-cap drop med_NB_HEURE_TRAVAIL_TOTAL
+egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 EP11) // la median est de 54H pour les individus avec les memes caracteristiques
 
-cap drop med_NB_HEURE_TRAVAIL_TOTAL
-egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 branche1 HH12 HH6)
-replace NB_HEURE_TRAVAIL_TOTAL = med_NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) & !missing(med_NB_HEURE_TRAVAIL_TOTAL)
-cap drop med_NB_HEURE_TRAVAIL_TOTAL
 
-cap drop med_NB_HEURE_TRAVAIL_TOTAL
-egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 branche1)
-replace NB_HEURE_TRAVAIL_TOTAL = med_NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL)
+
+replace NB_HEURE_TRAVAIL_TOTAL = 54 if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // il faut toujours actualiser cette ligne en fonction des individus problématiques
 cap drop med_NB_HEURE_TRAVAIL_TOTAL
 
 
@@ -645,20 +562,12 @@ count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT18) & WKT17A==2
 if r(N) > 0 {
 export excel interview__key HH13 WKT18  using "$folderpath/document/WKT18.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT18) & WKT17A==2,firstrow(variables) replace
 }
-***Correction (strategie en 3 passes)
+***Correction
 
 cap drop med_WKT18
-egen med_WKT18 = median(WKT18), by(EP3 branche1 code_citp3_emp_principal HH12 HH6)
-replace WKT18 = med_WKT18 if WKT18 == .a & !missing(med_WKT18)
-cap drop med_WKT18
+*egen med_WKT18 = median(WKT18), by(EP3 EP11 code_citp_emp_principal)
+egen med_WKT18 = median(WKT18), by(EP3 EP11 )
 
-cap drop med_WKT18
-egen med_WKT18 = median(WKT18), by(EP3 branche1 HH12 HH6)
-replace WKT18 = med_WKT18 if WKT18 == .a & !missing(med_WKT18)
-cap drop med_WKT18
-
-cap drop med_WKT18
-egen med_WKT18 = median(WKT18), by(EP3 branche1)
 replace WKT18 = med_WKT18 if WKT18 == .a
 cap drop med_WKT18
 
@@ -866,7 +775,7 @@ count if !missing(WKT27) & !inrange(WKT27,1,3)
 
 *****Saving********************
 
-drop HH12 HH13 HH6 M4Confirm EN_EMP EP3 EP11 membre_id_v1_IND SE8 PL1 PL2 PL3 CodeCIAPactivité code_citp3_emp_principal code_citp_emp_secondaire branche1
+cap drop HH12 HH13 M4Confirm EN_EMP EP3 EP11 membre_id_v1_IND SE8 PL1 PL2 PL3
 
 cap drop med_WKT1 med_WKT7A_1 med_WKT7A_2 med_WKT10
 

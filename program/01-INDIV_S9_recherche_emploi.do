@@ -5,7 +5,7 @@
 *=============================================
 
 *********************************
-
+**** BROU
 **********Importation 
 *global datain_brute "C:\apurement_ENE\bases"
 *display "$datain_brute"
@@ -40,6 +40,21 @@ drop if _merge!=3
 cap drop _merge
 
 ************************************
+**# Supprimer les espaces au tour des variables textes dans la base
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = ustrregexra(`var', "\s+$", "")
+	replace `var' = strltrim(`var')
+}
+
+
+**# Convertir les champs vides représentés par ##N/A## par ""
+
+ds, has(type string)
+foreach var of varlist `r(varlist)'{
+	replace `var' = "" if `var' == "##N/A##"
+
+}
 
 
 
@@ -55,11 +70,18 @@ cap drop _merge
 *********R1. L’emploi que vous recherchez ou êtes dispo nible à exercer est –il un emploi salarié ou indé pendant ou peu importe?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "##N/A##")
-*43
+count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+br if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+if r(N)>0 {
+    export excel interview__key HH13 R1  using "$folderpath/document/WKI7_Aut_Incoherants" if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+}
+
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R1) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND != ""))
+count if !missing(R1) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R1) & !inrange(R1,1,3) 
@@ -68,29 +90,47 @@ count if !missing(R1) & !inrange(R1,1,3)
 
 ****R2.L’emploi que vous recherchez ou êtes dispo nible à exercer est –il un emploi permanent ou temporaire ou peu importe?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "##N/A##")
+count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+br if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+if r(N)>0 {
+    export excel interview__key HH13 R2  using "$folderpath/document/R2_Manquants" if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+}
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R2) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND != ""))
+count if !missing(R2) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R2) & !inrange(R2,1,4) 
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes?: on devrait s'attendre 
-count if !missing(R1) & missing(R2)
+count if R2 == 1 & WKI3 == 2
 
 
 *****R3. Dans quel type d’organisation souhaitez-vous travailler? 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "##N/A##")
+count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+br if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+
+count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+if r(N)>0 {
+    export excel interview__key HH13 R3  using "$folderpath/document/R3_Manquants" if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+}
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R3) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND != ""))
+count if !missing(R3) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R3) & !inrange(R3,1,11) 
 
-*Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
+*Etape4: Les reponses données sont elles coherentes au regard des precedentes? 
+
+count if inlist(R1, 1,3) & !inrange(R3, 1, 11)
+count if R1 ==  2 & (inrange(R3, 1,4) | R3 == 7)
+ 
 
 ***R4. Revenons sur vos démarches de recherche d’emploi du %DateJ30% au %DateJ0% . Qu’est-c e que vous avez fait pour trouver un autre emp loi?
 
@@ -98,35 +138,28 @@ count if !missing(R3) & !inrange(R3,1,11)
 
 forvalues i = 1/19 {
     * Compter les réponses manquantes pour les personnes qui devaient répondre
-    count if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "##N/A##")
+    count if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
     
     * Si des réponses manquantes existent, exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_manquants.xlsx" if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "##N/A##"), firstrow(variables) replace
+        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_manquants.xlsx" if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == ""), firstrow(variables) replace
         display "Exportation terminée pour R4__`i' avec " r(N) " réponses manquantes"
     }
     else {
         display "Toutes les réponses sont présentes pour R4__`i'"
     }
+br if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
 }
-
-*****Correction 
-forvalues i = 1/19 {
-    * Remplacer .a par 0 pour chaque variable R4__`i'
-    replace R4__`i' = 0 if R4__`i' == .a
-}
-
-
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 
 forvalues i = 1/19 {
     * Compter les réponses fournies par des personnes qui ne devaient pas répondre
-    count if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND != ""))
+    count if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
     
     * Si des réponses incohérentes existent, exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_coherence_sauts.xlsx" if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "##N/A##" & membre_id_v1_IND != "")), firstrow(variables) replace
+        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_coherence_sauts.xlsx" if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "")), firstrow(variables) replace
         display "Exportation terminée pour R4__`i' avec " r(N) " réponses incohérentes"
     }
     else {
@@ -150,7 +183,15 @@ forvalues i = 1/16 {
     }
 }
 
+
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
+
+*****R4_Aut. Veuillez préciser
+**etape 1:  Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
+
+count if missing(R4_Aut) & R4__19 == 1
+
+//Etape 2, 3, et 4 ne valent pas la peine d'être vérifiees car la variable est vides
 
 drop HH13 M4Confirm EN_EMP membre_id_v1_IND WKI3
 
