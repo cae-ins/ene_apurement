@@ -5031,7 +5031,7 @@ save_brute_membres_safe
 ***** SECTION : CARACTERISTIQUES DU LOGEMENT ET POSSESSIONS DU MENAGE ****
 **************************************************************************
 
-use "$brute_menage_source", clear 
+use "$brute_menage_work", clear 
 
 
 *export excel L3_Aut using "$folderpath/document/L3_Aut.xls" if L3_Aut!="", firstrow(variables) replace 

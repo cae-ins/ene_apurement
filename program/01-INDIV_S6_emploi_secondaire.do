@@ -1,4 +1,4 @@
-*================================================
+
 *********EMPLOI SECONDAIRE(ES) 
 
 ****RESPONSABLE: RENAUD HIVITES AKATTIA(PECHOUX )
@@ -20,21 +20,32 @@ merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S5_pluriactivite.dta", keepus(PL3)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S5_pluriactivite.dta", keepus(PL3)
 
 drop if _merge!=3
 cap drop _merge
+
+* Normaliser uniquement les textes de la section ES.
+* membre_id_v1_IND conserve sa sentinelle ##N/A## pour le filtre d'eligibilite.
+ds ES*, has(type string)
+foreach var of varlist `r(varlist)' {
+	replace `var' = ustrregexra(`var', "\s+$", "")
+	replace `var' = strltrim(`var')
+	replace `var' = "" if `var' == "##N/A##"
+}
+
+local eligible_es PL3 >= 1 & M4Confirm >= 15 & membre_id_v1_IND == "##N/A##" & !missing(PL3, M4Confirm)
 
 *===========================
 *ES1a. Quel est l’intitulé de votre poste ou quel type de travail avez-vous effectué pendant la semaine de reference dans le cadre de votre emploi secondaire (ou que vous avez l'habitude ’'exercer’’) ?
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES1a) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES1a) & (`eligible_es')
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES1a) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES1a) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -48,11 +59,11 @@ count if !missing(ES1a) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES1b) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES1b) & (`eligible_es')
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES1b) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES1b) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -66,12 +77,12 @@ count if !missing(ES1b) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES1b1) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES1b1) & (`eligible_es')
 
 **Correction: elle necessite de revenir aux agents
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES1b1) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES1b1) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -85,11 +96,11 @@ count if !missing(ES1b1) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES2a) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2a) & (`eligible_es')
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2a) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2a) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -103,11 +114,11 @@ count if !missing(ES2a) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES2b) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2b) & (`eligible_es')
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2b) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2b) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -121,7 +132,7 @@ count if !missing(ES2b) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES2b1) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2b1) & (`eligible_es')
 
 **Toute la section est vide pour cet individus
 
@@ -129,7 +140,7 @@ count if missing(ES2b1) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !
 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2b1) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2b1) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -143,11 +154,11 @@ count if !missing(ES2b1) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##"
 *==================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
-count if missing(ES2c) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2c) & (`eligible_es')
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2c) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2c) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -182,14 +193,14 @@ count if !missing(ES2d) & ES2c!=1
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES2e) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2e) & (`eligible_es')
 *RAS
  
 
 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2e) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2e) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -244,13 +255,13 @@ count if !missing(ES2f_loc) & ES2e!=2
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES2g) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES2g) & (`eligible_es')
 *22
 *proposition de correction 
-br ES1a ES1b ES2g if missing(ES2g) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm) // toutes la section semble etre manquante 
+* br ES1a ES1b ES2g if missing(ES2g) & (`eligible_es') // toutes la section semble etre manquante 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES2g) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES2g) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -259,8 +270,8 @@ count if !inrange(ES2g,1,8) & !missing(ES2g)
 
 *Problem 4: Vraisemblance des reponses
 *RAS
-
-br ES1a ES1b ES2g if !inlist(ES2g,.,.a) // on observe la coherence entre le type de l'entreprise et les taches effectués
+* 
+* br ES1a ES1b ES2g if !inlist(ES2g,.,.a) // on observe la coherence entre le type de l'entreprise et les taches effectués
 
 replace ES2g = 4 if ES1b == "SEMER ENTRETIEN RECOLTER VENDRE" 
 replace ES2g = 4 if ES1b == "PÊCHE ARTISANALE"
@@ -287,11 +298,11 @@ replace ES2g = 4 if ES1b == "SUIVIS ET ENTRETIEN DU CHAMP"
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES3) & inrange(ES2g,3,7)
+count if missing(ES3) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES3) & !inrange(ES2g,3,7)
+count if !missing(ES3) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -306,11 +317,11 @@ count if !inlist(ES3,1,2,9998) & !missing(ES3)
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES4) & inrange(ES2g,3,7)
+count if missing(ES4) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES4) & !inrange(ES2g,3,7)
+count if !missing(ES4) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -326,12 +337,12 @@ count if !inrange(ES4,1,3) & !missing(ES4)
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus 
 foreach var of varlist ES4_2__1-ES4_2__12{
-	count if missing(`var') &  PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+	count if missing(`var') & (`eligible_es')
 }
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
 foreach var of varlist ES4_2__1-ES4_2__12{
-	count if !missing(`var') &  PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+	count if !missing(`var') & !(`eligible_es')
 }
 *RAS
 
@@ -353,7 +364,7 @@ count if ES4_2__6==1 & ES4_2__10==1
 
 
 
-// membre_id_v1 droppé ici pour éviter "variable already defined" lors du second merge (l.543) commentés hors keepus (l.18) — absents du dataset
+* Retirer les variables ajoutees avant de recharger la section pour la suite des controles.
 drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1 membre_id_v1_IND PL3
 
 save "$datain_standard\INDIV_S6_emploi_secondaire.dta", replace
@@ -363,7 +374,7 @@ use "$datain_brute\Revenu_es.dta" , clear
 
 cap drop _merge
 
-merge m:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(ES4_2__7 ES4_2__10 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge m:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(ES4_2__7 ES4_2__9 ES4_2__10 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 keep if _merge == 3
 
@@ -375,17 +386,27 @@ keep if _merge == 3
 
 cap drop _merge
 
+* Le roster des revenus est charge separement : normaliser aussi ses textes ES.
+ds ES*, has(type string)
+foreach var of varlist `r(varlist)' {
+	replace `var' = ustrregexra(`var', "\s+$", "")
+	replace `var' = strltrim(`var')
+	replace `var' = "" if `var' == "##N/A##"
+}
+
 *============================
 *ES4_3.Aquellefréquencepercevez-vous votrerémunérationPRINCIPALEpour votreemploi secondaire?
 *==============================
+local eligible_es43 ES4_2__7 != 1 & ES4_2__10 != 1
+
 *Problem 1: Ceux qui ont repondus devaient ils repondre 
-count if missing(ES4_3) & (ES4_2__7==1 & ES4_2__10==1)
+count if missing(ES4_3) & (`eligible_es43')
 *RAS
 
 
 
 *Problem 2: ceux qui ont repondus devaient ils repondre 
-*count if !missing(ES4_3) & !(ES4_2__7==1 & ES4_2__10==1 ) 
+count if !missing(ES4_3) & !(`eligible_es43')
 
 
 
@@ -437,13 +458,14 @@ count if ES4_3==8 & ES4_3B>1 & !missing(ES4_3B) // Sachant que le revenu est ann
 *==============================
 *ES4_4.Par %ES4_3% ,quelest le montantdecepaiement tirédevotreemploi secondaire?
 *===========================
+local eligible_es44 inlist(ES4_3,1,2,3,4,5,6,7,8,9) & ES4_2__7 != 1 & ES4_2__9 != 1
 
 *Problem 1: ceux qui ont repondu devaient ils repondre 
-count if ES4_4 == .a & inlist(ES4_3,1,2,3,4,5,6,7,8,9)
+count if missing(ES4_4) & (`eligible_es44')
 
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
-count if !missing(ES4_4) & !inlist(ES4_3,1,2,3,4,5,6,7,8,9,.,.a)
+count if !missing(ES4_4) & !(`eligible_es44')
 *RAS
 *Problem 3: Les valeurs renseignées sont elles permises 
 *Les valeurs renseignées ne peuvent etre negatives 
@@ -453,18 +475,16 @@ count if ES4_4<0
 count if ES4_4<100
 
 *on corrige avec la valeur en lettre 
-br ES4_4 ES4_5 if ES4_4<100 // la valeur en lettre n'est pas non claire
+* br ES4_4 ES4_5 if ES4_4<100 // la valeur en lettre n'est pas non claire
 
-cap drop med_ES4_4
-egen med_ES4_4 = median(ES4_4) if ES4_3 == 8, by(code_citp_emp_secondaire) // la mediane est de 500000 pour les personnes recevant leur revenus de manière annuel
-
-replace ES4_4 = med_ES4_4 if ES4_4<100
-replace ES4_5 = "CINQ CENT MILLE FRANCS" if ES4_4 == 500000
+*Correction confirmee a partir du montant renseigne en lettres
+replace ES4_4 = 60000 if interview__key == "16-85-77-85" & membres__id == 2 & ES4_4 == 60 & ES4_5 == "SOIXANTE MILLE FRANCS CFA"
 
 
-*Identification des Agents ayant fait des erreurs 
+*Identification des agents ayant encore des montants inferieurs a 100
+count if ES4_4<100
 if r(N) > 0 {
-export excel interview__key HH13 ES4_4 using "$folderpath/document/Erreur_RHE1_4_COH" if ES4_4<1000, firstrow(varlabels) replace 
+export excel interview__key membres__id HH13 ES4_4 ES4_5 using "$folderpath/document/Erreur_RHE1_4_COH" if ES4_4<100, firstrow(varlabels) replace 
 }
 *Correction
 *Les revenus  sont en general des multiples de  1000. Par ailleurs en jettant un coup d'oeil sur les revenus en lettres, il vient que ses valeurs 10 et 24,500 et 200 sont bien renseignées en milles 
@@ -494,8 +514,8 @@ count if (missing(ES4_4)| inlist(ES4_4,99999999,99999998)) & !missing(ES4_5)
 
 *Problem 4: Vraisembalnce des reponses 
 *l'on regarde la vraisemblance entre les valeurs en lettres et les valeurs en chiffres et effectuons les corrections necessaire
-
-br ES4_4 ES4_5 if !missing(ES4_4) & ES4_4 !=99999999 & ES4_4 !=99999998
+* 
+* br ES4_4 ES4_5 if !missing(ES4_4) & ES4_4 !=99999999 & ES4_4 !=99999998
 
 replace ES4_4 = 150000 if ES4_5 == "CENT CINQUANTE MILLES"
 
@@ -505,17 +525,19 @@ replace ES4_4 = 150000 if ES4_5 == "CENT CINQUANTE MILLES"
 *==========================
 *ES4_6. Pouvez-vous tout de même nous indiquer dans quelle tranche de remunération vous vous situez
 *===================================
+local eligible_es46 inlist(ES4_4,99999998,99999999) | ES4_3 == 10
+
 *Problem 1:Ceux qui devaient repondre ont ils repondus 
-count if (ES4_4==99999998 |ES4_4==99999999 |ES4_3==10) & missing(ES4_6)
+count if (`eligible_es46') & missing(ES4_6)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if (ES4_4!=99999998 & ES4_4!=99999999 & ES4_3!=10) & !missing(ES4_6)
-*11 individus sont concernés 
+count if !(`eligible_es46') & !missing(ES4_6)
+*RAS
 
 *Identification des agents ayant fait des erreurs 
 if r(N) > 0 {
-export excel interview__key HH13 ES4_6 using "$folderpath/document/Erreur_ES4_6_COH" if ES4_4<1000, firstrow(varlabels) replace 
+export excel interview__key HH13 ES4_3 ES4_4 ES4_6 using "$folderpath/document/Erreur_ES4_6_COH" if !(`eligible_es46') & !missing(ES4_6), firstrow(varlabels) replace 
 }
 *Correction
 *replace ES4_6=. if (ES4_4!=99999998 & ES4_4!=99999999 & ES4_3!=10) & !missing(ES4_6)
@@ -527,7 +549,7 @@ export excel interview__key HH13 ES4_6 using "$folderpath/document/Erreur_ES4_6_
 *Problem 4 : Vraisemblance des reponses  
 *RAS
 
-drop ES4_2__7 ES4_2__10 HH2 HH13 med_ES4_4
+drop ES4_2__7 ES4_2__9 ES4_2__10 HH2 HH13
 save "$dataout\Revenu_es.dta" , replace
 
 use "$datain_standard\INDIV_S6_emploi_secondaire.dta", clear
@@ -546,7 +568,7 @@ merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S5_pluriactivite.dta", keepus(PL3)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S5_pluriactivite.dta", keepus(PL3)
 
 drop if _merge!=3
 cap drop _merge
@@ -558,11 +580,11 @@ cap drop _merge
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES5) & inrange(ES2g,3,7)
+count if missing(ES5) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES5) & !inrange(ES2g,3,7)
+count if !missing(ES5) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -577,11 +599,11 @@ count if !inlist(ES5,1,2,9998) & !missing(ES5)
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES6) & inrange(ES2g,3,7)
+count if missing(ES6) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES6) & !inrange(ES2g,3,7)
+count if !missing(ES6) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -596,11 +618,11 @@ count if !inlist(ES6,1,2,9998) & !missing(ES6)
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES7) & inrange(ES2g,3,7)
+count if missing(ES7) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES7) & !inrange(ES2g,3,7)
+count if !missing(ES7) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -615,11 +637,11 @@ count if !inlist(ES7,1,2,9998) & !missing(ES7)
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES8) & inrange(ES2g,3,7)
+count if missing(ES8) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES8) & !inrange(ES2g,3,7)
+count if !missing(ES8) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -634,11 +656,11 @@ count if !inlist(ES8,1,2,9998) & !missing(ES8)
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES9) & inrange(ES2g,3,7)
+count if missing(ES9) & inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES9) & !inrange(ES2g,3,7)
+count if !missing(ES9) & !inlist(ES2g,3,4,6,7)
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -657,7 +679,7 @@ count if missing(ES9_Aut) & ES9==4
 *RAS
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES9_Aut) & !ES9==4
+count if !missing(ES9_Aut) & ES9 != 4
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -672,21 +694,21 @@ count if !missing(ES9_Aut) & !ES9==4
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES10) & inrange(ES2g,3,7)
+count if missing(ES10) & inlist(ES2g,3,4,6,7)
 *proposition de correction 
+* 
+* br ES1a ES1b ES2g ES10 if missing(ES10) & inlist(ES2g,3,4,6,7)
 
-br ES1a ES1b ES2g ES10 if missing(ES10) & inrange(ES2g,3,7)
-
-replace ES10 = 1 if missing(ES10) & inrange(ES2g,3,7) & ES2g == 4 & ES1b=="TOUS TYPES DE TRAVEAUX"
+replace ES10 = 1 if missing(ES10) & inlist(ES2g,3,4,6,7) & ES2g == 4 & ES1b=="TOUS TYPES DE TRAVEAUX"
 *replace ES10 = 9 if ES1b == "VENTE DE BOISSONS"
 *replace ES10 = 5 if ES1a == "MAÇON"
 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES10) & !inrange(ES2g,3,7)
+count if !missing(ES10) & !inlist(ES2g,3,4,6,7)
 *proposition de correction
-br ES1a ES1b ES2g ES10 if !missing(ES10) & !inrange(ES2g,3,7)
-replace ES10 = . if !missing(ES10) & !inrange(ES2g,3,7)
+* br ES1a ES1b ES2g ES10 if !missing(ES10) & !inlist(ES2g,3,4,6,7)
+replace ES10 = . if !missing(ES10) & !inlist(ES2g,3,4,6,7)
 
 *Problem 3: les valeurs renseignées sont elles permises
 count if !inrange(ES10,1,13) & !missing(ES10)
@@ -694,8 +716,8 @@ count if !inrange(ES10,1,13) & !missing(ES10)
 
 *Problem 4: Vraisemblance des reponses
 *RAS
-
-br ES1a ES1b ES2g ES10 if !missing(ES10)
+* 
+* br ES1a ES1b ES2g ES10 if !missing(ES10)
 
 *===========================
 *ES10_Aut. Veuillez préciser l'Autre système comptable
@@ -729,13 +751,13 @@ count if !missing(ES10_Aut) & ES10!=13
 *==================================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES10_1) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm)
+count if missing(ES10_1) & (`eligible_es')
 *RAS
-
-br ES1a ES1b ES2g ES10 ES10_1 if missing(ES10_1) & PL3 >= 1 & M4Confirm>=15 & membre_id_v1=="##N/A##" & !missing(PL3,M4Confirm) // impossible de faire la correction car toutes les autres informations sont manquantes 
+* 
+* br ES1a ES1b ES2g ES10 ES10_1 if missing(ES10_1) & (`eligible_es') // impossible de faire la correction car toutes les autres informations sont manquantes 
 
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
-count if !missing(ES10_1) & PL3 < 1 & M4Confirm<15 & membre_id_v1!="##N/A##" 
+count if !missing(ES10_1) & !(`eligible_es')
 *RAS
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -749,12 +771,12 @@ count if !inrange(ES10_1,1,10) & !missing(ES10_1)
 *RAS
 
 *nous faisons un check rapide pour les personnes ayant declaré administration public. Certains individus ne sont en réalité pas dans une administration publique ICICICIC
-
-br ES1a ES1b ES2g  ES10_1 if ES2g==1 // RAS
+* 
+* br ES1a ES1b ES2g  ES10_1 if ES2g==1 // RAS
 
 *les personnes à leurs propre compte ne peuvent pas etre dans une administration publique ou parapublique, une organisation internationale, un ménage etc
-
-br ES1a ES1b ES2g  ES10_1 if ES10_1==3 & (ES2g== 1 |ES2g== 2 | ES2g== 5 | ES2g== 8 ) // RAS
+* 
+* br ES1a ES1b ES2g  ES10_1 if ES10_1==3 & (ES2g== 1 |ES2g== 2 | ES2g== 5 | ES2g== 8 ) // RAS
 
 *=============================
 *ES10_1_Aut.Veuillezpréciser l'Autresystèmecomptable

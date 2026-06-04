@@ -14,6 +14,42 @@ param(
 
 $ErrorActionPreference = "Stop"
 $ProjectRoot = (Resolve-Path (Join-Path $PSScriptRoot "..\..")).Path
+
+$EnvFiles = @(
+    (Join-Path (Get-Location).Path ".env"),
+    (Join-Path $ProjectRoot ".env")
+) | Select-Object -Unique
+foreach ($EnvFile in $EnvFiles) {
+    if (Test-Path -LiteralPath $EnvFile) {
+        Get-Content -LiteralPath $EnvFile | ForEach-Object {
+            $Line = $_.Trim()
+            if (-not $Line -or $Line.StartsWith("#") -or -not $Line.Contains("=")) { return }
+            $Name, $Value = $Line.Split("=", 2)
+            $Name = $Name.Trim()
+            $Value = $Value.Trim()
+            if ($Name -and -not [Environment]::GetEnvironmentVariable($Name, "Process")) {
+                [Environment]::SetEnvironmentVariable($Name, $Value, "Process")
+            }
+        }
+    }
+}
+$MinioEndpoint = [Environment]::GetEnvironmentVariable("MINIO_ENDPOINT", "Process")
+if ($MinioEndpoint) {
+    try {
+        $EndpointHost = ([Uri]$MinioEndpoint).Host
+        if ($EndpointHost) {
+            $NoProxy = [Environment]::GetEnvironmentVariable("NO_PROXY", "Process")
+            $Hosts = @($NoProxy -split "," | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+            if ($Hosts -notcontains $EndpointHost) {
+                $Hosts += $EndpointHost
+                $NoProxyValue = ($Hosts -join ",")
+                [Environment]::SetEnvironmentVariable("NO_PROXY", $NoProxyValue, "Process")
+                [Environment]::SetEnvironmentVariable("no_proxy", $NoProxyValue, "Process")
+            }
+        }
+    } catch {}
+}
+
 $ScriptPath = Join-Path $OrchestrationRoot "ene_medallion_io\06_upload_indicator_outputs.py"
 
 $ArgsList = @($ScriptPath, "--period", $Period, "--quarter", $Quarter, "--year", $Year, "--base-dir", $ProjectRoot)

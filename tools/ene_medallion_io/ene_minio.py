@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
+from urllib.parse import urlparse
 
 import boto3
 from botocore.client import Config
@@ -29,7 +30,7 @@ class MinioSettings:
 
 def read_key_value_file(path: Path) -> dict[str, str]:
     values: dict[str, str] = {}
-    if not path.exists():
+    if not path.exists() or not path.is_file():
         return values
 
     if path.suffix.lower() == ".json":
@@ -51,8 +52,23 @@ def read_key_value_file(path: Path) -> dict[str, str]:
     return values
 
 
+def find_project_env() -> Path | None:
+    for directory in [Path.cwd(), *Path.cwd().parents]:
+        candidate = directory / ".env"
+        if candidate.exists():
+            return candidate
+    return None
+
+
 def load_settings(credentials_file: Path | None = None) -> MinioSettings:
-    file_values = read_key_value_file(credentials_file or DEFAULT_CREDENTIALS_FILE)
+    default_file_values = read_key_value_file(DEFAULT_CREDENTIALS_FILE)
+    project_env_values = read_key_value_file(find_project_env() or Path())
+    explicit_file_values = read_key_value_file(credentials_file) if credentials_file else {}
+    file_values = {
+        **default_file_values,
+        **project_env_values,
+        **explicit_file_values,
+    }
 
     endpoint = (
         os.getenv("MINIO_ENDPOINT")
@@ -88,6 +104,15 @@ def load_settings(credentials_file: Path | None = None) -> MinioSettings:
 
 
 def s3_client(settings: MinioSettings):
+    endpoint_host = urlparse(settings.endpoint).hostname
+    if endpoint_host:
+        existing_no_proxy = os.getenv("NO_PROXY") or os.getenv("no_proxy") or ""
+        no_proxy_hosts = [host.strip() for host in existing_no_proxy.split(",") if host.strip()]
+        if endpoint_host not in no_proxy_hosts:
+            no_proxy_hosts.append(endpoint_host)
+            os.environ["NO_PROXY"] = ",".join(no_proxy_hosts)
+            os.environ["no_proxy"] = os.environ["NO_PROXY"]
+
     return boto3.client(
         "s3",
         endpoint_url=settings.endpoint,
@@ -398,7 +423,7 @@ def add_common_args(parser: argparse.ArgumentParser) -> None:
     )
     parser.add_argument("--quarter", default=os.getenv("ENE_QUARTER", DEFAULT_QUARTER))
     parser.add_argument("--year", default=os.getenv("ENE_YEAR", DEFAULT_YEAR))
-    parser.add_argument("--credentials-file", type=Path, default=DEFAULT_CREDENTIALS_FILE)
+    parser.add_argument("--credentials-file", type=Path, default=None)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--overwrite", action="store_true")
 

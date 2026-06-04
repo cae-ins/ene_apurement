@@ -29,6 +29,10 @@ program/apurement.do execute automatiquement
 program/00-initialisation_brute_depuis_staging.do avant les traitements. Ce
 do-file remplace le contenu de datain/brute par le snapshot datain/staging.
 
+Avant la standardisation, program/00-suppression_non_residents.do retire les
+individus non residents puis synchronise les bases: aucun individu sans menage
+et aucun menage sans individu restant.
+
 Les sauvegardes modifiant les fichiers bruts passent ensuite par
 program/00-protections_sauvegarde_brute.do. Ces protections arretent le
 pipeline si un roster est sur le point d'ecraser membres.dta, ou inversement.
@@ -41,7 +45,7 @@ Pour verifier statiquement les protections Stata:
 
 Le nom de l'export menage trimestriel est centralise dans program/parentfile.do:
 
-  brute_menage_source : ENEM_2026T1.dta, export Survey Solutions restaure
+  brute_menage_source : ENEM_T12026.dta, export Survey Solutions restaure
   brute_menage_work   : QX_EEC_VF.dta, copie menage corrigee par l'apurement
 
 Pour reconstruire manuellement la copie de travail hors Stata:

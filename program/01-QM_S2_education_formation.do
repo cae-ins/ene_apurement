@@ -1,4 +1,3 @@
-*******************************************************************************
 *      VERIFICATION ET TRAITEMENT DE LA SECTION "EDUCATION"                   *
 *                                                                             *
 *       RESPONSABLE : DIABATE BEN ISMAEL                                 *
@@ -210,7 +209,7 @@ replace EF4 = 20 if inlist(EF3,10) & !inlist(EF4,20,21) & !missing(EF4)
 
 * Problème1: Ceux qui devaient repondre ont ils repondus
 count if missing(EF4_1) & !missing(EF4)
-br EF4_1 EF4 if missing(EF4_1) & !missing(EF4)
+* br EF4_1 EF4 if missing(EF4_1) & !missing(EF4)
 *83 de ceux qui devaient repondre n'ont pas repondu. En realité ce sont des individu qui ont déclaré avoir fait aucune classe et 1 seul a fait la classe de CP1. La correction sera faite dans la partie "Correction"
 
 **Problème2: ceux qui ont repndu etaient ils autorisés à le faire
@@ -227,27 +226,27 @@ count if EF4_1 != 0 & EF4 < 9 & !missing(EF4, EF4_1)
 //RAS
 
 count if EF4_1 ==1 & !inrange(EF4,9,15) & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==1 & !inrange(EF4,9,15) & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==1 & !inrange(EF4,9,15) & !missing(EF4, EF4_1)
 //6 individus ayant achevés avec succès la classe de terminale ou le BAC+1 ont choisi le BEPC. Ce n'est pas normal
 
 count if EF4_1 ==2 & !inrange(EF4,13,15) & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==2 & !inrange(EF4,13,15) & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==2 & !inrange(EF4,13,15) & !missing(EF4, EF4_1)
 //129 individus ayant achevés avec succès la classe de terminale ou le BAC+1 ont choisi le BEPC. Ce n'est pas normal
 
 count if EF4_1 ==3 & !inrange(EF4,16,18) & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==3 & !inrange(EF4,16,18) & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==3 & !inrange(EF4,16,18) & !missing(EF4, EF4_1)
 //5 individus ayant achevés avec succès le BAC+3 (4) ou le BAC+4 (1) ont choisi le BAC. Ce n'est pas normal
 
 count if EF4_1 ==4 & EF4 !=18 & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==4 & EF4 !=18 & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==4 & EF4 !=18 & !missing(EF4, EF4_1)
 //2 individus ayant achevés avec succès le BAC+3 (1) ou le BAC+4 (1) ont choisi le BTS. Ce n'est pas normal
 
 count if EF4_1 ==5 & !inrange(EF4,19,20) & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==5 & !inrange(EF4,19,20) & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==5 & !inrange(EF4,19,20) & !missing(EF4, EF4_1)
 //5 individus ayant achevés avec succès le BAC+2 (4) ou le BAC+5 (1) ont choisi le BTS. Nous allons apporter une correction
 
 count if EF4_1 ==6 & !inlist(EF4,21,20) & !missing(EF4, EF4_1)
-br EF4_1 EF4 if EF4_1 ==6 & !inlist(EF4,21,20) & !missing(EF4, EF4_1)
+* br EF4_1 EF4 if EF4_1 ==6 & !inlist(EF4,21,20) & !missing(EF4, EF4_1)
 //19 individus ayant achevés avec succès le BAC+2, le BAC+3 ou le doctorat comme classe la plus élevé achevé ont choisi le BAC+5 comme diplôme. Nous allons apporter une correction
 
 count if EF4_1 ==7 & !inlist(EF4,22) & !missing(EF4, EF4_1)
@@ -404,7 +403,7 @@ count if !inrange(EF6,1,2)& !missing(EF6)
 
 * Problème1: Ceux qui devaient repondre ont ils repondu
 count if missing(EF7) & EF6==1 
-br if missing(EF7) & EF6==1 
+* br if missing(EF7) & EF6==1 
 //Une (1) personne identifiée
 
 * Problème2: Ceux qui ont repondu devaient ils repondre 
@@ -473,10 +472,10 @@ count if !inrange(EF8,0,22) & !missing(EF8)
 
 
 count if !inlist(EF7,1) & inlist(EF8,1,2,3) & !missing(EF7)
-br EF7 EF8 if !inlist(EF7,1) & inlist(EF8,1,2,3) & !missing(EF7) 
+* br EF7 EF8 if !inlist(EF7,1) & inlist(EF8,1,2,3) & !missing(EF7) 
 // 17
 count if inlist(EF7,1) & !inlist(EF8,1,2,3) & !missing(EF8)
-br EF7 EF8 if inlist(EF7,1) & !inlist(EF8,1,2,3) & !missing(EF8) 
+* br EF7 EF8 if inlist(EF7,1) & !inlist(EF8,1,2,3) & !missing(EF8) 
 // 119
 *Correction
 replace EF7 = 1 if !inlist(EF7,1) & inlist(EF8,1,2,3) & !missing(EF7)
@@ -485,10 +484,10 @@ replace EF7 = 0 if inlist(EF7,1) & EF8==0 & !missing(EF8)
 
 
 count if inlist(EF7,2) & !inrange(EF8,4,9) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,2) & !inrange(EF8,4,9) & !missing(EF8)
+* br AgeAnnee EF7 EF8 if inlist(EF7,2) & !inrange(EF8,4,9) & !missing(EF8)
 // 172
 count if !inlist(EF7,2) & inrange(EF8,4,9) & !missing(EF7)
-br AgeAnnee EF7 EF8 if !inlist(EF7,2) & inrange(EF8,4,9) & !missing(EF7)
+* br AgeAnnee EF7 EF8 if !inlist(EF7,2) & inrange(EF8,4,9) & !missing(EF7)
 // 65
 *Correction
 replace EF7 = 2 if !inlist(EF7,2) & inrange(EF8,4,9) & !missing(EF7)
@@ -497,7 +496,7 @@ replace EF7 = 3 if inlist(EF7,2) & !inrange(EF8,4,9) & !missing(EF8) & AgeAnnee 
 
 
 count if inlist(EF7,3,4) & !inrange(EF8,10,13) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,3,4) & !inrange(EF8,10,13) & !missing(EF8)
+* br AgeAnnee EF7 EF8 if inlist(EF7,3,4) & !inrange(EF8,10,13) & !missing(EF8)
 // 88
 count if !inlist(EF7,3,4) & inrange(EF8,10,13) & !missing(EF7)
 //RAS
@@ -506,7 +505,7 @@ replace EF7 = 5 if inlist(EF7,3,4) & !inrange(EF8,10,13) & !missing(EF8)
 
 
 count if inlist(EF7,5,6) & !inrange(EF8,14,16) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,5,6) & !inrange(EF8,14,16) & !missing(EF8) 
+* br AgeAnnee EF7 EF8 if inlist(EF7,5,6) & !inrange(EF8,14,16) & !missing(EF8) 
 // 22
 count if !inlist(EF7,5,6) & inrange(EF8,14,16) & !missing(EF7)
 //RAS
@@ -515,10 +514,10 @@ replace EF7 = 7 if inlist(EF7,5,6) & !inrange(EF8,14,16) & !missing(EF8)
 
 
 count if inlist(EF7,7) & !inrange(EF8,17,18) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,7) & !inrange(EF8,17,18) & !missing(EF8) 
+* br AgeAnnee EF7 EF8 if inlist(EF7,7) & !inrange(EF8,17,18) & !missing(EF8) 
 //2
 count if !inlist(EF7,7) & inrange(EF8,17,18) & !missing(EF7)
-br AgeAnnee EF7 EF8 if !inlist(EF7,7) & inrange(EF8,17,18) & !missing(EF7)
+* br AgeAnnee EF7 EF8 if !inlist(EF7,7) & inrange(EF8,17,18) & !missing(EF7)
 //8
 *Correction
 replace EF7 = 8 if inlist(EF7,7) & !inrange(EF8,17,18) & !missing(EF8)
@@ -526,10 +525,10 @@ replace EF7 = 7 if !inlist(EF7,7) & inrange(EF8,17,18) & !missing(EF7)
  
 
 count if inlist(EF7,8) & !inlist(EF8,19) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,8) & !inlist(EF8,19) & !missing(EF8)
+* br AgeAnnee EF7 EF8 if inlist(EF7,8) & !inlist(EF8,19) & !missing(EF8)
 // 10
 count if !inlist(EF7,8) & inlist(EF8,19) & !missing(EF7)
-br AgeAnnee EF7 EF8 if !inlist(EF7,8) & inlist(EF8,19) & !missing(EF7)
+* br AgeAnnee EF7 EF8 if !inlist(EF7,8) & inlist(EF8,19) & !missing(EF7)
 //4
 *Correction
 replace EF8 = 19 if inlist(EF7,8) & !inlist(EF8,19) & !missing(EF8)
@@ -537,10 +536,10 @@ replace EF7 = 8 if !inlist(EF7,8) & inlist(EF8,19) & !missing(EF7)
 
 
 count if inlist(EF7,9) & !inlist(EF8,20) & !missing(EF8)
-br AgeAnnee EF7 EF8 if inlist(EF7,9) & !inlist(EF8,20) & !missing(EF8)
+* br AgeAnnee EF7 EF8 if inlist(EF7,9) & !inlist(EF8,20) & !missing(EF8)
 // 2 individu pour qui il y a incohérence 
 count if !inlist(EF7,9) & inlist(EF8,20) & !missing(EF7)
-br AgeAnnee EF7 EF8 if !inlist(EF7,9) & inlist(EF8,20) & !missing(EF7)
+* br AgeAnnee EF7 EF8 if !inlist(EF7,9) & inlist(EF8,20) & !missing(EF7)
 //3
 *Correction
 replace EF8 = 20 if inlist(EF7,9) & !inlist(EF8,20) & !missing(EF8)
@@ -670,7 +669,7 @@ replace EF11_New = 9 if EF11==11
 replace EF11_New = 10 if EF11==12
 
 count if EF11_New +1 < EF7_New & !missing(EF7_New,EF11_New)
-br EF11 EF7 if EF11_New +1 < EF7_New & !missing(EF7_New,EF11_New)
+* br EF11 EF7 if EF11_New +1 < EF7_New & !missing(EF7_New,EF11_New)
 //Il y a une (1) seule incohérence
 
 *correction
@@ -705,7 +704,7 @@ count if !inlist(EF12,0,22) & !missing(EF12) & EF10==1
 
 *Cohérence entre la classe la plus élevée de l'année en cours (EF8) et celle de l'année précédente (EF12)
 count if (EF8 > EF12 +1) & !missing(EF8,EF12)
-br EF8 EF12 if (EF8 > EF12 +1) & !missing(EF8,EF12)
+* br EF8 EF12 if (EF8 > EF12 +1) & !missing(EF8,EF12)
 
 *5. Correction :
 replace EF12 = EF8-1 if (EF8 > EF12 +1) & !missing(EF8,EF12)
@@ -953,4 +952,4 @@ count if !inrange(EF18,1,89) & !missing(EF18) & EF18 !=98
 
 drop HH01 HH2A HH2 HH4 HH8 rghab rgmen V1interviewkey HH12 HH13 hh Statut_Res M6_A M7 AgeAnnee commentaire
 
-save"$standard_menage\QM_S2_education_formation.dta", replace
+save "$standard_menage\QM_S2_education_formation.dta", replace

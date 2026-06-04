@@ -1,4 +1,4 @@
-*=========================================================
+
 * COMPETENCES ET QUALIFICATIONS (CQ)
 
 * RESPONSABLE: RENAUD HIVITES AKATTIA (PECHOUX)
@@ -464,9 +464,9 @@ count if !inrange(CQ3U,1,3) & !missing(CQ3U)
 
 count if CQ3U==3 & CQ3>5
 *96 individus sont concernés. Nous pensons que la valeur entrée correspond à leur experience plutot 
+* 
 
-
-br CQ1 CQ2 CQ3 CQ3U EP1b1 if CQ3U==3 & CQ3>5
+* br CQ1 CQ2 CQ3 CQ3U EP1b1 if CQ3U==3 & CQ3>5
 ta CQ3 CQ3U
 replace commentaire_competence="La durée minimale pour bien exerer son travail ne peut exceder 10ans. Ce n'est pas tres raisonnable" if CQ3U==3 & CQ3>10  
 

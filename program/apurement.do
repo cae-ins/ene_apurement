@@ -18,7 +18,9 @@ include "$dofiles/00-initialisation_brute_depuis_staging.do"  //Copie des versio
 
 include "$dofiles/00-protections_sauvegarde_brute.do" // Définition des commandes de sauvegarde sécurisée (save_safe)
 
-include "$dofiles/00-suppression_doublons.do" // Suppression des entretiens doublons (CITP/CIAP)
+include "$dofiles/00-suppression_doublons.do" // Suppression des entretiens doublons
+
+include "$dofiles/00-suppression_non_residents.do" // Suppression centralisee des individus et menages non residents
 
 include "$dofiles/00-nettoyage_individus_brute.do" // Nettoyage des individus invalides (Âge/Sexe/M4Confirm)
 
@@ -100,3 +102,8 @@ include "$dofiles/01-INDIV_S13_revenu_hors_emploi.do"
 include "$dofiles/01-INDIV_S14_activite_parents.do"
 
 *include "$dofiles/01-INDIV_S15_disponibilite.do"
+
+*===============Finalisation des Logs=============*
+display "Fin du processus d'apurement."
+cap log close
+shell python "$folderpath/tools/colorize_log.py" "$current_log"

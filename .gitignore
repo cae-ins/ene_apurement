@@ -17,11 +17,14 @@ document/*.xls
 *.pyc
 .venv/
 env/
+.env
 
 # --- Stata ---
 *.stpr.bak
 *.log
 *.smcl
+*.ansi
+logs/
 
 # --- OS ---
 .DS_Store

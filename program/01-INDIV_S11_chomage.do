@@ -1,4 +1,4 @@
-*================================================
+
 *********CHOMAGE
 
 ****RESPONSABLE: SEKONGO
@@ -35,7 +35,7 @@ cap drop _merge
  
 
 cap drop _merge
-merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S10_recherche_emploi_disponibilite.dta", keepus(SRH1 SRH2 SRH2A SRH11 )
+merge 1:1 interview__key membres__id using "$standard_individu\INDIV_S10_recherche_emploi_disponibilite.dta", keepus(SRH1 SRH2 SRH2A SRH11 )
 drop if _merge!=3
 cap drop _merge
 
@@ -72,8 +72,8 @@ foreach var of varlist `r(varlist)'{
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a)
-
-br if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a)
+* 
+* br if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a)
 
 
 *Exportation 
@@ -118,16 +118,16 @@ count if !missing(C6e1) & C6e == 2
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
 count if C6e1 ==0 // on peut supposer que l'individu est prêt à travailler immédiatement. 
-
-br if C6e1 ==0
+* 
+* br if C6e1 ==0
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ****C7a.Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours), recherchiez-vous un emploi salarié ou indépendant ou peu importe ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
-
-br if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+* 
+* br if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
 
 *Exportation: 
 if r(N) > 0 {
@@ -150,8 +150,8 @@ count if C2==2 & missing(C7a) //RAS
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
-
-br if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+* 
+* br if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
 
 
 *Exportation
@@ -248,8 +248,8 @@ count if C2==2 & missing(C7d) //RAS
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
-
-br  if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+* 
+* br  if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
 
 if r(N) > 0 {
 export excel interview__key HH13  C7e  using "$folderpath/document/C7e_Manquant" if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace

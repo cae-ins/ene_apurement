@@ -86,6 +86,10 @@ python tools\ene_medallion_io\01_download_apurement_inputs.py --quarter T1_2026 
 python tools\ene_medallion_io\02_upload_apurement_outputs.py --quarter T1_2026 --dry-run
 ```
 
+`02_upload_apurement_outputs.py` validates the local apurement output contract
+before connecting to MinIO. Missing or empty section files and missing final
+household or individual bases stop the upload.
+
 `00_upload_raw_to_staging.py` uploads `datain/staging/` by default.
 `01_download_apurement_inputs.py` downloads MinIO staging inputs into
 `datain/staging/`. The Stata apurement entry point then resets `datain/brute/`

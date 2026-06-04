@@ -3,6 +3,10 @@ Reinitialise la copie de travail Stata avant chaque apurement.
 
 datain/staging reste immuable. Les do-files metier peuvent ensuite modifier
 datain/brute sans detruire l'export Survey Solutions original.
+
+Les sections standardisees et les sorties d'une execution precedente sont
+supprimees pour eviter de publier un melange de resultats anciens et nouveaux
+si l'apurement s'interrompt en cours de route.
 */
 
 capture which violin
@@ -35,7 +39,7 @@ capture mkdir "$datain_standard"
 capture mkdir "$standard_annexe"
 capture erase "$datatemp\staging_to_brute.ok"
 
-shell cmd.exe /d /c call "$dofiles\00-initialisation_brute_depuis_staging.cmd" "$datain_staging" "$datain_brute" "$datatemp"
+shell cmd.exe /d /c call "$dofiles\00-initialisation_brute_depuis_staging.cmd" "$datain_staging" "$datain_brute" "$datatemp" "$folderpath" "$datain_standard" "$dataout"
 
 capture confirm file "$datatemp\staging_to_brute.ok"
 if _rc {
@@ -45,4 +49,12 @@ if _rc {
 }
 
 capture erase "$datatemp\staging_to_brute.ok"
-display as result "Copie de travail datain/brute reinitialisee depuis datain/staging."
+capture mkdir "$dataout"
+capture mkdir "$dataout\standard"
+capture mkdir "$standard_menage"
+capture mkdir "$standard_individu"
+capture mkdir "$dataout_menage"
+capture mkdir "$dataout_individu"
+capture mkdir "$datain_standard"
+capture mkdir "$standard_annexe"
+display as result "Copie de travail et sorties generees reinitialisees."

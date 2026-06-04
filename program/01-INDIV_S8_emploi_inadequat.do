@@ -1,4 +1,4 @@
-*================================================
+
 *********SITUATION D'EMPLOI INADEQUATES
 
 ****RESPONSABLE: SEKONGO 
@@ -104,7 +104,7 @@ count if  missing(WKI2__`i') & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm
     else {
         display "Pas de réponses manquantes pour WKI2__`i'"
     }
-br 	if  EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a) & inlist(WKI1, 1, 2) & missing(WKI2__`i')
+* br 	if  EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm, ., .a) & inlist(WKI1, 1, 2) & missing(WKI2__`i')
 
 }
 
@@ -168,8 +168,8 @@ count if !missing(WKI2_Aut) & WKI2__13 == 0
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
-
-br if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+* 
+* br if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 if r(N) > 0 {
 export excel interview__key HH13 WKI3  using "$folderpath/document/WKI3_Manquants" if missing(WKI3) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
@@ -191,8 +191,8 @@ count if !missing(WKI3) & !inrange(WKI3,1,3)
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 
 count if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
-
-br if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+* 
+* br if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 if r(N) > 0 {
 export excel interview__key HH13 WKI4  using "$folderpath/document/WKI4_Manquants" if missing(WKI4) & EN_EMP == 1 &  M4Confirm>=15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
@@ -223,8 +223,8 @@ count if !missing(WKI5) & !inrange(WKI5,1,2)
 ***WKI6. Combien d’heures supplémentaires par semaine pourriez-vous travailler ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "" 
-
-br membre_id_v1_IND WKI5 WKI6 if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "" 
+* 
+* br membre_id_v1_IND WKI5 WKI6 if missing(WKI6) & WKI5==1 & membre_id_v1_IND== "" 
 
 
 if r(N) > 0 {
@@ -254,8 +254,8 @@ count if !missing(WKI6) & WKI6 < 0
 *Etape1
 
 count if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
-
-br if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
+* 
+* br if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
 
 count if missing(WKI7) & ((WKI3 == 3 |  WKI1==3) & membre_id_v1_IND == "")
 if r(N)>0 {

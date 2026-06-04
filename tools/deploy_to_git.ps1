@@ -20,8 +20,8 @@ Write-Host "Source      : $Source"
 Write-Host "Destination : $Destination"
 
 # Liste des dossiers et extensions à ignorer (données et fichiers temporaires)
-$ExcludeDirs = @("datain", "dataout", "datatemp", ".git", "__pycache__", "archive")
-$ExcludeFiles = @("*.dta", "*.bak", "*.log", "*.smcl", "Thumbs.db", ".DS_Store")
+$ExcludeDirs = @("datain", "dataout", "datatemp", ".git", "__pycache__", "archive", "logs")
+$ExcludeFiles = @("*.dta", "*.bak", "*.log", "*.ansi", "*.smcl", ".env", "Thumbs.db", ".DS_Store")
 
 # Commande Robocopy pour une copie propre et efficace
 # /MIR : Miroir (attention, supprime dans destination ce qui n'est pas dans source)

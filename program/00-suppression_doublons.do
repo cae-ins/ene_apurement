@@ -6,7 +6,7 @@
 *==============================================================================
 
 * Liste des fichiers bruts à nettoyer
-local fichiers "ENEM_2026T1.dta membres.dta r_activite_s.dta emigration.dta"
+local fichiers "ENEM_T12026.dta membres.dta r_activite_s.dta emigration.dta"
 
 foreach f in `fichiers' {
     
@@ -14,6 +14,7 @@ foreach f in `fichiers' {
     if _rc == 0 {
         
         use "$datain_brute/`f'", clear
+		cap drop todrop
         
         gen byte todrop = 0
 
@@ -138,7 +139,7 @@ foreach f in `fichiers' {
         drop todrop
         
         * Sauvegarde sécurisée selon le type de fichier
-        if "`f'" == "ENEM_2026T1.dta" {
+        if "`f'" == "ENEM_T12026.dta" {
             save_brute_menage_work_safe
         }
         else if "`f'" == "membres.dta" {
@@ -151,7 +152,8 @@ foreach f in `fichiers' {
             save_brute_emigration_safe
         }
         else {
-            save "$datain_brute/`f'", replace
+            display as error "Sauvegarde refusee: aucun helper protege defini pour `f'."
+            exit 459
         }
         
     }

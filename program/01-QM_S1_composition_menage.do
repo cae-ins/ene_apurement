@@ -1,4 +1,4 @@
-*================================================
+
 *********COMPOSITION DES MENAGES
 
 ****RESPONSABLE | AUTEUR: BEN ISMAEL
@@ -145,7 +145,8 @@ if r(N)>0 {
 }
 
 *** Suppression des individus pour lesquelles la durée dans le ménage n'est pas renseigné
-cap drop if missing(M1) & membre_id_v1 == "##N/A##"
+*** Exclusion centralisee dans 00-suppression_non_residents.do.
+*** Ne pas modifier localement l'univers de la section QM_S1.
 
 * Vérifier qu'il ne reste aucun cas
 count if missing(M1) & membre_id_v1 == "##N/A##"
@@ -1142,19 +1143,19 @@ count if !missing(M7) & M6_A !=9998
 
 count if !missing(AgeAnnee) & Statut_Res !=1
 // 248 personnes n'ayant pas le droit de répondre aux questions (car ils ne sont pas résidents) ont répondu et nous remarquons après avoir exécuté le code suivant que l'Age de tous ces individu est égal à 0. Nous allons remplacer leur âge par la une valeur manquante
-br AgeAnnee Statut_Res if !missing(AgeAnnee) & Statut_Res !=1
+* br AgeAnnee Statut_Res if !missing(AgeAnnee) & Statut_Res !=1
 
 replace AgeAnnee= . if !missing(AgeAnnee) & Statut_Res !=1
 
 *3. Valeurs légales
 ta AgeAnnee if Statut_Res==1,miss // plusieurs valeurs aberrantes dans la variable AgeAnnee. 
-
-br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee <0
+* 
+* br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee <0
 //Tous ceux dont l'âge est négatif sont, en réalité, nés en 2026 (variable M6_A)
 
 replace AgeAnnee=0 if AgeAnnee <0
-
-br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee >99 & !missing(AgeAnnee)
+* 
+* br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee >99 & !missing(AgeAnnee)
 //Plusieurs valeurs sont en réalités l'année de naissance. Nous allons calculer l'âge pour ces individus concernés. Il y a un indivi pour qui l'âge saisi est 106 mais c'est une observation de l'enquêteur. Nous allons remplacer cette valeur par l'âge maximal 102.
 
 replace AgeAnnee=102 if AgeAnnee ==106
@@ -1717,7 +1718,6 @@ cap drop HH2 HH3 HH12 HH13 HH4 HH6 HH8B V1interviewkey V1MODINTR M0__0 rgmen mem
 cap drop dup commentaire cm agecm Age_Cm_men ecart_age ecart_age1 HH14a HH14a_Aut
 
 save  "$standard_menage\QM_S1_composition_menage.dta", replace
-
 
 
 

@@ -1,4 +1,3 @@
-*=========================================================
 * LOGEMENT (L)
 
 * RESPONSABLE: DIABATE BEN ISMAEL
@@ -139,7 +138,7 @@ count if L1_Aut!="" & L1 !=8
 
 *Problem 1: Ceux qui devaient repondre ont ils repondu 
 count if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-br L1 L2A if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
+* br L1 L2A if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //2 logements sont concernés (cours commune et maison simple)
 
 *Correction
@@ -353,7 +352,7 @@ count if L6>15000 & inlist(L6,6,7)
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus
 count if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-br L1 L3 L4 if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
+* br L1 L3 L4 if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //3 individus sont concernés
 
 *Correction : on remplace les valeurs manquantes par le mode du cluster

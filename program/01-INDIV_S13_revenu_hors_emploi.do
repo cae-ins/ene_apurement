@@ -1,4 +1,4 @@
-*+==============================================================
+
 *					SECTION REVENU HORS EMPLOI (RHE)
 *+==============================================================
 ** BROU
@@ -41,8 +41,7 @@ merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S11_chomage.d
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepusing(membre_id_v1_IND)
-//CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire Utilisation de la base membres parce que la variable membre_id_v1_IND n'existe pas dans les bases standardiser
+merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepusing(membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal branche1)
 
 drop if _merge!=3
 cap drop _merge
@@ -101,8 +100,8 @@ restore*/
 *Probleme 1: Ceux qui devaient repondre ont ils repondu 
 foreach var of varlist  RHE__1-RHE__10   {
     count if missing(`var') & (membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
-	
-	br if missing(`var') & (membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
+* 	
+* 	br if missing(`var') & (membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
 	
 }
 
@@ -230,8 +229,8 @@ cap drop med_RHE1_4
 *Les valeurs renseignées doivent depasser 100
 count if RHE1_4<100  & inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
 *
-
-br if RHE1_4<100  & inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
+* 
+* br if RHE1_4<100  & inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
 
 ***Correction des revenus déclarés en chiffre par rapport à ceux declarés en lettre
 

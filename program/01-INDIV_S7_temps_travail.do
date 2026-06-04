@@ -1,4 +1,4 @@
-*================================================
+
 *********TEMPS DE TRAVAIL
 
 ****RESPONSABLE: SEKONGO
@@ -33,13 +33,13 @@ drop  _merge
 
 
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S2_situation_emploi.dta", keepus( SE8)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus( SE8)
 
 keep if _merge == 3
 drop  _merge
 
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S5_pluriactivite.dta", keepus( PL1 PL2 PL3)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S5_pluriactivite.dta", keepus( PL1 PL2 PL3)
 
 keep if _merge == 3
 drop  _merge
@@ -70,12 +70,16 @@ export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_0.xlsx
 
 **Correction (des vrais manquants):
 
-   *** imputation par la mediane 
+   *** imputation par la mediane croisant Métier (CITP) et Secteur (Branche)
 cap drop med_WKT1
-*egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11) , by(EP3 EP11 code_citp_emp_principal)
-egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11) , by(EP3 EP11)
+egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11), by(EP3 EP11 code_citp_emp_principal branche1)
 
-replace WKT1 = med_WKT1 if missing(WKT1)
+* Si la médiane par métier/secteur est vide, on utilise une médiane plus large (Secteur uniquement)
+cap drop med_WKT1_large
+egen med_WKT1_large = median(WKT1) if !missing(EP3) & !missing(EP11), by(EP3 EP11 branche1)
+
+replace WKT1 = med_WKT1 if missing(WKT1) & !missing(med_WKT1)
+replace WKT1 = med_WKT1_large if missing(WKT1) & !missing(med_WKT1_large)
 
 
 *replace WKT1 =.a if interview__key == "40-68-68-30" & membres__id == 1 // pour cet individu, toutes la section emploi est manquantes donc nous renvoyons sa valeurs WKT1 à une valeurs manquantes 
@@ -132,7 +136,7 @@ replace WKT2=. if !missing(WKT2) & ( M4Confirm < 15 | EN_EMP==0 | (!inlist(WKT1,
 ***Etape3: Coherence des reponses attendues 
 count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 > 7
 
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 < =0 
+count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 <= 0 
 
 *WKT3. Combien d’heures par jour travaillez-vous habituellement dans votre emploi principal ?
 
@@ -156,7 +160,7 @@ count if !missing(WKT3) & (EN_EMP==0 | M4Confirm < 15 | WKT1 != 9998 )
 
 ***Etape3: Coherence des reponses attendues
 count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & WKT3 > 24
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & WKT3 < =0 
+count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & WKT3 <= 0 
 ***Etape4: Vraisemblance 
 
 *WKT4. Pour la semaine allant du %DateJ7% au %DateJ0% , avez-vous eu des absences ou pris congé de votre emploi principal pour une raison quelconque, par exemple, vacances, maladie, raisons familiales ?
@@ -387,8 +391,8 @@ count if  !missing(WKT10) & WKT10<=0  // le nombres d'heures habituel dans l'emp
 
 
 *proposition de correction 
-
-br WKT10 EP3 EP11 if !missing(WKT10) & WKT10<=0 // on regarde d'abord les caractéristiques de l'individu
+* 
+* br WKT10 EP3 EP11 if !missing(WKT10) & WKT10<=0 // on regarde d'abord les caractéristiques de l'individu
 
 cap drop med_WKT10
 egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10>0 & inlist(EP3,3), by(EP3 EP11) // la median est de 16H pour les personnes à propre compte 
@@ -536,8 +540,8 @@ export excel interview__key HH13 WKT17A  using "$folderpath/document/WKT17A.xlsx
 
 
 **Correction pour NB_HEURE_TRAVAIL_TOTAL
-
-br NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // visualisation des caractéristiques de l'individus
+* 
+* br NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // visualisation des caractéristiques de l'individus
 
 cap drop med_NB_HEURE_TRAVAIL_TOTAL
 egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 EP11) // la median est de 54H pour les individus avec les memes caracteristiques
@@ -562,22 +566,25 @@ count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT18) & WKT17A==2
 if r(N) > 0 {
 export excel interview__key HH13 WKT18  using "$folderpath/document/WKT18.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT18) & WKT17A==2,firstrow(variables) replace
 }
-***Correction
-
+***Correction: imputation par la mediane croisant Métier (CITP) et Secteur (Branche)
 cap drop med_WKT18
-*egen med_WKT18 = median(WKT18), by(EP3 EP11 code_citp_emp_principal)
-egen med_WKT18 = median(WKT18), by(EP3 EP11 )
+egen med_WKT18 = median(WKT18), by(EP3 EP11 code_citp_emp_principal branche1)
 
-replace WKT18 = med_WKT18 if WKT18 == .a
-cap drop med_WKT18
+* Option de secours (Secteur uniquement)
+cap drop med_WKT18_large
+egen med_WKT18_large = median(WKT18), by(EP3 EP11 branche1)
+
+replace WKT18 = med_WKT18 if WKT18 == .a & !missing(med_WKT18)
+replace WKT18 = med_WKT18_large if WKT18 == .a & !missing(med_WKT18_large)
+cap drop med_WKT18 med_WKT18_large
 
 ***Etape2: coherence des sauts
 count if !missing(WKT18) & WKT17A ==1
 
 ***Etape3: Coherence des reponses attendues 
 count if !missing(WKT18) & WKT18<=0 & WKT17A==2 // plus de 124 personnes pour qui la reponse est Zero, 
-
-br NB_HEURE_TRAVAIL_TOTAL WKT17A WKT18 if !missing(WKT18) & WKT18<=0 & WKT17A==2
+* 
+* br NB_HEURE_TRAVAIL_TOTAL WKT17A WKT18 if !missing(WKT18) & WKT18<=0 & WKT17A==2
 
 
 if r(N) > 0 {
@@ -608,7 +615,7 @@ export excel interview__key HH13 WKT18A  using "$folderpath/document/WKT18A.xlsx
 count if !missing(WKT18A) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // RAS car il s'agit des personnes n'étant pas en emploi identifié en EP
 
 *
-br EN_EMP if !missing(WKT18A) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1))
+* br EN_EMP if !missing(WKT18A) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1))
 
 replace WKT18A =. if !missing(WKT18A) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1))
 

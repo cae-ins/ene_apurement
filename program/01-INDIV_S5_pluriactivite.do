@@ -1,4 +1,4 @@
-*================================================
+
 *********PLURIACTIVITE
 
 ****RESPONSABLE: SEKONGO 
@@ -24,8 +24,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND )
-CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 drop if _merge!=3
 cap drop _merge
@@ -63,8 +62,8 @@ foreach var of varlist `r(varlist)'{
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(PL1) & EN_EMP == 1
-
-br if missing(PL1) & EN_EMP == 1
+* 
+* br if missing(PL1) & EN_EMP == 1
 if r(N) > 0 {
 export excel interview__key HH13 PL1  using "$folderpath/document/PL1_Manquants" if  missing(PL1) & EN_EMP == 1, firstrow(variables) replace
 }
@@ -82,8 +81,8 @@ count if !missing(PL1) & !inrange(PL1,1,2)
 *****PL2. Bien que vous n’ayez pas exercé d’autres emplois ou activités au cours de la période allant de la période du %DateJ7% au %DateJ0% , avez-vous l’habitude d’exercer d’autres emplois ou activités rémunérés de quelques types que ce soit en dehors de votre activité/emploi principal ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(PL2) & EN_EMP == 1 & PL1 == 2
-
-br if missing(PL2) & EN_EMP == 1 & PL1 == 2
+* 
+* br if missing(PL2) & EN_EMP == 1 & PL1 == 2
 
 *correction 
 replace PL2 = 2 if missing(PL2) & EN_EMP == 1 & PL1 == 2  
@@ -173,7 +172,7 @@ save "$standard_individu\INDIV_S5_pluriactivite.dta", replace
 cap drop merge
 merge 1:m  interview__key membres__id  using "$datain_brute\r_activite_s.dta"
 drop if _merge != 3
-cap^drop _merge
+cap drop _merge
 /*
 use "$datain_brute\r_activite_s.dta", clear
 merge m:1 interview__key using "$brute_menage_work", keepus(HH2 HH3 HH13 HH4 HH6 HH8B)
@@ -202,7 +201,7 @@ count if !missing(PL3_C) & EN_EMP == 0
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 
 count if length(PL3_C) <2 & !missing(PL3_C) 
-br if length(PL3_C) <2 & !missing(PL3_C)
+* br if length(PL3_C) <2 & !missing(PL3_C)
 
 ** informations pas claires
 if r(N) > 0 {
@@ -277,8 +276,8 @@ count if !missing(PL3_F) & EN_EMP==0
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if  missing(PL3_F1a) & EN_EMP==1
-
-br if missing(PL3_F1a) & EN_EMP==1
+* 
+* br if missing(PL3_F1a) & EN_EMP==1
 
 if r(N) > 0 {
 export excel interview__key HH13 PL3_F1a  using "$folderpath/document/PL3_F1a_Manquants" if missing(PL3_F1a), firstrow(variables) replace
@@ -332,8 +331,7 @@ count if !missing(PL3_H) & PL3_H ==0
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ***************Effacement des variables ajoutées
-cap drop HH2 HH3 HH4 HH6 HH8B HH13 EN_EMP EP11 EP3 
-CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+cap drop HH2 HH3 HH4 HH6 HH8B HH13 EN_EMP EP11 EP3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 save "$dataout\r_activite_s.dta", replace
 

@@ -1,4 +1,4 @@
-*================================================
+
 *********RECHERCHE D'UN AUTRE EMPLOI
 
 ****RESPONSABLE: SEKONGO 
@@ -71,8 +71,8 @@ foreach var of varlist `r(varlist)'{
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
-
-br if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* 
+* br if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 
 count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 if r(N)>0 {
@@ -91,8 +91,8 @@ count if !missing(R1) & !inrange(R1,1,3)
 ****R2.L’emploi que vous recherchez ou êtes dispo nible à exercer est –il un emploi permanent ou temporaire ou peu importe?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
-
-br if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* 
+* br if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 
 count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 if r(N)>0 {
@@ -112,8 +112,8 @@ count if R2 == 1 & WKI3 == 2
 *****R3. Dans quel type d’organisation souhaitez-vous travailler? 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
-
-br if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* 
+* br if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 
 count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
 if r(N)>0 {
@@ -148,7 +148,7 @@ forvalues i = 1/19 {
     else {
         display "Toutes les réponses sont présentes pour R4__`i'"
     }
-br if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+* br if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 

@@ -12,7 +12,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
 
 cap drop _merge
 
@@ -58,8 +58,8 @@ ta EP1a,miss
 
 **
 count if EP1a == "##N/A##" // Certains individu dans il est renseigné "##N/A##". 
-
-br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP1a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
+* 
+* br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP1a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 *exportation des individus potentiellement concernés
 
@@ -86,8 +86,8 @@ count if  !missing(EP1b) & EN_EMP==0 & M4Confirm <15 // tous ceux qui ont répon
 ta EP1b, miss
 
 count if EP1b == "##N/A##" // Certains individus (09) dans il est encore renseigné "##N/A##". 
-
-br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP1b == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
+* 
+* br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP1b == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 *exportation des individus potentiellement concernés
 
@@ -121,16 +121,16 @@ count if !missing(EP1b1) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant 
 //4)
 
 count if EP1b1 >= 111101 & EP1b1 <= 111106
-
-br EP1a EP1b EP1b1 if EP1b1 >= 111101 & EP1b1 <= 111106 
+* 
+* br EP1a EP1b EP1b1 if EP1b1 >= 111101 & EP1b1 <= 111106 
 
 *exportation des individus potentiellement concernés
 
 *export excel interview__key HH13 EP1a EP1b EP1b1 using "$folderpath/document/Emploi_prin_EP1b1_2" if EP1b1 >= 111101 & EP1b1 <= 111106 , firstrow(varl) replace
 
 *
-
-br EP1a EP1b EP1b1 if EP1b1 == 111202 | EP1b1 == 111207  // Directeur de Cabinet et Ambassadeur
+* 
+* br EP1a EP1b EP1b1 if EP1b1 == 111202 | EP1b1 == 111207  // Directeur de Cabinet et Ambassadeur
 
 
 ///// EP2a. Au cours de la période allant de %DateJ7 % au %DateJ0% , quelle est le domaine d'activit é de l'entreprise dans laquelle vous travaillez d ans le cadre de votre emploi principal ?
@@ -146,8 +146,8 @@ count if !missing(EP2a) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant r
 //3)
 
 count if EP2a == "##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // Certains individu (45) dans il est renseigné "##N/A##". 
-
-br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP2a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
+* 
+* br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP2a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 
 *exportation des individus potentiellement concernés
@@ -201,8 +201,8 @@ count if !missing(EP2b) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant r
 
 
 count if EP2b == "##N/A##" // Certains individu (51) dans il est renseigné "##N/A##". 
-
-br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1   EP1a EP1b  EP2a EP2b EP3 EP11 if EP2b == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
+* 
+* br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1   EP1a EP1b  EP2a EP2b EP3 EP11 if EP2b == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 
 *exportation des individus potentiellement concernés
@@ -407,8 +407,8 @@ replace EP2g =. if EP2g1 == 5
 //4)
 
 count if EP2g1 == 4 & inlist(EP2g,1,7,8,9,10,11,12,13) // certaines personnes ont déclaré utiliser un transport personnel et ont déclaré des moyens de transport inconsistent avec cela (gbaka, taxi brousse,pirogue)
-
-br EP2g1 EP2g if EP2g1 == 4 & inlist(EP2g,1,7,8,9,10,11,12,13)
+* 
+* br EP2g1 EP2g if EP2g1 == 4 & inlist(EP2g,1,7,8,9,10,11,12,13)
 
 *proposition de corrections(non ponctuelle)
 replace EP2g1 = 2 if inlist(EP2g,1,7,9,10,11,12,13) & EP2g1==4    
@@ -434,8 +434,8 @@ count if !missing(EP2g_aut) & (EP2g !=16 | EN_EMP==0 | M4Confirm <15) // 1 indiv
 count if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 
 
 *proposition de correction //imputation de la median de temps des individus avec les memes caractéristiques 
-
-br EP1a EP1b EP2h EP2g EP2g1 EP2e if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+* 
+* br EP1a EP1b EP2h EP2g EP2g1 EP2e if missing(EP2h) & inlist(EP2g1,1,2,3,4,5,6) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 
 cap drop med_EP2h
 egen med_EP2h = median(EP2h), by(EP2e EP2g1 EP2g)
@@ -450,8 +450,8 @@ count if !missing(EP2h) & (!inlist(EP2g1,1,2,3,4,5,6) | membre_id_v1_IND !="##N/
 //3) 
 
 count if EP2h <= 0 // la valeur renseigné ne peut pas etre inférieure ou égale à zero. RAS
-
-br EP2h EP2g1 EP2e EP2i if EP2h <=0 
+* 
+* br EP2h EP2g1 EP2e EP2i if EP2h <=0 
 
 //4) 
 
@@ -459,8 +459,8 @@ ta EP2h
 
 * i-les personnes declarant plus de 120 min pour moins de 15km
 count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // RAS
-
-br EP2h EP2g1 EP2e EP2i if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // un individu qui declare parcourir  plus de 120 min pour moins de 15 Km dans la meme localité
+* 
+* br EP2h EP2g1 EP2e EP2i if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // un individu qui declare parcourir  plus de 120 min pour moins de 15 Km dans la meme localité
 
 *exportation des individus potentiellement concernés
 count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) 
@@ -498,8 +498,8 @@ replace EP2h = 40 if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h >= 180 & EP2e == 1 
 
 * iv-Pour les valeurs beaucoup trop grande
 count if EP2h >= 180 & !inlist(EP2h,.,.a) //7 individus ont déclaré des valeurs trop grande
-
-br EP2h EP2g1 EP2e EP2i EP2i_unit  if EP2h >= 180 & !inlist(EP2h,.,.a)
+* 
+* br EP2h EP2g1 EP2e EP2i EP2i_unit  if EP2h >= 180 & !inlist(EP2h,.,.a)
 
 *exportation des individus potentiellement concernés
 
@@ -511,8 +511,8 @@ if r(N)>0 {
 
 *proposition de correction (non ponctuelle)
 //pour les personnes se deplaçant à pieds, elles ont quand meme declaré un nombre de km inferieure ou égale à 30km 
-
-br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2g1 == 5 & EP2h >= 180 & EP2h !=.a & EP2e == 1
+* 
+* br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2g1 == 5 & EP2h >= 180 & EP2h !=.a & EP2e == 1
   
 cap drop med_EP2h_4
 egen med_EP2h_4 = median(EP2h) if EP2g1 == 5 & EP2h < 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1 //, by(code_citp_emp_principal) // la mediane est de 30 min pour les personnes se deplaçant à pieds dans la meme localité 
@@ -526,14 +526,14 @@ drop med_EP2h_4
 //pour les personnes se deplaçant en transport en commun 
 cap drop med_EP2h_5
 egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3) & EP2h < 180 & EP2e == 1 //, by(code_citp_emp_principal) // la mediane est de 10 min pour les personnes se deplaçant en transport commun dans la meme localité 
-
-br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1 // RAS
+* 
+* br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1 // RAS
 ta med_EP2h_5
 replace EP2h = 15 if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e == 1
 
 //pour les personnes travaillant dans une autre localite et se deplaçant en transport en commun
-
-br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & inlist(EP2g1,2,3,4) & EP2e == 2 // 
+* 
+* br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & inlist(EP2g1,2,3,4) & EP2e == 2 // 
 
 *cap drop med_EP2h_5
 *egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3,4) & EP2e == 2 & EP2h < 180 //, by(code_citp_emp_principal) // la mediane est de 25 min pour les personnes se deplaçant dans une autre localité 
@@ -543,15 +543,15 @@ br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & inlist(EP2g1,2,3,4) & EP2e == 2 //
 
 
 * Pour les personnes marchant plus de trois heures, on les ramènes à ttrois heures
-
-br EP2h EP2g EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1 & inlist(EP2g1,4,5)
+* 
+* br EP2h EP2g EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1 & inlist(EP2g1,4,5)
 
 *replace EP2h = 180 if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1 & inlist(EP2g1,4,5)
 
 
 
 /*
-br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1
+* br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & !inlist(EP2h,.,.a) & EP2e == 1
 
 cap drop med_EP2h_5
 egen med_EP2h_5 = mode(EP2h) if !inlist(EP2h,.,.a) & EP2e == 1 & EP2h < 180 & inlist(EP2g1,5) // la mediane est de 35 min pour les personnes se deplaçant dans une autre localité
@@ -573,8 +573,8 @@ cap drop med_EP2h_1 med_EP2h_2 med_EP2h_3 med_EP2h_4 med_EP2h_5
 //1) 
 
 count if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6) // 12 les individus n'ont pas répondu
-
-br EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
+* 
+* br EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
 
 *proposition de correction 
 //imputation de la median de distance des individus avec les memes caractéristiques 
@@ -614,8 +614,8 @@ ta EP2i if EN_EMP==1 & M4Confirm>=15,m
 
 /*proposition de correction 
 //imputation de la median de temps des individus avec les memes caractéristiques 
-
-br EP1a EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
+* 
+* br EP1a EP1b EP2h EP2g EP2g1 EP2i EP2e if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,6)
 
 cap drop med_EP2i
 
@@ -637,7 +637,7 @@ count if !missing(EP2i) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND != "
 //3) Validité des valeurs renseignées : "Ne sait pas"
 
 *Traitement des cas ayant déclaré : "Ne sait pas"
-br EP2e EP2g1 EP2h EP2i EP2i_unit if !missing(EP2h) & EP2i==9998
+* br EP2e EP2g1 EP2h EP2i EP2i_unit if !missing(EP2h) & EP2i==9998
 
 ta EP2h if !missing(EP2h) & EP2i==9998
 
@@ -681,8 +681,8 @@ cap drop med_EP2i
 
 *Personne marchant plus de 50 km avec un temps invraisemblable
 count if EP2i >=50 & EP2i_unit==1 & EP2g1 == 5
-
-br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2i >=50 & EP2i_unit==1 & EP2g1 == 5
+* 
+* br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2i >=50 & EP2i_unit==1 & EP2g1 == 5
 
 
 *On remplace les valeurs invraisemblables du temps et de la distance par les médianes
@@ -702,8 +702,8 @@ cap drop med_EP2i_5
 ***Les personnes parcourant plus de 75km en transport alors que le lieu de travail se trouve dans la meme localité   
 
 count if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 5 personnes qui declare parcourir plus de 75km pour retrouver leur lieu de travail dans la meme localité. 
-
-br EP2e EP2i EP2h EP2g1 EP2i_unit if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 
+* 
+* br EP2e EP2i EP2h EP2g1 EP2i_unit if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 
 
 
 *exportation des individus potentiellement concernés
@@ -730,9 +730,9 @@ cap drop med_EP2i_6
 
 *certains individus pour qui les valeurs de la distance ou du temps parcouru sont visiblement des outliers
 count if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
+* 
 
-
-br EP2e EP2g1 EP2h EP2i EP2i_unit if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
+* br EP2e EP2g1 EP2h EP2i EP2i_unit if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
 
 
 *exportation des individus potentiellement concernés
@@ -751,7 +751,7 @@ cap drop med_EP2h
 
 
 *Personne parcourant moins de 5km en 2heures
-br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,5) & EP2i_unit == 1
+* br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h>=120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,5) & EP2i_unit == 1
 
 cap drop mean_EP2h
 egen mean_EP2h = mean(EP2h) if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,1,4) & EP2i_unit == 1 // la median est de 30min pour les personnes avec les memes caractéristiques (à pieds)
@@ -761,7 +761,7 @@ cap drop mean_EP2h
 
 
 **Personne se deplacant en transport et parcourant moins de 40km en plus de 2 heures
-br EP2e EP2g1 EP2g EP2h EP2i EP2i_unit if EP2h>=120 & inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4)
+* br EP2e EP2g1 EP2g EP2h EP2i EP2i_unit if EP2h>=120 & inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4)
 
 cap drop med_EP2h
 egen med_EP2h  = median(EP2h) if inrange(EP2i,2,40) & EP2i_unit == 1 & inlist(EP2g1,1,3,4) //, by(code_citp_emp_principal) // 20 minutes pour les personnes avec les memes caractéristiques
@@ -771,7 +771,7 @@ cap drop med_EP2h
 
 
 *Personne parcourant plus de 10km à pieds pour se rendre au boulot
-br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & EP2i>10 & EP2i_unit == 1
+* br EP2e EP2g1 EP2h EP2i EP2i_unit if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & EP2i>10 & EP2i_unit == 1
 
 * Que cela soit vrai ou faux, les distances supérieures à 10km sont extrêmes et seront ramenées à 10km. En moyenne un individu marche 5 ou 6km par heure. Ainsi, le temps de parcours sera également estimé à 2 heures.
 replace EP2h = 120 if EP2h<120 & !missing(EP2h) & EP2g1 == 5 & inrange(EP2i,10,50) & EP2i_unit == 1 
@@ -784,8 +784,8 @@ replace EP2i = 10 if EP2h==120 & EP2g1 == 5 & inrange(EP2i,10,50) & EP2i_unit ==
 //1)
 
 count if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) //  46 individus pour qui la question n'a pas été répondu
-
-br EP1b EP2j if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+* 
+* br EP1b EP2j if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 
 
 *exportation des individus potentiellement concernés
@@ -804,8 +804,8 @@ count if !missing(EP2j) & (EN_EMP == 0 | M4Confirm < 15) // tous les individus a
 
 //3) 
 //4)
-
-br EP1a EP1b EP2a EP2b EP2j if EP2j == 8 // on essaie de voir si ceux qui ont mentionné avoir obtenir le travail par concours exerce un travail coherent avec cette information. Après control les infos semblent coherentes. 
+* 
+* br EP1a EP1b EP2a EP2b EP2j if EP2j == 8 // on essaie de voir si ceux qui ont mentionné avoir obtenir le travail par concours exerce un travail coherent avec cette information. Après control les infos semblent coherentes. 
 
 
 
@@ -840,8 +840,8 @@ if r(N)>0 {
 *
 
 *proposition de correction 
-
-br EP1a EP1b EP3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
+* 
+* br EP1a EP1b EP3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
 
 replace EP3 = 1 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP1a,"OUVRIER DANS UNE BOULANGERIE", "INSTITUTRICE")
 
@@ -860,8 +860,8 @@ count if !missing(EP3) & !(EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a))
 
 
 //4)
-
-br EP1a EP2b EP3 if !inlist(EP3,.,.a) // les informations mentionnées concernant les taches effectuées semblent coherents avec le statut déclaré a l'exception de certaines correction à faire 
+* 
+* br EP1a EP2b EP3 if !inlist(EP3,.,.a) // les informations mentionnées concernant les taches effectuées semblent coherents avec le statut déclaré a l'exception de certaines correction à faire 
 /*
 replace EP3 = 3 if EP3_Aut == "PROPOSER PAR LE VILLAGE POUR AIDER L'INFIRMIER"
 
@@ -935,8 +935,8 @@ count if !missing(EP3_Aut) & !inlist(EP3,.,.a,10) // RAS
 
 
 ta EP3_Aut // nous regardons chaque reponse pour s'assurer de la vraissemblance
-
-br EP1a EP1b EP3_Aut if !missing(EP3_Aut) // il se trouve que en réalité, plusieurs personnes ne sont pas en emploi. On voit des reponses comme "stagiaire non payé". Nous corrigons alors toutes les autres informations renseignées précédemment. 
+* 
+* br EP1a EP1b EP3_Aut if !missing(EP3_Aut) // il se trouve que en réalité, plusieurs personnes ne sont pas en emploi. On voit des reponses comme "stagiaire non payé". Nous corrigons alors toutes les autres informations renseignées précédemment. 
 
 
 
@@ -1007,7 +1007,7 @@ if r(N)>0 {
 
 
 /*
-br EP1a EP1b EP3 EP5 if EP5==.a
+* br EP1a EP1b EP3 EP5 if EP5==.a
 replace EP5 = 2 if regexm(EP1a,"JE SUIS INDEPANDANT") | regexm(EP1a,"CULTIVATEUR DE MAIS") | regexm(EP1a,"agriculteur de cacao") | regexm(EP1a,"VENDEUR DE PAGNE")
 
 replace EP5 = 1 if regexm(EP1a,"VIGILE") | regexm(EP1a,"INFIRMIER") 
@@ -1052,36 +1052,22 @@ replace EP5a = 1 if EP5a <=0 // On remplace par 1 le nombre de personne égal à
 
 count if EP5a  > 100 & !inlist(EP5a,.,.a,9998) // 15 valeurs sont bien trop grandes : plus de 100 employers dans l'entreprises
 
-*proposition de correction
-
-br EP1a EP1b EP3 EP5a if EP5a  > 100 & !inlist(EP5a,.,.a,9998)
+*proposition de correction par la médiane croisant Métier (CITP) et Secteur (Branche)
+* 
+* br EP1a EP1b EP3 EP5a if EP5a  > 100 & !inlist(EP5a,.,.a,9998)
 
 cap drop med_EP5a
-egen med_EP5a = median(EP5a) if EP5a  <= 100 & EP3 == 1 & EP11== 1 //, by(code_citp_emp_principal) // la median est de 8 pour les personnes avec les memes caractéristiques
+egen med_EP5a = median(EP5a) if EP5a <= 100, by(EP3 EP11 code_citp_emp_principal branche1)
 
-replace EP5a = 8 if  EP5a  > 100 & !inlist(EP5a,.,.a,9998) & inlist(EP3,1,9) & EP11== 1
+* Option de secours (Secteur uniquement)
+cap drop med_EP5a_large
+egen med_EP5a_large = median(EP5a) if EP5a <= 100, by(EP3 EP11 branche1)
 
-cap drop med_EP5a_1
-egen med_EP5a_1 = median(EP5a) if EP5a  <= 100 & EP3 == 1 & EP11== 3 //, by(code_citp_emp_principal) // la median est de 9 pour les personnes avec les memes caractéristiques
+* Application de la correction si valeur aberrante (>100)
+replace EP5a = med_EP5a if EP5a > 100 & !inlist(EP5a,.,.a,9998) & !missing(med_EP5a)
+replace EP5a = med_EP5a_large if EP5a > 100 & !inlist(EP5a,.,.a,9998) & missing(med_EP5a) & !missing(med_EP5a_large)
 
-replace EP5a = 10 if  EP5a  > 100 & !inlist(EP5a,.,.a,9998) & EP3 == 1 & EP11== 3
-
-cap drop med_EP5a_2
-egen med_EP5a_2 = median(EP5a) if EP5a  <= 100 & EP3 == 1 & EP11== 2 //, by(code_citp_emp_principal) // la median est de 22 pour les personnes avec les memes caractéristiques
-
-replace EP5a = 22 if  EP5a  > 100 & !inlist(EP5a,.,.a,9998) & EP3 == 1 & EP11== 2
-
-cap drop med_EP5a_4
-egen med_EP5a_4 = median(EP5a) if EP5a  <= 100 & EP3 == 1 & EP11== 4 //, by(code_citp_emp_principal) // la median est de 15 pour les personnes avec les memes caractéristiques
-
-replace EP5a = 8 if  EP5a  > 100 & !inlist(EP5a,.,.a,9998) & EP3 == 1 & EP11== 4
-
-cap drop med_EP5a_5
-egen med_EP5a_5 = median(EP5a) if EP5a  <= 100 & EP3 == 1 & EP11== 6 //, by(code_citp_emp_principal)  // la median est de 7 pour les personnes avec les memes caractéristiques
-
-replace EP5a = 7 if  EP5a  > 100 & !inlist(EP5a,.,.a,9998) & EP3 == 1 & EP11== 6
-
-cap drop med_EP5a med_EP5a_1 med_EP5a_2 med_EP5a_4 med_EP5a_5
+cap drop med_EP5a med_EP5a_large
 
 **ponctuelle
 
@@ -1093,8 +1079,8 @@ cap drop med_EP5a med_EP5a_1 med_EP5a_2 med_EP5a_4 med_EP5a_5
 // 1)
 
 count if missing(EP5b) & EP5a == 9998
-
-br EP1a EP1b EP3 EP5a EP5b if missing(EP5b) & EP5a == 9998
+* 
+* br EP1a EP1b EP3 EP5a EP5b if missing(EP5b) & EP5a == 9998
 
 
 //2)
@@ -1129,8 +1115,8 @@ forvalues i = 1/12 {
 } // 15 individus concernés
 
 *proposition de correction 
-
-br EP1a EP1b EP6__* if  inlist(EP6__1,.a)
+* 
+* br EP1a EP1b EP6__* if  inlist(EP6__1,.a)
 
 /*
 replace EP6__2 = 1 if EP1b == "JE SUIS UN AGENT COMMERCIAL INDEPANDANT"
@@ -1192,7 +1178,7 @@ if r(N)>0 {
 }
 
 *proposition de correction
-br EP3 EP1a EP1b EP6__1 if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1
+* br EP3 EP1a EP1b EP6__1 if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1
 
 gen EP6__1_ = EP6__1
 
@@ -1207,8 +1193,8 @@ drop EP6__1_
 *
  
 count if EP3 == 1 & EP6__1 == 0 // 166 déclare etre salarié sans recevoir de salaire.
-
-br EP3 EP1a EP1b EP6__* EP6a if EP3 == 1 & EP6__1 == 0
+* 
+* br EP3 EP1a EP1b EP6__* EP6a if EP3 == 1 & EP6__1 == 0
 
 
 *exportation des individus potentiellement concerné
@@ -1220,14 +1206,14 @@ if r(N)>0 {
 *
 /*
 *proposition de correction 
-
-br EP1a EP1b EP3 EP6__1 if EP3 == 1 & EP6__1 == 0
+* 
+* br EP1a EP1b EP3 EP6__1 if EP3 == 1 & EP6__1 == 0
 
 count if !inlist(EP3,.,.a,5,6,10) & EP6__10 == 1 // aucun individu qui declare ne pas etre payé alors qu'il n'est pas un travailleur familiale. 
 
 proposition de correction
-
-br EP1a EP1b EP3 EP11 if !inlist(EP3,.,.a,5,6,10) & EP6__10 == 1 
+* 
+* br EP1a EP1b EP3 EP11 if !inlist(EP3,.,.a,5,6,10) & EP6__10 == 1 
 
 gen EP6__10_ = EP6__10
 
@@ -1269,8 +1255,8 @@ count if missing(EP6a) & EP6__10 == 0
 *export excel interview__key HH13 EP3 EP6__10 EP6a using "$folderpath/document/EP6a.xlsx" if missing(EP6a) & EP6__10 == 0, firstrow(variables) replace
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP6a if missing(EP6a) & EP6__10 == 0 
+* 
+* br EP1a EP1b EP3 EP6a if missing(EP6a) & EP6__10 == 0 
 
 replace EP6a = 1 if missing(EP6a) & EP6__10 == 0 & EP3==1
 
@@ -1278,8 +1264,8 @@ replace EP6a = 1 if missing(EP6a) & EP6__10 == 0 & EP3==1
 //2)
 
 count if !missing(EP6a) & EP6__10 == 1 //RAS car il s'agit des individus, travailleur familiaux pour qui nous avons 
-
-br EP1a EP1b EP3 EP6a EP6__10 if !missing(EP6a) & EP6__10 == 1
+* 
+* br EP1a EP1b EP3 EP6a EP6__10 if !missing(EP6a) & EP6__10 == 1
 
 replace EP6a =. if !missing(EP6a) & EP6__10 == 1
 
@@ -1385,8 +1371,8 @@ if r(N)>0 {
 }
 
 *proposition de correction 
-
-br EP1a EP1b EP7 EP7B if missing(EP7B) & EP7 < 8
+* 
+* br EP1a EP1b EP7 EP7B if missing(EP7B) & EP7 < 8
 
 
 *replace EP7B = 12 if missing(EP7B) & EP7 < 8 & EP7==4
@@ -1439,7 +1425,7 @@ if r(N)>0 {
 
 
 *proposition de correction 
-br EP1b EP3 EP7 EP7B EP8 EP9 if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a)
+* br EP1b EP3 EP7 EP7B EP8 EP9 if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a)
 
 
 *proposition de correction 
@@ -1506,8 +1492,8 @@ if r(N)>0 {
 }
 
 *proposition de correction
-
-br EP8 EP8_1 if EP8 < 500 & !inlist(EP8,.,.a) // nous nous aidons de la valeur en lettre pour connaitre la vrai valeur
+* 
+* br EP8 EP8_1 if EP8 < 500 & !inlist(EP8,.,.a) // nous nous aidons de la valeur en lettre pour connaitre la vrai valeur
 
 replace EP8 = 500000 if EP8_1== "CINQ CENT MILLE"
 replace EP8 = 40000 if EP8_1== "QUARANTE MILLE"
@@ -1529,8 +1515,8 @@ replace EP8 = 60000 if EP8_1== "SOIXANTE MILLE"
 
 *
 count if inrange(EP8,500,999) & !inlist(EP8,.,.a) // pour les valeurs entre 500 et 1000(exclu) on essaie de cross checker avec la valeur en lettre
-
-br EP7 EP8 EP8_1 EP3  if inrange(EP8,500,999) & !inlist(EP8,.,.a) // les valeurs en chiffre sont en phase avec la valeur en lettre.
+* 
+* br EP7 EP8 EP8_1 EP3  if inrange(EP8,500,999) & !inlist(EP8,.,.a) // les valeurs en chiffre sont en phase avec la valeur en lettre.
 
 *replace EP8 = 500000 if EP8_1== "CINQ CENT MILLE FRANCS"
 
@@ -1545,8 +1531,8 @@ replace EP8 = 150000 if EP8==0 // nous corrigeons la valeur zero en y imputant l
 //4)
 
 count if EP8> 1000000 & !inlist(EP8,.,.a) & EP8!=99999998 & EP8!= 99999999   // pour les valeurs supérieur à 1000000 on essaie de cross checker avec la valeur en lettre
-
-br EP7 EP8 EP8_1 EP3  if EP8> 1000000 & !inlist(EP8,.,.a) & EP8!=99999998 & EP8!= 99999999 // les valeurs en chiffre sont en phase avec la valeur en lettre à l'exception de ces deux
+* 
+* br EP7 EP8 EP8_1 EP3  if EP8> 1000000 & !inlist(EP8,.,.a) & EP8!=99999998 & EP8!= 99999999 // les valeurs en chiffre sont en phase avec la valeur en lettre à l'exception de ces deux
 
 
 
@@ -1571,7 +1557,7 @@ count if EP8a < 500 & !inlist(EP8a,.,.a) // les valeurs inferieures à 500 sembl
 *export excel interview__key HH13 EP7 EP8 EP8_1  EP8a EP8a_1 EP3 using "$folderpath/document/EP8a.xlsx" if EP8a < 500 & !inlist(EP8a,.,.a), firstrow(variables) replace
 
 *
-br EP7 EP8 EP8_1  EP8a EP8a_1 EP3 if EP8a < 500 & !inlist(EP8a,.,.a)
+* br EP7 EP8 EP8_1  EP8a EP8a_1 EP3 if EP8a < 500 & !inlist(EP8a,.,.a)
 
 *nous utilisant la valeur en lettre pour corriger certaines valeurs
 
@@ -1607,9 +1593,9 @@ if r(N)>0 {
 }
 
 *proposition de correction 
+* 
 
-
-br EP1a EP1b EP7 EP7B EP8 EP9 if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10) // nous allons imputer les valeurs qui ont déjà été calculé plus haut en EP8
+* br EP1a EP1b EP7 EP7B EP8 EP9 if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10) // nous allons imputer les valeurs qui ont déjà été calculé plus haut en EP8
 
 replace EP9 = 8 if EP7 == 1 & EP3 ==3 & missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10)
 
@@ -1649,7 +1635,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
 
 cap drop _merge
 
@@ -1676,11 +1662,11 @@ drop  _merge
 //1) 
 
 count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+* 
+* br EP1b EP3 EP10a if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+* 
 
-br EP1b EP3 EP10a if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
-
-
-br EP1b EP3 EP10a if EP3==5 & !missing(EP10a)
+* br EP1b EP3 EP10a if EP3==5 & !missing(EP10a)
 *exportation des individus potentiellement concernés
 count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
 if r(N)>0 {
@@ -1740,8 +1726,8 @@ if r(N)>0 {
 }
 
 * 6 individus doivent faire l'objet d'une imputation
-
-br EP1a EP1b EP3 EP6a EP10b if EP10b==.a 
+* 
+* br EP1a EP1b EP3 EP6a EP10b if EP10b==.a 
 
 *proposition de correction 
 replace EP10b = 2 if EP10b==.a
@@ -1765,7 +1751,7 @@ count if missing(EP10c) & EP10b==1 // la condition d'activation de la question e
 
 
 *proposition de correction
-br EP1b EP3 EP6a EP10b EP10c if missing(EP10c) & EP10b==1
+* br EP1b EP3 EP6a EP10b EP10c if missing(EP10c) & EP10b==1
 
 replace EP10c =1 if missing(EP10c) & EP10b==1
 
@@ -1791,8 +1777,8 @@ if r(N)>0 {
 }
 
 *on essaie de voir si on peut retrouver l'information de ses individus on se referent à leur information en EP1a EP1b etc 
-
-br EP1a EP1b EP3 EP11 if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
+* 
+* br EP1a EP1b EP3 EP11 if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
 replace EP11 = 3 if inlist(EP1a,"CHAUFFEUR DE TAXI","OUVRIER DANS UNE BOULANGERIE", "COIFFEUSE", "CHARBONNIER", "VENDEUSE DE JUS ET GÂTEAU", "VENDEUSE DE BEIGNET", "VENDEUSE DE PRODUIT COSMETIQUE") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
@@ -1820,8 +1806,8 @@ replace EP11 =. if !missing(EP11) & (EN_EMP == 0 | M4Confirm <15)
 //4
 
 *nous faisons un check rapide pour les personnes ayant declaré administration public. Certains individus ne sont en réalité pas dans une administration publique ICICICIC
-
-br EP11 EP1a EP1b EP3 EP2d if EP11==1
+* 
+* br EP11 EP1a EP1b EP3 EP2d if EP11==1
 
 *proposition de correction
 
@@ -1844,8 +1830,8 @@ if r(N)>0 {
 }
 
 *
-
-br EP3 EP11 EP1a EP1b if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 )
+* 
+* br EP3 EP11 EP1a EP1b if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 )
 
 *proposition de correction
 
@@ -1877,8 +1863,8 @@ replace EP12 =. if !missing(EP12) & !inlist(EP11,1,2,.,.a)
 //1)
 
 count if missing(EP13) & ((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7))) // RAS car il s'agit des personnes dont nous avons corriger l'information à EP11 ou EP3 
-
-br EP13 EP3 EP11 if missing(EP13) & ((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7)))
+* 
+* br EP13 EP3 EP11 if missing(EP13) & ((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7)))
 
 
 *Correction
@@ -1914,8 +1900,8 @@ cap drop EP13_mod
 // 2)
 
 count if !missing(EP13) & !((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7))) // RAS 
-
-br EP13 EP3 EP11 if !missing(EP13) & !((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7)))
+* 
+* br EP13 EP3 EP11 if !missing(EP13) & !((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7)))
 
 replace EP13=. if !missing(EP13) & !((inlist(EP3,1,8,9) & inlist(EP11,1,2) & EP12==2) | (inlist(EP3,1,8,9) & inlist(EP11,3,4,5,6,7)))
 
@@ -1936,8 +1922,8 @@ if r(N)>0 {
 }
 
 *correction 
-
-br EP3 EP13 EP1a EP1b EP11 if inlist(EP3,8,9) & !inlist(EP13,.,.a,6) 
+* 
+* br EP3 EP13 EP1a EP1b EP11 if inlist(EP3,8,9) & !inlist(EP13,.,.a,6) 
 
 replace EP13 = 6 if inlist(EP3,8,9) & !inlist(EP13,.,.a,6)
 
@@ -1952,8 +1938,8 @@ count if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1 // des individus pour qu
 *export excel interview__key HH13 EP13a EP3 EP12 using "$folderpath/document/EP13a.xlsx" if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1, firstrow(variables) replace
 
 *proposition d'imputation
-
-br EP3 EP13 EP1a EP1b EP11 EP12 EP13a if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
+* 
+* br EP3 EP13 EP1a EP1b EP11 EP12 EP13a if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
 
 
 replace EP13a = 10 if inlist(EP1a, "ENSEIGNANT STAGIAIRE D'ÉCOLE PRIMAIRE", "ENSEIGNEMENT", "ENSEIGNANTE Du PRIMAIRE") & missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
@@ -1992,8 +1978,8 @@ if r(N)>0 {
 
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP12 EP2jb if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15  
+* 
+* br EP1a EP1b EP3 EP11 EP12 EP2jb if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15  
 
 replace EP2jb = 2 if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15 // après check des autres caractéristiques, les personnes concernées sont plus susceptible de ne pas avoir eu une promotion au poste actuel car soit à leur propre compte ou ayant commencé à travailler depuis peu de temps. 
 
@@ -2024,8 +2010,8 @@ if r(N)>0 {
 
 *
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP2k EP2ka if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15 // 20 individus pour qui l'info est manquante, s'agissant tous d'individus en réintérrogation 
+* 
+* br EP1a EP1b EP3 EP11 EP2k EP2ka if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15 // 20 individus pour qui l'info est manquante, s'agissant tous d'individus en réintérrogation 
 
 // On s'aide des infos données en T3 pour les individus en réintérrogation
 
@@ -2077,8 +2063,8 @@ count if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,
 if r(N)>0 {
     export excel interview__key HH13 EP2ka annee_naiss using "$folderpath/document/EP2ka_2.xlsx" if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998), firstrow(variables) replace
 }
-
-br EP2ka annee_naiss M4Confirm if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998)
+* 
+* br EP2ka annee_naiss M4Confirm if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998)
 
 *proposition de correction 
 *nous remplaçons la valeur pour leur mettre à l'age minimum de debut de travail
@@ -2146,8 +2132,8 @@ if r(N)>0 {
 }
 
 *proposition de correction
-
-br EP2k M4Confirm if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998) // il s'agit donc des individus qui ont mentionné l'année plutot que le nombre d'année
+* 
+* br EP2k M4Confirm if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998) // il s'agit donc des individus qui ont mentionné l'année plutot que le nombre d'année
 
 replace EP2k = annee - EP2k  if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998) & EP2k != 28
 
@@ -2219,9 +2205,9 @@ count if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
 if r(N)>0 {
     export excel interview__key HH13 EP2k2a EP2ka EP2jb using "$folderpath/document/EP2k2a_1.xlsx" if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998), firstrow(variables) replace
 }
+* 
 
-
-br EP2ka EP2k2a EP2jb if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
+* br EP2ka EP2k2a EP2jb if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
 
 *proposition de correction 
 
@@ -2305,8 +2291,8 @@ if r(N)>0 {
 }
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP14B if missing(EP14B) & inlist(EP11,3,4,6,7) // nous nous aidons des informations à T2
+* 
+* br EP1a EP1b EP3 EP11 EP14B if missing(EP14B) & inlist(EP11,3,4,6,7) // nous nous aidons des informations à T2
 
 replace EP14B = 2 if missing(EP14B) & inlist(EP11,3,4,6,7)
 
@@ -2324,8 +2310,8 @@ count if !missing(EP14B) & !inlist(EP11,3,4,6,7,.,.a)
 
 //1)
 count if missing(EP15) & EP14B == 1 & membre_id_v1_IND=="##N/A##"
-
-br EP1a EP1b EP3 EP11 EP14B if missing(EP15) & EP14B == 1 & membre_id_v1_IND=="##N/A##"
+* 
+* br EP1a EP1b EP3 EP11 EP14B if missing(EP15) & EP14B == 1 & membre_id_v1_IND=="##N/A##"
 
 replace EP14B = 2 if missing(EP15) & EP14B == 1 & membre_id_v1_IND=="##N/A##"
 
@@ -2359,8 +2345,8 @@ count if !missing(EP15_aut) &  !inlist(EP15,.,.a,14)
 //1)
 
 count if missing(EP16) & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##") //RAS
-
-br EP1a EP1b EP3 EP11 EP16 if missing(EP16) & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##") //RAS
+* 
+* br EP1a EP1b EP3 EP11 EP16 if missing(EP16) & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##") //RAS
 //2) 
 
 count if !missing(EP16) & ((inlist(EP15,11,12,13) & !inlist(EP14B,2,9998,.,.a)) | (membre_id_v1_IND!= "##N/A##" & membre_id_v1_IND!= "")) // RAS
@@ -2383,13 +2369,13 @@ if r(N)>0 {
 }
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==.a // au vu des informations sur l'activité et le mode de revenu, la reponse à EP17 est sensé etre "entièrement à la vente"
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==.a // au vu des informations sur l'activité et le mode de revenu, la reponse à EP17 est sensé etre "entièrement à la vente"
 
 replace EP17 = 1 if EP1a== "##N/A##" & EP17 ==.a
 replace EP17 = 1 if EP1a== "agriculteur d'anacarde" & EP17 ==.a
-
-br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3
 
 //2) 
 
@@ -2456,8 +2442,8 @@ replace SE4 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
 replace SE5 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
 
 replace SE8 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
-
-br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3 & EN_EMP ==1
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3 & EN_EMP ==1
 
 *replace EP17 = 1 if (interview__key == "07-66-72-75" & membres__id==2) 
 
@@ -2489,29 +2475,29 @@ count if missing(`var') & inlist(EP11,3,4,6,7) // RAS car il s'agit des individu
 
 count if EP19 ==.a
 count if EP20 ==.a // RAS
-
-br EP1a EP1b EP3 EP11 EP6a EP17 EP20 if EP20 ==.a // nous nous aidons des informations à T3 2025
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 EP20 if EP20 ==.a // nous nous aidons des informations à T3 2025
 
 *replace EP20 = 2 if EP20 ==.a
 
 count if EP21 ==.a // necessite des imputations
 *proposition
-
-br EP1a EP1b EP3 EP11 EP6a EP17 EP21 V1interviewkey membre_id_v1 if EP21 ==.a // nous nous aidons des informations à T3 2025
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 EP21 V1interviewkey membre_id_v1 if EP21 ==.a // nous nous aidons des informations à T3 2025
 
 *replace EP21 = 2 if EP21 ==.a
 
 count if EP22 ==.a // necessite des imputations
 *proposition
-
-br EP1a EP1b EP3 EP11 EP6a EP17 EP22 V1interviewkey membre_id_v1 if EP22 ==.a // nous nous aidons des informations à T2
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 EP22 V1interviewkey membre_id_v1 if EP22 ==.a // nous nous aidons des informations à T2
 
 *replace EP22 = 2 if EP22 ==.a 
 
 count if EP23 ==.a // necessite des imputations
 *proposition
-
-br EP1a EP1b EP3 EP11 EP6a EP17 EP23 V1interviewkey membre_id_v1 if EP23 ==.a // nous nous aidons des informations à T3 2025
+* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 EP23 V1interviewkey membre_id_v1 if EP23 ==.a // nous nous aidons des informations à T3 2025
 
 *replace EP23 = 2 if EP23 ==.a 
 
@@ -2579,8 +2565,8 @@ count if !missing(EP24_Aut) & EP24__4 == 0 // RAS
 //1)
 
 count if missing(EP25) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) // RAS car il s'agit des individus pour qui nous avons corrigé l'information à EP11 
-
-br EP25 EP1a EP1b EP3 EP11 if missing(EP25) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) // RAS car il s'agit des individus pour qui nous avons corrigé l'information à EP11 
+* 
+* br EP25 EP1a EP1b EP3 EP11 if missing(EP25) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) // RAS car il s'agit des individus pour qui nous avons corrigé l'information à EP11 
 
 
 *proposition de correction 
@@ -2876,8 +2862,8 @@ if r(N)>0 {
 }
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP6a  EP26A V1interviewkey membre_id_v1 if EP26A==.a // nous nous aidons des informations à T3
+* 
+* br EP1a EP1b EP3 EP11 EP6a  EP26A V1interviewkey membre_id_v1 if EP26A==.a // nous nous aidons des informations à T3
 
 
 replace EP26A = 2 if (V1interviewkey=="21-29-23-96" & membre_id_v1 == "1")
@@ -2950,8 +2936,8 @@ count if !missing(EP27A_Aut) & !inlist(EP27A,.,.a,6) //RAS
 
 //3)
 //4) la variable a déjà été checké lors du récodage des autres à préciser. Certains individus on mentionné que les produits ne sont pas destinée à la vente, ils ne sont pas en emploi au sens de la définition. CEPENDANT ce n'est pas le cas ici pour le T1 2025
-
-br EP27A_Aut EP27A EP1a EP1b EP3 EP11 if !missing(EP27A_Aut) & EN_EMP
+* 
+* br EP27A_Aut EP27A EP1a EP1b EP3 EP11 if !missing(EP27A_Aut) & EN_EMP
 
 /*
 export excel interview__key membres__id HH13 EP1a EP1b EP3 EP11 EP6a EP27A EP27A_Aut using "$folderpath/document/EP27A_pas_emploi.xlsx" if regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS EN VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE"), firstrow(variables) replace
@@ -2971,9 +2957,9 @@ replace SE4 = 2 if regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS A 
 replace SE5 = 2 if regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS EN VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE")  
 
 replace SE8 = 2 if regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE") | regexm(EP27A_Aut,"PAS EN VENTE") | regexm(EP27A_Aut,"PAS A LA VENTE")  
+* 
 
-
-br EP27A_Aut EP27A EP1a EP1b EP3 EP11 if !missing(EP27A_Aut) & EN_EMP == 1*/
+* br EP27A_Aut EP27A EP1a EP1b EP3 EP11 if !missing(EP27A_Aut) & EN_EMP == 1*/
 
 
 ////////////// EP27B. Pourquoi la famille ne peut pas fixer les prix ?
@@ -3003,8 +2989,8 @@ count if !missing(EP27B_Aut) & !inlist(EP27B,.,.a,6) //RAS
 
 //3)
 //4) la variable a déjà été checké lors du récodage des autres à préciser. Certains individus on mentionné que les produits ne sont pas destinée à la vente, ils ne sont pas en emploi au sens de la définition
-
-br EP27B_Aut EP27B EP1a EP1b EP3 EP11 if !missing(EP27B_Aut) & EN_EMP ==1
+* 
+* br EP27B_Aut EP27B EP1a EP1b EP3 EP11 if !missing(EP27B_Aut) & EN_EMP ==1
 
 *replace EP27B = 3 if EP27B_Aut == "le prix est homologué" 
 
@@ -3045,8 +3031,8 @@ if r(N)>0 {
 }
 
 *proposition de correction 
-
-br EP1a EP1b EP3 EP11 EP28 if EP28 ==.a  //
+* 
+* br EP1a EP1b EP3 EP11 EP28 if EP28 ==.a  //
 
 
 replace EP28 = 1 if EP28 ==.a & EP3==1 & EP11 == 1
@@ -3070,9 +3056,9 @@ count if !missing(EP28) & !((inlist(EP3,1,8,9) | ( inlist(EP3,5,6)  & (EP6__1 ==
 //1) 
 
 count if missing(EP29) & inlist(EP28,1,2) // 
+* 
 
-
-br EP1a EP1b EP3 EP11 EP29 if missing(EP29) & inlist(EP28,1,2) //
+* br EP1a EP1b EP3 EP11 EP29 if missing(EP29) & inlist(EP28,1,2) //
 
 *Correction
 replace EP29 = 3 if missing(EP29) & inlist(EP1b, "INSPECTEUR DETECTEUR DE DROGUES ET STUPEFIANTS", "SURVEILLANCE DE SOCIETE")
@@ -3188,9 +3174,9 @@ count if !missing(`var') & !inlist(EP29,1,2,4,.,.a) //RAS
 //1)
 
 count if missing(EP31_Aut) & EP31__5 == 1 // il s'agit des individus pour lesquels nous avons récodé leurs informations à EP31_Aut 
-
+* 
   
-br EP31_Aut EP31__1 EP31__2 EP31__3 EP31__4 EP31__5 if missing(EP31_Aut) & EP31__5 == 1
+* br EP31_Aut EP31__1 EP31__2 EP31__3 EP31__4 EP31__5 if missing(EP31_Aut) & EP31__5 == 1
 
 replace EP31__5 = 0 if missing(EP31_Aut) & EP31__5 == 1 
 
@@ -3277,8 +3263,8 @@ count if !missing(EP35) & EP33 == 1
 /////////////////EP36a. Y a-t-il au moins un syndicat dans l’entreprise où vous excercer votre emploi principal ?
 
 //1)
-
-br EP1a EP3 EP11 EP36a if missing(EP36a) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))) // RAS car il s'agit des individus dont nous avons corrigé l'info à EP6__
+* 
+* br EP1a EP3 EP11 EP36a if missing(EP36a) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))) // RAS car il s'agit des individus dont nous avons corrigé l'info à EP6__
 
 //2)
 
@@ -3323,7 +3309,7 @@ if r(N)>0 {
 *proposition de correction 
 
 /*
-br EP1a EP1b EP3 EP11 EP37-EP39 if (EP37==.a | EP38==.a | EP39==.a)
+* br EP1a EP1b EP3 EP11 EP37-EP39 if (EP37==.a | EP38==.a | EP39==.a)
 
 replace EP37 =1 if EP37==.a & EP1a == "PROFESSEUR DE FRANCAIS"
 replace EP38 =1 if EP38==.a & EP1a == "PROFESSEUR DE FRANCAIS"

@@ -1,4 +1,4 @@
-*+==============================================================
+
 *						SECTION EMPLOI ANTERIEUR
 *+============================================================== BROU
 *--------------------------------------------------------
@@ -66,8 +66,8 @@ foreach var of varlist `r(varlist)'{
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 
 count if missing(P2) & EN_EMP==1 & ( membre_id_v1_IND =="" & C2!=2 & !inlist(C2, .,.a) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a))) 
-
-br if missing(P2) & EN_EMP==1 & ( membre_id_v1_IND =="" &!inlist(C2, .,.a) & C2!=2 & (M4Confirm>=15 & !inlist(M4Confirm,.,.a))) 
+* 
+* br if missing(P2) & EN_EMP==1 & ( membre_id_v1_IND =="" &!inlist(C2, .,.a) & C2!=2 & (M4Confirm>=15 & !inlist(M4Confirm,.,.a))) 
  
 /*
 *Exportation: 
@@ -94,8 +94,8 @@ count if !missing(P2) & !inrange(P2,1,2)
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 
 count if missing(P2a) & C2!=2 & EN_EMP==0 & !inlist(C2, .,.a) & ( membre_id_v1_IND =="" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
-
-br if missing(P2a) & C2!=2 & EN_EMP==0 & !inlist(C2, .,.a) & ( membre_id_v1_IND =="" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
+* 
+* br if missing(P2a) & C2!=2 & EN_EMP==0 & !inlist(C2, .,.a) & ( membre_id_v1_IND =="" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
 
 **Exportation: 
 if r(N) > 0 {
@@ -117,7 +117,7 @@ count if !missing(P2a) & !inlist(P2a,1,2)
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P2bM) & ( P2a==1|P2==1)
-br if missing(P2bM) & ( P2a==1|P2==1)
+* br if missing(P2bM) & ( P2a==1|P2==1)
 
 **Exportation: 
 if r(N) > 0 {
@@ -135,7 +135,7 @@ count if !missing(P2bM) & P2bM != 9998 & !inrange(P2bM,1,12)
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(P2bA) & (P2a==1|P2==1)
-br if missing(P2bA) & (P2a==1|P2==1) 
+* br if missing(P2bA) & (P2a==1|P2==1) 
 
 **Exportation: 
 if r(N) > 0 {
@@ -155,7 +155,7 @@ count if !missing(P2bA) & (P2bA==0 | P2bA > 2026) & P2bA!=9998
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 
 count if missing(P4) & (P2a==1|P2==1)
-br if missing(P4) & (P2a==1|P2==1) 
+* br if missing(P4) & (P2a==1|P2==1) 
 **Exportation: 
 if r(N) > 0 {
 export excel interview__key HH13 P4  using "$folderpath/document/P4_Manquants" if missing(P4) & ( P2a==1|P2==1),firstrow(variables) replace
@@ -177,7 +177,7 @@ count if missing(P4_aut) &  P4==10
 
 **Exportation autre à préciser: 
 if r(N) > 0 {
-export excel interview__key HH13 P4_aut  using "$folderpath/document/P4_aut" if !missing(P4_aut) & P4 == 1O,firstrow(variables) replace
+export excel interview__key HH13 P4_aut  using "$folderpath/document/P4_aut" if !missing(P4_aut) & P4 == 10,firstrow(variables) replace
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
@@ -187,7 +187,7 @@ count if !missing(P4_aut) &  P4!=10
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P5) & ( P2a==1|P2==1)
-br if missing(P5) & ( P2a==1|P2==1)
+* br if missing(P5) & ( P2a==1|P2==1)
 
 **Exportation: 
 if r(N) > 0 {
@@ -204,8 +204,8 @@ count if !missing(P5) & !inrange(P5,1,12)
 ***P5_aut. Veuillez préciser
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P5_aut) & P5 == 12
-
-br if !missing(P5_aut) & P5 == 12
+* 
+* br if !missing(P5_aut) & P5 == 12
 **Exportation autre à préciser: 
 if r(N) > 0 {
 export excel interview__key HH13 P5_aut  using "$folderpath/document/P5_aut" if !missing(P5_aut) & P5 == 12,firstrow(variables) replace
@@ -247,8 +247,8 @@ count if !missing(P7A) & !( P2a==1|P2==1)
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(P7A) & (P7A==0 | P7A > 2026) & P7A != .
-
-br if !missing(P7A) & (P7A==0 | P7A > 2026) & P7A != 9998
+* 
+* br if !missing(P7A) & (P7A==0 | P7A > 2026) & P7A != 9998
 
 ***P8 tait l’intitulé du métier que vous aviez 
 
@@ -360,8 +360,8 @@ count if !missing(P12C) & !inrange(P12C,1,2) & P12C != 9998
 **** P13. Exerciez-vous votre emploi sur la base 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P13) & ( P2a==1|P2==1)
-
-br if missing(P13) & ( P2a==1|P2==1)
+* 
+* br if missing(P13) & ( P2a==1|P2==1)
 
 **Exportation autre à préciser: 
 if r(N) > 0 {
@@ -405,8 +405,8 @@ count if !missing(P15) & !inrange(P15,1,9)
 ** P15_Aut. Autre raison (à préciser
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P15_Aut) &   P15==9
-
-br if !missing(P15_Aut) &   P15==9
+* 
+* br if !missing(P15_Aut) &   P15==9
 
 **Exportation autre à préciser: 
 if r(N) > 0 {
@@ -472,8 +472,8 @@ count if !missing(P18) &  !inlist(P18,1,2,3)
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P19) &   (P2a==1|P2==1 )
-
-br if missing(P19) &   (P2a==1|P2==1 )
+* 
+* br if missing(P19) &   (P2a==1|P2==1 )
 
 **Exportation: 
 if r(N) > 0 {
@@ -507,8 +507,8 @@ count if !missing(P20) &  !inrange(P20,1,19)
 **P20_Aut. Autre raison (à préciser
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
 count if missing(P20_Aut) &   P20==18
-
-br if !missing(P20_Aut) &   P20==18
+* 
+* br if !missing(P20_Aut) &   P20==18
 
 *Correction: RAS
 

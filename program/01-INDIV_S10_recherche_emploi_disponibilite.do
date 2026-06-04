@@ -74,8 +74,8 @@ foreach var of varlist `r(varlist)'{
 *count if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 list EN_EMP M4Confirm SRH1 if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
-
-br if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
+* 
+* br if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
 
 if r(N) > 0 {
 export excel interview__key HH12 HH13 SRH1 using "$folderpath/document/SRH1_Manquants.xlsx" if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) ,firstrow(variables) replace
@@ -99,7 +99,7 @@ count if !missing(SRH1) & !inlist(SRH1,1,2)
 
 list SRH1 SRH2 if SRH1 == 2 & missing(SRH2)
 count if missing(SRH2) & SRH1 == 2 
- br if missing(SRH2) & SRH1 == 2 
+*  br if missing(SRH2) & SRH1 == 2 
  
  if r(N) > 0 {
 export excel interview__key HH12 HH13 SRH1 SRH2 using "$folderpath/document/SRH2_Manquants.xlsx" if SRH1 == 2 & missing(SRH2), firstrow(variables) replace
@@ -217,8 +217,8 @@ count if !missing(SRH4B) & !inrange(SRH4B, 1,6)
 ******SRH5 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH5) & (SRH2==2 & SRH2A==2)
-
-br if missing(SRH5) & (SRH2==2 & SRH2A==2)
+* 
+* br if missing(SRH5) & (SRH2==2 & SRH2A==2)
 
 if r(N) > 0 {
 export excel interview__key HH12 HH13 SRH5 using "$folderpath/document/SRH5_Manquants.xlsx" if missing(SRH5) & (SRH2==2 & SRH2A==2) ,firstrow(variables) replace
@@ -256,9 +256,9 @@ count if !missing(SRH5) & !inlist(SRH5,1,2)
 ******SRH7
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7) & SRH2== 2
+* 
 
-
-br if missing(SRH7) & SRH2== 2
+* br if missing(SRH7) & SRH2== 2
 
 ***correction
 replace SRH7 = 26 if missing(SRH7) & SRH2== 2 // l'individus déclare à la question SRH7A qu'il se considère trop âgé pour travailler.
@@ -266,14 +266,14 @@ replace SRH7 = 26 if missing(SRH7) & SRH2== 2 // l'individus déclare à la ques
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(SRH7) & SRH2A!=2
-
-br SRH2A SRH7 if !missing(SRH7) & SRH2A==1
+* 
+* br SRH2A SRH7 if !missing(SRH7) & SRH2A==1
 
 replace SRH2A=2 if !missing(SRH7) & SRH2A==1
-
-br SRH1 SRH7 if !missing(SRH7) & SRH1==1
-
-br SRH2 SRH7 if !missing(SRH7) & SRH2==1
+* 
+* br SRH1 SRH7 if !missing(SRH7) & SRH1==1
+* 
+* br SRH2 SRH7 if !missing(SRH7) & SRH2==1
 
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait? 
@@ -301,8 +301,8 @@ count if !missing(SRH7_Aut) &  SRH7 != 24 & SRH7!= 27
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH7A) & SRH2A==2
-
-br if missing(SRH7A) & SRH2A==2
+* 
+* br if missing(SRH7A) & SRH2A==2
 
 **Correction
 cap drop mod
@@ -320,7 +320,7 @@ count if !missing(SRH7A) & !inrange(SRH7A, 1,7)
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ******SRH7A_Aut 
-br interview__key membres__id SRH7A SRH7A_Aut if inlist(SRH7A,7) & SRH7A_Aut!=""
+* br interview__key membres__id SRH7A SRH7A_Aut if inlist(SRH7A,7) & SRH7A_Aut!=""
 
 if r(N) > 0 {
 export excel interview__key HH13 SRH7A_Aut using "$folderpath/document/SRH7A_Aut.xlsx" if missing(SRH7_Aut) &  (SRH7 == 24 | SRH7== 27),firstrow(variables) replace
@@ -371,8 +371,8 @@ count if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,
 if r(N) > 0 {
 export excel interview__key HH12 HH13 SRH11  using "$folderpath/document/SRH11_Aut_manquants.xlsx" if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,.a),firstrow(variables) replace
 }
-
-br if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,.a)
+* 
+* br if missing(SRH11) & ( EN_EMP == 0 & M4Confirm>=15 ) & !inlist(M4Confirm,.,.a)
 
 ****Correction: RAS
 
@@ -471,8 +471,8 @@ count if !missing(SRH12A_Aut2) & SRH12A__27 != 1
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if missing(SRH12B) & (SRH6==1 | SRH11==1)
-
-br if missing(SRH12B) & (SRH6==1 | SRH11==1) 
+* 
+* br if missing(SRH12B) & (SRH6==1 | SRH11==1) 
 
 *** Correction
 
@@ -505,8 +505,8 @@ TRAVAILLEUR  SAISONNIER
  
 count if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 *58
-
-br if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
+* 
+* br if missing(SRH13) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 **Exportation au fichier excel
 if r(N) > 0 {

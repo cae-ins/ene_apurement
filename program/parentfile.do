@@ -43,7 +43,7 @@ global docs "$folderpath/docs"
 global dofiles "$folderpath/program"
 global datain_staging "$folderpath/datain/staging"
 global datain_brute  "$folderpath/datain/brute"
-global brute_menage_source "$datain_brute/ENEM_2026T1.dta"
+global brute_menage_source "$datain_brute/ENEM_T12026.dta"
 global brute_menage_work "$datain_brute/QX_EEC_VF.dta"
 global datain_standard  "$folderpath/datain/standard"
 global standard_menage  "$folderpath/dataout/standard/menage"
@@ -51,6 +51,21 @@ global standard_individu  "$folderpath/dataout/standard/individu"
 global standard_annexe  "$folderpath/datain/standard/annexe"
 global dataout_menage "$folderpath/dataout/menage"
 global dataout_individu "$folderpath/dataout/individu"
+
+*===============Configuration des Logs=============*
+global logs "$folderpath/logs"
+cap mkdir "$logs"
+
+* Fermeture d'un éventuel log ouvert
+cap log close
+
+* Génération du nom de fichier log avec horodatage
+local d = subinstr("`c(current_date)'", " ", "_", .)
+local t = subinstr("`c(current_time)'", ":", "-", .)
+global current_log "$logs/apurement_`d'_`t'.log"
+
+log using "$current_log", replace text
+display "Log de session démarré : $current_log"
 
 *include "$dofiles/apurement.do"
 *include "$dofiles/standard_db.do"
