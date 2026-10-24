@@ -57,4 +57,12 @@ capture mkdir "$dataout_menage"
 capture mkdir "$dataout_individu"
 capture mkdir "$datain_standard"
 capture mkdir "$standard_annexe"
+* Marqueur du trimestre des sorties. dataout/ vient d'etre vide : tout ce qui y
+* sera ecrit appartient a ce trimestre. Le script de publication MinIO
+* (02_upload_apurement_outputs.py) refuse de publier dataout/ sous un autre trimestre.
+tempname marqueur
+file open `marqueur' using "$dataout/apurement_quarter.txt", write text replace
+file write `marqueur' "$ene_quarter" _n
+file close `marqueur'
+
 display as result "Copie de travail et sorties generees reinitialisees."
