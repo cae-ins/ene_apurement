@@ -54,7 +54,7 @@ def main() -> None:
             "datain/staging Survey Solutions snapshot."
         )
     )
-    parser.add_argument("--base-dir", type=Path, default=Path.cwd())
+    parser.add_argument("--base-dir", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--staging-dir", type=Path, default=None)
     parser.add_argument("--raw-dir", type=Path, default=None)
     parser.add_argument(
