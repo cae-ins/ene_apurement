@@ -6,7 +6,7 @@
 *==============================================================================
 
 * Liste des fichiers bruts à nettoyer
-local fichiers "ENEM_T12026.dta membres.dta r_activite_s.dta emigration.dta"
+local fichiers "$brute_menage_source_name membres.dta r_activite_s.dta emigration.dta"
 
 foreach f in `fichiers' {
     
@@ -139,7 +139,7 @@ foreach f in `fichiers' {
         drop todrop
         
         * Sauvegarde sécurisée selon le type de fichier
-        if "`f'" == "ENEM_T12026.dta" {
+        if "`f'" == "$brute_menage_source_name" {
             save_brute_menage_work_safe
         }
         else if "`f'" == "membres.dta" {

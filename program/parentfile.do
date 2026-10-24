@@ -7,8 +7,47 @@
 clear all
 ********Paramétrages de départ*****************
 set more off
-*===============Création du répertoire de travail=============*
-global folderpath = "C:\Users\f.migone\GOUVCI\ENEM-Suite - Documents\ENE-M-T1_2026\apurement"
+*===============Racine du dépôt et trimestre=============*
+* Aucun chemin propre au poste n'est écrit ici. La racine du dépôt est :
+*   1. la variable d'environnement ENE_BASE_DIR si elle est définie ;
+*   2. sinon le répertoire courant de Stata (racine du dépôt, ou son
+*      sous-dossier program/ : on remonte alors d'un niveau).
+* Les données ne sont pas dans le dépôt : elles sont téléchargées depuis MinIO
+* dans <racine>/datain/staging et <racine>/document/codification par
+*   python scripts/medallion/medallion.py download --quarter T1_2026
+local root : env ENE_BASE_DIR
+if `"`root'"' == "" {
+	local root `"`c(pwd)'"'
+	capture confirm file `"`root'/program/parentfile.do"'
+	if _rc {
+		capture confirm file `"`root'/../program/parentfile.do"'
+		if !_rc {
+			quietly cd ..
+			local root `"`c(pwd)'"'
+		}
+	}
+}
+* Retire un séparateur final éventuel (...\ENE_APUREMENT\ -> ...\ENE_APUREMENT)
+while inlist(substr(`"`root'"', -1, 1), "/", char(92)) {
+	local root = substr(`"`root'"', 1, length(`"`root'"') - 1)
+}
+capture confirm file `"`root'/program/parentfile.do"'
+if _rc {
+	display as error "Racine du dépôt ENE_APUREMENT introuvable : `root'"
+	display as error "Lancer Stata depuis la racine du dépôt (ou depuis program/), ou définir ENE_BASE_DIR."
+	exit 601
+}
+global folderpath `"`root'"'
+quietly cd "$folderpath"
+
+* Trimestre traité : ENE_QUARTER (même variable que les scripts MinIO), sinon T1_2026.
+global ene_quarter : env ENE_QUARTER
+if "$ene_quarter" == "" global ene_quarter "T1_2026"
+if !regexm("$ene_quarter", "^T[1-4]_[0-9][0-9][0-9][0-9]$") {
+	display as error "ENE_QUARTER doit avoir la forme TX_YYYY (ex. T1_2026) : $ene_quarter"
+	exit 198
+}
+display as text "Racine : $folderpath | trimestre : $ene_quarter"
 ****Création des dossiers de travail ( lancer uniquement la première fois)
 
 /*
@@ -43,7 +82,13 @@ global docs "$folderpath/docs"
 global dofiles "$folderpath/program"
 global datain_staging "$folderpath/datain/staging"
 global datain_brute  "$folderpath/datain/brute"
-global brute_menage_source "$datain_brute/ENEM_T12026.dta"
+* Export ménage Survey Solutions du trimestre : ENE_MENAGE_EXPORT si défini,
+* sinon ENEM_<TX><YYYY>.dta (T1_2026 -> ENEM_T12026.dta).
+global brute_menage_source_name : env ENE_MENAGE_EXPORT
+if "$brute_menage_source_name" == "" {
+	global brute_menage_source_name = "ENEM_" + subinstr("$ene_quarter", "_", "", .) + ".dta"
+}
+global brute_menage_source "$datain_brute/$brute_menage_source_name"
 global brute_menage_work "$datain_brute/QX_EEC_VF.dta"
 global datain_standard  "$folderpath/datain/standard"
 global standard_menage  "$folderpath/dataout/standard/menage"
