@@ -1,53 +1,53 @@
-ENE_M T1 2026 - apurement Stata
+ENE_M - apurement Stata
 
-Documentation operationnelle detaillee:
+Documentation operationnelle detaillee : README.md
 
-  README.md
+Code, donnees et calcul sont separes :
+  - le code est dans ce depot git, sans chemin propre au poste ;
+  - les donnees viennent de MinIO et y retournent ;
+  - le calcul tourne sur tout poste avec Stata et Python.
 
-Organisation locale des donnees:
+Organisation locale des donnees (ignoree par git) :
 
-  datain/staging : copie immuable de l'export Survey Solutions original
-  datain/brute   : copie de travail modifiable par les do-files Stata
-  datain/standard: sections standardisees intermediaires
-  dataout        : sorties apurees
+  datain/staging        : copie immuable de l'export Survey Solutions original
+  datain/brute          : copie de travail modifiable par les do-files Stata
+  datain/standard       : sections standardisees intermediaires
+  document/codification : classeurs de codification CITP/CIAP du trimestre
+  dataout               : sorties apurees
 
 Ne jamais lancer l'apurement directement sur l'unique copie d'un export brut.
 Les do-files existants modifient datain/brute pendant le traitement.
 
-Preparation recommandee:
+Procedure (depuis la racine du depot, ENE_MEDALLION_ORCHESTRATION clone a cote) :
 
-1. Telecharger l'export Survey Solutions original depuis MinIO vers datain/staging:
+  set ENE_QUARTER=T1_2026
+  set STATA_EXE=C:\chemin\vers\StataMP-64.exe
 
-   python tools\ene_medallion_io\01_download_apurement_inputs.py --quarter T1_2026 --overwrite
+  1. python scripts\medallion\medallion.py download --dry-run
+     python scripts\medallion\medallion.py download --overwrite
+  2. python tools\run_apurement.py check
+  3. python tools\run_apurement.py apurement
+  4. examiner les rapports Excel de document\
+  5. python tools\run_apurement.py fusion
+  6. python scripts\medallion\medallion.py upload-outputs --dry-run
+     python scripts\medallion\medallion.py upload-outputs --overwrite
 
-2. Ouvrir ENE_2026T1.stpr dans Stata.
-3. Executer program/parentfile.do.
-4. Executer program/apurement.do.
-5. Executer program/Fusion.do.
+En interactif dans Stata, apres cd vers la racine du depot :
 
-program/apurement.do execute automatiquement
-program/00-initialisation_brute_depuis_staging.do avant les traitements. Ce
-do-file remplace le contenu de datain/brute par le snapshot datain/staging.
+  do "program/parentfile.do"
+  do "$dofiles/apurement.do"
 
-Avant la standardisation, program/00-suppression_non_residents.do retire les
-individus non residents puis synchronise les bases: aucun individu sans menage
-et aucun menage sans individu restant.
+program/parentfile.do prend la racine dans ENE_BASE_DIR, sinon dans le
+repertoire courant (racine du depot ou program/), et le trimestre dans
+ENE_QUARTER. L'export menage Survey Solutions est ENEM_<TX><ANNEE>.dta
+(ENEM_T12026.dta pour T1_2026), ou le nom donne par ENE_MENAGE_EXPORT ;
+QX_EEC_VF.dta est la copie menage corrigee par l'apurement.
 
-Les sauvegardes modifiant les fichiers bruts passent ensuite par
-program/00-protections_sauvegarde_brute.do. Ces protections arretent le
-pipeline si un roster est sur le point d'ecraser membres.dta, ou inversement.
+program/apurement.do execute d'abord
+program/00-initialisation_brute_depuis_staging.do, qui remplace le contenu de
+datain/brute par le snapshot datain/staging, vide dataout et y ecrit le
+trimestre traite (dataout/apurement_quarter.txt).
 
-Les exports Excel conditionnels sont proteges contre l'absence d'observations.
-Pour verifier statiquement les protections Stata:
+Pour reconstruire manuellement la copie de travail hors Stata :
 
-   python tools\validate_stata_raw_saves.py
-   python tools\validate_stata_excel_exports.py
-
-Le nom de l'export menage trimestriel est centralise dans program/parentfile.do:
-
-  brute_menage_source : ENEM_T12026.dta, export Survey Solutions restaure
-  brute_menage_work   : QX_EEC_VF.dta, copie menage corrigee par l'apurement
-
-Pour reconstruire manuellement la copie de travail hors Stata:
-
-   python tools\ene_medallion_io\prepare_apurement_working_copy.py --reset-working-copy
+   python tools\prepare_apurement_working_copy.py --reset-working-copy

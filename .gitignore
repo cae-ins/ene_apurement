@@ -10,7 +10,9 @@ datatemp/
 # On garde le dossier document/ mais on ignore les fichiers Excel générés
 document/*.xlsx
 document/*.xls
-!document/codification/ # On peut garder les templates de codification si besoin (sans les données)
+# Les classeurs de document/codification/ ne sont pas concernés par les deux
+# motifs ci-dessus (sous-dossier) et sont encore suivis par git ; leur source
+# de référence est MinIO (staging/enem/<T>/codification/, voir README.md).
 
 # --- Python ---
 **/__pycache__/
@@ -25,6 +27,9 @@ env/
 *.smcl
 *.ansi
 logs/
+
+# --- Fichiers de verrou Office ---
+~$*
 
 # --- OS ---
 .DS_Store

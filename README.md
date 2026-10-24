@@ -5,7 +5,8 @@
 Ce document décrit uniquement le pipeline d'apurement de l'Enquête Nationale
 sur l'Emploi (ENEM). Il explique comment :
 
-- préparer un nouveau trimestre ;
+- refaire l'apurement d'un trimestre sur n'importe quel poste à partir du dépôt
+  git et d'un accès à MinIO ;
 - conserver une copie immuable des exports Survey Solutions ;
 - relancer l'apurement Stata sans écraser les données originales ;
 - diagnostiquer les erreurs fréquentes ;
@@ -26,12 +27,39 @@ Les traitements de pondération et de tabulation sont hors périmètre.
 > Les sections `S0_identification` et `S15_disponibilite` sont intentionnellement
 > exclues de la fusion finale pour le T1 2026, conformément aux décisions métiers.
 
+## Code, données et calcul séparés
+
+- **Code** : ce dépôt git. Aucun chemin propre à un poste n'y est écrit :
+  `program/parentfile.do` prend la racine du dépôt dans `ENE_BASE_DIR` ou, à
+  défaut, dans le répertoire courant de Stata (racine du dépôt ou `program/`).
+- **Données** : MinIO. Les entrées sont téléchargées dans `datain/staging/` et
+  `document/codification/`, les sorties sont publiées depuis `dataout/`. Les
+  dossiers de données sont ignorés par git.
+- **Calcul** : n'importe quel poste avec Stata et Python. Les échanges avec MinIO
+  passent par `scripts/medallion/medallion.py`, Stata peut être lancé en mode
+  batch par `tools/run_apurement.py`.
+
+Les scripts d'échange avec MinIO sont ceux du dépôt
+`ENE_MEDALLION_ORCHESTRATION` (source unique), cloné à côté de ce dépôt ou
+désigné par `ENE_ORCHESTRATION_ROOT`. Le contrat de données de l'apurement
+(chaque fichier lu ou publié, son emplacement MinIO et sa place locale) y est
+décrit par `ene_medallion_io/apurement_contract.py` ; il est résumé
+[plus bas](#contrat-de-données).
+
+> **Intégration en cours.** Tant que `apurement_contract.py` et les nouvelles
+> versions de `00/01/02` ne sont pas dans `ENE_MEDALLION_ORCHESTRATION`, la
+> commande `download` appelle l'ancien `01_download_apurement_inputs.py`, qui
+> écrit dans `datain/Base_brute/` et `document/` au lieu de `datain/staging/` et
+> `document/codification/`. La copie transitoire `tools/ene_medallion_io/`
+> (00, 01, 02, 03, `ene_minio.py`) reste en place jusque-là ; elle sera retirée
+> après l'intégration.
+
 ## Point d'entrée
 
 Le point d'entrée courant est `program/apurement.do`.
 
 L'ordre d'exécution automatisé est le suivant :
-1. `00-initialisation_brute_depuis_staging.do` : Réinitialise la copie de travail.
+1. `00-initialisation_brute_depuis_staging.do` : Réinitialise la copie de travail et écrit le trimestre traité dans `dataout/apurement_quarter.txt`.
 2. `00-suppression_doublons.do` : Retire les entretiens dupliqués identifiés.
 3. `00-suppression_non_residents.do` : Retire les non-résidents et synchronise les bases individus et ménages.
 4. `00-nettoyage_individus_brute.do` : Retire les individus invalides.
@@ -43,18 +71,28 @@ Avant la standardisation, `00-suppression_non_residents.do` retire les individus
 non residents puis synchronise les deux bases : les individus sans menage et les
 menages sans individu restant sont retires. Les menages mixtes sont conserves.
 
-Ne pas utiliser les anciens orchestrateurs comme `program/pipeline_master.do` 
-ou `program/archive/Fusion_ENE.do`.
+Ne pas utiliser les anciens orchestrateurs comme `program/pipeline_master.do`
+ou `program/archive/Fusion_ENE.do` (archives restées dans le dossier OneDrive
+du T1 2026, hors dépôt).
 
-Le lancement normal est effectué dans Stata :
+Lancement en mode batch, depuis la racine du dépôt :
+
+```powershell
+$env:STATA_EXE = "C:\chemin\vers\StataMP-64.exe"
+python tools\run_apurement.py apurement --quarter T1_2026
+```
+
+Lancement interactif dans Stata, après `cd` vers la racine du dépôt (ou ouverture
+du projet `ENE_2026T1.stpr`, dont les chemins sont relatifs) :
 
 ```stata
-do "C:\chemin\vers\apurement\program\parentfile.do"
+do "program/parentfile.do"
 do "$dofiles/apurement.do"
 ```
 
 `program/Fusion.do` doit être exécuté séparément, après vérification du contrat
-de sortie décrit plus bas. La codification étant désormais native, il n'y a plus
+de sortie décrit plus bas (`python tools\run_apurement.py fusion`, ou
+`do "$dofiles/Fusion.do"`). La codification étant désormais native, il n'y a plus
 de script de "patch" à passer après la fusion.
 
 ## Architecture des données
@@ -62,10 +100,10 @@ de script de "patch" à passer après la fusion.
 Le pipeline sépare les données originales, la copie de travail et les sorties :
 
 ```text
-MinIO staging/enem/<TRIMESTRE>/brutes
-                  |
-                  v
-datain/staging  snapshot Survey Solutions immuable
+MinIO staging/enem/<TRIMESTRE>/brutes/<fichier>   staging/enem/<TRIMESTRE>/codification/
+                  |                                          |
+                  v                                          v
+datain/staging  snapshot Survey Solutions immuable   document/codification
                   |
                   | copie miroir au début de chaque apurement
                   v
@@ -81,35 +119,42 @@ dataout/standard sorties apurées par section
                   |
                   | Fusion.do, après validation des sorties
                   v
-dataout         bases finales ménage et individu
+dataout         bases finales ménage et individu, rosters
+                  |
+                  v
+MinIO silver/enem/<TRIMESTRE>/menage/menage_<TRIMESTRE>.dta, individu/...
 ```
 
 ### Répertoires locaux
 
 | Répertoire | Rôle | Règle d'utilisation |
 | --- | --- | --- |
-| `datain/staging` | Snapshot original Survey Solutions | Ne jamais modifier manuellement |
+| `datain/staging` | Snapshot original Survey Solutions | Téléchargé depuis MinIO ; ne jamais modifier manuellement |
 | `datain/brute` | Copie de travail Stata | Réinitialisée depuis `staging` à chaque lancement |
 | `datain/standard` | Sections intermédiaires créées par `standard_db.do` | Peut être régénéré |
 | `dataout/standard/menage` | Sections ménage apurées | À contrôler avant fusion |
 | `dataout/standard/individu` | Sections individu apurées | À contrôler avant fusion |
 | `dataout/menage` | Base ménage fusionnée | Sortie finale |
 | `dataout/individu` | Base individu fusionnée | Sortie finale |
-| `document` | Rapports Excel d'anomalies et fichiers de codification | À examiner pendant l'apurement |
-| `datatemp` | Journal technique et marqueurs temporaires | Utile pour diagnostiquer la copie initiale |
+| `document` | Rapports Excel d'anomalies | À examiner pendant l'apurement |
+| `document/codification` | Fichiers de codification CITP/CIAP du trimestre | Téléchargés depuis MinIO |
+| `datatemp` | Journal technique, marqueurs temporaires, journaux batch | Utile pour diagnostiquer la copie initiale |
+| `logs` | Journaux de session Stata (`.log`, `.ansi`) | Un fichier horodaté par lancement |
 | `program` | Do-files Stata | Code métier |
-| `tools` | Scripts Python et wrappers PowerShell | Transferts MinIO et validations statiques |
+| `scripts/medallion` | Lanceur MinIO `medallion.py` | Échanges avec MinIO |
+| `tools` | Lanceur Stata, contrôles statiques, utilitaires Python | Voir ci-dessous |
 
 ## Prérequis
 
 ### Logiciels
 
-- Windows avec `cmd.exe` et `robocopy.exe` ;
-- Stata ;
-- Python 3 ;
+- Windows avec `cmd.exe` et `robocopy.exe` (copie `staging` vers `brute`) ;
+- Stata (17 ou plus) ;
+- Python 3.10 ou plus ;
 - les paquets Python `boto3` et `botocore` pour les transferts MinIO ;
 - les paquets Python `pandas`, `openpyxl` et `xlrd` pour le contrôle des
   fichiers de codification Excel ;
+- le dépôt `ENE_MEDALLION_ORCHESTRATION` cloné à côté de ce dépôt ;
 - une connexion internet lors de la première exécution Stata si la commande
   `violin` n'est pas encore installée.
 
@@ -120,116 +165,107 @@ automatiquement la présence de `violin`. Si nécessaire, il exécute :
 ssc install violin
 ```
 
-### Accès MinIO
+### Variables d'environnement
 
-Les scripts cherchent les paramètres MinIO dans cet ordre :
+| Variable | Utilisée par | Rôle |
+| --- | --- | --- |
+| `ENE_QUARTER` | Stata, lanceurs | Trimestre traité, forme `T<NUMERO>_<ANNEE>` (ex. `T1_2026`) ; défaut `T1_2026` |
+| `ENE_BASE_DIR` | Stata | Racine du dépôt (facultatif : par défaut le répertoire courant) |
+| `ENE_MENAGE_EXPORT` | Stata, contrat | Nom de l'export ménage Survey Solutions s'il ne suit pas `ENEM_<TX><ANNEE>.dta` (T1_2026 donne `ENEM_T12026.dta`) |
+| `STATA_EXE` | `tools/run_apurement.py` | Chemin de l'exécutable Stata |
+| `ENE_ORCHESTRATION_ROOT` | `medallion.py` | Dépôt d'orchestration, par défaut `../ENE_MEDALLION_ORCHESTRATION` |
+| `MINIO_ENDPOINT`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY` | scripts MinIO | Accès MinIO |
+| `ENE_CREDENTIALS_FILE`, `ENE_SECRETS_DIR` | scripts MinIO | Fichier d'identifiants à utiliser à la place des variables |
 
-1. variables d'environnement ;
-2. fichier transmis avec `--credentials-file` ;
-3. fichier local par défaut `C:\tmp\minio-server\MINIO_LOCAL_CREDENTIALS.txt`.
+`medallion.py` lit aussi les fichiers `.env` du répertoire courant, de ce dépôt
+et du dépôt d'orchestration, sans écraser une variable déjà définie. Le `.env`
+est ignoré par git ; ne jamais écrire d'identifiant dans le code ni dans la
+documentation. Exemple :
 
-Variables d'environnement reconnues :
-
-```powershell
-$env:MINIO_ENDPOINT = "http://127.0.0.1:9000"
-$env:MINIO_ACCESS_KEY = "..."
-$env:MINIO_SECRET_KEY = "..."
+```text
+MINIO_ENDPOINT=http://<serveur-minio>:9000
+MINIO_ACCESS_KEY=...
+MINIO_SECRET_KEY=...
+ENE_QUARTER=T1_2026
+STATA_EXE=C:\chemin\vers\StataMP-64.exe
 ```
 
-Le trimestre peut aussi être défini une fois dans le terminal :
+## Contrat de données
+
+Source : `ENE_MEDALLION_ORCHESTRATION/ene_medallion_io/apurement_contract.py`.
+
+### Entrées (téléchargées par `medallion.py download`)
+
+| Fichier local | MinIO | Statut |
+| --- | --- | --- |
+| `datain/staging/ENEM_<TX><ANNEE>.dta` | `staging/enem/<T>/brutes/ENEM_<TX><ANNEE>.dta` | obligatoire (export ménage ; nom réglable par `ENE_MENAGE_EXPORT`) |
+| `datain/staging/membres.dta` | `staging/enem/<T>/brutes/membres.dta` | obligatoire |
+| `datain/staging/r_activite_s.dta`, `emigration.dta`, `r_revenu_h_emp.dta`, `r_competence_quali.dta`, `Activiteparent.dta`, `Revenu.dta`, `Revenu_es.dta` | `staging/enem/<T>/brutes/<fichier>` | obligatoires (lus par les do-files) |
+| `datain/staging/assignment__actions.dta`, `couts_biens.dta`, `disponibilite.dta`, `interview__*.dta`, `VISITE_IND.dta`, `VISITE_ROOSTER.dta` | `staging/enem/<T>/brutes/<fichier>` | facultatifs (non lus ; gardés pour un snapshot complet) |
+| `document/codification/*` | `staging/enem/<T>/codification/` | obligatoire (dossier non vide) |
+
+Le préfixe `staging/enem/<T>/brutes/` contient aussi le dénombrement
+(`denombrement/`, `denombrement_update/`), qui appartient à la pondération :
+l'export Survey Solutions est donc listé fichier par fichier et le préfixe n'est
+jamais téléchargé en entier.
+
+Les noms des classeurs de codification attendus par `00-codification_brute.do`
+et `tools/validate_codification_inputs.py` sont propres au trimestre (ex.
+`codification_emploi_principal_T1_2026_cp.xlsx`, `Activite_secondaire_T126.xlsx`).
+
+### Produits publiés (`medallion.py upload-outputs`)
+
+Liste explicite ; rien d'autre n'est publié (ni les sections de
+`dataout/standard`, ni `datain/standard`, ni `Revenu_es.dta`).
+
+| Fichier local | MinIO |
+| --- | --- |
+| `dataout/menage/qx_eec_vf.dta` | `silver/enem/<T>/menage/menage_<T>.dta` |
+| `dataout/individu/membres.dta` | `silver/enem/<T>/individu/individu_<T>.dta` |
+| `dataout/Activiteparent.dta`, `r_activite_s.dta`, `r_competence_quali.dta`, `r_revenu_h_emp.dta`, `Revenu.dta` | `silver/enem/<T>/individu/rosters/<fichier>` |
+| `document/*.xls`, `document/*.xlsx` (avec `--with-quality-reports`) | `silver/enem/<T>/quality_reports/apurement_errors/` |
+
+Les deux bases fusionnées sont les entrées de la pondération
+(`weights_contract.cleaned_survey`). Avant tout envoi, le script vérifie que les
+sept produits existent et ne sont pas vides, et que `dataout/apurement_quarter.txt`
+(écrit par Stata au début de l'apurement) indique le trimestre demandé. Un
+manifeste (fichiers envoyés, commit git du code) est écrit dans
+`silver/enem/<T>/_manifests/`.
+
+### Entrées publiées par l'apurement (`medallion.py upload-raw`)
+
+L'apurement est propriétaire de l'export Survey Solutions et des fichiers de
+codification de son trimestre. `upload-raw` publie les fichiers du tableau des
+entrées présents dans `datain/staging/` et `document/codification/` ; les
+objets déjà présents sur MinIO sont conservés sauf `--overwrite`.
+
+## Procédure pour un trimestre
+
+### Sur un poste neuf
 
 ```powershell
+git clone <url>/ENE_APUREMENT.git
+git clone <url>/ENE_MEDALLION_ORCHESTRATION.git
+python -m pip install boto3 pandas openpyxl xlrd
+cd ENE_APUREMENT
+# créer .env (voir plus haut), puis :
 $env:ENE_QUARTER = "T1_2026"
 ```
 
-La convention utilisée dans MinIO est `T<NUMERO>_<ANNEE>`, par exemple
-`T1_2026` ou `T2_2026`.
-
-## Préparer un autre trimestre
-
-Créer une copie du dossier d'apurement précédent, puis effectuer les opérations
-suivantes avant le premier lancement.
-
-### 1. Déposer ou télécharger le snapshot original
-
-Le dossier `datain/staging` doit contenir l'export original Survey Solutions.
-
-Il ne faut pas placer l'unique copie des données dans `datain/brute`, car les
-do-files modifient ce répertoire pendant l'apurement.
-
-Pour télécharger un snapshot déjà présent dans MinIO :
-
-```powershell
-python tools\ene_medallion_io\01_download_apurement_inputs.py `
-  --quarter T2_2026 `
-  --overwrite
-```
-
-Pour publier un nouveau snapshot local vers MinIO :
-
-```powershell
-python tools\ene_medallion_io\00_upload_raw_to_staging.py `
-  --quarter T2_2026 `
-  --dry-run
-
-python tools\ene_medallion_io\00_upload_raw_to_staging.py `
-  --quarter T2_2026 `
-  --overwrite
-```
-
-Toujours exécuter d'abord la variante `--dry-run`.
-
-### 2. Adapter les paramètres Stata
-
-Modifier `program/parentfile.do` :
-
-```stata
-global folderpath = "C:\chemin\vers\le\nouveau\trimestre\apurement"
-global brute_menage_source "$datain_brute/ENEM_T12026.dta"
-global brute_menage_work "$datain_brute/QX_EEC_VF.dta"
-```
-
-Pour un autre trimestre :
-
-- adapter `folderpath` au nouveau dossier ;
-- remplacer `ENEM_T12026.dta` par le vrai nom de l'export ménage Survey
-  Solutions du trimestre ;
-- conserver `QX_EEC_VF.dta` si les do-files existants gardent ce nom de copie
-  de travail.
-
-### 3. Vérifier les scripts métier trimestriels
-
-Examiner les do-files dont le nom contient explicitement un trimestre ou une
-année, notamment :
-
-```text
-program/Codification_T1_2026.do
-program/Suppression_doublon_T1_2026.do
-```
-
-### 4. Vérifier le projet Stata
-
-Le projet courant est `ENE_2026T1.stpr`. Pour un nouveau trimestre, créer ou
-adapter le projet Stata afin qu'il référence le nouveau dossier.
-
-## Exécution normale
-
 ### Étape 1. Télécharger les entrées MinIO
 
-Depuis la racine du projet :
-
 ```powershell
-python tools\ene_medallion_io\01_download_apurement_inputs.py `
-  --quarter T1_2026 `
-  --overwrite
+python scripts\medallion\medallion.py download --dry-run
+python scripts\medallion\medallion.py download --overwrite
 ```
+
+L'essai à blanc liste ce qui serait téléchargé et les entrées obligatoires
+absentes de MinIO (code de retour 1 dans ce cas).
 
 ### Étape 2. Lancer les validations statiques
 
 ```powershell
-python tools\validate_stata_raw_saves.py
-python tools\validate_stata_excel_exports.py
-python tools\validate_codification_inputs.py
+python tools\run_apurement.py check
 ```
 
 Résultat attendu :
@@ -240,22 +276,21 @@ Stata conditional Excel-export guard validation: OK
 Codification input validation: OK
 ```
 
-### Étape 3. Lancer l'apurement dans Stata
+### Étape 3. Lancer l'apurement
 
-Ouvrir le projet Stata, puis exécuter :
-
-```stata
-do "C:\chemin\vers\apurement\program\parentfile.do"
-do "$dofiles/apurement.do"
+```powershell
+python tools\run_apurement.py config      # vérifie la racine, le trimestre et les chemins
+python tools\run_apurement.py apurement
 ```
 
-Les logs de chaque exécution sont sauvegardés dans le dossier `logs/` avec un horodatage. 
+Les logs de chaque exécution sont sauvegardés dans le dossier `logs/` avec un horodatage.
 Un fichier `.ansi` est également généré, contenant les codes couleurs pour mettre en évidence les erreurs (visualisable dans un terminal compatible ANSI ou VS Code avec l'extension appropriée).
+Le journal batch de Stata est dans `datatemp/batch/`.
 
 ### Étape 4. Examiner les rapports qualité
 
 Les do-files exportent les anomalies dans `document`. Certaines anomalies
-nécessitent une correction métier (souvent dans `01-traitrement_autres.do`) 
+nécessitent une correction métier (souvent dans `01-traitrement_autres.do`)
 avant de continuer.
 
 ### Étape 5. Contrôler les sorties par section
@@ -265,28 +300,48 @@ section [Contrat de sortie avant fusion](#contrat-de-sortie-avant-fusion).
 
 ### Étape 6. Lancer la fusion
 
-La commande prévue est :
-
-```stata
-do "$dofiles/Fusion.do"
+```powershell
+python tools\run_apurement.py fusion
 ```
 
 ### Étape 7. Publier les sorties MinIO
 
-Effectuer d'abord une simulation :
-
 ```powershell
-python tools\ene_medallion_io\02_upload_apurement_outputs.py `
-  --quarter T1_2026 `
-  --dry-run
+python scripts\medallion\medallion.py upload-outputs --dry-run
+python scripts\medallion\medallion.py upload-outputs --overwrite
 ```
 
-Puis publier :
+Toujours exécuter d'abord la variante `--dry-run`. `--skip-quarter-check` permet
+de publier des sorties produites avant l'existence du marqueur de trimestre
+(uniquement si elles sont bien celles du trimestre demandé).
+
+### Préparer un nouveau trimestre
+
+1. Publier l'export Survey Solutions original et la codification du trimestre :
+   les placer dans `datain/staging/` et `document/codification/`, puis
+
+   ```powershell
+   python scripts\medallion\medallion.py upload-raw --quarter T2_2026 --dry-run
+   python scripts\medallion\medallion.py upload-raw --quarter T2_2026
+   ```
+
+   Il ne faut pas placer l'unique copie des données dans `datain/brute`, car les
+   do-files modifient ce répertoire pendant l'apurement.
+2. Fixer `ENE_QUARTER` (et `ENE_MENAGE_EXPORT` si l'export ménage ne s'appelle
+   pas `ENEM_<TX><ANNEE>.dta`). Garder `QX_EEC_VF.dta` comme nom de la copie de
+   travail ménage (`brute_menage_work` dans `parentfile.do`).
+3. Adapter les règles métier propres au trimestre, sur une branche dédiée :
+   liste des entretiens doublons (`00-suppression_doublons.do`), noms des
+   classeurs de codification (`00-codification_brute.do`,
+   `tools/validate_codification_inputs.py`), bornes d'années (ex. `> 2026`)
+   et sections fusionnées (`Fusion.do`). L'état du code d'un trimestre clos est
+   conservé sur une branche d'archive (ex. `archive/2025T4`).
+4. Suivre la procédure ci-dessus.
+
+Pour reconstruire manuellement la copie de travail hors Stata :
 
 ```powershell
-python tools\ene_medallion_io\02_upload_apurement_outputs.py `
-  --quarter T1_2026 `
-  --overwrite
+python tools\prepare_apurement_working_copy.py --reset-working-copy
 ```
 
 ## Protections intégrées
@@ -401,3 +456,6 @@ considérés comme des sorties définitives pour la diffusion.
 | `r(198)` sur `export excel` | Filtre sans observation | Ajouter `count if ...` |
 | `r(199)` `violin` unrecognized | Dépendance Stata absente | Exécuter `ssc install violin` |
 | `r(601)` dans `Fusion.do` | Section absente | Vérifier si le do-file de section a été exécuté dans `apurement.do` |
+| `ENE_MEDALLION_ORCHESTRATION introuvable` | Dépôt d'orchestration absent | Le cloner à côté de ce dépôt ou définir `ENE_ORCHESTRATION_ROOT` |
+| `Racine du dépôt ENE_APUREMENT introuvable` | Stata lancé hors du dépôt | `cd` vers la racine du dépôt (ou `program/`), ou définir `ENE_BASE_DIR` |
+| `Refus : dataout/apurement_quarter.txt indique ...` | Sorties d'un autre trimestre dans `dataout/` | Relancer l'apurement avec le bon `ENE_QUARTER` |
