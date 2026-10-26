@@ -47,7 +47,9 @@ if `fichiers_absents' > 0 {
 
 *-------------* BASE MENAGE *--------------*
 // QM_S0_identification non apuré pour T1 2026 — à intégrer ultérieurement
-use "$standard_menage\QM_S7_logement.dta", clear
+use "$datain_standard\QM_S0_identification.dta", clear
+cap drop _merge
+merge 1:1 interview__key using "$standard_menage\QM_S7_logement.dta"
 
 save "$dataout_menage\qx_eec_vf.dta", replace
 *--------------------------------------------*

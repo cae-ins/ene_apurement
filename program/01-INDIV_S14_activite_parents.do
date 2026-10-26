@@ -351,4 +351,13 @@ save "$dataout\Activiteparent.dta" , replace
 * Fusion.do attend une section S14 distincte, unique par individu.
 use "$datain_standard\INDIV_S14_activite_parents.dta", clear
 isid interview__key membres__id
+
+* TP7 est une variable individuelle : la correction faite plus haut sur le roster
+* (supprimé ensuite) doit être reportée ici pour arriver dans la base finale.
+merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(M4Confirm membre_id_v1_IND) keep(master match) nogen
+replace membre_id_v1_IND = "" if membre_id_v1_IND == "##N/A##"
+replace TP7=. if TP7==.a &  ( membre_id_v1_IND =="" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
+drop M4Confirm membre_id_v1_IND
+
+isid interview__key membres__id
 save "$standard_individu\INDIV_S14_activite_parents.dta", replace

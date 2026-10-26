@@ -1283,6 +1283,17 @@ if r(N)>0 {
 }
 
 
+* Les SE recodées ci-dessus (personnes sorties de l'emploi) sont reportées dans la
+* base S2 : Fusion.do et la tabulation lisent SE* dans S2, pas dans S3.
+preserve
+keep interview__key membres__id SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9
+tempfile se_corr
+save `se_corr'
+use "$standard_individu\INDIV_S2_situation_emploi.dta", clear
+merge 1:1 interview__key membres__id using `se_corr', update replace keep(1 3 4 5) nogen
+save "$standard_individu\INDIV_S2_situation_emploi.dta", replace
+restore
+
 drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 membre_id_v1_IND annee HH13
 
 cap drop med_EP2h_1 med_EP2h_4 med_EP2h_5 med_EP2h
@@ -1500,7 +1511,7 @@ replace EP8 = 40000 if EP8_1== "QUARANTE MILLE"
 replace EP8 = 90000 if EP8_1== "QUATRE VINGT DIX"
 replace EP8 = 15000 if EP8_1== "QUINZE MILLE FRANCS"
 replace EP8 = 20000 if EP8_1== "VINGT MILLE FRANCS"
-replace EP8 = 20000 if EP8_1== "VINGT CINQ MILLE"
+replace EP8 = 25000 if EP8_1== "VINGT CINQ MILLE"
 replace EP8 = 60000 if EP8_1== "SOIXANTE MILLE FRANC CFA"
 replace EP8 = 90000 if EP8_1== "QUATRE VINGT DIX MILLE"
 replace EP8 = 120000 if EP8_1== "CENT VINGT MILLE"
@@ -3515,7 +3526,17 @@ count if !missing(EP47) & !(membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | 
 //4)
 
 
-drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 annee HH13 V1interviewkey annee_naiss 
+* Report des SE recodées dans la base S2 (voir la première partie de S3).
+preserve
+keep interview__key membres__id SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9
+tempfile se_corr
+save `se_corr'
+use "$standard_individu\INDIV_S2_situation_emploi.dta", clear
+merge 1:1 interview__key membres__id using `se_corr', update replace keep(1 3 4 5) nogen
+save "$standard_individu\INDIV_S2_situation_emploi.dta", replace
+restore
+
+drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 annee HH13 V1interviewkey annee_naiss
 order hhavf_EMP, after(membre_id_v1_IND)
 
 save "$standard_individu\INDIV_S3_emploi_principal.dta", replace

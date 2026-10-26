@@ -107,10 +107,19 @@ foreach var of varlist  RHE__1-RHE__10   {
 
 *****La correction des valeurs manquantes necessite de revenir aux agents
 
+* Un .a isolé chez une personne qui a répondu à d'autres items vaut « non ».
+* Si les 10 items sont à .a, la question n'a pas été posée : non-réponse, on garde .a.
+cap drop nb_rhe_na
+gen nb_rhe_na = 0
 forvalues i = 1/10 {
-    * Remplace les valeurs manquantes .a par 0 dans chaque variable RHE__`i'
-    replace RHE__`i' = 0 if RHE__`i' == .a
+    replace nb_rhe_na = nb_rhe_na + (RHE__`i' == .a)
 }
+count if nb_rhe_na == 10 // non-réponses complètes, conservées
+forvalues i = 1/10 {
+    * Remplace les .a par 0 uniquement pour les répondants de la question
+    replace RHE__`i' = 0 if RHE__`i' == .a & nb_rhe_na < 10
+}
+drop nb_rhe_na
 
 	
 
