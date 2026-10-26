@@ -36,8 +36,8 @@ Les traitements de pondération et de tabulation sont hors périmètre.
   `document/codification/`, les sorties sont publiées depuis `dataout/`. Les
   dossiers de données sont ignorés par git.
 - **Calcul** : n'importe quel poste avec Stata et Python. Les échanges avec MinIO
-  passent par `scripts/medallion/medallion.py`, Stata peut être lancé en mode
-  batch par `tools/run_apurement.py`.
+  passent par `scripts/medallion/medallion.py`, Stata peut être lancé sans
+  intervention par `tools/run_apurement.py`.
 
 Les scripts d'échange avec MinIO sont ceux du dépôt
 `ENE_MEDALLION_ORCHESTRATION` (source unique), cloné à côté de ce dépôt ou
@@ -75,7 +75,7 @@ Ne pas utiliser les anciens orchestrateurs comme `program/pipeline_master.do`
 ou `program/archive/Fusion_ENE.do` (archives restées dans le dossier OneDrive
 du T1 2026, hors dépôt).
 
-Lancement en mode batch, depuis la racine du dépôt :
+Lancement sans intervention, depuis la racine du dépôt :
 
 ```powershell
 $env:STATA_EXE = "C:\chemin\vers\StataMP-64.exe"
@@ -285,7 +285,11 @@ python tools\run_apurement.py apurement
 
 Les logs de chaque exécution sont sauvegardés dans le dossier `logs/` avec un horodatage.
 Un fichier `.ansi` est également généré, contenant les codes couleurs pour mettre en évidence les erreurs (visualisable dans un terminal compatible ANSI ou VS Code avec l'extension appropriée).
-Le journal batch de Stata est dans `datatemp/batch/`.
+Le journal du lanceur est dans `datatemp/batch/`. Sous Windows, le lanceur ouvre Stata
+en mode interactif (fenêtre réduite) et non en mode batch (`/e`) : en batch, Stata
+ignore `shell`, donc la copie `datain/staging` vers `datain/brute` (robocopy) ne se
+fait pas et l'initialisation s'arrête en `r(603)`. Stata se ferme seul à la fin et le
+code retour est écrit dans `datatemp/batch/run_<étape>.rc`.
 
 ### Étape 4. Examiner les rapports qualité
 
