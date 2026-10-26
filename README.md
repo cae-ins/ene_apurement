@@ -65,39 +65,41 @@ tout passe par MinIO. Les scripts d'échange sont ceux de
 chaque dépôt.
 
 ```mermaid
-flowchart LR
-    SS[/"Export Survey Solutions<br/>+ codification CITP/CIAP"/]
-
-    subgraph MINIO["MinIO"]
-        direction TB
-        ST[("staging/enem/T/brutes<br/>staging/enem/T/codification")]
-        SI[("silver/enem/T/menage<br/>silver/enem/T/individu")]
-        SP[("silver/enem/T/poids")]
-        GP[("gold/enem/T/base_ponderee")]
-        GB[("gold/enem/T/base_indicateurs")]
-        GI[("gold/enem/T/indicateurs")]
-        GR[("gold/enem/T/precision")]
-    end
-
-    A["ENE_APUREMENT<br/>(ce dépôt, Stata)"]
-    W["ENE_SURVEY_WEIGHTS<br/>(pondération, R)"]
-    T["ENE_INDICATORS_TABULATIONS<br/>(tableaux, Stata)"]
-    P["ENE_PRECISION_ESTIMATION<br/>(précisions, R)"]
+flowchart TD
+    SS[/"Export Survey Solutions<br/>et classeurs de codification"/]
+    ST[("staging/enem/T/brutes<br/>staging/enem/T/codification")]
+    A["ENE_APUREMENT<br/>apurement, Stata"]
+    SI[("silver/enem/T/menage<br/>silver/enem/T/individu")]
+    W["ENE_SURVEY_WEIGHTS<br/>pondération, R"]
+    GP[("gold/enem/T/base_ponderee")]
+    SP[("silver/enem/T/poids")]
+    T["ENE_INDICATORS_TABULATIONS<br/>tableaux, Stata"]
+    GI[("gold/enem/T/indicateurs")]
+    GB[("gold/enem/T/base_indicateurs")]
+    P["ENE_PRECISION_ESTIMATION<br/>précisions, R"]
+    GR[("gold/enem/T/precision")]
 
     SS -- "upload-raw" --> ST
     ST -- "download" --> A
     A -- "upload-outputs" --> SI
     SI --> W
-    ST -- "dénombrement" --> W
-    W --> SP
+    ST -. "dénombrement" .-> W
     W --> GP
+    W --> SP
     GP --> T
     T --> GI
     T --> GB
-    GB -- "Traite_ du trimestre" --> P
-    SP -- "plan de calage" --> P
+    GB -- "Traite_" --> P
+    SP -. "plan de calage" .-> P
     P --> GR
-    GB -. "cohortes réinterrogées<br/>(trimestres suivants)" .-> W
+    GB -. "cohortes réinterrogées,<br/>trimestres suivants" .-> W
+
+    classDef depot fill:#fff3d6,stroke:#b7791f,color:#1a1a1a
+    classDef minio fill:#e3effd,stroke:#2b6cb0,color:#1a1a1a
+    classDef source fill:#eeeeee,stroke:#666666,color:#1a1a1a
+    class A,W,T,P depot
+    class ST,SI,GP,SP,GI,GB,GR minio
+    class SS source
 ```
 
 Conséquence pratique : une correction de l'apurement ne touche les indicateurs
@@ -112,65 +114,77 @@ recréée à chaque lancement.
 
 ```mermaid
 flowchart TD
-    M1[("MinIO staging/enem/T/brutes")] -- "medallion.py download" --> STG
-    M2[("MinIO staging/enem/T/codification")] -- "medallion.py download" --> COD
-
-    STG["datain/staging<br/>export Survey Solutions, jamais modifié"]
-    COD["document/codification<br/>classeurs CITP/CIAP du trimestre"]
-    BRU["datain/brute<br/>copie de travail modifiée par Stata"]
-    STD["datain/standard<br/>une base par section, avant apurement"]
-    OST["dataout/standard/menage<br/>dataout/standard/individu<br/>sections apurées"]
+    M1[("MinIO staging/enem/T/brutes")]
+    M2[("MinIO staging/enem/T/codification")]
+    STG["datain/staging<br/>export original, jamais modifié"]
+    COD["document/codification<br/>classeurs CITP/CIAP"]
+    BRU["datain/brute<br/>copie de travail"]
+    STD["datain/standard<br/>une base par section"]
+    OST["dataout/standard<br/>sections apurées"]
     ROS["dataout/*.dta<br/>rosters apurés"]
     FIN["dataout/menage/qx_eec_vf.dta<br/>dataout/individu/membres.dta"]
     ERR["document/*.xls, *.xlsx<br/>listes d'anomalies"]
+    M3[("MinIO silver/enem/T/menage<br/>silver/enem/T/individu")]
+    M4[("MinIO silver/enem/T/individu/rosters")]
 
-    STG -- "robocopy /MIR, au début de chaque apurement" --> BRU
+    M1 -- "download" --> STG
+    M2 -- "download" --> COD
+    STG -- "robocopy /MIR à chaque lancement" --> BRU
     COD -- "00-codification_brute.do" --> BRU
-    BRU -- "doublons, non-résidents, « autres à préciser »,<br/>codification, puis standard_db.do" --> STD
-    STD -- "01-QM_S*.do, 01-INDIV_S*.do" --> OST
-    STD --> ROS
+    BRU -- "standard_db.do" --> STD
+    STD -- "01-QM_S*, 01-INDIV_S*" --> OST
+    BRU -- "S3, S4, S5, S13, S14" --> ROS
     OST -- "Fusion.do" --> FIN
-    STD -- "QM_S0 non apurée" --> FIN
-    OST -.-> ERR
+    STD -- "QM_S0, non apurée" --> FIN
+    OST -. "exports" .-> ERR
+    FIN -- "upload-outputs" --> M3
+    ROS -- "upload-outputs" --> M4
 
-    FIN -- "medallion.py upload-outputs" --> M3[("MinIO silver/enem/T/menage/menage_T.dta<br/>silver/enem/T/individu/individu_T.dta")]
-    ROS -- "medallion.py upload-outputs" --> M4[("MinIO silver/enem/T/individu/rosters")]
+    classDef minio fill:#e3effd,stroke:#2b6cb0,color:#1a1a1a
+    classDef local fill:#f7f7f7,stroke:#555555,color:#1a1a1a
+    classDef sortie fill:#e6f4ea,stroke:#2f855a,color:#1a1a1a
+    class M1,M2,M3,M4 minio
+    class STG,COD,BRU,STD,OST,ERR local
+    class FIN,ROS sortie
 ```
 
 ## Ordre d'exécution
 
-`program/apurement.do` enchaîne les étapes ci-dessous ; `program/Fusion.do` se
-lance à part, après contrôle des sorties. `program/parentfile.do` est toujours
-exécuté en premier : il fixe la racine, le trimestre, les chemins et ouvre le
-journal.
+`program/parentfile.do` puis `program/apurement.do` enchaînent les étapes
+ci-dessous ; `program/Fusion.do` se lance à part, après contrôle des sorties.
 
 ```mermaid
 flowchart TD
-    P0["parentfile.do<br/>racine, trimestre, chemins, journal"] --> I1
-
-    subgraph PREP["Préparation de la copie de travail"]
-        I1["00-initialisation_brute_depuis_staging.do<br/>vide les sorties, copie staging vers brute,<br/>écrit dataout/apurement_quarter.txt"]
-        I2["00-protections_sauvegarde_brute.do<br/>commandes save_brute_*_safe"]
-        I3["00-suppression_doublons.do"]
-        I4["00-suppression_non_residents.do<br/>+ synchronisation ménages / individus"]
-        I5["00-nettoyage_individus_brute.do<br/>âge, sexe, M4Confirm"]
-        I6["01-traitrement_autres.do<br/>recodage des « autres, à préciser »"]
-        I7["Rename_label_var.do"]
-        I8["00-codification_brute.do<br/>codes CITP/CIAP, branche1, branche2"]
-        I9["standard_db.do<br/>découpage en sections"]
-        I1 --> I2 --> I3 --> I4 --> I5 --> I6 --> I7 --> I8 --> I9
+    subgraph L1["1. Copie de travail"]
+        direction LR
+        A1["parentfile"] --> A2["initialisation"] --> A3["protections"] --> A4["doublons"] --> A5["non-résidents"]
     end
-
-    I9 --> Q
-
-    subgraph SEC["Apurement par section"]
-        Q["01-QM_S1 à 01-QM_S7<br/>questionnaire ménage"]
-        S["01-INDIV_S1 à 01-INDIV_S14<br/>questionnaire individuel"]
-        Q --> S
+    subgraph L2["2. Préparation"]
+        direction LR
+        B1["individus invalides"] --> B2["autres à préciser"] --> B3["libellés"] --> B4["codification"] --> B5["découpage"]
     end
-
-    S --> F["Fusion.do<br/>(lancé à part)"]
+    subgraph L3["3. Apurement et fusion"]
+        direction LR
+        C1["ménage<br/>QM_S1 à S7"] --> C2["individu<br/>INDIV_S1 à S14"] -. "lancée à part" .-> C3["fusion"]
+    end
+    L1 --> L2 --> L3
 ```
+
+| Étape | Do-file | Rôle |
+| --- | --- | --- |
+| parentfile | `parentfile.do` | Racine, trimestre, chemins, journal |
+| initialisation | `00-initialisation_brute_depuis_staging.do` | Vide les sorties, copie `staging` vers `brute`, écrit `dataout/apurement_quarter.txt` |
+| protections | `00-protections_sauvegarde_brute.do` | Commandes `save_brute_*_safe` |
+| doublons | `00-suppression_doublons.do` | Retire les entretiens en double |
+| non-résidents | `00-suppression_non_residents.do` | Retire les non-résidents, synchronise ménages et individus |
+| individus invalides | `00-nettoyage_individus_brute.do` | Âge, sexe, `M4Confirm` |
+| autres à préciser | `01-traitrement_autres.do` | Recode les réponses « autre, à préciser » |
+| libellés | `Rename_label_var.do` | Libellés des variables binaires des questions à choix multiples |
+| codification | `00-codification_brute.do` | Codes CITP/CIAP, `branche1`, `branche2` |
+| découpage | `standard_db.do` | Une base par section dans `datain/standard` |
+| ménage | `01-QM_S1` à `01-QM_S7` | Apurement du questionnaire ménage |
+| individu | `01-INDIV_S1` à `01-INDIV_S14` | Apurement du questionnaire individuel |
+| fusion | `Fusion.do` | Bases finales ménage et individu (lancé à part) |
 
 Les sections non apurées pour le T1 2026 sont QM_S0 (identification), qui entre
 telle quelle dans la base ménage, et INDIV_S15 (disponibilité), absente des
