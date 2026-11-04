@@ -96,11 +96,49 @@ instructions_do <- function(fichier) {
 
 #' Exécute les instructions du fichier entre les lignes de et a. Renvoie d
 #' (qui peut être une nouvelle table si des lignes sont supprimées).
+#' Les boucles foreach/forvalues de premier niveau sont déroulées : le corps
+#' est exécuté pour chaque élément après substitution de la macro ; un replace
+#' de boucle est alors traduit directement (il figure dans
+#' referentiels/regles_non_traduites.csv).
 executer_plage <- function(d, fichier, regles_f, de, a) {
   ins <- instructions_do(fichier)
   ins <- ins[ins$ligne >= de & ins$ligne <= a, ]
-  for (k in seq_len(nrow(ins))) {
-    x <- ins[k, ]; cmd <- x$commande; corps <- x$corps
+  rvarlist <- character(0)
+  k <- 0L
+  while (k < nrow(ins)) {
+    k <- k + 1L
+    x <- ins[k, ]; cmd <- x$commande
+    if (cmd == "ds" && x$contexte == "") {
+      md <- regmatches(x$corps, regexec("^ds\\s*([^,]*?)\\s*(?:,\\s*(.*))?$", x$corps, perl = TRUE))[[1]]
+      base <- if (nzchar(md[[2]])) resoudre_varlist(md[[2]], names(d)) else names(d)
+      opt <- trimws(md[[3]])
+      rvarlist <- if (opt == "") base else if (grepl("^has\\(type string\\)$", opt))
+        base[vapply(base, function(v) is.character(d[[v]]), TRUE)] else stop(fichier, ":", x$ligne, " ds non pris en charge")
+      next
+    }
+    if (cmd %in% c("foreach", "forvalues") && x$contexte == "") {
+      j <- k + 1L
+      while (j <= nrow(ins) && !(ins$commande[[j]] == "}" && ins$contexte[[j]] == "boucle")) j <- j + 1L
+      corps_boucle <- if (j > k + 1L) ins[(k + 1L):(j - 1L), ] else ins[0, ]
+      mf <- regmatches(x$corps, regexec("^forvalues\\s+(\\w+)\\s*=\\s*(-?\\d+)\\s*/\\s*(-?\\d+)\\s*\\{$", x$corps))[[1]]
+      me <- regmatches(x$corps, regexec("^foreach\\s+(\\w+)\\s+(in|of\\s+varlist)\\s+(.*?)\\s*\\{$", x$corps, perl = TRUE))[[1]]
+      if (length(mf)) { macro <- mf[[2]]; elems <- as.character(seq(as.integer(mf[[3]]), as.integer(mf[[4]]))) }
+      else if (length(me)) {
+        macro <- me[[2]]; liste <- gsub("`r\\(varlist\\)'", paste(rvarlist, collapse = " "), me[[4]])
+        elems <- if (me[[3]] == "in") strsplit(trimws(liste), "\\s+")[[1]] else resoudre_varlist(liste, names(d))
+      } else stop(fichier, ":", x$ligne, " boucle non prise en charge : ", x$corps)
+      for (e in elems) for (b in seq_len(nrow(corps_boucle))) {
+        y <- corps_boucle[b, ]
+        y$corps <- gsub(paste0("`", macro, "'"), e, y$corps, fixed = TRUE)
+        if (y$commande %in% COMMANDES_LECTURE || y$commande == "}") next
+        if (!grepl("^boucle(>si)?$", y$contexte) || (y$contexte == "boucle>si" && y$commande != "replace"))
+          stop(fichier, ":", y$ligne, " boucle imbriquée non prise en charge")
+        if (y$contexte == "boucle>si") stop(fichier, ":", y$ligne, " replace dans un if de boucle")
+        d <- .executer_une(d, y, fichier, regles_f, character(0), dans_boucle = TRUE)
+      }
+      k <- j
+      next
+    }
     lecture <- cmd %in% COMMANDES_LECTURE && !(cmd %in% c("preserve", "restore", "include", "do", "run"))
     if (lecture) next
     if (x$contexte != "") stop(fichier, ":", x$ligne, " instruction modifiante dans un bloc (", x$contexte, ") : à porter à la main")
@@ -109,8 +147,22 @@ executer_plage <- function(d, fichier, regles_f, de, a) {
       mb <- regmatches(x$texte, regexec("(?:bys(?:o|or|ort)?|by)\\s+([^:]*):", x$texte, perl = TRUE))[[1]]
       by_prefixe <- resoudre_varlist(gsub("[()]", "", mb[[2]]), names(d))
     }
+    d <- .executer_une(d, x, fichier, regles_f, by_prefixe)
+  }
+  d
+}
+
+.executer_une <- function(d, x, fichier, regles_f, by_prefixe, dans_boucle = FALSE) {
+  cmd <- x$commande; corps <- x$corps
+  # Les fusions R ne créent pas de variable _merge : `drop _merge` est sans objet
+  if (cmd == "drop" && grepl("^drop\\s+_merge\\s*$", corps) && !"_merge" %in% names(d)) return(d)
+  {
     res <- tryCatch({
-      if (cmd == "replace") {
+      if (cmd == "replace" && dans_boucle) {
+        if (length(by_prefixe)) stop("by: replace non pris en charge")
+        rp <- decouper_replace(corps)
+        appliquer_replace(d, rp$variable, rp$valeur, rp$condition, x$capture, rp$observation)
+      } else if (cmd == "replace") {
         r <- regles_f[regles_f$ligne == x$ligne & regles_f$statut == "actif", ]
         if (!nrow(r)) stop("replace sans règle extraite")
         if (length(by_prefixe)) stop("by: replace non pris en charge")

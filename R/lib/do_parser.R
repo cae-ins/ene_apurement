@@ -202,5 +202,5 @@ COMMANDES_LECTURE <- c(
   "capture", "cls", "mean", "ds", "lookfor", "pause", "more", "exit", "end",
   "program", "args", "confirm", "macro", "return", "ereturn", "include",
   "do", "run", "which", "ssc", "net", "mkdir", "erase", "copy", "else", "if",
-  "foreach", "forvalues", "while", "window", "preserve", "restore", "#"
+  "foreach", "forvalues", "while", "window", "preserve", "restore", "#", "ed", "edit"
 )

@@ -36,6 +36,40 @@ fusionner_garder_apparies <- function(m, d, cles, vars) {
   r
 }
 
+#' Emule `merge 1:1 ... using <d>, keepus(vars) keep(master match)` : toutes
+#' les lignes de la base maître, variables ajoutées manquantes sans appariement.
+fusionner_garder_maitre <- function(m, d, cles, vars) {
+  d <- data.table::as.data.table(d)
+  vars <- unique(vapply(vars, resoudre_variable, "", noms_base = names(d)))
+  ajout <- intersect(names(d), setdiff(vars, names(m)))
+  cm <- do.call(paste, c(lapply(cles, function(k) as.character(m[[k]])), sep = "\r"))
+  cd <- do.call(paste, c(lapply(cles, function(k) as.character(d[[k]])), sep = "\r"))
+  idx <- match(cm, cd)
+  r <- data.table::copy(m)
+  for (v in ajout) {
+    x <- extraire_lignes(d[[v]], idx)
+    if (is.character(x)) x[is.na(idx)] <- ""
+    data.table::set(r, j = v, value = x)
+  }
+  data.table::setorderv(r, cles)
+  r
+}
+
+#' Emule `merge 1:m <cles> using <d>` suivi de `drop if _merge != 3` : une
+#' ligne par ligne appariée de `d` ; variables de la base maître puis
+#' variables propres à `d` (dans l'ordre de `d`) ; tri par les clés.
+fusionner_1_m <- function(m, d, cles) {
+  d <- data.table::as.data.table(d)
+  cm <- do.call(paste, c(lapply(cles, function(k) as.character(m[[k]])), sep = "\r"))
+  cd <- do.call(paste, c(lapply(cles, function(k) as.character(d[[k]])), sep = "\r"))
+  if (anyDuplicated(cm)) stop("merge 1:m : clés non uniques dans la base maître")
+  im <- match(cd, cm); garde <- which(!is.na(im))
+  r <- m[im[garde]]
+  for (v in setdiff(names(d), names(m))) data.table::set(r, j = v, value = extraire_lignes(d[[v]], garde))
+  data.table::setorderv(r, cles)
+  r
+}
+
 #' Emule `merge 1:1 <cles> using <u>, update replace keep(1 3 4 5) nogen` :
 #' pour les lignes appariées, toute valeur non manquante de `u` remplace celle
 #' de la base maître (les manquants de `u` ne remplacent jamais) ; les lignes

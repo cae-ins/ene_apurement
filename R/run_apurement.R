@@ -34,7 +34,7 @@ drapeau <- function(n) paste0("--", n) %in% a
 
 trimestre <- verifier_trimestre(arg("quarter", Sys.getenv("ENE_QUARTER", "")))
 ch <- chemins_apurement(trimestre, RACINE_DEPOT)
-jusqua <- arg("jusqua", "INDIV_S3")
+jusqua <- arg("jusqua", "INDIV_S14")
 parite <- drapeau("parite"); ecrire <- drapeau("ecrire")
 dossier_ref <- file.path(RACINE_DEPOT, "referentiels")
 regles <- charger_regles(dossier_ref)
@@ -76,7 +76,7 @@ controler_brute <- function(etape) {
 
 ETAPES <- c("initialisation", "doublons", "non_residents", "nettoyage", "traitement_autres",
             "rename_label", "codification", "standard_db", "QM_S1", "QM_S2", "QM_S3",
-            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2", "INDIV_S3")
+            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2", "INDIV_S3", paste0("INDIV_S", 4:14))
 if (!jusqua %in% ETAPES) stop("Étape inconnue : ", jusqua, " (", paste(ETAPES, collapse = ", "), ")")
 faire <- function(e) match(e, ETAPES) <= match(jusqua, ETAPES)
 chrono <- function(e, expr) { t0 <- Sys.time(); force(expr)
@@ -153,6 +153,29 @@ SECTIONS$INDIV_S3 <- list(f = function() etape_INDIV_S3(etat, regles), sortie = 
     controler("INDIV_S3", "Revenu", etat$sortie_rosters$Revenu, file.path(ch$ref_dataout, "Revenu.dta"),
               c(k2, "Revenu__id"), section = TRUE)
   })
+# Sections INDIV_S4 à S14 : sortie dataout/standard/individu + rosters dataout/
+cles_roster <- function(d) c("interview__key", setdiff(grep("__id$", names(d), value = TRUE), "interview__id"))
+controler_rosters <- function(sec, noms) for (n in noms)
+  controler(sec, n, etat$sortie_rosters[[n]], file.path(ch$ref_dataout, paste0(n, ".dta")),
+            cles_roster(etat$sortie_rosters[[n]]), section = TRUE)
+SORTIES_INDIV <- c(INDIV_S4 = "INDIV_S4_competences_qualifications", INDIV_S5 = "INDIV_S5_pluriactivite",
+                   INDIV_S6 = "INDIV_S6_emploi_secondaire", INDIV_S7 = "INDIV_S7_temps_travail",
+                   INDIV_S8 = "INDIV_S8_emploi_inadequat", INDIV_S9 = "INDIV_S9_recherche_emploi",
+                   INDIV_S10 = "INDIV_S10_recherche_emploi_disponibilite", INDIV_S11 = "INDIV_S11_chomage",
+                   INDIV_S12 = "INDIV_S12_emploi_anterieur", INDIV_S13 = "INDIV_S13_revenu_hors_emploi",
+                   INDIV_S14 = "INDIV_S14_activite_parents")
+ROSTERS_SECTION <- list(INDIV_S4 = "r_competence_quali", INDIV_S5 = "r_activite_s", INDIV_S6 = "Revenu_es",
+                        INDIV_S13 = "r_revenu_h_emp", INDIV_S14 = "Activiteparent")
+for (sec in names(SORTIES_INDIV)) local({
+  s <- sec
+  SECTIONS[[s]] <<- list(f = function() get(paste0("etape_", s))(etat, regles), sortie = SORTIES_INDIV[[s]],
+    individu = TRUE, extra = function() {
+      if (!is.null(ROSTERS_SECTION[[s]])) controler_rosters(s, ROSTERS_SECTION[[s]])
+      if (s == "INDIV_S6")
+        controler(s, "datain_standard_INDIV_S6", etat$standard$INDIV_S6_emploi_secondaire,
+                  file.path(ch$ref_standard_in, "INDIV_S6_emploi_secondaire.dta"), c("interview__key", "membres__id"), section = TRUE)
+    })
+})
 for (sec in names(SECTIONS)) {
   if (!faire(sec)) next
   chrono(sec, SECTIONS[[sec]]$f())
