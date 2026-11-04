@@ -59,3 +59,10 @@ include "$dofiles/Rename_label_var.do"
 include "$dofiles/00-codification_brute.do"
 snap 05_codification
 log close
+* Etat apres standard_db.do (les sections S3 et S6 reecrivent ensuite
+* datain/standard : la reference finale ne vaut donc pas pour ces deux bases)
+global datain_standard "$folderpath/snap/06_standard_db"
+cap mkdir "$datain_standard"
+log using "$folderpath/trace_ref_standard.log", replace text
+include "$dofiles/standard_db.do"
+log close

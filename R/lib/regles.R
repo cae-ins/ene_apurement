@@ -141,7 +141,9 @@ appliquer_regles <- function(dt, regles, fichier, de = 0L, a = .Machine$integer.
                              journal = NULL) {
   r <- regles[regles$fichier_do == fichier & regles$ligne >= de & regles$ligne <= a &
                 regles$statut == "actif", , drop = FALSE]
-  r <- r[order(r$ligne), , drop = FALSE]
+  # ordre d'exécution Stata (les règles déroulées d'une boucle foreach sont
+  # ordonnées élément par élément entre la ligne du foreach et la suivante)
+  r <- r[order(r$ordre), , drop = FALSE]
   n_chg <- integer(nrow(r))
   for (k in seq_len(nrow(r))) {
     n_chg[[k]] <- appliquer_replace(dt, r$variable[[k]], r$valeur_cible[[k]],
@@ -161,13 +163,14 @@ charger_regles <- function(dossier_ref) {
                          encoding = "UTF-8", na.strings = character(0),
                          colClasses = "character")
     d$ligne <- as.integer(d$ligne)
+    d$ordre <- as.double(d$ordre)
     d$capture <- d$capture == "TRUE"
     d
   }
   rec <- lire("recodages_texte.csv")
   cor <- lire("corrections_cas.csv")
   cor$observation <- ""
-  champs <- c("id_regle", "fichier_do", "ligne", "base", "variable", "valeur_cible",
+  champs <- c("id_regle", "fichier_do", "ligne", "ordre", "base", "variable", "valeur_cible",
               "condition", "observation", "capture", "statut")
   rbind(rec[, champs], cor[, champs])
 }

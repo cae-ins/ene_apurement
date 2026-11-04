@@ -71,51 +71,82 @@ for (f in fichiers) {
   inv[[f]] <- ins[modif, c("fichier_do", "ligne", "ligne_fin", "commande", "contexte",
                            "prefixe_by", "capture", "base", "bloc_sauve", "corps")]
 
-  rp <- ins[ins$commande == "replace", ]
+  # Boucles `foreach <m> in <liste> {` de premier niveau dont le corps ne
+  # contient que des replace et des commandes de lecture : déroulées.
+  boucles <- list()
+  for (i in which(ins$commande == "foreach" & ins$contexte == "")) {
+    mm <- regmatches(ins$corps[[i]], regexec("^foreach\\s+(\\w+)\\s+in\\s+(.+?)\\s*\\{$", ins$corps[[i]], perl = TRUE))[[1]]
+    j <- i + 1L
+    while (j <= nrow(ins) && !(ins$commande[[j]] == "}" && ins$contexte[[j]] == "boucle")) j <- j + 1L
+    corps_ok <- j > i + 1L && all(ins$contexte[(i + 1L):(j - 1L)] == "boucle") &&
+      all(ins$commande[(i + 1L):(j - 1L)] %in% c("replace", COMMANDES_LECTURE))
+    elems <- if (length(mm)) strsplit(trimws(mm[[3]]), "\\s+")[[1]] else character(0)
+    if (length(mm) && corps_ok && !any(grepl("[*\"`$-]", elems)))
+      for (k in (i + 1L):(j - 1L)) boucles[[as.character(k)]] <- list(macro = mm[[2]], elems = elems, debut = ins$ligne[[i]])
+  }
+
+  rp <- which(ins$commande == "replace")
   n_ok <- 0L
-  for (k in seq_len(nrow(rp))) {
-    x <- rp[k, ]
+  for (k in rp) {
+    x <- ins[k, ]
     id <- sprintf("%s:%d", sub("\\.do$", "", f), x$ligne)
     raison <- ""
     if (x$contexte != "") raison <- paste0("dans un bloc (", x$contexte, ")")
     if (x$prefixe_by) raison <- "préfixe by"
-    d <- NULL
+    # variantes : une seule (premier niveau) ou une par élément de boucle
+    b <- boucles[[as.character(k)]]
+    if (!is.null(b) && x$contexte == "boucle" && !x$prefixe_by) {
+      raison <- ""
+      var_corps <- vapply(b$elems, function(e) gsub(paste0("`", b$macro, "'"), e, x$corps, fixed = TRUE), "")
+      var_id <- paste0(id, ":", b$elems)
+      var_ordre <- b$debut + (seq_along(b$elems) * 1000 + (x$ligne - b$debut)) / 1e7
+    } else {
+      var_corps <- x$corps; var_id <- id; var_ordre <- x$ligne
+    }
+    dl <- list()
     if (!nzchar(raison)) {
-      d <- tryCatch(decouper_replace(x$corps), error = function(e) { raison <<- conditionMessage(e); NULL })
+      for (v in seq_along(var_corps)) {
+        d <- tryCatch(decouper_replace(var_corps[[v]]), error = function(e) { raison <<- conditionMessage(e); NULL })
+        if (is.null(d)) break
+        ok <- tryCatch({ traduire_expr_stata(d$valeur)
+          if (nzchar(d$condition)) traduire_expr_stata(d$condition); TRUE },
+          error = function(e) { raison <<- conditionMessage(e); FALSE })
+        if (!ok) break
+        dl[[v]] <- d
+      }
     }
-    if (!is.null(d)) {
-      ok <- tryCatch({ traduire_expr_stata(d$valeur)
-        if (nzchar(d$condition)) traduire_expr_stata(d$condition); TRUE },
-        error = function(e) { raison <<- conditionMessage(e); FALSE })
-      if (!ok) d <- NULL
-    }
-    if (is.null(d)) {
+    if (nzchar(raison) || length(dl) < length(var_corps)) {
       nt[[length(nt) + 1L]] <- data.frame(id_regle = id, fichier_do = f, ligne = x$ligne,
         ligne_fin = x$ligne_fin, raison = raison, texte = x$corps, stringsAsFactors = FALSE)
       next
     }
     n_ok <- n_ok + 1L
     statut <- if (!x$bloc_sauve) "bloc_non_sauvegarde" else "actif"
+    for (v in seq_along(dl)) {
+    d <- dl[[v]]; id_v <- var_id[[v]]; ordre <- sprintf("%.7f", var_ordre[[v]])
     cle <- regmatches(d$condition, regexec('interview__key\\s*==\\s*"([^"]+)"', d$condition))[[1]]
     if (length(cle)) {
       mid <- regmatches(d$condition, regexec("membres__id\\s*==\\s*([0-9]+)", d$condition))[[1]]
-      cor[[length(cor) + 1L]] <- data.frame(id_regle = id, fichier_do = f, ligne = x$ligne,
+      cor[[length(cor) + 1L]] <- data.frame(id_regle = id_v, id_instruction = id, ordre = ordre,
+        fichier_do = f, ligne = x$ligne,
         ligne_fin = x$ligne_fin, base = x$base, interview__key = cle[[2]],
         membres__id = if (length(mid)) mid[[2]] else "", variable = d$variable,
         valeur_cible = d$valeur, condition = d$condition, capture = x$capture,
         statut = statut, trimestre_origine = trimestre, stringsAsFactors = FALSE)
     } else {
       simple <- regmatches(d$condition, regexec('^\\(?\\s*([\\p{L}_][\\p{L}\\p{N}_]*)\\s*==\\s*"([^"]*)"\\s*\\)?$', d$condition, perl = TRUE))[[1]]
-      rec[[length(rec) + 1L]] <- data.frame(id_regle = id, fichier_do = f, ligne = x$ligne,
+      rec[[length(rec) + 1L]] <- data.frame(id_regle = id_v, id_instruction = id, ordre = ordre,
+        fichier_do = f, ligne = x$ligne,
         ligne_fin = x$ligne_fin, base = x$base, variable = d$variable, valeur_cible = d$valeur,
         variable_source = if (length(simple)) simple[[2]] else "",
         valeur_source = if (length(simple)) simple[[3]] else "",
         condition = d$condition, observation = d$observation,
         capture = x$capture, statut = statut, stringsAsFactors = FALSE)
     }
+    }
   }
-  cpt[[f]] <- data.frame(fichier_do = f, replace_actifs = nrow(rp), extraits = n_ok,
-                         non_traduits = nrow(rp) - n_ok, stringsAsFactors = FALSE)
+  cpt[[f]] <- data.frame(fichier_do = f, replace_actifs = length(rp), extraits = n_ok,
+                         non_traduits = length(rp) - n_ok, stringsAsFactors = FALSE)
 }
 
 ecrire <- function(l, nom) {

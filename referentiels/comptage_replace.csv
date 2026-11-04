@@ -9,7 +9,7 @@
 "00-codification_brute.do",6,6,0
 "standard_db.do",0,0,0
 "01-QM_S1_composition_menage.do",772,770,2
-"01-QM_S2_education_formation.do",90,87,3
+"01-QM_S2_education_formation.do",90,90,0
 "01-QM_S3_formation_professionnelle.do",7,7,0
 "01-QM_S4_immigration.do",4,4,0
 "01-QM_S5_emmigration.do",1,0,1

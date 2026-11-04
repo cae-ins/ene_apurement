@@ -13,7 +13,9 @@ dbl <- lire("doublons_a_supprimer.csv")
 test_that("comptage : replace actifs = extraits + non traduits, par fichier", {
   cpt[, 2:4] <- lapply(cpt[, 2:4], as.integer)
   expect_equal(cpt$replace_actifs, cpt$extraits + cpt$non_traduits)
-  n_ext <- table(factor(c(rec$fichier_do, cor$fichier_do), levels = cpt$fichier_do))
+  # une instruction déroulée (foreach) donne une règle par élément
+  inst <- unique(rbind(rec[, c("id_instruction", "fichier_do")], cor[, c("id_instruction", "fichier_do")]))
+  n_ext <- table(factor(inst$fichier_do, levels = cpt$fichier_do))
   expect_equal(as.integer(n_ext), cpt$extraits)
   n_nt <- table(factor(nt$fichier_do, levels = cpt$fichier_do))
   expect_equal(as.integer(n_nt), cpt$non_traduits)
@@ -21,6 +23,14 @@ test_that("comptage : replace actifs = extraits + non traduits, par fichier", {
 
 test_that("identifiants de règle uniques", {
   expect_false(any(duplicated(c(rec$id_regle, cor$id_regle, nt$id_regle))))
+})
+
+test_that("les règles déroulées d'une boucle restent entre le foreach et l'instruction suivante", {
+  b <- rec[grepl(":[^:]+:[^:]+$", rec$id_regle), ]
+  skip_if(!nrow(b))
+  o <- as.double(b$ordre)
+  expect_true(all(o > floor(o)))
+  expect_true(all(floor(o) < as.integer(b$ligne)))
 })
 
 test_that("01-traitrement_autres.do est entièrement extrait (12 392 replace actifs)", {
