@@ -66,3 +66,11 @@ cap mkdir "$datain_standard"
 log using "$folderpath/trace_ref_standard.log", replace text
 include "$dofiles/standard_db.do"
 log close
+* Etat apres INDIV_S1 et INDIV_S2 (S3 met ensuite a jour INDIV_S2)
+global standard_individu "$folderpath/snap/07_indiv_S1_S2"
+global standard_menage "$folderpath/snap/07_indiv_S1_S2"
+cap mkdir "$standard_individu"
+log using "$folderpath/trace_ref_indiv12.log", replace text
+include "$dofiles/01-INDIV_S1_autres_formes_travail.do"
+include "$dofiles/01-INDIV_S2_situation_emploi.do"
+log close

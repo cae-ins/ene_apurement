@@ -34,7 +34,7 @@ drapeau <- function(n) paste0("--", n) %in% a
 
 trimestre <- verifier_trimestre(arg("quarter", Sys.getenv("ENE_QUARTER", "")))
 ch <- chemins_apurement(trimestre, RACINE_DEPOT)
-jusqua <- arg("jusqua", "QM_S7")
+jusqua <- arg("jusqua", "INDIV_S2")
 parite <- drapeau("parite"); ecrire <- drapeau("ecrire")
 dossier_ref <- file.path(RACINE_DEPOT, "referentiels")
 regles <- charger_regles(dossier_ref)
@@ -76,7 +76,7 @@ controler_brute <- function(etape) {
 
 ETAPES <- c("initialisation", "doublons", "non_residents", "nettoyage", "traitement_autres",
             "rename_label", "codification", "standard_db", "QM_S1", "QM_S2", "QM_S3",
-            "QM_S4", "QM_S5", "QM_S6", "QM_S7")
+            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2")
 if (!jusqua %in% ETAPES) stop("Étape inconnue : ", jusqua, " (", paste(ETAPES, collapse = ", "), ")")
 faire <- function(e) match(e, ETAPES) <= match(jusqua, ETAPES)
 chrono <- function(e, expr) { t0 <- Sys.time(); force(expr)
@@ -136,12 +136,24 @@ SECTIONS <- list(
                cles = c("interview__key", "emigration__id")),
   QM_S6 = list(f = function() etape_QM_S6(etat, regles), sortie = "QM_S6_difficultes_fonctionnelles"),
   QM_S7 = list(f = function() etape_QM_S7(etat, regles), sortie = "QM_S7_logement", cles = "interview__key"))
+SECTIONS$INDIV_S1 <- list(f = function() etape_INDIV_S1(etat, regles), sortie = "INDIV_S1_autres_formes_travail",
+                          individu = TRUE)
+# INDIV_S2 est réécrite par la section S3 : référence = état intermédiaire
+# Stata après S2 (ENE_REF_DIR/07_indiv_S1_S2) si disponible.
+SECTIONS$INDIV_S2 <- list(f = function() etape_INDIV_S2(etat, regles), sortie = "INDIV_S2_situation_emploi",
+                          individu = TRUE, ref_inter = "07_indiv_S1_S2")
 for (sec in names(SECTIONS)) {
   if (!faire(sec)) next
   chrono(sec, SECTIONS[[sec]]$f())
-  nom <- SECTIONS[[sec]]$sortie
-  controler(sec, nom, etat$sortie_menage[[nom]], file.path(ch$ref_standard_menage, paste0(nom, ".dta")),
-            SECTIONS[[sec]]$cles %||% c("interview__key", "membres__id"), section = TRUE)
+  S <- SECTIONS[[sec]]; nom <- S$sortie
+  base_r <- if (isTRUE(S$individu)) etat$sortie_individu[[nom]] else etat$sortie_menage[[nom]]
+  ref <- file.path(if (isTRUE(S$individu)) ch$ref_standard_individu else ch$ref_standard_menage, paste0(nom, ".dta"))
+  if (!is.null(S$ref_inter)) {
+    ri <- ref_inter(S$ref_inter, paste0(nom, ".dta"))
+    if (nzchar(ri) && file.exists(ri)) ref <- ri else
+      cat("  [parité] ", nom, " : référence intermédiaire absente, comparaison au run final (écarts attendus)\n")
+  }
+  controler(sec, nom, base_r, ref, S$cles %||% c("interview__key", "membres__id"), section = TRUE)
 }
 
 if (ecrire) {
