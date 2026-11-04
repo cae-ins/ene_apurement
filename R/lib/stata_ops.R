@@ -36,6 +36,25 @@ fusionner_garder_apparies <- function(m, d, cles, vars) {
   r
 }
 
+#' Emule `merge 1:1 <cles> using <u>, update replace keep(1 3 4 5) nogen` :
+#' pour les lignes appariées, toute valeur non manquante de `u` remplace celle
+#' de la base maître (les manquants de `u` ne remplacent jamais) ; les lignes
+#' propres à `u` sont écartées ; la base est triée par les clés.
+fusion_update_replace <- function(m, u, cles, vars) {
+  m <- data.table::copy(m)
+  cm <- do.call(paste, c(lapply(cles, function(k) as.character(m[[k]])), sep = "\r"))
+  cu <- do.call(paste, c(lapply(cles, function(k) as.character(u[[k]])), sep = "\r"))
+  idx <- match(cm, cu)
+  for (v in vars) {
+    nv <- u[[v]][idx]
+    remp <- !is.na(idx) & !st_vrai(stf_missing(nv))
+    remp[is.na(remp)] <- FALSE
+    if (any(remp)) affecter(m, v, which(remp), if (is.character(nv)) nv[remp] else as.double(unclass(nv))[remp])
+  }
+  data.table::setorderv(m, cles)
+  m
+}
+
 #' egen <v> = max(x), by(g) : maximum des non manquants (manquant si aucun).
 egen_max <- function(x, g) {
   v <- as.double(unclass(x)); attributes(v) <- NULL
@@ -74,6 +93,9 @@ egen_si <- function(x, sel, stat, g = NULL) {
   f <- switch(stat,
     median = function(z) { z <- z[!is.na(z)]; if (length(z)) stats::median(z) else NA_real_ },
     max = function(z) { z <- z[!is.na(z)]; if (length(z)) max(z) else NA_real_ },
+    min = function(z) { z <- z[!is.na(z)]; if (length(z)) min(z) else NA_real_ },
+    total = function(z) sum(z, na.rm = TRUE),
+    mean = function(z) { z <- z[!is.na(z)]; if (length(z)) mean(z) else NA_real_ },
     mode = function(z) { z <- z[!is.na(z)]; if (!length(z)) return(NA_real_)
       t <- table(z); m <- which(t == max(t)); if (length(m) > 1L) NA_real_ else as.double(names(t)[m]) })
   i <- which(sel)

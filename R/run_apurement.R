@@ -22,7 +22,7 @@ local({
   assign("RACINE_DEPOT", racine, envir = globalenv())
 })
 suppressPackageStartupMessages(library(data.table))
-for (f in c("do_parser.R", "stata_expr.R", "regles.R", "io.R", "anomalies.R", "stata_ops.R"))
+for (f in c("do_parser.R", "stata_expr.R", "regles.R", "io.R", "anomalies.R", "stata_ops.R", "interpreteur.R"))
   source(file.path(RACINE_DEPOT, "R", "lib", f), encoding = "UTF-8")
 source(file.path(RACINE_DEPOT, "R", "parite.R"), encoding = "UTF-8")
 for (f in sort(list.files(file.path(RACINE_DEPOT, "R", "etapes"), "\\.R$", full.names = TRUE)))
@@ -34,7 +34,7 @@ drapeau <- function(n) paste0("--", n) %in% a
 
 trimestre <- verifier_trimestre(arg("quarter", Sys.getenv("ENE_QUARTER", "")))
 ch <- chemins_apurement(trimestre, RACINE_DEPOT)
-jusqua <- arg("jusqua", "INDIV_S2")
+jusqua <- arg("jusqua", "INDIV_S3")
 parite <- drapeau("parite"); ecrire <- drapeau("ecrire")
 dossier_ref <- file.path(RACINE_DEPOT, "referentiels")
 regles <- charger_regles(dossier_ref)
@@ -76,7 +76,7 @@ controler_brute <- function(etape) {
 
 ETAPES <- c("initialisation", "doublons", "non_residents", "nettoyage", "traitement_autres",
             "rename_label", "codification", "standard_db", "QM_S1", "QM_S2", "QM_S3",
-            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2")
+            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2", "INDIV_S3")
 if (!jusqua %in% ETAPES) stop("Étape inconnue : ", jusqua, " (", paste(ETAPES, collapse = ", "), ")")
 faire <- function(e) match(e, ETAPES) <= match(jusqua, ETAPES)
 chrono <- function(e, expr) { t0 <- Sys.time(); force(expr)
@@ -142,6 +142,17 @@ SECTIONS$INDIV_S1 <- list(f = function() etape_INDIV_S1(etat, regles), sortie = 
 # Stata après S2 (ENE_REF_DIR/07_indiv_S1_S2) si disponible.
 SECTIONS$INDIV_S2 <- list(f = function() etape_INDIV_S2(etat, regles), sortie = "INDIV_S2_situation_emploi",
                           individu = TRUE, ref_inter = "07_indiv_S1_S2")
+SECTIONS$INDIV_S3 <- list(f = function() etape_INDIV_S3(etat, regles), sortie = "INDIV_S3_emploi_principal",
+  individu = TRUE, extra = function() {
+    k2 <- c("interview__key", "membres__id")
+    # INDIV_S2 après ses deux mises à jour par S3 = sortie finale Stata
+    controler("INDIV_S3", "INDIV_S2_apres_S3", etat$sortie_individu$INDIV_S2_situation_emploi,
+              file.path(ch$ref_standard_individu, "INDIV_S2_situation_emploi.dta"), k2, section = TRUE)
+    controler("INDIV_S3", "datain_standard_INDIV_S3", etat$standard$INDIV_S3_emploi_principal,
+              file.path(ch$ref_standard_in, "INDIV_S3_emploi_principal.dta"), k2, section = TRUE)
+    controler("INDIV_S3", "Revenu", etat$sortie_rosters$Revenu, file.path(ch$ref_dataout, "Revenu.dta"),
+              c(k2, "Revenu__id"), section = TRUE)
+  })
 for (sec in names(SECTIONS)) {
   if (!faire(sec)) next
   chrono(sec, SECTIONS[[sec]]$f())
@@ -154,6 +165,7 @@ for (sec in names(SECTIONS)) {
       cat("  [parité] ", nom, " : référence intermédiaire absente, comparaison au run final (écarts attendus)\n")
   }
   controler(sec, nom, base_r, ref, S$cles %||% c("interview__key", "membres__id"), section = TRUE)
+  if (!is.null(S$extra)) S$extra()
 }
 
 if (ecrire) {
