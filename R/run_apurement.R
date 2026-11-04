@@ -34,7 +34,7 @@ drapeau <- function(n) paste0("--", n) %in% a
 
 trimestre <- verifier_trimestre(arg("quarter", Sys.getenv("ENE_QUARTER", "")))
 ch <- chemins_apurement(trimestre, RACINE_DEPOT)
-jusqua <- arg("jusqua", "QM_S6")
+jusqua <- arg("jusqua", "QM_S7")
 parite <- drapeau("parite"); ecrire <- drapeau("ecrire")
 dossier_ref <- file.path(RACINE_DEPOT, "referentiels")
 regles <- charger_regles(dossier_ref)
@@ -76,7 +76,7 @@ controler_brute <- function(etape) {
 
 ETAPES <- c("initialisation", "doublons", "non_residents", "nettoyage", "traitement_autres",
             "rename_label", "codification", "standard_db", "QM_S1", "QM_S2", "QM_S3",
-            "QM_S4", "QM_S5", "QM_S6")
+            "QM_S4", "QM_S5", "QM_S6", "QM_S7")
 if (!jusqua %in% ETAPES) stop("Étape inconnue : ", jusqua, " (", paste(ETAPES, collapse = ", "), ")")
 faire <- function(e) match(e, ETAPES) <= match(jusqua, ETAPES)
 chrono <- function(e, expr) { t0 <- Sys.time(); force(expr)
@@ -134,7 +134,8 @@ SECTIONS <- list(
   QM_S4 = list(f = function() etape_QM_S4(etat, regles), sortie = "QM_S4_immigration"),
   QM_S5 = list(f = function() etape_QM_S5(etat, regles), sortie = "QM_S5_emmigration",
                cles = c("interview__key", "emigration__id")),
-  QM_S6 = list(f = function() etape_QM_S6(etat, regles), sortie = "QM_S6_difficultes_fonctionnelles"))
+  QM_S6 = list(f = function() etape_QM_S6(etat, regles), sortie = "QM_S6_difficultes_fonctionnelles"),
+  QM_S7 = list(f = function() etape_QM_S7(etat, regles), sortie = "QM_S7_logement", cles = "interview__key"))
 for (sec in names(SECTIONS)) {
   if (!faire(sec)) next
   chrono(sec, SECTIONS[[sec]]$f())

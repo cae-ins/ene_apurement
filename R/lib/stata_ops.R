@@ -62,6 +62,34 @@ egen_mode <- function(x, g) {
   })
 }
 
+#' egen <v> = <stat>(x) [if sel], [by(g)] : statistique calculée sur les seules
+#' lignes `sel` (par groupe g, manquants de g formant un groupe), manquante
+#' ailleurs. `stat` : "median" (moyenne des deux valeurs centrales si n pair,
+#' comme Stata), "mode" (manquant si plusieurs modes), "max".
+egen_si <- function(x, sel, stat, g = NULL) {
+  v <- as.double(unclass(x)); attributes(v) <- NULL
+  r <- rep(NA_real_, length(v))
+  if (!any(sel)) return(r)
+  gg <- if (is.null(g)) rep("", length(v)) else { k <- as.character(unclass(g)); k[is.na(k)] <- "<NA>"; k }
+  f <- switch(stat,
+    median = function(z) { z <- z[!is.na(z)]; if (length(z)) stats::median(z) else NA_real_ },
+    max = function(z) { z <- z[!is.na(z)]; if (length(z)) max(z) else NA_real_ },
+    mode = function(z) { z <- z[!is.na(z)]; if (!length(z)) return(NA_real_)
+      t <- table(z); m <- which(t == max(t)); if (length(m) > 1L) NA_real_ else as.double(names(t)[m]) })
+  i <- which(sel)
+  r[i] <- stats::ave(v[i], gg[i], FUN = f)
+  # egen crée une variable float : arrondi en simple précision
+  r[i] <- en_float(r[i])
+  r
+}
+
+#' Arrondi en simple précision (type float de Stata).
+en_float <- function(v) {
+  ok <- !is.na(v)
+  if (any(ok)) v[ok] <- readBin(writeBin(v[ok], raw(), size = 4), "double", n = sum(ok), size = 4)
+  v
+}
+
 #' gen <v> = expr [if cond] : manquant hors condition.
 gen_si <- function(valeur, condition) {
   v <- as.double(unclass(valeur)); attributes(v) <- NULL
