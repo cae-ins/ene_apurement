@@ -95,7 +95,15 @@ affecter <- function(dt, var, idx, val) {
     if (is.character(val)) stop("type mismatch : ", var, " est numérique", call. = FALSE)
     x <- unclass(col)
     if (!is.double(x)) { x <- as.double(x); attrs$class <- attrs$class }
-    val <- as.double(unclass(val))
+    val <- as.double(unclass(val)); attributes(val) <- NULL
+    # Précision de stockage Stata : une variable float stocke en simple
+    # précision ; byte/int/long recevant un non-entier sont promues en float.
+    ty <- attrs$stata_type
+    if (!is.null(ty)) {
+      nonent <- !is.na(val) & val != trunc(val)
+      if (ty %in% c("byte", "int", "long") && any(nonent)) { ty <- "float"; attrs$stata_type <- "float" }
+      if (ty == "float") val <- en_float(val)
+    }
   }
   attributes(x) <- NULL
   x[idx] <- val

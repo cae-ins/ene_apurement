@@ -43,8 +43,20 @@ egen par ménage…) sont portées à la main et annotées `# do: <fichier>:<lig
 | 8 | `standard_db.do` | `etape_standard_db` (`etapes/03_standard_db.R`) | membres, QX_EEC_VF, emigration | `datain/standard/QM_*`, `INDIV_*` (23 bases) | porté, conforme |
 | 9 | `01-QM_S1_composition_menage.do` | `etape_QM_S1` (`etapes/10_QM_S1.R`) | standard QM_S1, QM_S0, INDIV_S1, membres + `corrections_cas.csv` | `dataout/standard/menage/QM_S1_composition_menage.dta` | porté, conforme (ordre des lignes : voir plus bas) |
 | 10–15 | `01-QM_S2` … `01-QM_S7` | `etape_QM_S2` … `etape_QM_S7` (`etapes/11_QM_S2_S3.R`, `12_QM_S4_S5_S6.R`, `13_QM_S7.R`) | sections standard, QX_EEC_VF, membres | `dataout/standard/menage/` | portés, conformes |
-| 16–29 | `01-INDIV_S1` … `01-INDIV_S14` | à porter | | `dataout/standard/individu/` + rosters `dataout/*.dta` | à faire |
-| — | `Fusion.do` (lancé à part) | à porter | sorties standard | `dataout/menage/qx_eec_vf.dta`, `dataout/individu/membres.dta` | à faire |
+| 16–17 | `01-INDIV_S1`, `01-INDIV_S2` | `etape_INDIV_S1/S2` (`etapes/20_INDIV_S1_S2.R`) | sections standard, membres | `dataout/standard/individu/` | portés, conformes (S2 : contre l'état intermédiaire, S3 la met à jour) |
+| 18 | `01-INDIV_S3_emploi_principal.do` | `etape_INDIV_S3` (`etapes/21_INDIV_S3.R`) | idem + roster Revenu | INDIV_S3, mise à jour d'INDIV_S2, `datain/standard/INDIV_S3`, `dataout/Revenu.dta` | porté, conforme |
+| 19–29 | `01-INDIV_S4` … `01-INDIV_S14` | `etape_INDIV_S4` … `S14` (`etapes/22_INDIV_S4_S14.R`) | idem + rosters | `dataout/standard/individu/`, `dataout/{r_competence_quali,r_activite_s,Revenu_es,r_revenu_h_emp,Activiteparent}.dta`, `datain/standard/INDIV_S6` | portés, conformes |
+| — | `Fusion.do` (lancé à part) | `etape_fusion` (`etapes/30_fusion.R`) | sorties standard | `dataout/menage/qx_eec_vf.dta`, `dataout/individu/membres.dta` | porté, conforme |
+
+Depuis INDIV_S3, les sections passent par un interpréteur d'instructions
+simples (`R/lib/interpreteur.R`) : `replace` (tables de règles), `gen`, `egen`
+(median, mode, max, min, total, mean, rownonmiss, avec `if` et `by`), `drop`,
+`cap drop` (tout ou rien, comme Stata), `order`, `label var`, boucles
+`foreach`/`forvalues` déroulées. Il s'arrête sur toute autre commande ; les
+merges, `preserve` et mises à jour de bases sont portés à la main dans
+l'étape. Le type de stockage Stata (lu dans l'en-tête .dta) est conservé :
+un `replace` dans une variable float arrondit en simple précision, et une
+variable entière recevant un non-entier est promue en float, comme Stata.
 
 Les ~250 `export excel` de listes d'anomalies (jamais relus par la chaîne)
 passent par une seule fonction, `exporter_anomalies()` (`R/lib/anomalies.R`),
@@ -78,10 +90,11 @@ plus `synthese_parite.csv`). `R/parite.R` s'utilise aussi seul :
 
 ## Parité T1_2026 (état au 4 nov. 2026)
 
-Toutes les bases produites par R jusqu'à QM_S7 sont identiques cellule par
-cellule à Stata (valeurs, manquants étendus, libellés de variables et de
-valeurs, ordre des variables) : 4 rosters × 5 états bruts, membres et
-QX_EEC_VF finaux, 23 bases `standard_db`, 7 sections ménage. Pour mesurer ce
+Toutes les bases produites par R sont identiques cellule par cellule à Stata
+(valeurs, manquants étendus, libellés de variables et de valeurs, ordre des
+variables) : 4 rosters × 5 états bruts, membres et QX_EEC_VF finaux, 23 bases
+`standard_db`, 7 sections ménage, 14 sections individu, 6 rosters de
+`dataout/`, et les deux bases finales de `Fusion.do`. Pour mesurer ce
 que ces contrôles couvrent : Stata modifie 11 241 cellules de membres dans
 `traitement_autres`, 1 479 dans QM_S1, 3 073 dans QM_S2, 132 dans QM_S7.
 

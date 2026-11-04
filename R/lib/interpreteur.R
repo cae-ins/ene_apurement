@@ -74,6 +74,7 @@ instructions_do <- function(fichier) {
   supprimer_vars(d, character(0))
   if (v %in% names(d)) stop("egen : la variable ", v, " existe déjà (Stata s'arrêterait)")
   d[, (v) := r]
+  data.table::setattr(d[[v]], "stata_type", "float")   # egen : float par défaut
 }
 
 .gen <- function(d, corps) {
@@ -92,6 +93,7 @@ instructions_do <- function(fichier) {
     if (!identical(type, "double")) val <- en_float(val)   # type float par défaut
   }
   d[, (v) := val]
+  if (!is.character(val)) data.table::setattr(d[[v]], "stata_type", if (identical(type, "double")) "double" else "float")
 }
 
 #' Exécute les instructions du fichier entre les lignes de et a. Renvoie d

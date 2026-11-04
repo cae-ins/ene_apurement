@@ -34,7 +34,7 @@ drapeau <- function(n) paste0("--", n) %in% a
 
 trimestre <- verifier_trimestre(arg("quarter", Sys.getenv("ENE_QUARTER", "")))
 ch <- chemins_apurement(trimestre, RACINE_DEPOT)
-jusqua <- arg("jusqua", "INDIV_S14")
+jusqua <- arg("jusqua", "fusion")
 parite <- drapeau("parite"); ecrire <- drapeau("ecrire")
 dossier_ref <- file.path(RACINE_DEPOT, "referentiels")
 regles <- charger_regles(dossier_ref)
@@ -76,7 +76,7 @@ controler_brute <- function(etape) {
 
 ETAPES <- c("initialisation", "doublons", "non_residents", "nettoyage", "traitement_autres",
             "rename_label", "codification", "standard_db", "QM_S1", "QM_S2", "QM_S3",
-            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2", "INDIV_S3", paste0("INDIV_S", 4:14))
+            "QM_S4", "QM_S5", "QM_S6", "QM_S7", "INDIV_S1", "INDIV_S2", "INDIV_S3", paste0("INDIV_S", 4:14), "fusion")
 if (!jusqua %in% ETAPES) stop("Étape inconnue : ", jusqua, " (", paste(ETAPES, collapse = ", "), ")")
 faire <- function(e) match(e, ETAPES) <= match(jusqua, ETAPES)
 chrono <- function(e, expr) { t0 <- Sys.time(); force(expr)
@@ -176,8 +176,15 @@ for (sec in names(SORTIES_INDIV)) local({
                   file.path(ch$ref_standard_in, "INDIV_S6_emploi_secondaire.dta"), c("interview__key", "membres__id"), section = TRUE)
     })
 })
+SECTIONS$fusion <- list(f = function() etape_fusion(etat), sortie = NULL, extra = function() {
+  controler("fusion", "qx_eec_vf", etat$fusion_menage, file.path(ch$ref_dataout, "menage", "qx_eec_vf.dta"),
+            "interview__key", section = TRUE)
+  controler("fusion", "membres", etat$fusion_individu, file.path(ch$ref_dataout, "individu", "membres.dta"),
+            c("interview__key", "membres__id"), section = TRUE)
+})
 for (sec in names(SECTIONS)) {
   if (!faire(sec)) next
+  if (sec == "fusion") { chrono(sec, SECTIONS$fusion$f()); SECTIONS$fusion$extra(); next }
   chrono(sec, SECTIONS[[sec]]$f())
   S <- SECTIONS[[sec]]; nom <- S$sortie
   base_r <- if (isTRUE(S$individu)) etat$sortie_individu[[nom]] else etat$sortie_menage[[nom]]
@@ -195,6 +202,11 @@ if (ecrire) {
   ecrire_dta(etat$membres, file.path(ch$sortie, "brute", "membres.dta"))
   ecrire_dta(etat$menage, file.path(ch$sortie, "brute", "QX_EEC_VF.dta"))
   for (s in names(etat$sortie_menage)) ecrire_dta(etat$sortie_menage[[s]], file.path(ch$sortie, "standard", "menage", paste0(s, ".dta")))
+  for (s in names(etat$sortie_individu)) ecrire_dta(etat$sortie_individu[[s]], file.path(ch$sortie, "standard", "individu", paste0(s, ".dta")))
+  for (s in names(etat$sortie_rosters)) ecrire_dta(etat$sortie_rosters[[s]], file.path(ch$sortie, paste0(s, ".dta")))
+  if (!is.null(etat$fusion_menage)) ecrire_dta(etat$fusion_menage, file.path(ch$sortie, "menage", "qx_eec_vf.dta"))
+  if (!is.null(etat$fusion_individu)) ecrire_dta(etat$fusion_individu, file.path(ch$sortie, "individu", "membres.dta"))
+  writeLines(ch$trimestre, file.path(ch$sortie, "apurement_quarter.txt"))
 }
 if (length(synth)) {
   s <- do.call(rbind, synth)

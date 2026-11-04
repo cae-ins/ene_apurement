@@ -43,11 +43,41 @@ chemins_apurement <- function(trimestre, racine_depot) {
   )
 }
 
-#' Lit un .dta en data.table en conservant libellés et manquants étendus.
+#' Types de stockage Stata des variables d'un .dta (formats 117/118/119),
+#' lus dans l'en-tête : "byte", "int", "long", "float", "double" ou "str".
+#' haven ne les expose pas ; ils servent à reproduire la précision des
+#' `replace` (une variable float stocke ses valeurs en simple précision).
+types_stata <- function(chemin) {
+  con <- file(chemin, "rb"); on.exit(close(con))
+  b <- readBin(con, "raw", n = 4096L)
+  pr <- grepRaw("<release>", b, fixed = TRUE)
+  if (!length(pr)) return(NULL)
+  rel <- suppressWarnings(as.integer(rawToChar(b[(pr + 9L):(pr + 11L)])))
+  if (is.na(rel) || !rel %in% 117:119) return(NULL)
+  endian <- if (length(grepRaw("<byteorder>MSF", b, fixed = TRUE))) "big" else "little"
+  pk <- grepRaw("<K>", b, fixed = TRUE) + 3L
+  k <- if (rel == 119) readBin(b[pk:(pk + 3L)], "integer", size = 4, endian = endian) else
+    readBin(b[pk:(pk + 1L)], "integer", size = 2, signed = FALSE, endian = endian)
+  # <variable_types> suit l'en-tête et la carte <map>
+  seek(con, 0); bb <- readBin(con, "raw", n = 200000L)
+  idx <- grepRaw("<variable_types>", bb, fixed = TRUE)
+  if (!length(idx)) return(NULL)
+  idx <- idx + nchar("<variable_types>")
+  codes <- readBin(bb[idx:(idx + 2L * k - 1L)], "integer", size = 2, signed = FALSE, n = k, endian = endian)
+  c("65526" = "double", "65527" = "float", "65528" = "long", "65529" = "int", "65530" = "byte")[as.character(codes)] -> ty
+  ty[is.na(ty)] <- "str"
+  unname(ty)
+}
+
+#' Lit un .dta en data.table en conservant libellés et manquants étendus,
+#' et le type de stockage Stata de chaque variable numérique (attribut
+#' "stata_type").
 lire_dta <- function(chemin) {
   if (!file.exists(chemin)) stop("Fichier absent : ", chemin, call. = FALSE)
   d <- haven::read_dta(chemin)
   data.table::setDT(d)
+  ty <- tryCatch(types_stata(chemin), error = function(e) NULL)
+  if (length(ty) == ncol(d)) for (j in seq_along(ty)) if (ty[[j]] != "str") data.table::setattr(d[[j]], "stata_type", ty[[j]])
   d
 }
 
