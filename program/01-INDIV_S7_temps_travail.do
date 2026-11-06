@@ -4,7 +4,7 @@
 ****RESPONSABLE: SEKONGO
 *=============================================
 use "$datain_standard\INDIV_S7_temps_travail.dta", clear
-
+ 
 ****************
 *****Appel des autres variables 
 
