@@ -331,7 +331,7 @@ count if !missing(PL3_H) & PL3_H ==0
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ***************Effacement des variables ajoutées
-cap drop HH2 HH3 HH4 HH6 HH8B HH13 EN_EMP EP11 EP3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+cap drop HH2 HH3 HH4 HH6 HH8B HH13 EN_EMP EP11 EP3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire PL3_H
 
 save "$dataout\r_activite_s.dta", replace
 
