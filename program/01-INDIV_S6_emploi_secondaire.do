@@ -1,7 +1,7 @@
 
 *********EMPLOI SECONDAIRE(ES) 
 
-****RESPONSABLE: RENAUD HIVITES AKATTIA(PECHOUX )
+****RESPONSABLE: Amine
 *=============================================
 
 use "$datain_standard\INDIV_S6_emploi_secondaire.dta", clear
