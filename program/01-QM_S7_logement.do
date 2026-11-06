@@ -1,6 +1,7 @@
+*=========================================================
 * LOGEMENT (L)
 
-* RESPONSABLE: DIABATE BEN ISMAEL
+* RESPONSABLE: KOUADIO BROU YVES-BEVERLIN
 *========================================================
 
 
@@ -13,20 +14,19 @@ merge m:1 interview__key using "$datain_standard\QM_S0_identification.dta", keep
 drop if _merge!=3
 cap drop _merge
 
-
+gen commentaire =""
 *=================================
 *L1.Typedeconstruction
 *=================================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondu
 count if missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-//928 individus ont été identifiés 
+//1373 individus ont été identifiés 
+
+replace commentaire="Il y a 1373 individus qui n'ont pas repondus à la question L1" if missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 
 *Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
-count if missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 L1 using "$folderpath/document/Erreur_L1_NA.xlsx" if missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
-}
+export excel interview__key HH2 HH12 HH13 L1 using "$folderpath/document/Erreur_L1_NA" if missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(L1) & (hha == "" | (rgmen != 1 & rghab != 4))
@@ -52,71 +52,46 @@ count if !missing(L1) & !missing(L2A) & (hha == "" | (rgmen != 1 & rghab != 4))
 *===================================================
 *Problem 1: Ceux qui devaient repondre ont ils repondu 
 count if missing(L2A) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-*br L1 if missing(L2A) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-//2 logements sont concernés (cours commune et maison simple)
 
-
-*Exportation des observations pour lesquelles la variable L2A n'a pas été renseignée
-count if missing(L2A) & hha != "" & (rgmen == 1 | rghab == 4)
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 L2A using "$folderpath/document/Erreur_L2A_NA" if missing(L2A) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
-}
-
-*Correction
-cap drop med_L2A
-egen med_L2A=median(L2A) if L1 == 5
-replace L2A = med_L2A if missing(L2A) & L1 == 5
-
-cap drop med_L2A
-egen med_L2A=median(L2A) if L1 == 4
-replace L2A = med_L2A if missing(L2A) & L1 == 4
-cap drop med_L2A
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(L2A) & (missing(L1) | hha == "" | (rgmen != 1 & rghab != 4))
-*br L1 L2A if !missing(L2A) & (missing(L1) | hha == "" | (rgmen != 1 & rghab != 4))
-// 1 observation
 
-replace L1 = 1 if !missing(L2A) & (missing(L1) | hha == "" | (rgmen != 1 & rghab != 4))
 
 *Problem 3: Les valeurs renseignées sont elles permises 
 //Il est peu probable que le nombre de pièces depasse 50 .Par ailleurs la valeur renseignée ne doit pas etre négative
 count if (L2A>50 | L2A<0)  & !inlist(L2A,.,.a,98)
-*br L1 L2A if (L2A>50 | L2A<0)  & !inlist(L2A,.,.a,98)
-// 1 cour commune de 74 pièces
+
 
 *Problem 4: Vraisemblance des reponses
  
 //Une villa doit faire au moins 3 pièces. C'est peu probable qu'une villa ait 2 pièces uniquement.
 count if L1==1 & L2A<3 & !missing(L2A)
-//2 observations
+br if L1==1 & L2A<3 & !missing(L2A)
+
+//6 observations
 *correction
 replace L1 = 5 if L2A <3 & L1==1
 
 //Un appartement dans un immeuble est en general une location, c'est peu probable que l'on ait dans ses cas plus de 5 pièces 
-count if L2A>5 & L1==2
-//1 observation
-*correction
-replace L1 = 1 if L2A>5 & L1==2
+count if L2A>5 & L1==2 // RAS
+
 
 //Cherchons s'il y a des logements avec 0 pièces
 count if L2A==0 & !missing(L1)
 //RAS
 
-//Correction
-replace L2A = 5 if L2A>5 & L1==5 & !missing(L2A) // Le nombre de pièces supérieurs à 5 est ramené à 5 pour les maison simples
-
-
 //Dans une case, on ne peut avoir plus de 3 pièces, cependant il peut d'une concession dans laquelle plusieurs cases sont occupées par le ménage 
 count if L2A>3 & L1==6 & !missing(L2A)
-//13 individus sont concernés
+br if L2A>3 & L1==6 & !missing(L2A)
+
+//5 individus sont concernés
 replace L2A = 3 if L2A>3 & L1==6 & !missing(L2A)
 
 
 //Dans une baraque c'est peu probable d'avoir plus de 3 pièces 
-count if L2A>3 & L1==7 & !missing(L2A)
-//1 individu est concerné
-replace L2A = 3 if L2A>3 & L1==7 & !missing(L2A)
+count if L2A>3 & L1==7 & !missing(L2A) //RAS
+
 
 
 *====================================================================
@@ -138,18 +113,8 @@ count if L1_Aut!="" & L1 !=8
 
 *Problem 1: Ceux qui devaient repondre ont ils repondu 
 count if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-* br L1 L2A if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-//2 logements sont concernés (cours commune et maison simple)
+*br L1 L2A if missing(L2B) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 
-*Correction
-cap drop med_L2B
-egen med_L2B=median(L2B) if L1 == 4 & L2A ==2
-replace L2B = med_L2B if missing(L2B) & L1 == 4 & L2A ==2
-
-cap drop med_L2B
-egen med_L2B=median(L2B) if L1 == 5 & L2A ==3
-replace L2B = med_L2B if missing(L2B) & L1 == 5 & L2A ==3
-cap drop med_L2B
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(L2B) & (missing(L1) | hha == "" | (rgmen != 1 & rghab != 4))
@@ -164,7 +129,13 @@ count if (L2B>50 | L2B<0)  & !inlist(L2B,.,.a,98)
  
 //Nombre de pièce utilisé pour dormir dans le logement ne peut pas être supérieur au nombre de pièces (L2A)
 count if L2B>L2A & !missing(L2A,L2B)
-//RAS
+br if L2B>L2A & !missing(L2A,L2B)
+//2 cas identifiés
+
+*Correction
+* Ramenons le nombre de pièces utilisé pour dormir au nombre de pièces total dans la maison.
+
+replace L2B = L2A if  L2B>L2A & !missing(L2A,L2B)
 
 *===================================================================
 *L3. Principal matériau de construction des murs extérieurs
@@ -172,15 +143,13 @@ count if L2B>L2A & !missing(L2A,L2B)
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus
 count if missing(L3) & hha != "" & (rgmen == 1 | rghab == 4)
-//929 observations. Parmi ces 929, il y a les réponses de 927 individus qui n'ont pas répondu à la question L1. Donc nous allons faire la différence
-count if missing(L3) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-*br L1 if missing(L3) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-//2 observations
 
+replace commentaire="Il y a 1373 individus qui n'ont pas repondus à la question L3" if missing(L3) & hha != "" & (rgmen == 1 | rghab == 4)
 
-*Correction
-replace L3=1 if missing(L3) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
+*Exportation des observations pour lesquelles la variable L3 n'a pas été renseignée 
+export excel interview__key HH2 HH12 HH13 L1 using "$folderpath/document/Erreur_L3_NA"  if missing(L3) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
+	
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(L3) &  (hha == "" | (rgmen != 1 & rghab != 4))
 //RAS
@@ -197,7 +166,7 @@ count if inlist(L3,4,5,6) & L1==1
 
 //Il est peu probable qu'une baraque ou une case soit construite en ciment,brique,geo-béton
 count if inlist(L3,1,2) & inlist(L1,6,7)
-//8 logements sont concernés
+//2 logements sont concernés
  
 * Correction
 replace L3 = 6 if inlist(L3,1,2) & inlist(L1,6,7)
@@ -220,13 +189,11 @@ count if !missing(L3_Aut) & L3!=7
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus
 count if missing(L4) & hha != "" & (rgmen == 1 | rghab == 4)
-//929 observations. Parmi ces 929, il y a les réponses de 927 individus qui n'ont pas répondu à la question L1. Donc nous allons faire la différence
-count if missing(L4) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-*br L1 if missing(L4) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-//2 observations
 
-*Correction
-replace L4=1 if missing(L4) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
+replace commentaire="Il y a 1373 individus qui n'ont pas repondus à la question L4" if missing(L4) & hha != "" & (rgmen == 1 | rghab == 4)
+
+*Exportation des observations pour lesquelles la variable L4 n'a pas été renseignée 
+export excel interview__key HH2 HH12 HH13 L4 using "$folderpath/document/Erreur_L4_NA" if missing(L4) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(L4) & (hha == "" | (rgmen != 1 & rghab != 4))
@@ -256,7 +223,7 @@ count if !missing(L4_Aut) & L4!=7
 
 *Problem 4: vraisemblance des reponses 
 levelsof L4_Aut
-*Il n'y a aucune modalité pour cette variable
+
 
 *============================================================================
 *L5. Statut d'occupation
@@ -352,7 +319,7 @@ count if L6>15000 & inlist(L6,6,7)
 
 *Problem 1: Ceux qui devaient repondre ont ils repondus
 count if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-* br L1 L3 L4 if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
+br L1 L3 L4 if missing(L7) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //3 individus sont concernés
 
 *Correction : on remplace les valeurs manquantes par le mode du cluster
@@ -397,10 +364,7 @@ count if missing(L8) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //5 individus concernés
 
 *Identification des agents ayant fait des erreurs
-count if missing(L8) & hha != "" & (rgmen == 1 | rghab == 4)
-if r(N)>0 {
-    export excel interview__key HH13 L8 using "$folderpath/document/Erreur_L8_NA" if missing(L8) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
-}
+export excel interview__key HH13 L8 using "$folderpath/document/Erreur_L8_NA" if missing(L8) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
 *Correction : on remplace les valeurs manquantes par le mode du cluster
 
@@ -446,10 +410,7 @@ count if missing(L9) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //5 individus concernés 
 
 *Identification des agents ayant fait des erreurs
-count if missing(L9) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-if r(N)>0 {
-    export excel interview__key HH13 L9 using "$folderpath/document/Erreur_L9_NA" if missing(L9) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
-}
+export excel interview__key HH13 L9 using "$folderpath/document/Erreur_L9_NA" if missing(L9) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
 *Correction : remplacer les valeurs manquantes par le mode du cluster
 cap drop mode_L9 mode_L9_final
@@ -494,10 +455,7 @@ count if missing(L10) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
 //6 individus sont concernés 
 
 *Identification des agents ayant fait des erreurs
-count if missing(L10) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4)
-if r(N)>0 {
-    export excel interview__key HH13 L10 using "$folderpath/document/Erreur_L10_NA" if missing(L10) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
-}
+export excel interview__key HH13 L10 using "$folderpath/document/Erreur_L10_NA" if missing(L10) & !missing(L1) & hha != "" & (rgmen == 1 | rghab == 4), firstrow(varlabels) replace 
 
 *Correction : remplacer les valeurs manquantes par le mode du cluster
 cap drop mode_10 mode_10_final
@@ -525,10 +483,7 @@ count if inrange(L10,6,11) & inlist(L1,1,2)
 //1 personnes concernées
 
 *Identification des agents ayant fait des erreurs
-count if inrange(L10,6,11) & inlist(L1,1,2)
-if r(N)>0 {
-    export excel interview__key HH13 L10 using "$folderpath/document/Erreur_L10_A_NA" if inrange(L10,6,11) & inlist(L1,1,2), firstrow(varlabels) replace 
-}
+export excel interview__key HH13 L10 using "$folderpath/document/Erreur_L10_A_NA" if inrange(L10,6,11) & inlist(L1,1,2), firstrow(varlabels) replace 
 
 *Correction
 replace L10=1 if inrange(L10,6,11) & inlist(L1,1,2)
