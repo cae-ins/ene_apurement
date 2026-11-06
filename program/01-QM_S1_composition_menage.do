@@ -1,23 +1,37 @@
-
+*================================================
 *********COMPOSITION DES MENAGES
 
-****RESPONSABLE | AUTEUR: BEN ISMAEL
+****RESPONSABLE: ABDOUL KADER
 *=============================================
+/*
+clear
+
+use "$datain_brute\membres.dta", clear 
+
+cap drop _merge
+
+merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepusing(M0__0 HH13 HH12 hh V1MODINTR V1interviewkey )
+
+keep if _merge==3
+*/
 *******************************************
 
-//Fusion de la base "Composotion_menage" avec les bases identification, membres et autres_formes_travail et récupération de variables clés
 use "$datain_standard\QM_S1_composition_menage.dta", clear
 
 cap drop _merge
-merge m:1 interview__key using "$datain_standard\QM_S0_identification.dta", keepus(HH2 HH3 HH12 HH13 HH4 HH6 HH8B V1interviewkey V1MODINTR M0__0 rgmen)
+merge m:1 interview__key using "$datain_standard\QM_S0_identification.dta", keepus(HH2 HH3 HH12 HH13 HH4 HH6 HH8B V1interviewkey V1MODINTR M0__0 rgmen )
 drop if _merge!=3
 cap drop _merge
+
+
 
 cap drop _merge
 merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepus( membre_id_v1_IND HH14a HH14a_Aut) 
 drop if _merge!=3
 cap drop _merge
 
+
+ 
 
 cap drop _merge
 merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S1_autres_formes_travail.dta", keepus( M4Confirm) 
@@ -27,1145 +41,984 @@ cap drop _merge
 cap drop commentaire
 gen commentaire=""
 
-**# Definir l'identifiant
-global ID_MEN interview__id
-global ID_MEMB_MEN $ID_MEN membres__id
 
-**# suppression préalable des doublons car ils pourraient affecter les résultats
+// suppression préalable des doublons car il pourrait affecter les resultats
 cap drop dup
-sort $ID_MEMB_MEN M0
-quietly by $ID_MEMB_MEN M0 : gen dup = cond(_N==1,0,_n) 
+sort interview__id membres__id M0
+quietly by interview__id membres__id M0 : gen dup = cond(_N==1,0,_n) 
 
-drop if dup > 1
-
-ta dup // doublons supprimés de la base
-
-**# supprimer les espaces au tour des variables textes dans la base
-ds, has(type string)
-foreach var of varlist `r(varlist)'{
-	replace `var' =  ustrregexra(`var', "\s+$", "")
-	replace `var' =  strltrim(`var')
-}
+ta dup // aucun doublons
 
 
-**************************Controle de la section, question par question *************************************
+*drop if dup > 1
 
-*------------------------------------------------------------
-* M0 : Noms et prénoms des membres des ménages
-*------------------------------------------------------------
+** restriction au interview consenti
 
-// M0 capte les noms et prénoms des membres de ménages et visiteurs. Nous allons donc vérifier si au moins un nom et prénoms dans tous les ménages enquêtés en nouservant de la question M0__0 qui capte le premier nom et prénoms des mémbres des ménages
+
+******************Controle de la section, question par question ****************************************************
+
+// M0. Donnez-moi s'il vous plaît les noms et prénoms des personnes qui vivent habituellement dans votre ménage et des visiteurs qui ont passé la nuit dernière ici, en commençant par le chef de ménage.
 
 count if M0__0 == "" // Pas de valeurs manquantes
-*drop if M0__0 == ""// Supprimer les observations pour lesquelles ce champs est vide
 
 
-*------------------------------------------------------------
-* M1A : Individus en réinterrogation non interrogés
-*------------------------------------------------------------
-// M1A. Cette variable capte si des membres de ménages recensés sont partis du ménage ou si d'autres personnes sont venues dans le ménages et ont l'intention de faire plus de 6 mois (Cette question concerne les réintérrogations)
+// M1A.Lors du passage à la date du %V1hha% , vous nous avez dressé la liste des membres de votre ménage, avez-vous des personnes qui sont parties de votre ménage ou venues dans votre ménage et qui ont l'intention de faire plus de 6 mois?
 
-gen flag_M1A_missing = (M1A==.a & membre_id_v1!="##N/A##")
-
-count if flag_M1A_missing
-*1040 personnes n'ont pas répondu à cette question
-
-replace commentaire = "Le téléopérateur devait renseigner la question M1A mais ne l'a pas fait (entretiens perdus)" if flag_M1A_missing
-
-* Export des cas problématiques
-count if flag_M1A_missing
-if r(N)>0 {
-export excel interview__key HH2 HH12 HH13 M1A membre_id_v1 V1MODINTR rgmen AgeAnnee M4Confirm commentaire ///
-using "$folderpath/document/comp_menage_six_mois_reinterrogation" ///
-if flag_M1A_missing, firstrow(varl) replace
-}
-
-* Suppression des observations problématiques (Ceux qui n'ont pas répondu)
-*cap drop if flag_M1A_missing
-
-* Vérifier qu'il ne reste aucun cas
-count if M1A==.a & membre_id_v1!="##N/A##"
-
-* Vérifier cohérence des réponses
-count if !inlist(M1A,1,2,3) & membre_id_v1 !="##N/A##"
-
-*------------------------------------------------------------
-* M1 : Nombre de mois vécus dans le ménage au cours des 12 derniers mois
-*------------------------------------------------------------
-
-* 1. Individus de la 1ère interrogation
-
-count if missing(M1) & membre_id_v1 == "##N/A##" & rgmen==1
-*19 personnes n'ont pas répondu
-
-replace commentaire = ///
-"Individu de la 1ère interrogation pour lequel le nombre de mois vécus dans le ménage (M1) n'a pas été renseigné." ///
-if missing(M1) & membre_id_v1 == "##N/A##" & rgmen==1
-
-count if missing(M1) & membre_id_v1 == "##N/A##" & rgmen==1
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR ///
-    rgmen AgeAnnee M4Confirm commentaire ///
-    using "$folderpath/document/M1_terrain_perdu_v1.xlsx" ///
-    if missing(M1) & membre_id_v1 == "##N/A##" & rgmen==1 , firstrow(varl) replace
-}
-
-* 2. Individus de la 2ème, 3e ou 4e interrogation
-
-count if missing(M1) & membre_id_v1 == "##N/A##" & rgmen>=2 & !missing(rgmen)
-*167 personnes n'ont pas répondu
-
-replace commentaire = ///
-"Individu de la 2ème, 3e ou 4e interrogation pour lequel le nombre de mois vécus dans le ménage (M1) n'a pas été renseigné." ///
-if missing(M1) & membre_id_v1 == "##N/A##" & rgmen>=2 & !missing(rgmen)
-
-count if missing(M1) & membre_id_v1 == "##N/A##" & rgmen>=2 & !missing(rgmen)
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR ///
-    rgmen AgeAnnee M4Confirm commentaire ///
-    using "$folderpath/document/M1_terrain_perdu_v2.xlsx" ///
-    if missing(M1) & membre_id_v1 == "##N/A##" & rgmen>=2 & !missing(rgmen) , firstrow(varl) replace
-}
-
-* 3. Tous les individus concernés
-
-count if missing(M1) & membre_id_v1 == "##N/A##"
-*186 personnes n'ont pas répondu
-
-replace commentaire = ///
-"L'agent enquêteur devait renseigner la question M1 mais elle est restée vide." ///
-if missing(M1) & membre_id_v1 == "##N/A##"
-
-count if missing(M1) & membre_id_v1 == "##N/A##"
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR ///
-    rgmen commentaire ///
-    using "$folderpath/document/M1_non_renseigne.xlsx" ///
-    if missing(M1) & membre_id_v1 == "##N/A##", firstrow(varl) replace
-}
-
-*** Suppression des individus pour lesquelles la durée dans le ménage n'est pas renseigné
-*** Exclusion centralisee dans 00-suppression_non_residents.do.
-*** Ne pas modifier localement l'univers de la section QM_S1.
-
-* Vérifier qu'il ne reste aucun cas
-count if missing(M1) & membre_id_v1 == "##N/A##"
-
-* 4. Vérification des réponses valides
-count if inlist(M1,1,2,3) & membre_id_v1 != "##N/A##"
+count if missing(M1A) & membre_id_v1 !="##N/A##" // 483 individu pour qui la question n'a pas été répondu. Il faut préciser que cette question concerne les réintérrogations, donc il s'agit potentiellement d'un problème au niveau des téléopérateurs
 
 
-*------------------------------------------------------------
-* M2 : Nombre de mois vécus dans le ménage, si moins de 6 mois
-*------------------------------------------------------------
+count if (M1A==.a) & membre_id_v1 !="##N/A##" // 483 individu en reinterrogation non interogé (pour qui la question n'a pas été répondu). Il faut préciser que cette question concerne les réintérrogations, donc il s'agit potentiellement d'un problème au niveau des téléopérateurs. Ceux sont des menages en reinterrogations non interrogé
 
-* 1. Individus qui devraient répondre mais M2 manquant
-count if missing(M2) & (M1==1 | M1A==1)
-*RAS
+replace commentaire="l'agent téléopérateurs devrait renseigner la question M1A, mais n'a pas renseigné. (Ces entretiens sont perdu)" if  (M1A==.a) & membre_id_v1 !="##N/A##"
+**Exportation des individus potentiellement concernés
 
-*replace commentaire = ///
-*"M2 non renseigné alors que l'individu a déclaré vivre moins de 6 mois dans le ménage." ///
-*if missing(M2) & (M1==1 | M1A==1)
+export excel interview__key HH2 HH12 HH13 M1A membre_id_v1 V1MODINTR rgmen AgeAnnee M4Confirm commentaire using "$folderpath/document/comp_menage_six_mois_reinterrogation" if  (M1A==.a) & membre_id_v1 !="##N/A##", firstrow(varl) replace
+**
 
-* 2. Individus ayant répondu alors qu'ils ne devraient pas
-count if !missing(M2) & !(M1==1 | M1A==1)
-*RAS
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
 
-*replace commentaire = ///
-*"M2 renseigné alors que l'individu ne devrait pas répondre à cette question." ///
-*if !missing(M2) & !(M1==1 | M1A==1)
+*cap drop if (M1A == .a) & membre_id_v1 != "##N/A##"
 
-* 3. Analyse du statut de résidence
-count if Statut_Res != 1
-*1713 individus déclarés nonn résidents
+*******************************************
 
-replace commentaire = ///
-"Individu déclaré non résident (Statut_Res ≠ 1). Vérification nécessaire." ///
-if Statut_Res != 1 & missing(commentaire)
-
-* 4. Export des individus concernés
-count if Statut_Res !=1
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 Statut_Res commentaire rgmen ///
-    using "$folderpath/document/comp_menage_stat_res.xlsx" ///
-    if Statut_Res !=1, firstrow(varl) replace
-}
-
-* 5. Option : restriction aux ménages résidents
-*drop if Statut_Res !=1
-
-*------------------------------------------------------------
-* M3 : %rostertitle% a-t-il/elle passé la nuit dernière dans le ménage ?
-*-----------------------------------------------------------
-
-* 1. Résidents pour lesquels M3 n'a pas été renseigné
-count if missing(M3) & Statut_Res==1
-*54 personnes n'ont pas répondu
-
-replace commentaire = "Individu résident pour lequel la question M3 (présence la nuit dernière) n'a pas été renseignée." if missing(M3) & Statut_Res==1
-
-* 2. Vérification : individus non résidents ayant répondu
-count if !missing(M3) & Statut_Res!=1
-*RAS
-
-* 3. Valeurs légales
-count if !inlist(M3,1,2) & !missing(M3)
-*RAS
-
-*replace commentaire = ///
-*"M3 renseigné pour un individu non résident (question potentiellement non applicable, à vérifier)." ///
-*if !missing(M3) & Statut_Res!=1
-
-*------------------------------------------------------------
-* M4A : Confirmation du lien de parenté des membres du ménage déjà enquêtés avec le CM
-*------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
-*55 liend de parenté n'ont pas été confirmés
-
-replace commentaire = "Individu pour lequel le lien de parenté () n'a pas été confirmé." if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
-
-*Exportation des individus potentiellement concernés
-count if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M4A membre_id_v1 V1MODINTR commentaire rgmen AgeAnnee M4Confirm using "$folderpath/document/comp_menage_passe_lien_confirm" if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1, firstrow(varl) replace
-}
-
-* 2. Valeurs légales
-count if !inlist(M4A,1,2) & !missing(M4A)
-*RAS
-
-* 3. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M4A) & (membre_id_v1 == "##N/A##" | V1M4 ==.a | Statut_Res !=1) 
-// RAS
- 
-*replace commentaire = "Cet individu n'avait pas le droit de répondre à cette question." if !missing(M4A) & (membre_id_v1 == "##N/A##" | V1M4 ==.a | Statut_Res !=1)
+count if (M1A==.a) & membre_id_v1 =="##N/A##" // 0 individu pour qui la question n'a pas été répondu. Il faut préciser que cette question concerne les agents terrains qui n'ont pas renseigner la question
 
 
-*------------------------------------------------------------
-* M4 : Lien de parenté avec le CM (Première interrogation)
-*------------------------------------------------------------
-* 1. Valeurs manquantes
-count if missing(M4) & Statut_Res==1 & (membre_id_v1 == "##N/A##" | missing(V1M4) | M4A==2)
-*66 personnes pour qui le lien de parenté avec le chef de ménage n'a pas été précisé
 
-replace commentaire = "Individu pour lequel le lien de parenté () n'a pas été renseigné." if missing(M4) & Statut_Res==1 & (membre_id_v1 == "##N/A##" | V1M4==.a | M4A==2)
+*count if (M1A == 1 | M1A == 2 | M1A == 3 ) & membre_id_v1 == "##N/A##" // tous ceux qui ont repondu avaient le droit de repondre
+count if (M1A == 1 | M1A == 2 ) & membre_id_v1 == "##N/A##" // tous ceux qui ont repondu avaient le droit de repondre
 
-*Exportation des individus potentiellement concernés
-count if missing(M4) & Statut_Res==1 & (membre_id_v1 == "##N/A##" | V1M4==.a | M4A==2)
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M4A membre_id_v1 V1MODINTR commentaire rgmen AgeAnnee M4 using "$folderpath/document/comp_menage_passe_lien_parente_Question_M4" if missing(M4) & Statut_Res==1 & (membre_id_v1 == "##N/A##" | V1M4==.a | M4A==2), firstrow(varl) replace
-}
+// M1.Au cours des 12 derniers mois, durant combien de mois %rostertitle% a vécu dans le ménage ?
 
-* 2. Valeurs légales
-count if !inrange(M4,1,8) & !missing(M4)
+count   if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==1 // 9 individus de 1ere interrogation, pour qui la question n'a pas été repondu. Ces individus sont perdu pour de bon car l'âge n'est pas mentionné
 
-
-* 3. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M4) & (Statut_Res !=1 | (membre_id_v1 != "##N/A##" & V1M4 !=.a & M4A !=2)) 
-// RAS
- 
-*------------------------------------------------------------
-* M5. Quel est le sexe de %rostertitle% ?
-*------------------------------------------------------------
-
-*1. Valeurs manquantes
-count if missing(M5) & Statut_Res==1 
-* 63 personnes pour qui on a pas le sexe : agent teleoperateur
-
-ta rgmen if missing(M5) & Statut_Res==1
-*Les personnes pour qui le sexe n'a pas été précisé sont en 2e, 3e et 4e interrogation.
-replace commentaire="Les agents n'ont pas renseigné  le sexe " if missing(M5) & Statut_Res==1 
+*replace  commentaire="9 individus de 1ere interrogation, pour qui la question M1 n'a pas été repondu. Ces individus sont perdu pour de bon car l'âge n'est pas mentionné" if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==1 
 
 **Exportation des individus potentiellement concernés
-count if missing(M5) & Statut_Res==1 
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M5 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_sexe" if missing(M5) & Statut_Res==1 , firstrow(varl) replace
-}
+
+*export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR rgmen AgeAnnee M4Confirm commentaire using "$folderpath/document/M1_terrain_perdu_sans_age1" if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==1 , firstrow(varl) replace
+**
+
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
+
+*cap drop if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==1
+
+*******************************************
+
+
+*********************************************************************************************************************************
+
+count   if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==2 // 31 individus de 2ieme interrogation, pour qui la question n'a pas été repondu. Ces individus sont perdu pour de bon car l'âge n'est pas mentionné
+
+*replace  commentaire="31 individus de 2eme interrogation, pour qui la question M1 n'a pas été repondu. Ces individus sont perdu pour de bon car l'âge n'est pas mentionné" if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==2 
+
+
+**Exportation des individus potentiellement concernés
+
+*export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR rgmen AgeAnnee M4Confirm commentaire rgmen using "$folderpath/document/M1_age_teleoperateur_perdu" if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==2 , firstrow(varl) replace
+
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
+
+*cap drop if missing(M1) & membre_id_v1 == "##N/A##" & rgmen ==2
+
+*******************************************
+
+
+count if missing(M1) & membre_id_v1 == "##N/A##" // 81 individu de 1ere et 2eme pour qui la question n'a pas été repondu. 
+
+replace commentaire="l'agent terrain devrait renseigner la question M1, mais n'a pas renseigné" if  missing(M1) & membre_id_v1 == "##N/A##"
+
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M1 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_six_mois_face" if missing(M1) & membre_id_v1 == "##N/A##", firstrow(varl) replace
+**
+
+count if (M1 == 1 | M1 == 2 ) & membre_id_v1 != "##N/A##" // tous ceux qui ont repondu avaient le droit de repondre
+
+
+// M2.Si moins de 6 mois, pendant combien de mois, %rostertitle% compte-t'il/t'elle rester dans le ménage ?
+
+count if missing(M2) & (M1==1 | M1A==1) // 1 personnes pour qui la question n'a pas été répondu
+
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
+
+*cap drop if missing(M2) & (M1==1 | M1A==1) 
+
+*******************************************
+
+
+count if !missing(M2) & (M1!=1 & M1A !=1) // tous ceux qui devrait repondre à la question on répondu
+
+** Analyse du statut de residence et restriction de la base qu'au menage resident
+
+count if Statut_Res !=1 // 1555 non resident. C'est beaucoup trop, il se pourrait que les agents mettent intentionnellement
+
+replace commentaire="individus non résident au nombre de 1555" if Statut_Res !=1
+
+
+** Exportation des agents qui serait potentiellement concernés
+ 
+export excel interview__key HH2 HH12 HH13 Statut_Res commentaire rgmen using "$folderpath/document/comp_menage_stat_res" if Statut_Res !=1, firstrow(varl) replace
+
+*drop if Statut_Res !=1
+
+// M3. %rostertitle% a t-il/t'elle passé la nuit dernière dans le ménage ?
+
+count if missing(M3) & Statut_Res==1 & M5==.a // 3 individus residents pour qui la question n'a pas été repondu. Ils sont perdu car le sexe n'e'st pas renseignés 
+
+replace commentaire="11 individus residents pour qui la question n'a pas été repondu. Ils sont perdu car le sexe n'e'st pas renseignés" if missing(M3) & Statut_Res==1 & M5==.a
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M3 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_passe_nuit" if missing(M3) & Statut_Res==1 & M5==.a, firstrow(varl) replace
+
+**
+
+count if !missing(M3) & Statut_Res!=1 // tous ceux qui devrait repondre à la question on répondu
+
+
+// M4A. Lors du passage à la date du %V1hha% , vous nous avez indiqué que le lien de parenté de %rostertitle% avec le chef de ménage était %V1M4% , confirmez-vous cette information ?
+
+count if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1 // 32 personnes pour qui la question M4A n'a pas été répondu 
+
+replace commentaire="L'agent téléopérateur n'a pas renseigner la question M4A. L'âge n'est pas mentionné" if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M4A membre_id_v1 V1MODINTR commentaire rgmen AgeAnnee M4Confirm using "$folderpath/document/comp_menage_passe_lien_confirm" if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1, firstrow(varl) replace
+
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
+
+*cap drop if missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
+
+*******************************************
+
+
+*On cherche ces individus dans la base T2 pour imputation
+
+*Tous les individus dont le membre_id_v1==1 (Chef de ménage dans la base T3) et qui sont aussi chef de ménage dans la base T3 (membre__id==1), M4A=1
+
+
+*preserve
+
+*keep if  missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1
+
+*destring membre_id_v1, gen(membre_id_v1_ent) force
+
+*Puisque l'âge n'a pas été renseigné on ne fait d'imputation.
+*replace M4A=1 if ( missing(M4A) & membre_id_v1 != "##N/A##" & V1M4!=.a & Statut_Res==1) & (membre_id_v1_ent==membres__id) 
+
+
+*restore
+
+********************************
+
+
+
+**
+
+count if !missing(M4A) & (membre_id_v1 == "##N/A##" | V1M4 ==.a | Statut_Res !=1) // tous ceux qui ont répondu y avait le droit 
+
+
+
+// M4. Quel est le lien de parenté de %rostertitle% avec le chef de ménage ? (1ere interrogation)
+
+*count if missing(M4) & Statut_Res==1 & (membre_id_v1=="##N/A##" | M4A==2 | V1M4==.a) // 7 personnes pour qui la variable n'a pas été repondu
+
+*count if missing(M4) & Statut_Res==1 & (membre_id_v1=="##N/A##" | M4A==2 | V1M4==.a) // 1 personnes pour qui la question n'a pas été répondu
+
+
+*replace commentaire="L'agent terrain n'a pas renseigner la question M4. L'âge n'est aps renseigner" if missing(M4) & Statut_Res==1 & (membre_id_v1=="##N/A##" | M4A==2 | V1M4==.a)
+
+
+**Exportation des individus potentiellement concernés
+
+*export excel interview__key HH2 HH12 HH13 M4 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_lien" if missing(M4) & Statut_Res==1 & (membre_id_v1=="##N/A##" | M4A==2 | V1M4==.a), firstrow(varl) replace
+
+**
+
+count if !missing(M4) & Statut_Res !=1 & membre_id_v1 !="##N/A##" & M4A == 1 & V1M4 !=.a // tous ceux qui ont répondu y avaient le droit
+
+// M5. Quel est le sexe de %rostertitle% ?
+
+count if missing(M5) & Statut_Res==1 // 13 personnes pour qui on a pas le sexe : agent teleoperateur
+
+ta rgmen if missing(M5) & Statut_Res==1
+
+
+*Nous avons retrouvée ces idividus du trimestre 3 (réinterrogation) au trimestre 2, puis nous avons fait correspondre les interview et membres__id. Dans la base du T3 il y a deux variables : membre_id_v1 V1interviewkey qui sont les interview et membres__id du ménage du T3 réintérrogé. 
+
+replace commentaire="Les agents n'ont pas renseigné  le sexe " if missing(M5) & Statut_Res==1 
+
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M5 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_sexe" if missing(M5) & Statut_Res==1 , firstrow(varl) replace
 **
 
 *Incoherence sur le sexe entre T1-2025 (terrain) et T4-2024 (teleoperateur)
 
-*5. CORRECTION :
-
-*Récupérer le sexe du chef de ménage dans chaque ménage
-bysort interview__key: egen sexe_chef = max(cond(V1M4==1, M5, .))
-*Remplacer le sexe manquant des époux/se par le sexe opposé
-replace M5 = 2 if missing(M5) & V1M4==2 & sexe_chef==1 & Statut_Res==1
-replace M5 = 1 if missing(M5) & V1M4==2 & sexe_chef==2 & Statut_Res==1
 
 ****Le principe de cette correction est de faire l'hypothèse que les sexe renseigné par l'agent terrain est plus correct que celui renseigne par le teleoperateur dans la situation ou le sexe renseigner par le teleoperateur est different de celui de l'agent terrain.
 
-replace M5 = 1 if interview__key=="65-46-32-44" & membres__id ==3
-replace M5 = 2 if interview__key=="39-01-96-89" & membres__id ==4
-replace M5 = 2 if interview__key=="39-01-96-89" & membres__id ==11
-replace M5 = 2 if interview__key=="97-77-98-81" & membres__id ==1
-replace M5 = 1 if interview__key=="27-46-08-57" & membres__id ==3
-replace M5 = 2 if interview__key=="31-43-96-45" & membres__id ==6
-replace M5 = 2 if interview__key=="46-39-89-02" & membres__id ==3
-replace M5 = 2 if interview__key=="41-93-01-85" & membres__id ==3
-replace M5 = 2 if interview__key=="36-93-29-81" & membres__id ==3
-replace M5 = 1 if interview__key=="23-79-16-12" & membres__id ==5
-replace M5 = 2 if interview__key=="47-46-21-55" & membres__id ==3
-replace M5 = 2 if interview__key=="34-62-91-31" & membres__id ==6
-replace M5 = 1 if interview__key=="47-36-83-09" & membres__id ==3
-replace M5 = 2 if interview__key=="95-43-36-92" & membres__id ==3
-replace M5 = 1 if interview__key=="90-47-87-14" & membres__id ==7
-replace M5 = 2 if interview__key=="39-52-86-88" & membres__id ==2
-replace M5 = 2 if interview__key=="39-52-86-88" & membres__id ==3
-replace M5 = 1 if interview__key=="33-51-18-11" & membres__id ==9
-replace M5 = 2 if interview__key=="02-97-02-48" & membres__id ==3
-replace M5 = 2 if interview__key=="85-73-80-34" & membres__id ==7
-replace M5 = 1 if interview__key=="21-73-82-76" & membres__id ==7
-replace M5 = 2 if interview__key=="05-22-50-61" & membres__id ==5
-replace M5 = 2 if interview__key=="67-86-52-63" & membres__id ==7
-replace M5 = 2 if interview__key=="90-99-29-91" & membres__id ==6
-replace M5 = 2 if interview__key=="90-99-29-91" & membres__id ==7
-replace M5 = 2 if interview__key=="25-89-92-84" & membres__id ==4
-replace M5 = 1 if interview__key=="66-64-27-66" & membres__id ==3
-replace M5 = 1 if interview__key=="66-64-27-66" & membres__id ==6
-replace M5 = 1 if interview__key=="27-36-90-29" & membres__id ==3
-replace M5 = 1 if interview__key=="33-54-94-34" & membres__id ==3
-replace M5 = 2 if interview__key=="42-55-23-55" & membres__id ==4
-replace M5 = 2 if interview__key=="42-55-23-55" & membres__id ==5
-replace M5 = 2 if interview__key=="98-26-71-49" & membres__id ==3
-replace M5 = 2 if interview__key=="79-53-47-28" & membres__id ==7
-replace M5 = 1 if interview__key=="89-99-84-88" & membres__id ==3
-replace M5 = 1 if interview__key=="89-99-84-88" & membres__id ==6
-replace M5 = 1 if interview__key=="58-17-14-39" & membres__id ==8
-replace M5 = 1 if interview__key=="05-11-50-06" & membres__id ==4
-replace M5 = 1 if interview__key=="40-61-54-89" & membres__id ==2
-replace M5 = 2 if interview__key=="84-40-37-78" & membres__id ==3
-replace M5 = 1 if interview__key=="20-80-23-94" & membres__id ==4
-replace M5 = 1 if interview__key=="08-33-07-67" & membres__id ==4
-replace M5 = 1 if interview__key=="49-16-99-90" & membres__id ==3
-replace M5 = 1 if interview__key=="05-28-21-99" & membres__id ==2
-replace M5 = 2 if interview__key=="05-28-21-99" & membres__id ==3
-replace M5 = 1 if interview__key=="32-88-84-65" & membres__id ==4
-replace M5 = 1 if interview__key=="22-41-69-34" & membres__id ==1
-replace M5 = 1 if interview__key=="03-92-57-08" & membres__id ==1
-replace M5 = 1 if interview__key=="67-41-83-85" & membres__id ==3
-replace M5 = 1 if interview__key=="67-41-83-85" & membres__id ==4
-replace M5 = 2 if interview__key=="99-77-04-87" & membres__id ==8
-replace M5 = 2 if interview__key=="99-77-04-87" & membres__id ==12
-replace M5 = 2 if interview__key=="75-77-71-77" & membres__id ==1
-replace M5 = 1 if interview__key=="78-38-11-42" & membres__id ==4
-replace M5 = 2 if interview__key=="78-38-11-42" & membres__id ==6
-replace M5 = 1 if interview__key=="61-68-80-75" & membres__id ==6
-replace M5 = 2 if interview__key=="77-18-60-99" & membres__id ==7
-replace M5 = 2 if interview__key=="99-99-17-86" & membres__id ==4
-replace M5 = 1 if interview__key=="11-74-78-63" & membres__id ==1
-replace M5 = 2 if interview__key=="37-93-10-87" & membres__id ==8
-replace M5 = 2 if interview__key=="18-35-81-09" & membres__id ==8
-replace M5 = 1 if interview__key=="37-23-55-55" & membres__id ==1
-replace M5 = 2 if interview__key=="37-23-55-55" & membres__id ==2
-replace M5 = 1 if interview__key=="37-23-55-55" & membres__id ==4
-replace M5 = 1 if interview__key=="38-96-83-41" & membres__id ==3
-replace M5 = 2 if interview__key=="00-95-33-25" & membres__id ==1
-replace M5 = 1 if interview__key=="48-44-71-45" & membres__id ==1
-replace M5 = 1 if interview__key=="13-37-73-54" & membres__id ==2
-replace M5 = 2 if interview__key=="73-34-48-76" & membres__id ==5
-replace M5 = 1 if interview__key=="84-05-24-20" & membres__id ==4
-replace M5 = 2 if interview__key=="68-29-86-09" & membres__id ==4
-replace M5 = 1 if interview__key=="86-78-52-13" & membres__id ==5
-replace M5 = 1 if interview__key=="09-92-12-91" & membres__id ==5
-replace M5 = 1 if interview__key=="72-21-32-19" & membres__id ==3
-replace M5 = 1 if interview__key=="28-10-51-94" & membres__id ==4
-replace M5 = 2 if interview__key=="78-41-72-62" & membres__id ==1
-replace M5 = 2 if interview__key=="40-08-28-21" & membres__id ==10
-replace M5 = 1 if interview__key=="40-08-28-21" & membres__id ==12
-replace M5 = 2 if interview__key=="26-42-92-74" & membres__id ==6
-replace M5 = 2 if interview__key=="26-42-92-74" & membres__id ==12
-replace M5 = 2 if interview__key=="20-62-14-10" & membres__id ==6
-replace M5 = 1 if interview__key=="24-06-64-62" & membres__id ==3
-replace M5 = 2 if interview__key=="86-51-00-52" & membres__id ==6
-replace M5 = 2 if interview__key=="94-37-52-34" & membres__id ==9
-replace M5 = 1 if interview__key=="60-96-75-93" & membres__id ==6
-replace M5 = 2 if interview__key=="42-43-41-01" & membres__id ==3
-replace M5 = 2 if interview__key=="42-43-41-01" & membres__id ==5
-replace M5 = 2 if interview__key=="02-86-79-80" & membres__id ==19
-replace M5 = 1 if interview__key=="27-60-77-79" & membres__id ==4
-replace M5 = 2 if interview__key=="27-60-77-79" & membres__id ==5
-replace M5 = 1 if interview__key=="45-18-05-36" & membres__id ==3
-replace M5 = 2 if interview__key=="05-48-27-60" & membres__id ==4
-replace M5 = 1 if interview__key=="58-15-32-89" & membres__id ==3
-replace M5 = 2 if interview__key=="03-72-26-50" & membres__id ==8
-replace M5 = 2 if interview__key=="95-03-47-77" & membres__id ==4
-replace M5 = 1 if interview__key=="14-01-93-07" & membres__id ==8
-replace M5 = 1 if interview__key=="87-65-65-77" & membres__id ==5
-replace M5 = 2 if interview__key=="00-27-55-08" & membres__id ==5
-replace M5 = 1 if interview__key=="81-16-22-87" & membres__id ==4
-replace M5 = 2 if interview__key=="73-45-07-02" & membres__id ==4
-replace M5 = 1 if interview__key=="63-73-25-47" & membres__id ==1
-replace M5 = 2 if interview__key=="10-52-32-91" & membres__id ==11
-replace M5 = 1 if interview__key=="01-51-69-17" & membres__id ==7
-replace M5 = 2 if interview__key=="01-51-69-17" & membres__id ==8
-replace M5 = 1 if interview__key=="84-51-35-01" & membres__id ==3
-replace M5 = 1 if interview__key=="35-21-97-65" & membres__id ==1
-replace M5 = 2 if interview__key=="01-50-44-68" & membres__id ==3
-replace M5 = 2 if interview__key=="44-26-94-70" & membres__id ==4
-replace M5 = 2 if interview__key=="11-06-99-85" & membres__id ==4
-replace M5 = 2 if interview__key=="11-06-99-85" & membres__id ==5
-replace M5 = 2 if interview__key=="07-69-47-65" & membres__id ==2
-replace M5 = 2 if interview__key=="63-68-64-56" & membres__id ==3
-replace M5 = 1 if interview__key=="64-83-36-02" & membres__id ==6
-replace M5 = 1 if interview__key=="24-68-73-23" & membres__id ==3
-replace M5 = 1 if interview__key=="58-80-53-13" & membres__id ==3
-replace M5 = 2 if interview__key=="22-20-94-14" & membres__id ==3
-replace M5 = 2 if interview__key=="54-90-12-21" & membres__id ==1
-replace M5 = 1 if interview__key=="20-63-38-90" & membres__id ==4
-replace M5 = 2 if interview__key=="93-63-74-80" & membres__id ==2
-replace M5 = 2 if interview__key=="35-43-09-57" & membres__id ==7
-replace M5 = 2 if interview__key=="89-94-28-38" & membres__id ==5
-replace M5 = 1 if interview__key=="72-67-39-86" & membres__id ==5
-replace M5 = 2 if interview__key=="23-27-36-27" & membres__id ==5
-replace M5 = 1 if interview__key=="23-27-36-27" & membres__id ==6
-replace M5 = 2 if interview__key=="73-81-00-26" & membres__id ==4
-replace M5 = 2 if interview__key=="54-23-13-00" & membres__id ==6
-replace M5 = 1 if interview__key=="77-05-76-45" & membres__id ==1
-replace M5 = 1 if interview__key=="70-38-87-10" & membres__id ==11
-replace M5 = 2 if interview__key=="21-45-43-29" & membres__id ==5
-replace M5 = 2 if interview__key=="86-26-26-60" & membres__id ==3
-replace M5 = 1 if interview__key=="13-76-79-69" & membres__id ==3
-replace M5 = 2 if interview__key=="86-90-11-96" & membres__id ==4
-replace M5 = 2 if interview__key=="86-90-11-96" & membres__id ==6
-replace M5 = 2 if interview__key=="86-90-11-96" & membres__id ==10
-replace M5 = 1 if interview__key=="42-38-92-79" & membres__id ==7
-replace M5 = 1 if interview__key=="73-61-40-26" & membres__id ==3
-replace M5 = 1 if interview__key=="32-01-95-57" & membres__id ==5
-replace M5 = 2 if interview__key=="32-01-95-57" & membres__id ==6
-replace M5 = 1 if interview__key=="32-01-95-57" & membres__id ==7
-replace M5 = 1 if interview__key=="45-93-85-34" & membres__id ==8
-replace M5 = 1 if interview__key=="31-88-44-09" & membres__id ==3
-replace M5 = 1 if interview__key=="12-47-32-50" & membres__id ==1
-replace M5 = 2 if interview__key=="00-39-44-95" & membres__id ==3
-replace M5 = 1 if interview__key=="92-72-84-35" & membres__id ==13
-replace M5 = 2 if interview__key=="92-72-84-35" & membres__id ==14
-replace M5 = 2 if interview__key=="96-26-83-91" & membres__id ==2
-replace M5 = 2 if interview__key=="96-26-83-91" & membres__id ==4
-replace M5 = 2 if interview__key=="49-50-46-34" & membres__id ==8
-replace M5 = 1 if interview__key=="36-42-09-14" & membres__id ==3
-replace M5 = 2 if interview__key=="27-84-27-40" & membres__id ==16
-replace M5 = 2 if interview__key=="17-45-05-73" & membres__id ==15
-replace M5 = 1 if interview__key=="41-97-73-30" & membres__id ==2
-replace M5 = 2 if interview__key=="07-95-23-37" & membres__id ==5
-replace M5 = 2 if interview__key=="05-55-46-04" & membres__id ==4
-replace M5 = 2 if interview__key=="05-55-46-04" & membres__id ==11
-replace M5 = 2 if interview__key=="25-21-09-36" & membres__id ==3
-replace M5 = 1 if interview__key=="85-53-01-57" & membres__id ==1
-replace M5 = 1 if interview__key=="81-04-22-53" & membres__id ==5
-replace M5 = 2 if interview__key=="10-47-61-59" & membres__id ==3
-replace M5 = 1 if interview__key=="01-70-16-69" & membres__id ==5
-replace M5 = 2 if interview__key=="31-06-14-02" & membres__id ==2
-replace M5 = 1 if interview__key=="52-85-24-07" & membres__id ==4
-replace M5 = 1 if interview__key=="52-85-24-07" & membres__id ==5
-replace M5 = 2 if interview__key=="18-23-78-24" & membres__id ==4
-replace M5 = 2 if interview__key=="18-23-78-24" & membres__id ==5
-replace M5 = 2 if interview__key=="25-48-56-97" & membres__id ==1
-replace M5 = 2 if interview__key=="23-07-57-69" & membres__id ==3
-replace M5 = 2 if interview__key=="23-07-57-69" & membres__id ==4
-replace M5 = 2 if interview__key=="32-45-60-54" & membres__id ==11
-replace M5 = 2 if interview__key=="22-03-20-09" & membres__id ==4
-replace M5 = 2 if interview__key=="25-76-82-71" & membres__id ==6
-replace M5 = 1 if interview__key=="56-56-68-18" & membres__id ==2
-replace M5 = 2 if interview__key=="74-95-50-17" & membres__id ==8
-replace M5 = 2 if interview__key=="74-95-50-17" & membres__id ==15
-replace M5 = 2 if interview__key=="10-01-98-57" & membres__id ==16
-replace M5 = 2 if interview__key=="38-00-12-57" & membres__id ==2
-replace M5 = 2 if interview__key=="35-65-28-37" & membres__id ==4
-replace M5 = 2 if interview__key=="25-34-77-64" & membres__id ==3
-replace M5 = 2 if interview__key=="60-83-28-65" & membres__id ==10
-replace M5 = 1 if interview__key=="89-32-73-00" & membres__id ==4
-replace M5 = 2 if interview__key=="02-17-28-94" & membres__id ==3
-replace M5 = 2 if interview__key=="12-65-16-14" & membres__id ==1
-replace M5 = 1 if interview__key=="94-48-45-38" & membres__id ==2
-replace M5 = 2 if interview__key=="75-12-08-36" & membres__id ==8
-replace M5 = 1 if interview__key=="61-16-30-94" & membres__id ==3
-replace M5 = 2 if interview__key=="43-19-23-80" & membres__id ==4
-replace M5 = 2 if interview__key=="90-65-77-08" & membres__id ==4
-replace M5 = 1 if interview__key=="99-77-02-31" & membres__id ==3
-replace M5 = 2 if interview__key=="99-77-02-31" & membres__id ==8
-replace M5 = 2 if interview__key=="26-54-75-11" & membres__id ==5
-replace M5 = 1 if interview__key=="33-96-91-36" & membres__id ==5
-replace M5 = 1 if interview__key=="33-96-91-36" & membres__id ==6
-replace M5 = 2 if interview__key=="85-96-46-46" & membres__id ==4
-replace M5 = 2 if interview__key=="26-32-55-34" & membres__id ==11
-replace M5 = 2 if interview__key=="17-31-60-58" & membres__id ==9
-replace M5 = 1 if interview__key=="45-73-69-42" & membres__id ==5
-replace M5 = 2 if interview__key=="10-40-09-62" & membres__id ==5
-replace M5 = 2 if interview__key=="03-14-52-31" & membres__id ==3
-replace M5 = 2 if interview__key=="84-58-35-54" & membres__id ==5
-replace M5 = 1 if interview__key=="56-69-23-80" & membres__id ==3
-replace M5 = 1 if interview__key=="06-61-47-57" & membres__id ==5
-replace M5 = 1 if interview__key=="28-99-08-25" & membres__id ==4
-replace M5 = 2 if interview__key=="28-99-08-25" & membres__id ==6
-replace M5 = 1 if interview__key=="11-01-93-49" & membres__id ==2
-replace M5 = 2 if interview__key=="40-59-80-61" & membres__id ==4
-replace M5 = 2 if interview__key=="79-11-45-26" & membres__id ==3
-replace M5 = 1 if interview__key=="82-18-07-48" & membres__id ==3
-replace M5 = 2 if interview__key=="82-18-07-48" & membres__id ==4
-replace M5 = 2 if interview__key=="55-21-71-58" & membres__id ==5
-replace M5 = 2 if interview__key=="04-63-64-70" & membres__id ==7
-replace M5 = 2 if interview__key=="89-46-00-99" & membres__id ==5
-replace M5 = 1 if interview__key=="74-80-19-27" & membres__id ==5
-replace M5 = 1 if interview__key=="49-86-39-26" & membres__id ==3
-replace M5 = 1 if interview__key=="55-17-57-23" & membres__id ==4
-replace M5 = 2 if interview__key=="34-63-31-92" & membres__id ==6
-replace M5 = 2 if interview__key=="44-42-75-86" & membres__id ==1
-replace M5 = 2 if interview__key=="04-60-60-57" & membres__id ==1
-replace M5 = 1 if interview__key=="76-21-64-48" & membres__id ==5
-replace M5 = 1 if interview__key=="47-15-70-98" & membres__id ==4
-replace M5 = 1 if interview__key=="60-28-73-55" & membres__id ==5
-replace M5 = 1 if interview__key=="47-81-27-63" & membres__id ==5
-replace M5 = 1 if interview__key=="02-26-03-31" & membres__id ==3
-replace M5 = 2 if interview__key=="25-50-05-34" & membres__id ==5
-replace M5 = 1 if interview__key=="07-92-64-98" & membres__id ==2
-replace M5 = 2 if interview__key=="07-22-93-08" & membres__id ==1
-replace M5 = 1 if interview__key=="82-63-83-89" & membres__id ==3
-replace M5 = 1 if interview__key=="85-39-14-46" & membres__id ==6
-replace M5 = 1 if interview__key=="75-49-62-99" & membres__id ==1
-replace M5 = 2 if interview__key=="08-35-47-22" & membres__id ==1
-replace M5 = 1 if interview__key=="99-95-64-38" & membres__id ==4
-replace M5 = 2 if interview__key=="03-49-78-55" & membres__id ==1
-replace M5 = 1 if interview__key=="88-29-38-98" & membres__id ==1
-replace M5 = 2 if interview__key=="45-86-45-64" & membres__id ==3
-replace M5 = 1 if interview__key=="45-86-45-64" & membres__id ==4
-replace M5 = 1 if interview__key=="87-73-85-84" & membres__id ==3
-replace M5 = 1 if interview__key=="90-60-64-17" & membres__id ==6
-replace M5 = 1 if interview__key=="08-75-89-33" & membres__id ==3
-replace M5 = 2 if interview__key=="35-62-88-75" & membres__id ==4
-replace M5 = 2 if interview__key=="68-83-86-98" & membres__id ==5
-replace M5 = 1 if interview__key=="65-01-52-66" & membres__id ==7
-replace M5 = 1 if interview__key=="65-01-52-66" & membres__id ==12
-replace M5 = 2 if interview__key=="03-94-18-89" & membres__id ==4
-replace M5 = 1 if interview__key=="07-50-05-16" & membres__id ==3
-replace M5 = 2 if interview__key=="54-62-14-63" & membres__id ==5
-replace M5 = 1 if interview__key=="15-90-33-13" & membres__id ==4
-replace M5 = 1 if interview__key=="11-64-89-45" & membres__id ==3
-replace M5 = 1 if interview__key=="88-10-78-00" & membres__id ==5
-replace M5 = 1 if interview__key=="00-32-93-12" & membres__id ==5
-replace M5 = 2 if interview__key=="49-04-62-96" & membres__id ==7
-replace M5 = 1 if interview__key=="66-85-12-70" & membres__id ==9
-replace M5 = 1 if interview__key=="87-06-42-75" & membres__id ==3
-replace M5 = 1 if interview__key=="85-83-12-26" & membres__id ==3
-replace M5 = 2 if interview__key=="00-77-38-39" & membres__id ==17
-replace M5 = 1 if interview__key=="92-22-45-14" & membres__id ==4
-replace M5 = 2 if interview__key=="32-35-34-68" & membres__id ==6
-replace M5 = 2 if interview__key=="32-90-99-05" & membres__id ==3
-replace M5 = 1 if interview__key=="56-25-59-46" & membres__id ==1
-replace M5 = 2 if interview__key=="73-16-62-48" & membres__id ==4
-replace M5 = 1 if interview__key=="31-67-21-24" & membres__id ==6
-replace M5 = 1 if interview__key=="11-58-12-59" & membres__id ==8
-replace M5 = 1 if interview__key=="59-95-36-73" & membres__id ==2
-replace M5 = 1 if interview__key=="59-95-36-73" & membres__id ==3
-replace M5 = 1 if interview__key=="67-66-43-40" & membres__id ==3
-replace M5 = 1 if interview__key=="67-66-43-40" & membres__id ==4
-replace M5 = 2 if interview__key=="09-31-60-60" & membres__id ==2
-replace M5 = 1 if interview__key=="25-05-91-23" & membres__id ==1
-replace M5 = 2 if interview__key=="47-87-37-48" & membres__id ==3
-replace M5 = 1 if interview__key=="47-87-37-48" & membres__id ==8
-replace M5 = 1 if interview__key=="44-78-89-06" & membres__id ==1
-replace M5 = 1 if interview__key=="58-71-61-87" & membres__id ==3
-replace M5 = 1 if interview__key=="48-46-76-71" & membres__id ==3
-replace M5 = 2 if interview__key=="04-88-30-65" & membres__id ==4
-replace M5 = 2 if interview__key=="12-44-53-51" & membres__id ==2
-replace M5 = 1 if interview__key=="00-92-02-42" & membres__id ==5
-replace M5 = 2 if interview__key=="06-65-94-78" & membres__id ==5
-replace M5 = 1 if interview__key=="45-08-02-33" & membres__id ==6
-replace M5 = 1 if interview__key=="94-97-78-84" & membres__id ==3
-replace M5 = 1 if interview__key=="72-14-48-73" & membres__id ==3
-replace M5 = 1 if interview__key=="46-54-49-25" & membres__id ==1
-replace M5 = 2 if interview__key=="46-54-49-25" & membres__id ==2
-replace M5 = 2 if interview__key=="55-10-53-10" & membres__id ==11
-replace M5 = 2 if interview__key=="27-50-16-01" & membres__id ==4
-replace M5 = 2 if interview__key=="53-01-57-02" & membres__id ==5
-replace M5 = 1 if interview__key=="53-01-57-02" & membres__id ==13
-replace M5 = 2 if interview__key=="83-11-85-12" & membres__id ==3
-replace M5 = 2 if interview__key=="84-79-11-31" & membres__id ==2
-replace M5 = 1 if interview__key=="84-79-11-31" & membres__id ==8
-replace M5 = 2 if interview__key=="59-67-25-49" & membres__id ==3
-replace M5 = 1 if interview__key=="49-97-95-95" & membres__id ==5
-replace M5 = 2 if interview__key=="41-34-58-22" & membres__id ==3
-replace M5 = 1 if interview__key=="82-01-62-43" & membres__id ==1
-replace M5 = 1 if interview__key=="81-58-61-17" & membres__id ==5
-replace M5 = 2 if interview__key=="62-55-66-86" & membres__id ==5
-replace M5 = 1 if interview__key=="75-18-34-95" & membres__id ==1
-replace M5 = 2 if interview__key=="77-65-16-46" & membres__id ==2
-replace M5 = 2 if interview__key=="70-61-15-64" & membres__id ==5
-replace M5 = 1 if interview__key=="54-70-25-43" & membres__id ==3
-replace M5 = 2 if interview__key=="06-62-78-67" & membres__id ==11
-replace M5 = 2 if interview__key=="06-62-78-67" & membres__id ==15
-replace M5 = 2 if interview__key=="47-69-99-23" & membres__id ==4
-replace M5 = 2 if interview__key=="40-65-66-84" & membres__id ==1
-replace M5 = 2 if interview__key=="40-65-66-84" & membres__id ==3
-replace M5 = 1 if interview__key=="88-86-33-34" & membres__id ==3
-replace M5 = 2 if interview__key=="09-00-71-61" & membres__id ==3
-replace M5 = 1 if interview__key=="09-00-71-61" & membres__id ==4
-replace M5 = 1 if interview__key=="17-57-05-81" & membres__id ==5
-replace M5 = 2 if interview__key=="00-68-81-50" & membres__id ==7
-replace M5 = 2 if interview__key=="29-52-36-84" & membres__id ==2
-replace M5 = 2 if interview__key=="91-44-74-72" & membres__id ==13
-replace M5 = 1 if interview__key=="60-92-18-66" & membres__id ==5
-replace M5 = 1 if interview__key=="31-72-88-97" & membres__id ==5
-replace M5 = 2 if interview__key=="57-41-38-54" & membres__id ==1
-replace M5 = 2 if interview__key=="64-06-91-19" & membres__id ==1
-replace M5 = 2 if interview__key=="33-71-99-98" & membres__id ==5
-replace M5 = 1 if interview__key=="69-77-65-90" & membres__id ==5
-replace M5 = 2 if interview__key=="69-77-65-90" & membres__id ==7
-replace M5 = 2 if interview__key=="47-74-38-04" & membres__id ==6
-replace M5 = 2 if interview__key=="07-34-87-73" & membres__id ==2
-replace M5 = 1 if interview__key=="07-34-87-73" & membres__id ==3
-replace M5 = 1 if interview__key=="15-54-92-61" & membres__id ==6
-replace M5 = 1 if interview__key=="84-72-89-07" & membres__id ==4
-replace M5 = 1 if interview__key=="57-48-54-73" & membres__id ==7
-replace M5 = 2 if interview__key=="20-34-97-31" & membres__id ==10
-replace M5 = 1 if interview__key=="08-19-80-62" & membres__id ==5
-replace M5 = 1 if interview__key=="08-19-80-62" & membres__id ==7
-replace M5 = 2 if interview__key=="42-23-22-30" & membres__id ==4
-replace M5 = 2 if interview__key=="62-71-35-99" & membres__id ==7
-replace M5 = 2 if interview__key=="66-38-11-92" & membres__id ==4
-replace M5 = 1 if interview__key=="66-38-11-92" & membres__id ==5
-replace M5 = 2 if interview__key=="47-05-88-87" & membres__id ==3
-replace M5 = 2 if interview__key=="47-05-88-87" & membres__id ==11
-replace M5 = 1 if interview__key=="98-06-58-97" & membres__id ==5
-replace M5 = 1 if interview__key=="79-65-56-49" & membres__id ==5
-replace M5 = 1 if interview__key=="80-28-79-67" & membres__id ==6
-replace M5 = 1 if interview__key=="59-52-80-80" & membres__id ==8
-replace M5 = 2 if interview__key=="74-33-09-55" & membres__id ==3
-replace M5 = 2 if interview__key=="74-33-09-55" & membres__id ==4
-replace M5 = 1 if interview__key=="95-83-47-75" & membres__id ==3
-replace M5 = 2 if interview__key=="62-17-17-23" & membres__id ==4
-replace M5 = 1 if interview__key=="28-33-15-14" & membres__id ==6
-replace M5 = 2 if interview__key=="57-25-10-05" & membres__id ==3
-replace M5 = 2 if interview__key=="71-32-40-42" & membres__id ==6
-replace M5 = 1 if interview__key=="24-43-11-33" & membres__id ==6
-replace M5 = 2 if interview__key=="97-48-14-15" & membres__id ==5
-replace M5 = 2 if interview__key=="97-48-14-15" & membres__id ==7
-replace M5 = 2 if interview__key=="06-37-25-47" & membres__id ==4
-replace M5 = 2 if interview__key=="88-39-94-73" & membres__id ==5
-replace M5 = 2 if interview__key=="44-25-54-81" & membres__id ==4
-replace M5 = 1 if interview__key=="55-19-15-29" & membres__id ==3
-replace M5 = 2 if interview__key=="36-54-79-23" & membres__id ==4
-replace M5 = 2 if interview__key=="36-54-79-23" & membres__id ==8
-replace M5 = 2 if interview__key=="38-33-97-88" & membres__id ==3
-replace M5 = 2 if interview__key=="56-00-80-73" & membres__id ==7
-replace M5 = 2 if interview__key=="95-93-89-75" & membres__id ==3
-replace M5 = 2 if interview__key=="14-35-58-38" & membres__id ==7
-replace M5 = 2 if interview__key=="72-71-39-54" & membres__id ==5
-replace M5 = 1 if interview__key=="29-22-75-34" & membres__id ==4
-replace M5 = 1 if interview__key=="98-55-94-56" & membres__id ==3
-replace M5 = 2 if interview__key=="38-84-80-74" & membres__id ==6
-replace M5 = 1 if interview__key=="62-87-81-54" & membres__id ==8
-replace M5 = 1 if interview__key=="88-68-40-51" & membres__id ==1
-replace M5 = 2 if interview__key=="70-60-80-00" & membres__id ==9
-replace M5 = 1 if interview__key=="63-27-93-47" & membres__id ==3
-replace M5 = 2 if interview__key=="42-67-39-98" & membres__id ==2
-replace M5 = 2 if interview__key=="42-67-39-98" & membres__id ==4
-replace M5 = 2 if interview__key=="21-67-68-48" & membres__id ==3
-replace M5 = 2 if interview__key=="21-67-68-48" & membres__id ==6
-replace M5 = 2 if interview__key=="09-95-73-01" & membres__id ==2
-replace M5 = 2 if interview__key=="17-65-95-46" & membres__id ==4
-replace M5 = 1 if interview__key=="85-16-96-53" & membres__id ==7
-replace M5 = 2 if interview__key=="17-71-50-99" & membres__id ==7
-replace M5 = 2 if interview__key=="78-22-33-92" & membres__id ==1
-replace M5 = 2 if interview__key=="09-22-66-63" & membres__id ==5
-replace M5 = 1 if interview__key=="09-22-66-63" & membres__id ==6
-replace M5 = 2 if interview__key=="08-11-02-36" & membres__id ==5
-replace M5 = 1 if interview__key=="01-71-59-91" & membres__id ==1
-replace M5 = 1 if interview__key=="66-55-33-04" & membres__id ==4
-replace M5 = 1 if interview__key=="41-22-67-71" & membres__id ==3
-replace M5 = 2 if interview__key=="27-04-10-00" & membres__id ==5
-replace M5 = 2 if interview__key=="27-04-10-00" & membres__id ==6
-replace M5 = 1 if interview__key=="68-10-38-03" & membres__id ==10
-replace M5 = 1 if interview__key=="07-28-40-48" & membres__id ==3
-replace M5 = 2 if interview__key=="68-99-66-29" & membres__id ==3
-replace M5 = 1 if interview__key=="47-72-43-54" & membres__id ==1
-replace M5 = 1 if interview__key=="47-72-43-54" & membres__id ==5
-replace M5 = 2 if interview__key=="53-19-80-71" & membres__id ==5
-replace M5 = 2 if interview__key=="13-36-23-94" & membres__id ==12
-replace M5 = 1 if interview__key=="94-03-14-37" & membres__id ==3
-replace M5 = 1 if interview__key=="77-08-81-22" & membres__id ==3
-replace M5 = 2 if interview__key=="77-08-81-22" & membres__id ==4
-replace M5 = 1 if interview__key=="34-58-31-60" & membres__id ==3
-replace M5 = 2 if interview__key=="53-37-25-20" & membres__id ==4
-replace M5 = 1 if interview__key=="60-32-45-09" & membres__id ==7
-replace M5 = 2 if interview__key=="28-52-74-47" & membres__id ==6
-replace M5 = 1 if interview__key=="06-65-52-61" & membres__id ==3
-replace M5 = 2 if interview__key=="51-64-71-82" & membres__id ==16
-replace M5 = 1 if interview__key=="88-23-28-24" & membres__id ==1
-replace M5 = 1 if interview__key=="88-23-28-24" & membres__id ==4
-replace M5 = 1 if interview__key=="20-59-55-75" & membres__id ==3
-replace M5 = 2 if interview__key=="25-35-65-88" & membres__id ==5
-replace M5 = 1 if interview__key=="39-45-91-62" & membres__id ==4
-replace M5 = 1 if interview__key=="66-27-72-09" & membres__id ==6
-replace M5 = 1 if interview__key=="66-27-72-09" & membres__id ==7
-replace M5 = 2 if interview__key=="57-93-97-28" & membres__id ==5
-replace M5 = 2 if interview__key=="44-98-54-21" & membres__id ==5
-replace M5 = 1 if interview__key=="80-18-06-87" & membres__id ==7
-replace M5 = 2 if interview__key=="17-75-75-02" & membres__id ==3
-replace M5 = 2 if interview__key=="48-27-85-99" & membres__id ==5
-replace M5 = 1 if interview__key=="20-76-31-26" & membres__id ==2
-replace M5 = 1 if interview__key=="97-73-09-23" & membres__id ==4
-replace M5 = 1 if interview__key=="20-77-72-48" & membres__id ==3
-replace M5 = 2 if interview__key=="16-79-23-13" & membres__id ==6
-replace M5 = 2 if interview__key=="02-02-57-77" & membres__id ==5
-replace M5 = 2 if interview__key=="94-93-77-85" & membres__id ==8
-replace M5 = 2 if interview__key=="18-35-68-74" & membres__id ==9
-replace M5 = 2 if interview__key=="77-94-12-16" & membres__id ==5
-replace M5 = 1 if interview__key=="14-37-00-18" & membres__id ==4
-replace M5 = 2 if interview__key=="14-37-00-18" & membres__id ==6
-replace M5 = 2 if interview__key=="15-67-83-30" & membres__id ==4
-replace M5 = 1 if interview__key=="77-56-45-58" & membres__id ==4
-replace M5 = 2 if interview__key=="26-32-91-14" & membres__id ==13
-replace M5 = 1 if interview__key=="61-37-15-07" & membres__id ==4
-replace M5 = 2 if interview__key=="54-21-25-50" & membres__id ==4
-replace M5 = 1 if interview__key=="04-21-31-59" & membres__id ==1
-replace M5 = 1 if interview__key=="55-26-05-74" & membres__id ==3
-replace M5 = 1 if interview__key=="85-14-47-16" & membres__id ==3
-replace M5 = 1 if interview__key=="85-14-47-16" & membres__id ==4
-replace M5 = 2 if interview__key=="38-38-22-55" & membres__id ==2
-replace M5 = 1 if interview__key=="85-87-84-44" & membres__id ==4
-replace M5 = 1 if interview__key=="82-67-70-00" & membres__id ==2
-replace M5 = 2 if interview__key=="37-67-24-52" & membres__id ==4
-replace M5 = 2 if interview__key=="98-64-86-49" & membres__id ==4
-replace M5 = 2 if interview__key=="78-13-65-90" & membres__id ==3
-replace M5 = 2 if interview__key=="39-71-43-54" & membres__id ==5
-replace M5 = 2 if interview__key=="42-83-71-01" & membres__id ==3
-replace M5 = 2 if interview__key=="42-83-71-01" & membres__id ==5
-replace M5 = 2 if interview__key=="64-94-15-26" & membres__id ==3
-replace M5 = 2 if interview__key=="64-94-15-26" & membres__id ==4
-replace M5 = 2 if interview__key=="92-69-75-01" & membres__id ==5
-replace M5 = 1 if interview__key=="05-09-65-57" & membres__id ==3
-replace M5 = 1 if interview__key=="05-09-65-57" & membres__id ==8
-replace M5 = 2 if interview__key=="44-16-06-65" & membres__id ==3
-replace M5 = 1 if interview__key=="57-95-91-10" & membres__id ==3
-replace M5 = 2 if interview__key=="65-32-68-24" & membres__id ==4
-replace M5 = 2 if interview__key=="37-63-35-04" & membres__id ==6
-replace M5 = 2 if interview__key=="37-63-35-04" & membres__id ==8
-replace M5 = 1 if interview__key=="01-91-19-38" & membres__id ==9
-replace M5 = 2 if interview__key=="01-91-19-38" & membres__id ==11
-replace M5 = 1 if interview__key=="66-33-47-67" & membres__id ==2
-replace M5 = 1 if interview__key=="66-33-47-67" & membres__id ==3
-replace M5 = 2 if interview__key=="79-61-74-42" & membres__id ==9
-replace M5 = 2 if interview__key=="80-89-26-20" & membres__id ==6
-replace M5 = 2 if interview__key=="93-32-46-17" & membres__id ==6
-replace M5 = 1 if interview__key=="26-52-60-78" & membres__id ==3
-replace M5 = 2 if interview__key=="83-91-35-97" & membres__id ==7
-replace M5 = 2 if interview__key=="21-99-26-66" & membres__id ==4
-replace M5 = 2 if interview__key=="93-44-84-27" & membres__id ==8
-replace M5 = 2 if interview__key=="09-71-55-13" & membres__id ==7
-replace M5 = 1 if interview__key=="89-14-35-36" & membres__id ==3
-replace M5 = 2 if interview__key=="84-34-44-45" & membres__id ==2
-replace M5 = 2 if interview__key=="35-97-03-02" & membres__id ==3
-replace M5 = 1 if interview__key=="68-42-74-10" & membres__id ==3
-replace M5 = 1 if interview__key=="68-42-74-10" & membres__id ==10
-replace M5 = 2 if interview__key=="15-59-82-95" & membres__id ==4
-replace M5 = 1 if interview__key=="15-59-82-95" & membres__id ==8
-replace M5 = 2 if interview__key=="48-39-04-15" & membres__id ==8
-replace M5 = 1 if interview__key=="67-04-76-15" & membres__id ==5
-replace M5 = 1 if interview__key=="96-37-51-58" & membres__id ==4
-replace M5 = 1 if interview__key=="53-55-53-03" & membres__id ==5
-replace M5 = 1 if interview__key=="53-55-53-03" & membres__id ==6
-replace M5 = 2 if interview__key=="95-60-36-30" & membres__id ==6
-replace M5 = 1 if interview__key=="19-02-39-76" & membres__id ==8
-replace M5 = 2 if interview__key=="37-28-92-27" & membres__id ==4
-replace M5 = 2 if interview__key=="37-28-92-27" & membres__id ==5
-replace M5 = 2 if interview__key=="81-94-14-05" & membres__id ==3
-replace M5 = 2 if interview__key=="54-33-78-62" & membres__id ==1
-replace M5 = 2 if interview__key=="90-50-87-49" & membres__id ==3
-replace M5 = 2 if interview__key=="63-76-43-86" & membres__id ==4
-replace M5 = 1 if interview__key=="43-60-94-02" & membres__id ==8
-replace M5 = 2 if interview__key=="43-60-94-02" & membres__id ==10
-replace M5 = 2 if interview__key=="78-81-71-28" & membres__id ==5
-replace M5 = 2 if interview__key=="78-81-71-28" & membres__id ==6
-replace M5 = 2 if interview__key=="66-42-98-93" & membres__id ==5
-replace M5 = 1 if interview__key=="90-20-18-35" & membres__id ==8
-replace M5 = 1 if interview__key=="90-20-18-35" & membres__id ==9
-replace M5 = 1 if interview__key=="90-20-18-35" & membres__id ==12
-replace M5 = 1 if interview__key=="00-18-54-59" & membres__id ==3
-replace M5 = 2 if interview__key=="92-47-96-85" & membres__id ==3
-replace M5 = 2 if interview__key=="92-47-96-85" & membres__id ==11
-replace M5 = 1 if interview__key=="81-69-89-49" & membres__id ==10
-replace M5 = 2 if interview__key=="34-94-77-58" & membres__id ==4
-replace M5 = 2 if interview__key=="78-05-40-48" & membres__id ==1
-replace M5 = 1 if interview__key=="64-91-76-77" & membres__id ==4
-replace M5 = 2 if interview__key=="72-25-22-99" & membres__id ==3
-replace M5 = 1 if interview__key=="98-97-53-63" & membres__id ==6
-replace M5 = 2 if interview__key=="19-05-36-94" & membres__id ==5
-replace M5 = 1 if interview__key=="77-00-95-16" & membres__id ==10
-replace M5 = 1 if interview__key=="20-26-11-50" & membres__id ==2
-replace M5 = 2 if interview__key=="29-68-68-09" & membres__id ==5
-replace M5 = 2 if interview__key=="29-05-40-54" & membres__id ==1
-replace M5 = 2 if interview__key=="71-42-28-22" & membres__id ==3
-replace M5 = 2 if interview__key=="71-42-28-22" & membres__id ==6
-replace M5 = 2 if interview__key=="32-52-98-91" & membres__id ==4
-replace M5 = 2 if interview__key=="32-52-98-91" & membres__id ==5
-replace M5 = 1 if interview__key=="16-38-22-17" & membres__id ==8
-replace M5 = 2 if interview__key=="24-76-41-88" & membres__id ==1
-replace M5 = 2 if interview__key=="65-71-80-04" & membres__id ==3
-replace M5 = 2 if interview__key=="46-45-40-29" & membres__id ==3
-replace M5 = 1 if interview__key=="91-44-46-34" & membres__id ==1
-replace M5 = 2 if interview__key=="02-10-25-06" & membres__id ==3
-replace M5 = 2 if interview__key=="74-89-05-00" & membres__id ==3
-replace M5 = 2 if interview__key=="74-89-05-00" & membres__id ==5
-replace M5 = 1 if interview__key=="06-13-71-77" & membres__id ==5
-replace M5 = 1 if interview__key=="74-35-61-58" & membres__id ==3
-replace M5 = 1 if interview__key=="53-60-29-01" & membres__id ==6
-replace M5 = 1 if interview__key=="68-64-90-01" & membres__id ==5
-replace M5 = 1 if interview__key=="80-47-31-11" & membres__id ==1
-replace M5 = 2 if interview__key=="01-84-79-77" & membres__id ==2
-replace M5 = 1 if interview__key=="56-01-48-17" & membres__id ==3
-replace M5 = 2 if interview__key=="95-88-50-03" & membres__id ==3
-replace M5 = 2 if interview__key=="41-36-47-33" & membres__id ==5
-replace M5 = 1 if interview__key=="58-38-94-25" & membres__id ==3
-replace M5 = 2 if interview__key=="69-66-24-03" & membres__id ==8
-replace M5 = 1 if interview__key=="35-07-79-40" & membres__id ==5
-replace M5 = 2 if interview__key=="50-32-37-39" & membres__id ==6
-replace M5 = 1 if interview__key=="50-32-37-39" & membres__id ==7
-replace M5 = 1 if interview__key=="49-03-40-23" & membres__id ==4
-replace M5 = 1 if interview__key=="84-66-00-74" & membres__id ==3
-replace M5 = 2 if interview__key=="84-66-00-74" & membres__id ==4
-replace M5 = 2 if interview__key=="88-20-87-57" & membres__id ==12
-replace M5 = 1 if interview__key=="34-27-78-98" & membres__id ==4
-replace M5 = 2 if interview__key=="34-27-78-98" & membres__id ==5
-replace M5 = 1 if interview__key=="47-42-86-49" & membres__id ==12
-replace M5 = 2 if interview__key=="47-42-86-49" & membres__id ==18
-replace M5 = 2 if interview__key=="47-42-86-49" & membres__id ==21
-replace M5 = 2 if interview__key=="89-97-16-49" & membres__id ==10
-replace M5 = 1 if interview__key=="66-28-52-51" & membres__id ==5
-replace M5 = 2 if interview__key=="18-28-11-03" & membres__id ==3
-replace M5 = 2 if interview__key=="88-50-54-11" & membres__id ==8
-replace M5 = 1 if interview__key=="88-50-54-11" & membres__id ==13
-replace M5 = 1 if interview__key=="84-66-98-23" & membres__id ==6
-replace M5 = 2 if interview__key=="03-63-23-67" & membres__id ==1
-replace M5 = 2 if interview__key=="54-75-17-66" & membres__id ==5
-replace M5 = 2 if interview__key=="96-61-37-93" & membres__id ==5
-replace M5 = 2 if interview__key=="16-59-05-25" & membres__id ==3
-replace M5 = 2 if interview__key=="81-83-71-35" & membres__id ==6
-replace M5 = 1 if interview__key=="31-45-65-69" & membres__id ==4
-replace M5 = 2 if interview__key=="01-55-02-19" & membres__id ==6
-replace M5 = 1 if interview__key=="42-70-84-10" & membres__id ==2
-replace M5 = 2 if interview__key=="94-79-26-37" & membres__id ==2
-replace M5 = 2 if interview__key=="50-72-38-61" & membres__id ==5
-replace M5 = 2 if interview__key=="50-72-38-61" & membres__id ==7
-replace M5 = 2 if interview__key=="52-48-31-39" & membres__id ==6
-replace M5 = 1 if interview__key=="26-38-31-47" & membres__id ==1
-replace M5 = 1 if interview__key=="26-38-31-47" & membres__id ==4
-replace M5 = 2 if interview__key=="55-40-74-20" & membres__id ==3
-replace M5 = 1 if interview__key=="77-57-49-98" & membres__id ==3
-replace M5 = 1 if interview__key=="03-55-13-54" & membres__id ==1
-replace M5 = 2 if interview__key=="62-25-42-89" & membres__id ==4
-replace M5 = 2 if interview__key=="78-85-73-79" & membres__id ==6
-replace M5 = 2 if interview__key=="24-42-58-19" & membres__id ==9
-replace M5 = 2 if interview__key=="24-42-58-19" & membres__id ==23
-replace M5 = 1 if interview__key=="24-42-58-19" & membres__id ==25
-replace M5 = 1 if interview__key=="24-42-58-19" & membres__id ==28
-replace M5 = 1 if interview__key=="71-58-03-86" & membres__id ==6
-replace M5 = 2 if interview__key=="43-28-07-72" & membres__id ==6
-replace M5 = 2 if interview__key=="21-53-42-23" & membres__id ==1
-replace M5 = 1 if interview__key=="84-49-35-97" & membres__id ==3
-replace M5 = 2 if interview__key=="84-49-35-97" & membres__id ==7
-replace M5 = 2 if interview__key=="67-86-08-21" & membres__id ==4
-replace M5 = 1 if interview__key=="58-86-87-27" & membres__id ==5
-replace M5 = 2 if interview__key=="77-06-77-10" & membres__id ==1
-replace M5 = 1 if interview__key=="77-06-77-10" & membres__id ==3
-replace M5 = 2 if interview__key=="22-57-44-74" & membres__id ==10
-replace M5 = 1 if interview__key=="70-10-68-34" & membres__id ==6
-replace M5 = 2 if interview__key=="65-59-89-12" & membres__id ==1
-replace M5 = 1 if interview__key=="35-44-06-63" & membres__id ==5
-replace M5 = 2 if interview__key=="53-96-26-40" & membres__id ==4
-replace M5 = 2 if interview__key=="53-96-26-40" & membres__id ==5
-replace M5 = 2 if interview__key=="84-35-38-49" & membres__id ==3
-replace M5 = 1 if interview__key=="99-62-30-62" & membres__id ==4
-replace M5 = 1 if interview__key=="93-32-29-52" & membres__id ==3
-replace M5 = 2 if interview__key=="32-03-40-65" & membres__id ==5
-replace M5 = 2 if interview__key=="02-46-43-58" & membres__id ==5
-replace M5 = 1 if interview__key=="20-22-14-80" & membres__id ==8
-replace M5 = 1 if interview__key=="34-64-06-54" & membres__id ==5
-replace M5 = 1 if interview__key=="95-46-42-68" & membres__id ==5
-replace M5 = 1 if interview__key=="60-79-52-49" & membres__id ==2
-replace M5 = 1 if interview__key=="77-70-60-92" & membres__id ==1
-replace M5 = 2 if interview__key=="28-09-35-22" & membres__id ==3
-replace M5 = 1 if interview__key=="40-57-04-75" & membres__id ==1
-replace M5 = 1 if interview__key=="38-39-62-28" & membres__id ==4
-replace M5 = 1 if interview__key=="38-39-62-28" & membres__id ==5
-replace M5 = 2 if interview__key=="19-54-99-34" & membres__id ==4
-replace M5 = 2 if interview__key=="19-54-99-34" & membres__id ==5
-replace M5 = 1 if interview__key=="19-54-99-34" & membres__id ==6
-replace M5 = 2 if interview__key=="53-36-38-99" & membres__id ==2
-replace M5 = 2 if interview__key=="53-36-38-99" & membres__id ==3
-replace M5 = 1 if interview__key=="84-66-78-82" & membres__id ==5
-replace M5 = 1 if interview__key=="84-66-78-82" & membres__id ==7
-replace M5 = 1 if interview__key=="49-23-43-54" & membres__id ==6
-replace M5 = 1 if interview__key=="16-75-86-61" & membres__id ==4
-replace M5 = 2 if interview__key=="16-75-86-61" & membres__id ==8
-replace M5 = 2 if interview__key=="57-88-62-06" & membres__id ==3
-replace M5 = 1 if interview__key=="24-22-99-78" & membres__id ==5
-replace M5 = 1 if interview__key=="24-22-99-78" & membres__id ==8
-replace M5 = 2 if interview__key=="64-15-45-25" & membres__id ==10
-replace M5 = 2 if interview__key=="04-43-66-72" & membres__id ==4
-replace M5 = 1 if interview__key=="04-43-66-72" & membres__id ==6
-replace M5 = 2 if interview__key=="69-93-88-23" & membres__id ==3
-replace M5 = 1 if interview__key=="39-39-24-97" & membres__id ==7
-replace M5 = 2 if interview__key=="45-96-36-06" & membres__id ==4
-replace M5 = 1 if interview__key=="55-98-25-22" & membres__id ==7
-replace M5 = 1 if interview__key=="23-67-74-86" & membres__id ==6
-replace M5 = 1 if interview__key=="96-31-20-09" & membres__id ==21
-replace M5 = 2 if interview__key=="97-96-20-85" & membres__id ==1
-replace M5 = 1 if interview__key=="36-97-23-97" & membres__id ==11
-replace M5 = 1 if interview__key=="20-41-20-42" & membres__id ==5
-replace M5 = 1 if interview__key=="22-45-99-35" & membres__id ==7
-replace M5 = 1 if interview__key=="22-45-99-35" & membres__id ==10
-replace M5 = 2 if interview__key=="15-09-23-72" & membres__id ==1
-replace M5 = 2 if interview__key=="15-60-34-10" & membres__id ==1
-replace M5 = 1 if interview__key=="86-18-45-92" & membres__id ==7
-replace M5 = 1 if interview__key=="03-82-64-57" & membres__id ==7
-replace M5 = 1 if interview__key=="91-14-66-01" & membres__id ==16
-replace M5 = 1 if interview__key=="74-42-54-47" & membres__id ==6
-replace M5 = 1 if interview__key=="98-47-75-89" & membres__id ==5
-replace M5 = 2 if interview__key=="94-35-85-23" & membres__id ==6
-replace M5 = 1 if interview__key=="19-37-08-30" & membres__id ==6
-replace M5 = 1 if interview__key=="05-63-73-65" & membres__id ==5
-replace M5 = 1 if interview__key=="08-96-26-07" & membres__id ==3
-replace M5 = 2 if interview__key=="08-96-26-07" & membres__id ==4
-replace M5 = 2 if interview__key=="09-24-45-47" & membres__id ==5
-replace M5 = 1 if interview__key=="12-90-30-12" & membres__id ==3
-replace M5 = 2 if interview__key=="91-91-26-68" & membres__id ==3
-replace M5 = 1 if interview__key=="30-76-22-79" & membres__id ==6
-replace M5 = 1 if interview__key=="85-84-49-87" & membres__id ==3
-replace M5 = 2 if interview__key=="74-85-47-93" & membres__id ==5
-replace M5 = 2 if interview__key=="59-17-66-84" & membres__id ==4
-replace M5 = 2 if interview__key=="59-17-66-84" & membres__id ==5
-replace M5 = 2 if interview__key=="98-80-28-87" & membres__id ==4
-replace M5 = 2 if interview__key=="62-57-22-02" & membres__id ==10
-replace M5 = 1 if interview__key=="96-59-06-04" & membres__id ==3
-replace M5 = 2 if interview__key=="73-48-56-91" & membres__id ==2
-replace M5 = 2 if interview__key=="77-64-91-17" & membres__id ==1
-replace M5 = 1 if interview__key=="77-64-91-17" & membres__id ==2
-replace M5 = 2 if interview__key=="43-21-35-05" & membres__id ==5
-replace M5 = 2 if interview__key=="00-37-01-26" & membres__id ==3
-replace M5 = 1 if interview__key=="42-07-34-35" & membres__id ==1
-replace M5 = 1 if interview__key=="91-34-44-56" & membres__id ==8
-replace M5 = 1 if interview__key=="65-78-26-91" & membres__id ==2
-replace M5 = 1 if interview__key=="80-88-74-34" & membres__id ==3
-replace M5 = 1 if interview__key=="59-80-69-91" & membres__id ==3
-replace M5 = 2 if interview__key=="59-80-69-91" & membres__id ==4
-replace M5 = 2 if interview__key=="59-80-69-91" & membres__id ==6
-replace M5 = 2 if interview__key=="66-82-97-37" & membres__id ==3
-replace M5 = 2 if interview__key=="66-82-97-37" & membres__id ==4
-replace M5 = 2 if interview__key=="19-31-89-46" & membres__id ==1
-replace M5 = 2 if interview__key=="42-92-17-20" & membres__id ==2
-replace M5 = 2 if interview__key=="52-94-84-19" & membres__id ==5
-replace M5 = 1 if interview__key=="64-49-95-20" & membres__id ==9
-replace M5 = 1 if interview__key=="13-22-81-54" & membres__id ==2
-replace M5 = 1 if interview__key=="91-34-70-65" & membres__id ==3
-replace M5 = 1 if interview__key=="39-69-31-27" & membres__id ==3
-replace M5 = 2 if interview__key=="35-52-67-68" & membres__id ==1
-replace M5 = 2 if interview__key=="02-33-67-38" & membres__id ==5
-replace M5 = 2 if interview__key=="06-71-55-35" & membres__id ==1
-replace M5 = 2 if interview__key=="06-71-55-35" & membres__id ==2
-replace M5 = 2 if interview__key=="35-68-68-23" & membres__id ==3
-replace M5 = 2 if interview__key=="35-68-68-23" & membres__id ==5
-replace M5 = 2 if interview__key=="11-92-67-06" & membres__id ==7
-replace M5 = 1 if interview__key=="78-19-36-57" & membres__id ==3
-replace M5 = 2 if interview__key=="02-46-66-08" & membres__id ==8
-replace M5 = 1 if interview__key=="26-59-00-43" & membres__id ==6
-replace M5 = 1 if interview__key=="79-12-55-96" & membres__id ==2
-replace M5 = 2 if interview__key=="26-26-15-63" & membres__id ==7
-replace M5 = 1 if interview__key=="20-73-75-59" & membres__id ==3
-replace M5 = 2 if interview__key=="20-73-75-59" & membres__id ==5
-replace M5 = 2 if interview__key=="20-73-75-59" & membres__id ==6
-replace M5 = 1 if interview__key=="66-48-10-48" & membres__id ==3
-replace M5 = 1 if interview__key=="44-40-22-23" & membres__id ==8
-replace M5 = 2 if interview__key=="50-27-60-80" & membres__id ==7
-replace M5 = 2 if interview__key=="28-71-10-54" & membres__id ==6
-replace M5 = 2 if interview__key=="63-60-85-22" & membres__id ==9
-replace M5 = 1 if interview__key=="28-02-52-59" & membres__id ==5
-replace M5 = 1 if interview__key=="04-72-20-18" & membres__id ==4
-replace M5 = 2 if interview__key=="87-29-35-66" & membres__id ==6
-replace M5 = 2 if interview__key=="28-37-27-41" & membres__id ==4
-replace M5 = 1 if interview__key=="66-48-78-64" & membres__id ==7
-replace M5 = 1 if interview__key=="31-86-17-14" & membres__id ==6
-replace M5 = 1 if interview__key=="19-10-75-17" & membres__id ==3
-replace M5 = 2 if interview__key=="67-29-73-00" & membres__id ==9
-replace M5 = 1 if interview__key=="45-85-21-60" & membres__id ==3
-replace M5 = 1 if interview__key=="54-05-77-92" & membres__id ==7
-replace M5 = 1 if interview__key=="32-54-48-72" & membres__id ==6
-replace M5 = 1 if interview__key=="27-53-75-11" & membres__id ==1
-replace M5 = 1 if interview__key=="31-89-44-47" & membres__id ==5
-replace M5 = 2 if interview__key=="86-27-10-71" & membres__id ==6
-replace M5 = 2 if interview__key=="86-27-10-71" & membres__id ==11
-replace M5 = 2 if interview__key=="38-34-97-57" & membres__id ==5
-replace M5 = 2 if interview__key=="81-06-38-23" & membres__id ==4
-replace M5 = 2 if interview__key=="60-34-39-23" & membres__id ==3
-replace M5 = 1 if interview__key=="84-32-83-93" & membres__id ==3
-replace M5 = 2 if interview__key=="10-63-51-70" & membres__id ==5
-replace M5 = 2 if interview__key=="10-63-51-70" & membres__id ==7
-replace M5 = 2 if interview__key=="10-63-51-70" & membres__id ==10
-replace M5 = 2 if interview__key=="83-94-73-68" & membres__id ==2
-replace M5 = 2 if interview__key=="37-18-50-42" & membres__id ==1
-replace M5 = 1 if interview__key=="37-18-50-42" & membres__id ==2
-replace M5 = 1 if interview__key=="49-34-30-76" & membres__id ==6
-replace M5 = 1 if interview__key=="49-34-30-76" & membres__id ==7
-replace M5 = 1 if interview__key=="01-71-86-00" & membres__id ==7
-replace M5 = 1 if interview__key=="01-71-86-00" & membres__id ==10
-replace M5 = 2 if interview__key=="01-71-86-00" & membres__id ==12
-replace M5 = 2 if interview__key=="01-71-86-00" & membres__id ==13
-replace M5 = 1 if interview__key=="36-95-56-79" & membres__id ==3
-replace M5 = 2 if interview__key=="80-86-49-62" & membres__id ==5
-replace M5 = 2 if interview__key=="66-90-80-14" & membres__id ==3
-replace M5 = 2 if interview__key=="94-07-42-32" & membres__id ==1
-replace M5 = 2 if interview__key=="68-78-59-13" & membres__id ==4
-replace M5 = 1 if interview__key=="43-70-29-16" & membres__id ==9
-replace M5 = 1 if interview__key=="43-70-29-16" & membres__id ==10
-replace M5 = 1 if interview__key=="43-70-29-16" & membres__id ==19
-replace M5 = 1 if interview__key=="43-20-85-89" & membres__id ==2
-replace M5 = 2 if interview__key=="12-03-26-95" & membres__id ==1
-replace M5 = 1 if interview__key=="60-75-14-26" & membres__id ==4
-replace M5 = 1 if interview__key=="76-43-89-93" & membres__id ==6
-replace M5 = 1 if interview__key=="76-43-89-93" & membres__id ==8
-replace M5 = 2 if interview__key=="62-71-43-87" & membres__id ==5
-replace M5 = 1 if interview__key=="36-42-14-51" & membres__id ==3
-replace M5 = 2 if interview__key=="12-64-57-89" & membres__id ==1
-replace M5 = 2 if interview__key=="29-68-98-44" & membres__id ==3
-replace M5 = 1 if interview__key=="29-68-98-44" & membres__id ==5
-replace M5 = 2 if interview__key=="87-34-61-09" & membres__id ==3
-replace M5 = 2 if interview__key=="46-42-87-25" & membres__id ==4
-replace M5 = 2 if interview__key=="25-39-26-18" & membres__id ==3
-replace M5 = 2 if interview__key=="16-32-27-86" & membres__id ==7
-replace M5 = 2 if interview__key=="91-93-95-61" & membres__id ==1
-replace M5 = 2 if interview__key=="24-83-37-11" & membres__id ==3
-replace M5 = 1 if interview__key=="61-24-59-55" & membres__id ==1
+*** Correction des Individus dont le sexe est renseigné Feminin par erreur pour la cohorte T2-2025
+
+replace M5 = 1 if interview__key == "33-02-67-70" & membres__id == 3
+replace M5 = 1 if interview__key == "90-39-94-42" & membres__id == 3
+replace M5 = 1 if interview__key == "56-71-22-48" & membres__id == 4
+replace M5 = 1 if interview__key == "29-85-06-55" & membres__id == 2
+replace M5 = 1 if interview__key == "42-44-91-36" & membres__id == 6
+replace M5 = 1 if interview__key == "23-58-76-12" & membres__id == 4
+replace M5 = 1 if interview__key == "35-84-64-80" & membres__id == 3
+replace M5 = 1 if interview__key == "31-49-85-41" & membres__id == 1
+replace M5 = 1 if interview__key == "83-03-01-55" & membres__id == 5
+replace M5 = 1 if interview__key == "72-19-28-91" & membres__id == 3
+replace M5 = 1 if interview__key == "84-77-39-74" & membres__id == 4
+replace M5 = 1 if interview__key == "62-20-59-43" & membres__id == 8
+replace M5 = 1 if interview__key == "09-05-75-04" & membres__id == 4
+replace M5 = 1 if interview__key == "13-84-26-78" & membres__id == 4
+replace M5 = 1 if interview__key == "03-39-39-48" & membres__id == 5
+replace M5 = 1 if interview__key == "01-34-72-47" & membres__id == 4
+replace M5 = 1 if interview__key == "35-12-27-80" & membres__id == 5
+replace M5 = 1 if interview__key == "79-16-19-01" & membres__id == 3
+replace M5 = 1 if interview__key == "99-24-41-56" & membres__id == 4
+replace M5 = 1 if interview__key == "89-19-33-85" & membres__id == 4
+replace M5 = 1 if interview__key == "85-24-34-27" & membres__id == 3
+replace M5 = 1 if interview__key == "28-41-71-34" & membres__id == 4
+replace M5 = 1 if interview__key == "77-49-24-98" & membres__id == 3
+replace M5 = 1 if interview__key == "77-49-24-98" & membres__id == 5
+replace M5 = 1 if interview__key == "86-53-38-36" & membres__id == 1
+replace M5 = 1 if interview__key == "50-80-59-34" & membres__id == 5
+replace M5 = 1 if interview__key == "57-32-26-03" & membres__id == 28
+replace M5 = 1 if interview__key == "11-53-67-51" & membres__id == 3
+replace M5 = 1 if interview__key == "83-83-77-58" & membres__id == 7
+replace M5 = 1 if interview__key == "06-23-70-48" & membres__id == 5
+replace M5 = 1 if interview__key == "18-04-87-56" & membres__id == 3
+replace M5 = 1 if interview__key == "90-99-23-45" & membres__id == 3
+replace M5 = 1 if interview__key == "45-87-09-07" & membres__id == 2
+replace M5 = 1 if interview__key == "52-35-07-13" & membres__id == 1
+replace M5 = 1 if interview__key == "95-69-50-59" & membres__id == 10
+replace M5 = 1 if interview__key == "87-97-44-14" & membres__id == 5
+replace M5 = 1 if interview__key == "47-66-29-27" & membres__id == 8
+replace M5 = 1 if interview__key == "39-76-84-15" & membres__id == 7
+replace M5 = 1 if interview__key == "42-72-24-59" & membres__id == 4
+replace M5 = 1 if interview__key == "88-94-90-44" & membres__id == 4
+replace M5 = 1 if interview__key == "51-55-30-18" & membres__id == 4
+replace M5 = 1 if interview__key == "66-77-16-09" & membres__id == 3
+replace M5 = 1 if interview__key == "03-72-25-98" & membres__id == 9
+replace M5 = 1 if interview__key == "48-92-39-90" & membres__id == 4
+replace M5 = 1 if interview__key == "81-10-43-21" & membres__id == 7
+replace M5 = 1 if interview__key == "25-16-02-03" & membres__id == 1
+replace M5 = 1 if interview__key == "04-80-73-76" & membres__id == 6
+replace M5 = 1 if interview__key == "84-35-31-53" & membres__id == 4
+replace M5 = 1 if interview__key == "35-89-74-94" & membres__id == 5
+replace M5 = 1 if interview__key == "73-58-72-34" & membres__id == 11
+replace M5 = 1 if interview__key == "12-57-49-09" & membres__id == 3
+replace M5 = 1 if interview__key == "52-18-39-59" & membres__id == 4
+replace M5 = 1 if interview__key == "19-17-27-11" & membres__id == 4
+replace M5 = 1 if interview__key == "31-95-19-05" & membres__id == 5
+replace M5 = 1 if interview__key == "31-95-19-05" & membres__id == 6
+replace M5 = 1 if interview__key == "07-73-09-90" & membres__id == 5
+replace M5 = 1 if interview__key == "20-28-04-12" & membres__id == 9
+replace M5 = 1 if interview__key == "58-09-45-63" & membres__id == 7
+replace M5 = 1 if interview__key == "44-70-13-75" & membres__id == 3
+replace M5 = 1 if interview__key == "40-33-50-46" & membres__id == 1
+replace M5 = 1 if interview__key == "26-62-04-82" & membres__id == 4
+replace M5 = 1 if interview__key == "26-62-04-82" & membres__id == 5
+replace M5 = 1 if interview__key == "35-08-13-43" & membres__id == 3
+replace M5 = 1 if interview__key == "27-07-92-16" & membres__id == 1
+replace M5 = 1 if interview__key == "49-11-97-70" & membres__id == 5
+replace M5 = 1 if interview__key == "08-61-65-27" & membres__id == 21
+replace M5 = 1 if interview__key == "80-64-76-50" & membres__id == 4
+replace M5 = 1 if interview__key == "24-67-14-87" & membres__id == 6
+replace M5 = 1 if interview__key == "67-04-06-97" & membres__id == 4
+replace M5 = 1 if interview__key == "66-01-27-83" & membres__id == 5
+replace M5 = 1 if interview__key == "62-92-75-08" & membres__id == 2
+replace M5 = 1 if interview__key == "53-41-77-84" & membres__id == 3
+replace M5 = 1 if interview__key == "59-28-50-25" & membres__id == 2
+replace M5 = 1 if interview__key == "18-45-98-96" & membres__id == 5
+replace M5 = 1 if interview__key == "24-01-39-26" & membres__id == 4
+replace M5 = 1 if interview__key == "67-43-54-61" & membres__id == 6
+replace M5 = 1 if interview__key == "25-60-76-45" & membres__id == 4
+replace M5 = 1 if interview__key == "98-95-75-95" & membres__id == 3
+replace M5 = 1 if interview__key == "57-83-50-81" & membres__id == 3
+replace M5 = 1 if interview__key == "57-83-50-81" & membres__id == 5
+replace M5 = 1 if interview__key == "57-83-50-81" & membres__id == 10
+replace M5 = 1 if interview__key == "57-83-50-81" & membres__id == 11
+replace M5 = 1 if interview__key == "97-49-23-14" & membres__id == 4
+replace M5 = 1 if interview__key == "97-49-23-14" & membres__id == 9
+replace M5 = 1 if interview__key == "90-02-96-07" & membres__id == 5
+replace M5 = 1 if interview__key == "95-21-03-95" & membres__id == 4
+replace M5 = 1 if interview__key == "95-21-03-95" & membres__id == 7
+replace M5 = 1 if interview__key == "68-87-66-14" & membres__id == 6
+replace M5 = 1 if interview__key == "99-07-11-16" & membres__id == 7
+replace M5 = 1 if interview__key == "93-19-89-96" & membres__id == 3
+replace M5 = 1 if interview__key == "26-76-30-43" & membres__id == 3
+replace M5 = 1 if interview__key == "66-99-77-45" & membres__id == 2
+replace M5 = 1 if interview__key == "96-05-16-30" & membres__id == 2
+replace M5 = 1 if interview__key == "28-32-64-92" & membres__id == 4
+replace M5 = 1 if interview__key == "66-29-28-75" & membres__id == 3
+replace M5 = 1 if interview__key == "32-36-61-95" & membres__id == 1
+replace M5 = 1 if interview__key == "16-52-91-60" & membres__id == 1
+replace M5 = 1 if interview__key == "67-00-39-07" & membres__id == 3
+replace M5 = 1 if interview__key == "83-03-00-52" & membres__id == 4
+replace M5 = 1 if interview__key == "70-59-54-24" & membres__id == 3
+replace M5 = 1 if interview__key == "89-21-42-19" & membres__id == 1
+replace M5 = 1 if interview__key == "00-02-73-78" & membres__id == 4
+replace M5 = 1 if interview__key == "68-74-30-69" & membres__id == 3
+replace M5 = 1 if interview__key == "98-93-55-05" & membres__id == 3
+replace M5 = 1 if interview__key == "36-13-29-27" & membres__id == 2
+replace M5 = 1 if interview__key == "69-02-76-45" & membres__id == 7
+replace M5 = 1 if interview__key == "69-02-76-45" & membres__id == 8
+replace M5 = 1 if interview__key == "13-33-07-58" & membres__id == 4
+replace M5 = 1 if interview__key == "80-76-98-00" & membres__id == 4
+replace M5 = 1 if interview__key == "69-42-54-96" & membres__id == 4
+replace M5 = 1 if interview__key == "22-07-12-90" & membres__id == 4
+replace M5 = 1 if interview__key == "35-06-60-79" & membres__id == 3
+replace M5 = 1 if interview__key == "74-69-07-12" & membres__id == 3
+replace M5 = 1 if interview__key == "01-11-90-58" & membres__id == 4
+replace M5 = 1 if interview__key == "51-66-22-82" & membres__id == 5
+replace M5 = 1 if interview__key == "04-71-62-81" & membres__id == 4
+replace M5 = 1 if interview__key == "69-51-19-34" & membres__id == 4
+replace M5 = 1 if interview__key == "12-87-03-05" & membres__id == 5
+replace M5 = 1 if interview__key == "04-69-43-70" & membres__id == 4
+replace M5 = 1 if interview__key == "23-51-19-00" & membres__id == 6
+replace M5 = 1 if interview__key == "29-32-67-83" & membres__id == 5
+replace M5 = 1 if interview__key == "54-13-09-97" & membres__id == 3
+replace M5 = 1 if interview__key == "72-55-80-03" & membres__id == 1
+replace M5 = 1 if interview__key == "05-74-83-55" & membres__id == 3
+replace M5 = 1 if interview__key == "82-66-13-91" & membres__id == 10
+replace M5 = 1 if interview__key == "37-23-13-64" & membres__id == 6
+replace M5 = 1 if interview__key == "08-87-65-07" & membres__id == 6
+replace M5 = 1 if interview__key == "21-81-74-30" & membres__id == 4
+replace M5 = 1 if interview__key == "48-13-70-95" & membres__id == 3
+replace M5 = 1 if interview__key == "24-69-84-27" & membres__id == 5
+replace M5 = 1 if interview__key == "24-69-84-27" & membres__id == 10
+
+*** Correction des Individus dont le sexe est renseigné Masculin par erreur pour la cohorte T3-2025
+
+replace M5 = 2 if interview__key == "57-49-83-18" & membres__id == 6
+replace M5 = 2 if interview__key == "42-44-91-36" & membres__id == 7
+replace M5 = 2 if interview__key == "20-64-14-39" & membres__id == 4
+replace M5 = 2 if interview__key == "29-37-30-37" & membres__id == 4
+replace M5 = 2 if interview__key == "28-15-22-82" & membres__id == 6
+replace M5 = 2 if interview__key == "08-99-99-18" & membres__id == 3
+replace M5 = 2 if interview__key == "86-20-47-09" & membres__id == 5
+replace M5 = 2 if interview__key == "41-41-72-91" & membres__id == 3
+replace M5 = 2 if interview__key == "99-29-81-73" & membres__id == 6
+replace M5 = 2 if interview__key == "62-20-59-43" & membres__id == 6
+replace M5 = 2 if interview__key == "82-00-47-06" & membres__id == 3
+replace M5 = 2 if interview__key == "59-78-90-41" & membres__id == 1
+replace M5 = 2 if interview__key == "57-17-21-74" & membres__id == 5
+replace M5 = 2 if interview__key == "66-36-79-19" & membres__id == 4
+replace M5 = 2 if interview__key == "66-36-79-19" & membres__id == 6
+replace M5 = 2 if interview__key == "67-62-26-38" & membres__id == 2
+replace M5 = 2 if interview__key == "55-01-56-80" & membres__id == 5
+replace M5 = 2 if interview__key == "16-69-35-92" & membres__id == 2
+replace M5 = 2 if interview__key == "61-11-81-66" & membres__id == 4
+replace M5 = 2 if interview__key == "61-11-81-66" & membres__id == 5
+replace M5 = 2 if interview__key == "71-81-93-82" & membres__id == 5
+replace M5 = 2 if interview__key == "29-75-52-66" & membres__id == 7
+replace M5 = 2 if interview__key == "34-55-01-41" & membres__id == 7
+replace M5 = 2 if interview__key == "74-60-19-33" & membres__id == 4
+replace M5 = 2 if interview__key == "74-60-19-33" & membres__id == 7
+replace M5 = 2 if interview__key == "77-49-24-98" & membres__id == 8
+replace M5 = 2 if interview__key == "77-49-24-98" & membres__id == 9
+replace M5 = 2 if interview__key == "01-95-20-03" & membres__id == 4
+replace M5 = 2 if interview__key == "77-64-04-42" & membres__id == 3
+replace M5 = 2 if interview__key == "95-57-91-14" & membres__id == 3
+replace M5 = 2 if interview__key == "20-93-04-99" & membres__id == 1
+replace M5 = 2 if interview__key == "65-40-13-33" & membres__id == 1
+replace M5 = 2 if interview__key == "96-01-08-02" & membres__id == 4
+replace M5 = 2 if interview__key == "59-91-07-87" & membres__id == 1
+replace M5 = 2 if interview__key == "97-80-12-22" & membres__id == 2
+replace M5 = 2 if interview__key == "88-48-09-55" & membres__id == 3
+replace M5 = 2 if interview__key == "33-87-74-38" & membres__id == 7
+replace M5 = 2 if interview__key == "39-99-41-49" & membres__id == 2
+replace M5 = 2 if interview__key == "58-42-88-48" & membres__id == 6
+replace M5 = 2 if interview__key == "60-82-45-71" & membres__id == 3
+replace M5 = 2 if interview__key == "83-83-77-58" & membres__id == 1
+replace M5 = 2 if interview__key == "14-13-28-78" & membres__id == 4
+replace M5 = 2 if interview__key == "95-69-50-59" & membres__id == 9
+replace M5 = 2 if interview__key == "47-11-48-42" & membres__id == 6
+replace M5 = 2 if interview__key == "61-33-91-05" & membres__id == 3
+replace M5 = 2 if interview__key == "55-73-73-83" & membres__id == 5
+replace M5 = 2 if interview__key == "41-49-82-77" & membres__id == 1
+replace M5 = 2 if interview__key == "10-70-13-66" & membres__id == 1
+replace M5 = 2 if interview__key == "51-39-83-14" & membres__id == 1
+replace M5 = 2 if interview__key == "70-32-17-33" & membres__id == 1
+replace M5 = 2 if interview__key == "97-94-96-22" & membres__id == 4
+replace M5 = 2 if interview__key == "30-82-98-78" & membres__id == 7
+replace M5 = 2 if interview__key == "73-58-72-34" & membres__id == 17
+replace M5 = 2 if interview__key == "15-96-08-80" & membres__id == 4
+replace M5 = 2 if interview__key == "69-91-75-92" & membres__id == 5
+replace M5 = 2 if interview__key == "25-45-86-02" & membres__id == 2
+replace M5 = 2 if interview__key == "49-70-41-68" & membres__id == 5
+replace M5 = 2 if interview__key == "35-55-76-90" & membres__id == 3
+replace M5 = 2 if interview__key == "30-21-32-43" & membres__id == 4
+replace M5 = 2 if interview__key == "39-76-39-74" & membres__id == 2
+replace M5 = 2 if interview__key == "42-24-88-55" & membres__id == 4
+replace M5 = 2 if interview__key == "42-24-88-55" & membres__id == 8
+replace M5 = 2 if interview__key == "27-06-55-18" & membres__id == 4
+replace M5 = 2 if interview__key == "91-71-74-61" & membres__id == 2
+replace M5 = 2 if interview__key == "58-09-45-63" & membres__id == 6
+replace M5 = 2 if interview__key == "25-26-76-74" & membres__id == 7
+replace M5 = 2 if interview__key == "53-50-54-41" & membres__id == 7
+replace M5 = 2 if interview__key == "20-83-74-41" & membres__id == 3
+replace M5 = 2 if interview__key == "33-73-01-51" & membres__id == 13
+replace M5 = 2 if interview__key == "26-62-04-82" & membres__id == 3
+replace M5 = 2 if interview__key == "85-76-57-33" & membres__id == 8
+replace M5 = 2 if interview__key == "81-26-18-16" & membres__id == 1
+replace M5 = 2 if interview__key == "54-98-07-40" & membres__id == 10
+replace M5 = 2 if interview__key == "21-95-91-63" & membres__id == 4
+replace M5 = 2 if interview__key == "21-95-91-63" & membres__id == 8
+replace M5 = 2 if interview__key == "27-68-62-35" & membres__id == 3
+replace M5 = 2 if interview__key == "18-45-98-96" & membres__id == 4
+replace M5 = 2 if interview__key == "86-99-44-98" & membres__id == 4
+replace M5 = 2 if interview__key == "96-03-59-95" & membres__id == 4
+replace M5 = 2 if interview__key == "55-62-60-72" & membres__id == 5
+replace M5 = 2 if interview__key == "19-17-19-02" & membres__id == 1
+replace M5 = 2 if interview__key == "79-74-09-43" & membres__id == 3
+replace M5 = 2 if interview__key == "68-87-66-14" & membres__id == 5
+replace M5 = 2 if interview__key == "15-35-05-34" & membres__id == 3
+replace M5 = 2 if interview__key == "97-70-09-29" & membres__id == 5
+replace M5 = 2 if interview__key == "58-86-04-90" & membres__id == 5
+replace M5 = 2 if interview__key == "99-07-11-16" & membres__id == 10
+replace M5 = 2 if interview__key == "57-17-43-49" & membres__id == 3
+replace M5 = 2 if interview__key == "18-68-42-76" & membres__id == 5
+replace M5 = 2 if interview__key == "15-66-36-46" & membres__id == 3
+replace M5 = 2 if interview__key == "33-80-06-16" & membres__id == 4
+replace M5 = 2 if interview__key == "26-24-38-06" & membres__id == 3
+replace M5 = 2 if interview__key == "15-72-30-61" & membres__id == 4
+replace M5 = 2 if interview__key == "11-30-32-53" & membres__id == 5
+replace M5 = 2 if interview__key == "71-86-98-34" & membres__id == 8
+replace M5 = 2 if interview__key == "54-98-84-38" & membres__id == 6
+replace M5 = 2 if interview__key == "74-16-83-57" & membres__id == 4
+replace M5 = 2 if interview__key == "74-16-83-57" & membres__id == 5
+replace M5 = 2 if interview__key == "19-04-15-49" & membres__id == 1
+replace M5 = 2 if interview__key == "67-74-97-66" & membres__id == 4
+replace M5 = 2 if interview__key == "70-72-97-83" & membres__id == 3
+replace M5 = 2 if interview__key == "56-16-01-36" & membres__id == 6
+replace M5 = 2 if interview__key == "47-28-82-13" & membres__id == 5
+replace M5 = 2 if interview__key == "28-32-64-92" & membres__id == 1
+replace M5 = 2 if interview__key == "09-74-02-64" & membres__id == 1
+replace M5 = 2 if interview__key == "93-71-53-29" & membres__id == 4
+replace M5 = 2 if interview__key == "24-80-11-65" & membres__id == 3
+replace M5 = 2 if interview__key == "33-72-96-67" & membres__id == 5
+replace M5 = 2 if interview__key == "12-25-24-47" & membres__id == 2
+replace M5 = 2 if interview__key == "71-11-91-52" & membres__id == 3
+replace M5 = 2 if interview__key == "96-82-32-37" & membres__id == 10
+replace M5 = 2 if interview__key == "37-39-82-06" & membres__id == 3
+replace M5 = 2 if interview__key == "55-33-61-76" & membres__id == 4
+replace M5 = 2 if interview__key == "56-06-77-90" & membres__id == 13
+replace M5 = 2 if interview__key == "44-61-83-11" & membres__id == 4
+replace M5 = 2 if interview__key == "13-65-69-90" & membres__id == 3
+replace M5 = 2 if interview__key == "62-90-62-26" & membres__id == 10
+replace M5 = 2 if interview__key == "91-74-43-49" & membres__id == 1
+replace M5 = 2 if interview__key == "17-76-78-82" & membres__id == 4
+replace M5 = 2 if interview__key == "17-76-78-82" & membres__id == 5
+replace M5 = 2 if interview__key == "22-07-12-90" & membres__id == 6
+replace M5 = 2 if interview__key == "73-49-21-95" & membres__id == 1
+replace M5 = 2 if interview__key == "88-41-57-30" & membres__id == 1
+replace M5 = 2 if interview__key == "57-38-43-58" & membres__id == 4
+replace M5 = 2 if interview__key == "13-18-19-00" & membres__id == 4
+replace M5 = 2 if interview__key == "17-38-99-47" & membres__id == 2
+replace M5 = 2 if interview__key == "17-38-99-47" & membres__id == 4
+replace M5 = 2 if interview__key == "08-57-47-78" & membres__id == 9
+replace M5 = 2 if interview__key == "59-18-07-48" & membres__id == 7
+replace M5 = 2 if interview__key == "38-02-12-26" & membres__id == 9
+replace M5 = 2 if interview__key == "68-28-72-62" & membres__id == 1
+replace M5 = 2 if interview__key == "69-54-59-82" & membres__id == 5
+replace M5 = 2 if interview__key == "65-49-97-18" & membres__id == 7
+replace M5 = 2 if interview__key == "77-26-47-81" & membres__id == 6
+replace M5 = 2 if interview__key == "34-19-48-32" & membres__id == 10
+replace M5 = 2 if interview__key == "34-19-48-32" & membres__id == 14
+replace M5 = 2 if interview__key == "25-52-85-14" & membres__id == 4
+replace M5 = 2 if interview__key == "36-77-73-05" & membres__id == 5
+replace M5 = 2 if interview__key == "98-40-53-13" & membres__id == 3
+replace M5 = 2 if interview__key == "98-40-53-13" & membres__id == 5
+replace M5 = 2 if interview__key == "98-40-53-13" & membres__id == 6
+replace M5 = 2 if interview__key == "33-15-54-48" & membres__id == 3
+replace M5 = 2 if interview__key == "87-41-88-64" & membres__id == 4
+replace M5 = 2 if interview__key == "76-25-04-76" & membres__id == 5
+replace M5 = 2 if interview__key == "93-42-95-65" & membres__id == 5
+replace M5 = 2 if interview__key == "67-71-25-34" & membres__id == 3
 
 
-count if !missing(M5) & Statut_Res== 0 
-// tous ceux qui ne devaient pas répondre n'ont pas repondu
+*** Correction des Individus dont le sexe est renseigné Masculin par erreur pour la cohorte T3-2025
 
-*------------------------------------------------------------
-* M6_J . Veuillez saisir le jour de naissance de %rostertitle% ?
-*------------------------------------------------------------
+replace M5 = 1 if interview__key == "50-75-47-52" & membres__id == 2
+replace M5 = 1 if interview__key == "03-94-91-09" & membres__id == 3
+replace M5 = 1 if interview__key == "13-40-35-76" & membres__id == 2
+replace M5 = 1 if interview__key == "40-52-43-29" & membres__id == 6
+replace M5 = 1 if interview__key == "44-44-49-11" & membres__id == 6
+replace M5 = 1 if interview__key == "23-19-36-52" & membres__id == 3
+replace M5 = 1 if interview__key == "87-40-00-16" & membres__id == 2
+replace M5 = 1 if interview__key == "00-77-53-05" & membres__id == 5
+replace M5 = 1 if interview__key == "44-34-38-34" & membres__id == 8
+replace M5 = 1 if interview__key == "71-85-59-79" & membres__id == 4
+replace M5 = 1 if interview__key == "37-90-60-26" & membres__id == 4
+replace M5 = 1 if interview__key == "13-11-07-61" & membres__id == 2
+replace M5 = 1 if interview__key == "43-72-64-11" & membres__id == 6
+replace M5 = 1 if interview__key == "54-13-15-25" & membres__id == 1
+replace M5 = 1 if interview__key == "66-64-96-98" & membres__id == 9
+replace M5 = 1 if interview__key == "42-54-95-29" & membres__id == 2
+replace M5 = 1 if interview__key == "42-86-93-02" & membres__id == 2
+replace M5 = 1 if interview__key == "59-90-68-26" & membres__id == 5
+replace M5 = 1 if interview__key == "69-33-68-25" & membres__id == 3
+replace M5 = 1 if interview__key == "61-98-38-65" & membres__id == 5
+replace M5 = 1 if interview__key == "00-99-76-42" & membres__id == 7
+replace M5 = 1 if interview__key == "39-87-12-32" & membres__id == 2
+replace M5 = 1 if interview__key == "18-11-24-90" & membres__id == 5
+replace M5 = 1 if interview__key == "02-07-73-16" & membres__id == 4
+replace M5 = 1 if interview__key == "32-25-26-41" & membres__id == 4
+replace M5 = 1 if interview__key == "90-39-55-98" & membres__id == 5
+replace M5 = 1 if interview__key == "21-22-14-07" & membres__id == 3
+replace M5 = 1 if interview__key == "57-00-41-16" & membres__id == 9
+replace M5 = 1 if interview__key == "57-33-54-40" & membres__id == 4
+replace M5 = 1 if interview__key == "15-15-46-85" & membres__id == 6
+replace M5 = 1 if interview__key == "02-22-54-49" & membres__id == 5
+replace M5 = 1 if interview__key == "82-82-95-18" & membres__id == 5
+replace M5 = 1 if interview__key == "00-18-10-30" & membres__id == 5
+replace M5 = 1 if interview__key == "93-39-14-88" & membres__id == 2
+replace M5 = 1 if interview__key == "35-53-38-02" & membres__id == 3
+replace M5 = 1 if interview__key == "24-59-87-46" & membres__id == 4
+replace M5 = 1 if interview__key == "20-37-94-24" & membres__id == 4
+replace M5 = 1 if interview__key == "20-37-94-24" & membres__id == 5
+replace M5 = 1 if interview__key == "16-07-31-61" & membres__id == 3
+replace M5 = 1 if interview__key == "06-97-03-85" & membres__id == 7
+replace M5 = 1 if interview__key == "32-55-86-80" & membres__id == 8
+replace M5 = 1 if interview__key == "38-80-49-55" & membres__id == 3
+replace M5 = 1 if interview__key == "07-24-02-54" & membres__id == 5
+replace M5 = 1 if interview__key == "64-23-50-15" & membres__id == 3
+replace M5 = 1 if interview__key == "63-76-07-04" & membres__id == 5
+replace M5 = 1 if interview__key == "53-64-35-57" & membres__id == 5
+replace M5 = 1 if interview__key == "05-71-57-63" & membres__id == 4
+replace M5 = 1 if interview__key == "73-69-62-95" & membres__id == 11
+replace M5 = 1 if interview__key == "73-69-62-95" & membres__id == 14
+replace M5 = 1 if interview__key == "41-79-45-99" & membres__id == 1
+replace M5 = 1 if interview__key == "65-11-18-98" & membres__id == 1
+replace M5 = 1 if interview__key == "26-69-95-06" & membres__id == 3
+replace M5 = 1 if interview__key == "16-02-83-51" & membres__id == 3
+replace M5 = 1 if interview__key == "54-72-68-85" & membres__id == 5
+replace M5 = 1 if interview__key == "04-29-26-82" & membres__id == 3
+replace M5 = 1 if interview__key == "60-95-88-13" & membres__id == 3
+replace M5 = 1 if interview__key == "73-50-92-70" & membres__id == 6
+replace M5 = 1 if interview__key == "28-33-62-47" & membres__id == 5
+replace M5 = 1 if interview__key == "35-03-71-25" & membres__id == 7
+replace M5 = 1 if interview__key == "82-88-02-98" & membres__id == 1
+replace M5 = 1 if interview__key == "64-17-26-02" & membres__id == 6
+replace M5 = 1 if interview__key == "58-31-09-76" & membres__id == 6
+replace M5 = 1 if interview__key == "56-30-48-04" & membres__id == 8
+replace M5 = 1 if interview__key == "34-87-84-99" & membres__id == 4
+replace M5 = 1 if interview__key == "12-81-10-48" & membres__id == 3
+replace M5 = 1 if interview__key == "77-01-94-70" & membres__id == 2
+replace M5 = 1 if interview__key == "79-71-69-07" & membres__id == 7
+replace M5 = 1 if interview__key == "60-13-06-72" & membres__id == 4
+replace M5 = 1 if interview__key == "60-13-06-72" & membres__id == 11
+replace M5 = 1 if interview__key == "42-75-30-82" & membres__id == 4
+replace M5 = 1 if interview__key == "26-91-88-57" & membres__id == 3
+replace M5 = 1 if interview__key == "70-13-51-76" & membres__id == 3
+replace M5 = 1 if interview__key == "03-43-11-89" & membres__id == 6
+replace M5 = 1 if interview__key == "03-43-11-89" & membres__id == 10
+replace M5 = 1 if interview__key == "17-31-93-49" & membres__id == 2
+replace M5 = 1 if interview__key == "35-00-04-83" & membres__id == 5
+replace M5 = 1 if interview__key == "44-80-19-10" & membres__id == 9
+replace M5 = 1 if interview__key == "22-47-03-02" & membres__id == 4
+replace M5 = 1 if interview__key == "03-34-38-72" & membres__id == 7
+replace M5 = 1 if interview__key == "69-96-32-43" & membres__id == 3
+replace M5 = 1 if interview__key == "75-34-19-13" & membres__id == 5
+replace M5 = 1 if interview__key == "75-34-19-13" & membres__id == 8
+replace M5 = 1 if interview__key == "59-24-46-99" & membres__id == 6
+replace M5 = 1 if interview__key == "77-85-23-13" & membres__id == 7
+replace M5 = 1 if interview__key == "77-85-23-13" & membres__id == 8
+replace M5 = 1 if interview__key == "37-05-11-38" & membres__id == 4
+replace M5 = 1 if interview__key == "22-63-02-60" & membres__id == 4
+replace M5 = 1 if interview__key == "66-04-82-34" & membres__id == 1
+replace M5 = 1 if interview__key == "92-34-54-63" & membres__id == 3
+replace M5 = 1 if interview__key == "97-69-71-38" & membres__id == 3
+replace M5 = 1 if interview__key == "83-19-33-24" & membres__id == 5
+replace M5 = 1 if interview__key == "64-80-11-58" & membres__id == 1
+replace M5 = 1 if interview__key == "44-74-20-23" & membres__id == 4
+replace M5 = 1 if interview__key == "26-78-98-10" & membres__id == 4
+replace M5 = 1 if interview__key == "26-78-98-10" & membres__id == 5
+replace M5 = 1 if interview__key == "26-78-98-10" & membres__id == 6
+replace M5 = 1 if interview__key == "36-66-59-39" & membres__id == 5
+replace M5 = 1 if interview__key == "28-87-35-90" & membres__id == 4
+replace M5 = 1 if interview__key == "94-85-34-69" & membres__id == 5
+replace M5 = 1 if interview__key == "03-34-21-41" & membres__id == 2
+replace M5 = 1 if interview__key == "47-21-07-87" & membres__id == 3
+replace M5 = 1 if interview__key == "61-19-48-13" & membres__id == 2
+replace M5 = 1 if interview__key == "42-35-15-21" & membres__id == 3
+replace M5 = 1 if interview__key == "79-46-84-01" & membres__id == 4
+replace M5 = 1 if interview__key == "05-99-01-21" & membres__id == 4
+replace M5 = 1 if interview__key == "48-45-72-24" & membres__id == 4
+replace M5 = 1 if interview__key == "48-45-72-24" & membres__id == 12
+replace M5 = 1 if interview__key == "48-45-72-24" & membres__id == 13
+replace M5 = 1 if interview__key == "21-96-55-56" & membres__id == 3
+replace M5 = 1 if interview__key == "21-45-83-58" & membres__id == 4
+replace M5 = 1 if interview__key == "44-90-58-43" & membres__id == 4
+replace M5 = 1 if interview__key == "66-84-82-91" & membres__id == 7
+replace M5 = 1 if interview__key == "15-69-43-01" & membres__id == 6
+replace M5 = 1 if interview__key == "30-61-14-99" & membres__id == 1
+replace M5 = 1 if interview__key == "56-09-59-22" & membres__id == 5
+replace M5 = 1 if interview__key == "52-57-14-67" & membres__id == 4
+replace M5 = 1 if interview__key == "78-72-55-12" & membres__id == 3
+replace M5 = 1 if interview__key == "15-72-24-14" & membres__id == 9
+replace M5 = 1 if interview__key == "53-87-37-58" & membres__id == 3
+replace M5 = 1 if interview__key == "37-47-58-42" & membres__id == 6
+replace M5 = 1 if interview__key == "48-29-18-81" & membres__id == 4
+replace M5 = 1 if interview__key == "80-20-10-76" & membres__id == 7
+replace M5 = 1 if interview__key == "53-98-63-65" & membres__id == 5
 
-* 1. Valeurs manquantes
-count if missing(M6_J) & Statut_Res==1 
-// 69 personnes pour qui on a pas le  jour de naissance
 
-*replace commentaire="personne pour qui le jour de naissance n'a pas été renseignée" if missing(M6_J) & Statut_Res==1
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M6_J) & Statut_Res== 0 
-// tous ceux qui ont repondu à la question y avait le droit
-
-**Exportation des individus potentiellement concernés
-*export excel interview__key HH2 HH12 HH13 M6_J membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_jour_naiss" if missing(M6_J) & Statut_Res==1 , firstrow(varl) replace
-
-*3 Valeurs légales: 
-count if !inrange(M6_J,1,31) & Statut_Res==1 & M6_J !=9998 & !missing(M6_J)
-*RAS
-
-*------------------------------------------------------------
-* M6_M. Mois de naissance de %rostertitle% ?
-*------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M6_M) & Statut_Res==1 
-// 71 personnes pour qui on a pas le mois de naissance
-replace commentaire="personnes pour qui on n'a pas le mois de naissance" if missing(M6_M) & Statut_Res==1
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M6_M) & Statut_Res== 0 
-// tous ceux qui ont repondu à la question y avait le droit
-
-**Exportation des individus potentiellement concernés
-*export excel interview__key HH2 HH12 HH13 M6_M membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_mois_naiss" if missing(M6_M) & Statut_Res==1 , firstrow(varl) replace
-
-*3 Valeurs légales: 
-count if !inrange(M6_M,1,12) & Statut_Res==1 & M6_M !=9998 & !missing(M6_M)
-*RAS
-
-*4 Cohérence entre le jour de naissance et les mois :
-//Mois de Février
-count if M6_M==2 & inlist(M6_J,30,31)
-//Mois de Mars, Juin, Septembre et Novembre
-count if inlist(M6_M,4,6,9,11) & M6_J ==31
-**RAS
-
-*------------------------------------------------------------
-* M6_A. Quelle est l'année de naissance de %rostertitle% ?
-*------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M6_A) & Statut_Res==1 
-// 28 personnes pour qui on a pas l'année de naissance
-replace commentaire="personnes pour qui on n'a pas l'année de naissance" if missing(M6_A) & Statut_Res==1
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M6_A) & Statut_Res== 0 
-//RAS
-
-* 3. Valeurs légales
-count if !missing(M6_A) & (M6_A > 2026 | M6_A < 1924) & Statut_Res==1 & M6_A !=9998
-//RAS
+*** Correction des Individus dont le sexe est renseigné Feminin par erreur pour la cohorte T3-2025
 
 
-*---------------------------------------------------------------
-*M7. Quel âge avait %rostertitle% à son dernier anniversaire?
-*---------------------------------------------------------------
+replace M5 = 2 if interview__key == "78-50-34-27" & membres__id == 10
+replace M5 = 2 if interview__key == "45-46-22-74" & membres__id == 8
+replace M5 = 2 if interview__key == "88-01-41-63" & membres__id == 6
+replace M5 = 2 if interview__key == "82-16-55-05" & membres__id == 1
+replace M5 = 2 if interview__key == "75-80-49-91" & membres__id == 4
+replace M5 = 2 if interview__key == "69-74-39-48" & membres__id == 3
+replace M5 = 2 if interview__key == "07-25-33-66" & membres__id == 5
+replace M5 = 2 if interview__key == "47-54-20-79" & membres__id == 3
+replace M5 = 2 if interview__key == "71-85-59-79" & membres__id == 5
+replace M5 = 2 if interview__key == "17-35-68-04" & membres__id == 1
+replace M5 = 2 if interview__key == "80-95-13-96" & membres__id == 3
+replace M5 = 2 if interview__key == "16-05-27-88" & membres__id == 4
+replace M5 = 2 if interview__key == "28-76-46-47" & membres__id == 1
+replace M5 = 2 if interview__key == "66-64-96-98" & membres__id == 7
+replace M5 = 2 if interview__key == "58-02-93-74" & membres__id == 5
+replace M5 = 2 if interview__key == "01-37-41-75" & membres__id == 4
+replace M5 = 2 if interview__key == "91-72-34-46" & membres__id == 3
+replace M5 = 2 if interview__key == "12-98-48-07" & membres__id == 2
+replace M5 = 2 if interview__key == "16-58-65-78" & membres__id == 3
+replace M5 = 2 if interview__key == "00-99-76-42" & membres__id == 5
+replace M5 = 2 if interview__key == "34-44-08-14" & membres__id == 3
+replace M5 = 2 if interview__key == "02-78-33-39" & membres__id == 6
+replace M5 = 2 if interview__key == "93-79-69-04" & membres__id == 3
+replace M5 = 2 if interview__key == "36-87-08-87" & membres__id == 4
+replace M5 = 2 if interview__key == "90-39-55-98" & membres__id == 4
+replace M5 = 2 if interview__key == "90-39-55-98" & membres__id == 7
+replace M5 = 2 if interview__key == "92-79-96-90" & membres__id == 3
+replace M5 = 2 if interview__key == "57-33-54-40" & membres__id == 5
+replace M5 = 2 if interview__key == "18-59-28-22" & membres__id == 3
+replace M5 = 2 if interview__key == "91-09-71-85" & membres__id == 4
+replace M5 = 2 if interview__key == "82-82-95-18" & membres__id == 3
+replace M5 = 2 if interview__key == "55-03-23-60" & membres__id == 3
+replace M5 = 2 if interview__key == "86-49-63-88" & membres__id == 3
+replace M5 = 2 if interview__key == "31-65-52-34" & membres__id == 10
+replace M5 = 2 if interview__key == "84-33-42-30" & membres__id == 4
+replace M5 = 2 if interview__key == "93-39-14-88" & membres__id == 1
+replace M5 = 2 if interview__key == "26-53-13-97" & membres__id == 6
+replace M5 = 2 if interview__key == "31-57-89-86" & membres__id == 1
+replace M5 = 2 if interview__key == "07-19-16-19" & membres__id == 4
+replace M5 = 2 if interview__key == "79-93-28-32" & membres__id == 4
+replace M5 = 2 if interview__key == "01-76-33-29" & membres__id == 2
+replace M5 = 2 if interview__key == "46-54-79-55" & membres__id == 1
+replace M5 = 2 if interview__key == "15-01-89-88" & membres__id == 9
+replace M5 = 2 if interview__key == "56-59-22-03" & membres__id == 1
+replace M5 = 2 if interview__key == "42-47-87-39" & membres__id == 7
+replace M5 = 2 if interview__key == "25-58-99-39" & membres__id == 5
+replace M5 = 2 if interview__key == "81-69-36-79" & membres__id == 2
+replace M5 = 2 if interview__key == "07-24-02-54" & membres__id == 6
+replace M5 = 2 if interview__key == "86-73-94-47" & membres__id == 3
+replace M5 = 2 if interview__key == "24-18-44-54" & membres__id == 3
+replace M5 = 2 if interview__key == "74-79-68-38" & membres__id == 3
+replace M5 = 2 if interview__key == "53-50-63-64" & membres__id == 5
+replace M5 = 2 if interview__key == "09-39-55-70" & membres__id == 2
+replace M5 = 2 if interview__key == "99-97-17-83" & membres__id == 3
+replace M5 = 2 if interview__key == "99-97-17-83" & membres__id == 4
+replace M5 = 2 if interview__key == "27-10-28-63" & membres__id == 3
+replace M5 = 2 if interview__key == "27-10-28-63" & membres__id == 6
+replace M5 = 2 if interview__key == "60-80-68-36" & membres__id == 3
+replace M5 = 2 if interview__key == "97-37-36-51" & membres__id == 7
+replace M5 = 2 if interview__key == "13-28-47-81" & membres__id == 1
+replace M5 = 2 if interview__key == "73-35-22-82" & membres__id == 3
+replace M5 = 2 if interview__key == "84-09-39-97" & membres__id == 3
+replace M5 = 2 if interview__key == "16-02-83-51" & membres__id == 1
+replace M5 = 2 if interview__key == "63-97-70-41" & membres__id == 8
+replace M5 = 2 if interview__key == "60-63-41-14" & membres__id == 5
+replace M5 = 2 if interview__key == "03-46-40-08" & membres__id == 3
+replace M5 = 2 if interview__key == "81-25-85-82" & membres__id == 4
+replace M5 = 2 if interview__key == "11-73-56-43" & membres__id == 3
+replace M5 = 2 if interview__key == "70-19-81-71" & membres__id == 1
+replace M5 = 2 if interview__key == "28-33-62-47" & membres__id == 4
+replace M5 = 2 if interview__key == "47-91-21-40" & membres__id == 2
+replace M5 = 2 if interview__key == "58-31-09-76" & membres__id == 3
+replace M5 = 2 if interview__key == "28-77-67-01" & membres__id == 1
+replace M5 = 2 if interview__key == "00-27-90-78" & membres__id == 6
+replace M5 = 2 if interview__key == "79-71-69-07" & membres__id == 4
+replace M5 = 2 if interview__key == "08-25-03-52" & membres__id == 4
+replace M5 = 2 if interview__key == "94-19-76-85" & membres__id == 5
+replace M5 = 2 if interview__key == "67-00-16-55" & membres__id == 5
+replace M5 = 2 if interview__key == "23-58-85-01" & membres__id == 5
+replace M5 = 2 if interview__key == "00-63-03-89" & membres__id == 5
+replace M5 = 2 if interview__key == "20-12-39-54" & membres__id == 7
+replace M5 = 2 if interview__key == "55-93-31-14" & membres__id == 3
+replace M5 = 2 if interview__key == "97-11-50-80" & membres__id == 4
+replace M5 = 2 if interview__key == "89-85-22-99" & membres__id == 1
+replace M5 = 2 if interview__key == "44-28-65-56" & membres__id == 5
+replace M5 = 2 if interview__key == "50-11-50-36" & membres__id == 2
+replace M5 = 2 if interview__key == "41-16-60-05" & membres__id == 10
+replace M5 = 2 if interview__key == "11-41-38-02" & membres__id == 4
+replace M5 = 2 if interview__key == "94-44-18-41" & membres__id == 3
+replace M5 = 2 if interview__key == "17-66-68-73" & membres__id == 4
+replace M5 = 2 if interview__key == "18-55-10-90" & membres__id == 1
+replace M5 = 2 if interview__key == "03-43-11-89" & membres__id == 4
+replace M5 = 2 if interview__key == "77-34-19-60" & membres__id == 1
+replace M5 = 2 if interview__key == "45-89-81-02" & membres__id == 5
+replace M5 = 2 if interview__key == "48-34-40-94" & membres__id == 3
+replace M5 = 2 if interview__key == "37-63-94-20" & membres__id == 3
+replace M5 = 2 if interview__key == "37-29-31-40" & membres__id == 3
+replace M5 = 2 if interview__key == "03-25-25-28" & membres__id == 3
+replace M5 = 2 if interview__key == "45-97-90-23" & membres__id == 5
+replace M5 = 2 if interview__key == "62-23-58-88" & membres__id == 3
+replace M5 = 2 if interview__key == "33-76-33-76" & membres__id == 3
+replace M5 = 2 if interview__key == "33-76-33-76" & membres__id == 7
+replace M5 = 2 if interview__key == "52-40-03-42" & membres__id == 10
+replace M5 = 2 if interview__key == "08-73-95-53" & membres__id == 5
+replace M5 = 2 if interview__key == "22-47-03-02" & membres__id == 2
+replace M5 = 2 if interview__key == "92-87-39-91" & membres__id == 6
+replace M5 = 2 if interview__key == "22-12-99-71" & membres__id == 4
+replace M5 = 2 if interview__key == "35-10-69-75" & membres__id == 1
+replace M5 = 2 if interview__key == "13-62-36-04" & membres__id == 1
+replace M5 = 2 if interview__key == "23-27-09-80" & membres__id == 1
+replace M5 = 2 if interview__key == "68-91-85-38" & membres__id == 3
+replace M5 = 2 if interview__key == "37-21-09-56" & membres__id == 4
+replace M5 = 2 if interview__key == "76-87-98-86" & membres__id == 6
+replace M5 = 2 if interview__key == "66-04-82-34" & membres__id == 2
+replace M5 = 2 if interview__key == "15-73-84-94" & membres__id == 3
+replace M5 = 2 if interview__key == "21-53-41-39" & membres__id == 3
+replace M5 = 2 if interview__key == "14-92-12-81" & membres__id == 3
+replace M5 = 2 if interview__key == "52-72-04-00" & membres__id == 4
+replace M5 = 2 if interview__key == "52-72-04-00" & membres__id == 6
+replace M5 = 2 if interview__key == "44-74-20-23" & membres__id == 7
+replace M5 = 2 if interview__key == "44-74-20-23" & membres__id == 10
+replace M5 = 2 if interview__key == "72-00-66-49" & membres__id == 3
+replace M5 = 2 if interview__key == "26-78-98-10" & membres__id == 7
+replace M5 = 2 if interview__key == "50-86-51-78" & membres__id == 5
+replace M5 = 2 if interview__key == "50-86-51-78" & membres__id == 11
+replace M5 = 2 if interview__key == "54-83-28-12" & membres__id == 5
+replace M5 = 2 if interview__key == "57-19-22-14" & membres__id == 3
+replace M5 = 2 if interview__key == "86-68-71-02" & membres__id == 6
+replace M5 = 2 if interview__key == "43-79-28-35" & membres__id == 3
+replace M5 = 2 if interview__key == "70-72-22-42" & membres__id == 5
+replace M5 = 2 if interview__key == "09-08-92-29" & membres__id == 3
+replace M5 = 2 if interview__key == "18-26-28-08" & membres__id == 5
+replace M5 = 2 if interview__key == "05-99-01-21" & membres__id == 3
+replace M5 = 2 if interview__key == "48-45-72-24" & membres__id == 10
+replace M5 = 2 if interview__key == "76-98-92-89" & membres__id == 6
+replace M5 = 2 if interview__key == "76-98-92-89" & membres__id == 7
+replace M5 = 2 if interview__key == "76-98-92-89" & membres__id == 11
+replace M5 = 2 if interview__key == "61-49-67-22" & membres__id == 3
+replace M5 = 2 if interview__key == "46-85-13-20" & membres__id == 4
+replace M5 = 2 if interview__key == "82-57-85-07" & membres__id == 4
+replace M5 = 2 if interview__key == "82-57-85-07" & membres__id == 5
+replace M5 = 2 if interview__key == "20-23-66-44" & membres__id == 1
+replace M5 = 2 if interview__key == "69-75-21-70" & membres__id == 1
+replace M5 = 2 if interview__key == "69-75-21-70" & membres__id == 2
+replace M5 = 2 if interview__key == "43-17-53-79" & membres__id == 3
+replace M5 = 2 if interview__key == "05-69-93-97" & membres__id == 3
+replace M5 = 2 if interview__key == "71-19-14-15" & membres__id == 6
+replace M5 = 2 if interview__key == "26-09-99-45" & membres__id == 1
+replace M5 = 2 if interview__key == "47-96-99-10" & membres__id == 4
+replace M5 = 2 if interview__key == "39-71-94-40" & membres__id == 4
+replace M5 = 2 if interview__key == "45-29-06-67" & membres__id == 4
+replace M5 = 2 if interview__key == "88-77-31-70" & membres__id == 6
+replace M5 = 2 if interview__key == "96-39-28-63" & membres__id == 4
+replace M5 = 2 if interview__key == "00-45-17-85" & membres__id == 1
+replace M5 = 2 if interview__key == "08-74-42-11" & membres__id == 5
+replace M5 = 2 if interview__key == "08-74-42-11" & membres__id == 9
+replace M5 = 2 if interview__key == "35-58-71-93" & membres__id == 3
 
-* 1. Valeurs manquantes
-count if missing(M7) & (M6_A==9998 | M6_A ==.a)
-// 39 personnes pour qui on a pas l'age de naissance
-
-*br interview__key membres__id M6_A M7 AgeAnnee M4Confirm  if missing(M7) & (M6_A==9998 | M6_A ==.a)
 
 
-count if missing(AgeAnnee) & Statut_Res==1
-// 39 personnes pour qui on a pas l'age et l'année de naissance sont non renseignées : Tous des téléopérateurs
 
-*br interview__key membres__id M6_A M7 AgeAnnee M4Confirm  if missing(AgeAnnee) & Statut_Res==1
 
-*ta HH2 if missing(AgeAnnee) & Statut_Res==1
 
-replace commentaire=" 39 personnes pour qui on a pas l'age de naissance" if missing(AgeAnnee) & Statut_Res==1
+count if !missing(M5) & Statut_Res== 0 // tous ceux qui ont repondu à la question M5 n'y avait pas le droit
+
+
+*replace commentaire="tous ceux qui ont repondu à la question M5 n'y avait pas le droit car l'individu n'est pas resident" if !missing(M5) & Statut_Res== 0
+
+*export excel interview__key HH2 HH12 HH13 M6_J membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_M5_nonresident" if !missing(M5) & Statut_Res== 0 , firstrow(varl) replace
+
+
+**Pas de personnes pour qui la données sur le sexe est manquante
+
+*drop if missing(M5) & Statut_Res==1 
+
+// M6_J . Veuillez saisir le jour de naissance de %rostertitle% ?
+
+count if missing(M6_J) & Statut_Res==1 // 6 personnes pour qui on a pas le  jour de naissance
+
+replace commentaire="personnes pour qui on a pas le  jour de naissance" if missing(M6_J) & Statut_Res==1
 
 **Exportation des individus potentiellement concernés
 
-count if missing(AgeAnnee) & Statut_Res==1
-if r(N)>0 {
-    export excel interview__key HH13 M6_A M7 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/Sans_Age" if missing(AgeAnnee) & Statut_Res==1, firstrow(varl) replace
-}
+export excel interview__key HH2 HH12 HH13 M6_J membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_jour_naiss" if missing(M6_J) & Statut_Res==1 , firstrow(varl) replace
+**
 
-*2. Vérification des sauts
+count if !missing(M6_J) & Statut_Res== 0 // tous ceux qui ont repondu à la question y avait le droit
 
-count if !missing(M7) & M6_A !=9998 
-// RAS
+// M6_M. Mois de naissance de %rostertitle% ?
+
+count if missing(M6_M) & Statut_Res==1 // 6 personnes pour qui on a pas le mois de naissance
+
+replace commentaire="personnes pour qui on a pas le mois de naissance" if missing(M6_M) & Statut_Res==1
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M6_M membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_mois_naiss" if missing(M6_M) & Statut_Res==1 , firstrow(varl) replace
+**
+
+count if !missing(M6_M) & Statut_Res== 0 // tous ceux qui ont repondu à la question y avait le droit
+
+// M6_A. Quelle est l'année de naissance de %rostertitle% ?
+
+count if missing(M6_A) & Statut_Res==1 // 3 personnes pour qui on a pas l'année de naissance
+
+replace commentaire="personnes pour qui on a pas l'année de naissance" if missing(M6_A) & Statut_Res==1
 
 
-count if !missing(AgeAnnee) & Statut_Res !=1
-// 248 personnes n'ayant pas le droit de répondre aux questions (car ils ne sont pas résidents) ont répondu et nous remarquons après avoir exécuté le code suivant que l'Age de tous ces individu est égal à 0. Nous allons remplacer leur âge par la une valeur manquante
-* br AgeAnnee Statut_Res if !missing(AgeAnnee) & Statut_Res !=1
+**Exportation des individus potentiellement concernés
 
-replace AgeAnnee= . if !missing(AgeAnnee) & Statut_Res !=1
+export excel interview__key HH2 HH12 HH13 M6_A membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_annee_naiss" if missing(M6_A) & Statut_Res==1 , firstrow(varl) replace
 
-*3. Valeurs légales
+
+
+count if missing(M6_A) & Statut_Res==1 & membre_id_v1!="##N/A##" // 3 personnes pour qui on a pas l'année de naissance
+
+
+count if !missing(M6_A) & Statut_Res== 0 // tous ceux qui ont repondu à la question y avait le droit
+
+ta M6_A if Statut_Res==1
+
+
+ta AgeAnnee if Statut_Res==1
+
+* On constate qu'il a une valeur aberante qui vaut 112 pour interview__key =="39-95-24-84" & membres__id==1
+
+cap drop zen
+gen zen = 1993 if interview__key=="39-95-24-84" & membres__id==1 
+
+replace AgeAnnee=2026 -zen if interview__key=="39-95-24-84" & membres__id==1
+replace M6_A = zen if  interview__key=="39-95-24-84" & membres__id==1
+replace M7 = 2026 -zen if  interview__key=="39-95-24-84" & membres__id==1
+
+cap drop zen
+
+
+replace M6_A=2025 if interview__key=="49-94-67-76" & membres__id == 3
+
+replace AgeAnnee=2026 - M6_A if interview__key=="49-94-67-76" & membres__id == 3
+
+
+
+
+
+
+* On constate qu'il a des valeurs aberantes sur la variable AgeAnnee
+
+
+//M7. Quel âge avait %rostertitle% à son dernier anniversaire?
+
+count if missing(M7) & M6_A==9998 // 8 personnes pour qui on a pas l'age de naissance
+
+br interview__key membres__id M6_A M7 AgeAnnee M4Confirm  if missing(M7) & M6_A==9998
+
+
+
+
+count if missing(M7) & M6_A==.a // 3 personnes pour qui on a pas l'age et l'année de naissance sont non renseignées
+
+count if missing(M7) & M6_A==9998 // 8 personnes pour qui on a pas l'age et l'année de naissance sont non renseignées
+
+
+count if AgeAnnee==.a & Statut_Res==1 // 2 personnes pour qui on a pas l'age et l'année de naissance sont non renseignées : Tous des téléopérateurs
+
+br interview__key membres__id M6_A M7 AgeAnnee M4Confirm  if AgeAnnee==.a & Statut_Res==1
+
+
+
+br interview__key membres__id M6_A M7 AgeAnnee M4Confirm  rgmen if AgeAnnee==.a & Statut_Res==1
+
+ta HH2 if AgeAnnee==.a & Statut_Res==1
+
+replace commentaire="personnes pour qui on a pas l'age de naissance" if AgeAnnee==.a & Statut_Res==1
+
+replace commentaire="(53) personnes pour qui on a pas l'age et l'année de naissance sont non renseignées : Tous des téléopérateurs" if AgeAnnee==.a & Statut_Res==1
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH13 M6_A M7 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/Sans_Age" if AgeAnnee==.a & Statut_Res==1, firstrow(varl) replace
+
+*export excel interview__key HH13 M6_A M7 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/Sans_Age_AGterrain_" if AgeAnnee==.a & Statut_Res==1 & rgmen==1, firstrow(varl) replace
+
+export excel interview__key HH13 M6_A M7 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/Sans_Age_AGteleoperateur" if AgeAnnee==.a & Statut_Res==1 & rgmen==2, firstrow(varl) replace
+
+/*
+interview__key	membres__id
+
+
+*/
+**
+
+count if !missing(M7) & M6_A !=9998 // tous ceux qui ont repondu à la question y avait le droit
+
+
+// AgeAnnee
+
+count if missing(AgeAnnee) & Statut_Res == 1 // 2  personnes pour qui l'age est manquant
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M6_A M6_J M6_M M7 AgeAnnee M5 membre_id_v1 V1MODINTR rgmen using "$folderpath/document/comp_menage_AgeAnnee" if missing(AgeAnnee) & Statut_Res == 1, firstrow(varl) replace
+**
+
+********** SUPPRESSION DES INDIVIDUS SANS AGE ********************
+
+*cap drop if AgeAnnee==.a & Statut_Res==1 & rgmen==2
+
+*******************************************
+
+
+*suppression des individus pour qui l'age est manquant
+
+*drop if AgeAnnee ==.a
+*
+
+*count if !missing(AgeAnnee) & Statut_Res !=1 // tous ceux qui ont repondu à la section avait le droit 
+
 ta AgeAnnee if Statut_Res==1,miss // plusieurs valeurs aberrantes dans la variable AgeAnnee. 
-* 
-* br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee <0
-//Tous ceux dont l'âge est négatif sont, en réalité, nés en 2026 (variable M6_A)
+
+*br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee >99 & !missing(AgeAnnee)
+
+*br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee <0
 
 replace AgeAnnee=0 if AgeAnnee <0
-* 
-* br interview__key  membres__id M6_A M6_J M6_M M7 AgeAnnee M4Confirm if AgeAnnee >99 & !missing(AgeAnnee)
-//Plusieurs valeurs sont en réalités l'année de naissance. Nous allons calculer l'âge pour ces individus concernés. Il y a un indivi pour qui l'âge saisi est 106 mais c'est une observation de l'enquêteur. Nous allons remplacer cette valeur par l'âge maximal 102.
 
-replace AgeAnnee=102 if AgeAnnee ==106
-replace AgeAnnee=2026 - AgeAnnee if AgeAnnee >1930 & !missing(AgeAnnee)
+**Proposition de Correction des valeurs aberrantes dans AgeAnnee
 
-*4. Cohérence
+*L'information de l'année de naissance a été reporté dans la variable Age (M7).
+count if AgeAnnee >1000 & !missing(AgeAnnee)
 
-**l'âge du chef de ménage
-count if M4 ==1 & AgeAnnee < 15  
-// RAS
+*replace M6_A=M7 if AgeAnnee >1000 & !missing(AgeAnnee)
+*replace AgeAnnee= 2015 - M6_A if inlist(M7,2004,2009,1995)
+*replace M7 =. if inlist(M7,2004,2009,1995)
+
+
+**
+
+count if M4 ==1 & AgeAnnee < 15  // 1 chef  chef de menage agé de moins de 15. Mais il s'agit d'un menage où il est le seul membre
 
 ** Age et lien de parenté
 // creation de variable 
@@ -1179,516 +1032,299 @@ gen ecart_age = Age_Cm_men - AgeAnnee
 cap drop ecart_age1
 gen ecart_age1 = AgeAnnee - Age_Cm_men
 
+
+
 // test des ecarts entre l'age de l'indivu et celui de ses parents
-count if ecart_age1 < 11 & M4 == 5 
-// pas de CM dont le parent en est agé de moins de 11
 
-count if ((ecart_age < 11 & M4 == 3 & M5 ==2) | (ecart_age < 14 & M4 == 3 & M5 ==1)) & agecm !=. 
-// pas CM agé de moins 11/14 par rapport à son fils/filles
+count if ecart_age1 < 11 & M4 == 5 // pas de CM dont le parent en est agé de moins de 11
+count if ((ecart_age < 11 & M4 == 3 & M5 ==2) | (ecart_age < 14 & M4 == 3 & M5 ==1)) & agecm !=. // pas CM agé de moins 11/14 par rapport à son fils/filles
 
-count if AgeAnnee != M4Confirm & !missing(AgeAnnee, M4Confirm) 
-// M4Confirm est l'age confirmé au moment de l'entretien, c'est donc la vrai valeurs de l'age. la variable AgeAnnee et M4Confirm sont différentes pour 5 776 individus 
+count if AgeAnnee != M4Confirm // M4Confirm est l'age confirmé au moment de l'entretien, c'est donc la vrai valeurs de l'age. la variable AgeAnnee et M4Confirm sont différentes pour 50% des individu. 
 
-*---------------------------------------------------------------
-* M8. Est-ce que la mère biologique de %rostertitle% est encore en vie ?
-*--------------------------------------------------------------- 
 
-* 1. Valeurs manquantes
-count if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))) 
-// 79 individus pour qui la question n'a pas été repondu
+// M8. Est-ce que la mère biologique de %rostertitle% est encore en vie ? 
+
+count if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))) // 3 individus pour qui la question n'a pas été repondu
 
 *replace commentaire="individus pour qui la question M8 n'a pas été repondu" if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
 
-*export excel interview__key HH13 M8 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_mere_en_vie" if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M8) & ( Statut_Res !=1 | membre_id_v1 != "##N/A##" | AgeAnnee >= 18 | (!inlist(M4,3,4,7,8) & !inlist(V1M4,3,4,7,8)) )
-//RAS
-
-* 3. Valeurs légales
-count if !inlist(M8,1,2,9998) & !missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
-//RAS
-
-*---------------------------------------------------------------
-* M9A. Lors du passage à la date %V1hha%, vous nous avez indiqué que La mère biologique de %rostertitle% %V1M9% habituellement dans ce ménage [ou était en vis
-*--------------------------------------------------------------- 
-
-* 1. Valeurs manquantes
-count if missing(M9A) & M8==1 & membre_id_v1 != "##N/A##" &  !missing(V1M9)
-// RAS
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M9A) & ( Statut_Res !=1 | membre_id_v1 == "##N/A##" | missing(V1M9) )
-//RAS
-
-* 3. Valeurs légales
-count if !inlist(M9A,1,2) & !missing(M9A) & Statut_Res==1 & membre_id_v1 != "##N/A##" &  !missing(V1M9)
-//RAS
-
-*---------------------------------------------------------------
-*M9. La mère biologique de %rostertitle% vit-elle habituellement dans ce ménage ou était-elle en visite ici la nuit dernière ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M9) & M8==1 
-// 2 individus pour qui la question n'a pas été repondu
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M9) & M8!=1  
-// RAS
-
-* 3. Valeurs légales
-count if !inlist(M9,1,2) & !missing(M9) & M8==1
-//RAS 
-
-*4. Cohérence entre M8 et M9
-ta M8 M9 
-// pas d'incoherence entre le fait que la mère soit vivante et qu'elle vive dans le menage
-
-*---------------------------------------------------------------
-*M10.Qui est la mère biologique de %rostertitle% ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M10) & M9 == 1
-// 17 individus pour qui la question n'a pas été repondu
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M10) & M9!=1  
-// RAS
-
-
-*---------------------------------------------------------------
-*M11.Est-ce que le père biologique de %rostertitle% est encore en vie ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M11) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
-// 81 individus pour qui la question n'a pas été repondu
-
-*replace commentaire="individus pour qui la question M11 n'a pas été repondu" if missing(M11) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
-
-*export excel interview__key HH13 M11 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_mere_en_vie" if missing(M11) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M11) & ( Statut_Res !=1 | membre_id_v1 != "##N/A##" | AgeAnnee >= 18 | (!inlist(M4,3,4,7,8) & !inlist(V1M4,3,4,7,8)) )
-// RAS
-
-* 3. Valeurs légales
-count if !inlist(M11,1,2,9998) & !missing(M11)
-//RAS 
-
-
-*---------------------------------------------------------------
-* M12A. Lors du passage à la date %V1hha%, vous nous avez indiqué que le père biologique de %rostertitle% %V1M12% habituellement dans ce ménage [ou était en visite ici la nuit dernière], est-ce toujours le cas ?
-*--------------------------------------------------------------- 
-
-* 1. Valeurs manquantes
-count if missing(M12A) & M11==1 & membre_id_v1 != "##N/A##" &  !missing(V1M12)
-// RAS
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M12A) & ( M11 !=1 | membre_id_v1 == "##N/A##" | missing(V1M12) )
-//RAS
-
-* 3. Valeurs légales
-count if !inlist(M12A,1,2) & !missing(M12A) & M11==1 & membre_id_v1 != "##N/A##" &  !missing(V1M12)
-//RAS
-
-
-*---------------------------------------------------------------
-*M12. Le père biologique de %rostertitle% vit-il habituellement dans ce ménage ou était en visite ici la nuit dernière?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M12) & M11==1 & membre_id_v1 == "##N/A##"
-// 1 individu pour qui la question n'a pas été repondu
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M12) & (M11 !=1 | membre_id_v1 != "##N/A##")
-// RAS
-
-* 3. Valeurs légales
-count if !inlist(M12,1,2) & !missing(M12) & M11==1 & membre_id_v1 == "##N/A##"
-//RAS 
-
-*4. Cohérence entre M11 et M12
-ta M11 M12
-// pas d'incoherence entre le fait que le père soit vivant et qu'elle vive dans le menage
-
-*---------------------------------------------------------------
-*M13.Qui est le père biologique de %rostertitle% ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M13) & M12 == 1
-// 11 individus pour qui la question n'a pas été repondu
-
-replace commentaire ="personnes pour qui la question n'a pas été repondu M13" if missing(M13) & M12 == 1
 **Exportation des individus potentiellement concernés
 
-count if missing(M13) & M12 == 1
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M12 M13 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_pere_qui" if missing(M13) & M12 == 1, firstrow(varl) replace
-}
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M13) & M12!=1  
-// RAS
+*export excel interview__key HH13 M8 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/comp_menage_mere_en_vie" if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
+**
 
 
-*---------------------------------------------------------------
-*M14.Qui a la charge de %rostertitle% dans le ménage ?
-*---------------------------------------------------------------
+count if !missing(M8) & Statut_Res==0 
 
-* 1. Valeurs manquantes
-count if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
-// 94 individu pour qui la question n'a pas été repondu
+count if !missing(M8) & membre_id_v1 != "##N/A##" 
+
+count if !missing(M8) & AgeAnnee > 18  
+
+count if !missing(M8) & AgeAnnee < 18 & !inlist(M4,3,4,7,8) & !inlist(V1M4,3,4,7,8) // tous les individus ayant répondu à la question y avait droit
+
+
+
+// M9. La mère biologique de %rostertitle% vit-elle habituellement dans ce ménage ou était-elle en visite ici la nuit dernière ?
+
+count if missing(M9) & M8==1 // les individus devant repondre à la question on bien repondu 
+
+count if !missing(M9) & (M8==2 | M8==9998)  // les individus ayant repondu à la question y avait droit
+
+ta M8 M9 // pas d'incoherence entre le fait que la mère soit vivante et qu'elle vive dans le menage
+
+
+// M10.Qui est la mère biologique de %rostertitle% ?
+
+count if missing(M10) & M9 == 1 & membre_id_v1=="##N/A##" // 4 personnes pour qui la question n'a pas été repondu (1er passage) Ceci n'est pas imputable  
+
+replace commentaire="personnes pour qui la question M10 n'a pas été repondu" if missing(M10) & M9 == 1 & membre_id_v1=="##N/A##"
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M10 M9 membre_id_v1 V1MODINTR rgmen using "$folderpath/document/comp_menage_mere_qui" if missing(M10) & M9 == 1 & membre_id_v1=="##N/A##", firstrow(varl) replace
+**
+
+count if !missing(M10) & M9 == 2 // Tous les individu ayant repondy y avait droit
+
+// M11.Est-ce que le père biologique de %rostertitle% est encore en vie ?
+
+count if missing(M11) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))) // tous ceux qui devaient repondre ont repondu à la question n'a pas été repondu
+
+/*Exportation des individus potentiellement concernés
+
+export excel interview__key HH13 M8 membre_id_v1 V1MODINTR using "$folderpath/document/comp_menage_mere_en_vie" if missing(M8) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
+*/
+
+
+count if !missing(M11) & Statut_Res==0 
+
+count if !missing(M11) & membre_id_v1 != "##N/A##" 
+
+count if !missing(M11) & AgeAnnee > 18  
+
+count if !missing(M11) & AgeAnnee < 18 & !inlist(M4,3,4,7,8) & !inlist(V1M4,3,4,7,8) // tous les individus ayant répondu à la question y avait droit
+
+
+// M12. Le père biologique de %rostertitle% vit-il habituellement dans ce ménage ou était en visite ici la nuit dernière?
+
+count if missing(M12) & M11==1 & membre_id_v1 == "##N/A##" // 1 individu devant repondre ne l'ont pas fait. 
+
+count if !missing(M12) & (M11==2 | M11==9998)  // les individus ayant repondu à la question y avait droit. Ne peut être imputés
+
+ta M11 M12 // pas d'incoherence entre le fait que 
+
+// M13.Qui est le père biologique de %rostertitle% ?
+
+count if missing(M13) & M12 == 1 & membre_id_v1 == "##N/A##" // 1 personnes pour qui la question n'a pas été repondu. Ne peut être imputés
+
+replace commentaire ="personnes pour qui la question n'a pas été repondu M13" if missing(M13) & M12 == 1 & membre_id_v1 == "##N/A##"
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M12 M13 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_pere_qui" if missing(M13) & M12 == 1 & membre_id_v1 == "##N/A##", firstrow(varl) replace
+**
+
+// M14.Qui a la charge de %rostertitle% dans le ménage ?
+
+count if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))) // 1 individus pour qui la question n'a pas été répondu.  Ne peut être imputés
 
 replace commentaire="individus pour qui la question M14  n'a pas été répondu" if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
 
-count if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8)))
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M14 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_charge_qui" if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
-}
+**Exportation des individus potentiellement concernés
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M14) & (Statut_Res !=1 | membre_id_v1 != "##N/A##" | AgeAnnee >= 18 | (!inlist(M4,3,4,7,8) & !inlist(V1M4,3,4,7,8)) )
-// RAS
+export excel interview__key HH2 HH12 HH13 M14 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_charge_qui" if missing(M14) & Statut_Res==1 & membre_id_v1== "##N/A##" & AgeAnnee < 18 & ((inlist(M4,3,4,7,8)| inlist(V1M4,3,4,7,8))), firstrow(varl) replace
+**
 
+// M15. %rostertitle% est-il né en Côte d'Ivoire ?
 
-*---------------------------------------------------------------
-*M15. %rostertitle% est-il né en Côte d'Ivoire ?
-*---------------------------------------------------------------
+count if missing(M15) & Statut_Res==1 & membre_id_v1=="##N/A##" // 11 personnes pour qui la question n'a pas été répondu.  Ne peut être imputés
 
-* 1. Valeurs manquantes
-count if missing(M15) & Statut_Res==1 & membre_id_v1=="##N/A##"
-// 248 individu pour qui la question n'a pas été repondu
+count if !missing(M15) & membre_id_v1 != "##N/A##" // tous ceux qui ont repondu avaient le droit
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M15) & (Statut_Res==1 !=1 | membre_id_v1 != "##N/A##")
-// RAS
+// M16. Quelle est la sous-préfecture ou la commune du lieu de naissance de %rostertitle% ?
 
-* 3. Valeurs légales
-count if !inlist(M15,1,2) & !missing(M15) & Statut_Res==1 & membre_id_v1=="##N/A##" 
-//RAS 
+count if missing(M16) & M15==1 & membre_id_v1 == "##N/A##" // 2 individu pour qui la question n'a pas été répondu. Ne peux être imputés 
 
-*Correction : remplacer les valeurs manquantes par le mode du ménage
+replace commentaire="individu pour qui la question M16 n'a pas été répondu " if missing(M16) & M15==1 & membre_id_v1 == "##N/A##"
 
-bysort interview__key: egen mode_M15 = mode(M15)
-replace M15 = mode_M15 if missing(M15) & Statut_Res==1 & membre_id_v1=="##N/A##"
-
-* Vérification
-count if missing(M15) & Statut_Res==1 & membre_id_v1=="##N/A##"
-**221 valeurs n'ont pas pu être remplacé
-
-drop mode_M15
-
-*---------------------------------------------------------------
-*M16. Quelle est la sous-préfecture ou la commune du lieu de naissance de %rostertitle% ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M16) & M15==1 
-// 35 individu pour qui la question n'a pas été repondu
-
-replace commentaire="individu pour qui la question M16 n'a pas été répondu " if missing(M16) & M15==1
-
-count if missing(M16) & M15==1 
-if r(N)>0 {
-    export excel interview__key HH2 HH12  HH13 M14 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/sous_prefecture_maissan" if missing(M16) & M15==1 , firstrow(varl) replace
-}
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M16) & M15 !=1 
-// RAS
-
-*---------------------------------------------------------------
-*M18. Précisez le pays de naissance de %rostertitle%
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M18) & M15==2 
-// 6 individu pour qui la question n'a pas été repondu
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M18) & M15 !=2
-// RAS
-
-* 3. Valeurs légales
-count if !inrange(M18,1,2016) & M15 ==2 & !missing(M18)
-//RAS
-
-*---------------------------------------------------------------
-*M19. Quelle est la nationalité de %rostertitle% ?
-*---------------------------------------------------------------
-
-* 1. Valeurs manquantes
-count if missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##"
-// 255 individu pour qui la question n'a pas été repondu
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M19) & (Statut_Res==1 !=1 | membre_id_v1 != "##N/A##")
-// RAS
-
-* 3. Valeurs légales
-count if !inlist(M19,1,2,3) & !missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##" 
-//RAS 
-
-*5 Correction :
-
-* =============
-* Règles :
-* - Si M19 est manquant pour un enfant du CM (M4==3)
-*   et que le CM est masculin (M5==1),
-*   alors prendre la nationalité du CM.
-*
-* - Si M19 est manquant pour un enfant du conjoint (M4==4)
-*   et que le conjoint est masculin (M5==1),
-*   alors prendre la nationalité du conjoint.
-* =============
-
-*Nationalité du chef de ménage masculin
-gen nat_cm_homme = M19 if M4==1 & M5==1 & !missing(M19)
-bysort interview__key: egen nat_cm_homme_final = max(nat_cm_homme)
-
-*Nationalité du conjoint masculin
-gen nat_conjoint_homme = M19 if M4==2 & M5==1 & !missing(M19)
-
-bysort interview__key: egen nat_conjoint_homme_final = max(nat_conjoint_homme)
-
-*Remplacement : enfant du CM
-replace M19 = nat_cm_homme_final ///
-    if missing(M19) ///
-    & M4==3 ///
-    & !missing(nat_cm_homme_final)
-
-* Remplacement : enfant du conjoint
-replace M19 = nat_conjoint_homme_final ///
-    if missing(M19) ///
-    & M4==4 ///
-    & !missing(nat_conjoint_homme_final)
-
-* Vérification
-count if missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##"
-*Le nombre de valeurs manquantes a été réduite à 244
-
-* Suppression des variables temporaires
-drop nat_cm_homme nat_cm_homme_final nat_conjoint_homme nat_conjoint_homme_final
+export excel interview__key HH2 HH12  HH13 M14 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/sous_prefecture_maissan" if missing(M16) & M15==1 & membre_id_v1 == "##N/A##" , firstrow(varl) replace
 
 
-*---------------------------------------------------------------
-*M20. Indiquez le pays dont %rostertitle% a la nationalité .
-*---------------------------------------------------------------
 
-* 1. Valeurs manquantes
-count if missing(M20) & M19 == 2 
-// 4 individu pour qui la question n'a pas été repondu
+count if !missing(M16) & M15 ==2 // tous ceux qui ont repondu avaient le droit
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M20) & M19 != 2 
-// RAS
+// M18. Précisez le pays de naissance de %rostertitle%
 
-* 3. Valeurs légales
-count if !inrange(M20,1,2016) & M19 ==2 & !missing(M20)
-//RAS
+count if missing(M18) & M15==2 // Tous ceux qui devaient repondre on répondu
 
+
+count if !missing(M18) & M15==1 // tous ceux qui ont repondu avaient le droit
+
+ta M18,miss // les pays mentionné sont vraisembable. Ce sont pour la plupart des pays ayant une forte diaspora en CIV 
+
+// M19. Quelle est la nationalité de %rostertitle% ??
+
+count if missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##" // 1 individu pour qui la question n'a pas de réponse. Ne peut être imputés
+
+replace commentaire="individu pour qui la question M19 n'a pas de réponse " if missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##"
+
+export excel interview__key HH2 HH12 HH13 M14 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/nationalite" if missing(M19) & Statut_Res==1 & membre_id_v1=="##N/A##" , firstrow(varl) replace
+
+count if !missing(M19) &  membre_id_v1 != "##N/A##" // tous ceux qui ont repondu avaient le droit
+
+// M20. Indiquez le pays dont %rostertitle% a la nationalité .
+
+count if missing(M20) & M19 == 2 // tous les individus devant repondre ont répondu
+
+
+count if !missing(M20) &  M19 == 1 // tous ceux qui ont repondu avaient le droit
 
 ta M20,miss // les pays mentionné sont vraisembable. Ce sont pour la plupart des pays ayant une forte diaspora en CIV 
 
-*---------------------------------------------------------------
-*M21. Quelle est l'ethnie de %rostertitle% ?
-*---------------------------------------------------------------
+// M21. Quelle est l'ethnie de %rostertitle% ?
 
-* 1. Valeurs manquantes
-count if missing(M21) & M19 ==1
-// 16 individus pour qui la question n'a pas été repondu
+count if missing(M21) & M19== 1 & membre_id_v1 == "##N/A##" // 9 individu pour qui la question n'a pas été répondu. Ne peux être imputés
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M21) & M19 != 1
-// RAS
+replace commentaire="individu pour qui la question M21 (ethnie) n'a pas de réponse " if missing(M21) & M19== 1
 
-* 3. Valeurs légales
-count if !inrange(M21,1,89) & M19 ==1 & !missing(M21) & M21 != 98
-//RAS 
 
-*---------------------------------------------------------------
-*M22. Quelle est la réligion de %rostertitle% ?
-*---------------------------------------------------------------
+**Exportation des individus potentiellement concernés
 
-* 1. Valeurs manquantes
-count if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##"
-// 260 individus pour qui la question n'a pas été repondu
+export excel interview__key HH2 HH12 HH13 M19 M21 membre_id_v1 V1MODINTR commentaire rgmen  using "$folderpath/document/comp_menage_charge_qui" if missing(M21) & M19==1 , firstrow(varl) replace
+**
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M22) & (Statut_Res !=1 | membre_id_v1 !="##N/A##")
-// RAS
+count if !missing(M21) & M19== 2 // tous les individus devant répondre ont répondu
 
-* 3. Valeurs légales
-count if !inrange(M22,1,14) & Statut_Res==1 & membre_id_v1=="##N/A##" & !missing(M22) & M22 != 9998
-//RAS 
 
-*5 Correction :
+// M22. Quelle est la réligion de %rostertitle% ?
 
-* Calcul du mode de M22 par ménage
-bysort interview__key: egen mode_M22 = mode(M22) if !missing(M22)
+count if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##" // 1 individus pour qui la question n'a pas de réponse
 
-* Propager le mode à tous les membres du ménage
-bysort interview__key: egen mode_M22_final = max(mode_M22)
+replace commentaire="individu pour qui la question M22 n'a pas de réponse " if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##"
 
-* Remplacement des valeurs manquantes
-replace M22 = mode_M22_final if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##" & !missing(mode_M22_final)
 
-* Vérification
-count if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##"
-*Nombre de valeurs manquantes réduit à 248
+**Exportation des individus potentiellement concernés
 
-drop mode_M22 mode_M22_final
-*---------------------------------------------------------------
-*M22_Aut. Veuillez préciser ?
-*---------------------------------------------------------------
+export excel interview__key HH2 HH12 HH13 M19 M21 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_charge_qui" if missing(M22) & Statut_Res==1 & membre_id_v1=="##N/A##" , firstrow(varl) replace
 
-* 1. Valeurs manquantes
-count if missing(M22_Aut) & M22 == 13 
-// RAS
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M22_Aut) &  M22 != 13 
-//RAS
 
-*---------------------------------------------------------------
-*M23A. Quel est le statut matrimonial de %rostertitle% ?
-*---------------------------------------------------------------
 
-* 1. Valeurs manquantes
-count if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"
-// 182 individus pour qui la question n'a pas été repondu
+count if !missing(M22) &  membre_id_v1 != "##N/A##" // tous ceux qui ont repondu avaient le droit
+
+
+// M22_Aut. Veuillez préciser ?
+
+count if missing(M22_Aut) & M22 == 13 // 3  individus devant repondre main n'ont pas répondu
+
+
+count if !missing(M22_Aut) &  M22 != 13 //RAS
+
+br M22_Aut M22 if !missing(M22_Aut) &  M22 != 13 
+
+// M23A. Quel est le statut matrimonial de %rostertitle% ?
+
+count if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##" // 1 individu pour qui la question n'a pas été repondu. NE peux être imputes
 
 replace commentaire="individu pour qui la question M23A(statut matrimonial) n'a pas de réponse " if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##" 
 
-count if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"  
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M19 AgeAnnee M23A membre_id_v1 Statut_Res commentaire using "$folderpath/document/stattut_matrimonial"  if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"  , firstrow(varl) replace
-}
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M23A) & (AgeAnnee < 12 | Statut_Res !=1 | membre_id_v1 !="##N/A##")
-// 1 personne a répondu à cette question alors qu'elle ne le devrait pas
+**Exportation des individus potentiellement concernés
 
-*br if !missing(M23A) & (AgeAnnee < 12 | Statut_Res !=1 | membre_id_v1 !="##N/A##")
+export excel interview__key HH2 HH12 HH13 M19 M21 membre_id_v1 V1MODINTR rgmen commentaire using "$folderpath/document/stattut_matrimonial"  if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"  , firstrow(varl) replace
 
-* 3. Valeurs légales
-count if !inrange(M23A,1,6) & !missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"
-//RAS 
 
-*5 Correction :
+count if !missing(M23A) & (AgeAnnee < 12 | Statut_Res==0 | membre_id_v1 != "##N/A##") // Tous les individus ayant répondu avaient le droit 
 
-* ======
-* APUREMENT DE M23A (Statut matrimonial)
-* Remplacer la valeur manquante du CM/conjoint
-* par la valeur de l'autre lorsqu'elle existe
-* ======
+count if (AgeAnnee < 16 & M23A > 1 & !missing(M23A)) // 14 individu agés de moins de 15 et ne sont pas celibataire.
 
-* Récupérer le statut matrimonial du CM
+replace commentaire=" individu agés de moins de 13 ans et ne sont pas celibataire." if (AgeAnnee < 16 & M23A > 1 & !missing(M23A))
 
-gen M23A_cm = M23A if M4==1 & !missing(M23A)
-bysort interview__key: egen M23A_cm_final = max(M23A_cm)
 
-* Récupérer le statut matrimonial du conjoint
+**Exportation des individus potentiellement concernés
 
-gen M23A_conjoint = M23A if M4==2 & !missing(M23A)
-bysort interview__key: egen M23A_conjoint_final = max(M23A_conjoint)
+export excel interview__key HH13 M19 M21 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/stattut_matrimonial_pour_jeune" if (AgeAnnee < 16 & M23A > 1 & !missing(M23A))  , firstrow(varl) replace
 
-* 4. Apurement
+*Etape imputation
+*replace M23A=1 if (AgeAnnee < 16 & M23A > 1 & !missing(M23A))
 
-* Cas 1 : CM manquant mais conjoint renseigné
-replace M23A = M23A_conjoint_final ///
-    if missing(M23A) ///
-    & M4==1 ///
-    & AgeAnnee >= 12 ///
-    & Statut_Res==1 ///
-    & membre_id_v1=="##N/A##" ///
-    & !missing(M23A_conjoint_final)
 
-* Cas 2 : Conjoint manquant mais CM renseigné
-replace M23A = M23A_cm_final ///
-    if missing(M23A) ///
-    & M4==2 ///
-    & AgeAnnee >= 12 ///
-    & Statut_Res==1 ///
-    & membre_id_v1=="##N/A##" ///
-    & !missing(M23A_cm_final)
 
-* Vérification
-count if missing(M23A) & AgeAnnee >= 12 & Statut_Res==1 & membre_id_v1=="##N/A##"
-// Nombre de valeurs manquantes reduit à 179
+// M23B. Quel est le type de mariage de %rostertitle% ?
 
-drop M23A_cm M23A_conjoint M23A_cm_final M23A_conjoint_final
 
-*---------------------------------------------------------------
-*M23B. Quel est le type de mariage de %rostertitle% ?
-*---------------------------------------------------------------
 
 foreach var in M23B__1 M23B__2 M23B__3 M23B__9998 {
 count if missing(`var') & inlist(M23A,3,4)
-} 
-// 2 individus n'ont répondu
+} // tous les individus ont répondus
 
-*---------------------------------------------------------------
-*M24A. %rostertitle% a-t-il/elle une assurance maladie ?
-*---------------------------------------------------------------
 
-* 1. Valeurs manquantes
-count if missing(M24A) & Statut_Res==1 & membre_id_v1=="##N/A##"
-// 241 individus pour qui la question n'a pas été repondu
+* 12 les personnes Mariés (Polygame) qui sont mariés légalement : Incoherence
+count if M23A == 4 & M23B__1 == 1 // Les 5 personnes 
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M24A) & (Statut_Res !=1 | membre_id_v1 !="##N/A##")
-// RAS
 
-* 3. Valeurs légales
-count if !inrange(M24A,1,2) & Statut_Res==1 & membre_id_v1=="##N/A##" & !missing(M24A)
-//RAS 
+// M24A. %rostertitle% a-t-il/elle une assurance maladie ?
 
-*---------------------------------------------------------------
-*M24B. Si oui, qui a souscrit à l'assurance ?
-*---------------------------------------------------------------
+count if missing(M24A) & Statut_Res==1 & membre_id_v1=="##N/A##" // 1 individus pour qui la question n'a pas de réponse
 
-* 1. Valeurs manquantes
-count if missing(M24B) & M24A==1
-// RAS
+br M5 AgeAnnee M19 M23B__1 M23B__2 M23B__3 M23B__9998 M24A if missing(M24A) & Statut_Res==1 & membre_id_v1=="##N/A##" // il s'agirait du meme individu que pour les variables précédente. Nous pensons judicieux de ne pas le supprimer vu que l'age et le sexe sont non manquant
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
-count if !missing(M24B) & M24A !=1
-// RAS
+count if !missing(M24A) &  membre_id_v1 != "##N/A##" // tous ceux qui ont repondu avaient le droit
 
-* 3. Valeurs légales
-count if !inrange(M24B,1,3) & M24A ==1
-//RAS 
+// M24B. Si oui, qui a souscrit à l'assurance ?
 
-*---------------------------------------------------------------
-*M24C. Si oui, Quelles sont les couvertures dont %rostertitle% bénéficie ?
-*---------------------------------------------------------------
+count if missing(M24B) & M24A==1 &  membre_id_v1 == "##N/A##" // Tous les individus devant répondre ont répondu
 
-* 1. Valeurs manquantes
+count if !missing(M24B) & M24A==2  // Tous les individus devant répondre ont répondu
+
+count if M24B==1 & AgeAnnee <14 // 456 enfants de moins de 14 ont une assurance personnelle. Nous estimons que cela est une erreur. IL SE POURRAIT QUE LES AGENTS N'AIT PAS BIEN COMPRIS LE SENS DE LA QUESTION A CE NIVEAU 
+
+replace commentaire="enfants de moins de 13 ont une assurance personnelle " if M24B==1 & AgeAnnee <14 
+
+
+**Exportation des individus potentiellement concernés
+
+export excel interview__key HH2 HH12 HH13 M19 M21 membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/assurance_maladie"  if M24B==1 & AgeAnnee <14  , firstrow(varl) replace
+
+*Etape de correction 
+replace M24B=3 if M24B==1 & AgeAnnee <14
+
+
+count if M24B== 2  & M23A == 1 // 5 personnes declarent avoir l'assurance des conjoints alors qu'elles sont déclaré célibataire.
+
+replace commentaire="personnes declarent avoir l'assurance des conjoints alors qu'elles sont déclaré célibataire. " if M24B== 2  & M23A == 1
+
+replace M24B=1 if M24B== 2  & M23A == 1 // 1 personnes declarent avoir l'assurance des conjoints alors qu'elles sont déclaré célibataire.
+
+
+**Exportation des individus potentiellement concernés
+
+*export excel interview__key HH13 M19 M21 membre_id_v1 V1MODINTR commentaire using "$folderpath/document/assurance_maladie2"  if M24B== 2  & M23A == 1  , firstrow(varl) replace
+
+*Etape correction
+*replace M24B=1 if M24B== 2  & M23A == 1 
+
+
+
+// M24C. Si oui, Quelles sont les couvertures dont %rostertitle% bénéficie ?
+
 foreach var in M24C__1 M24C__2 M24C__3 M24C__4 M24C__7 M24C__8 {
 count if missing(`var') & inlist(M24A,1)
 } // RAS
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 foreach var in M24C__1 M24C__2 M24C__3 M24C__4 M24C__7 M24C__8 {
 count if !missing(`var') & !inlist(M24A,1)
 } //RAS. 
 
-count if M24C__1 == 1 & (M24B==2 | M24B == 3 ) // 1090 personnes ayant répondu possédér la CMU et que cette CMU était l'assurance des parents ou l'assurance du conjoint. Ce qui est une grosse incoherence
+count if M24C__1 == 1 & (M24B==2 | M24B == 3 ) // 1512 personnes ayant répondu possédér la CMU et que cette CMU était l'assurance des parents ou l'assurance du conjoint. Ce qui est une grosse incoherence
+
+
+
+*br M24C__1 M24B if M24C__1 == 1 & (M24B==2 | M24B == 3 )
 
 replace commentaire="personnes ayant répondu possédér la CMU et que cette CMU était l'assurance des parents ou l'assurance du conjoint." if M24C__1 == 1 & (M24B==2 | M24B == 3 )
 **Exportation des individus potentiellement concernés
 
-count if M24C__1 == 1 & (M24B==2 | M24B == 3 ) 
-if r(N)>0 {
-    export excel interview__key HH2 HH12 HH13 M24C__1 M24B membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_assurance_CMU" if M24C__1 == 1 & (M24B==2 | M24B == 3 ) , firstrow(varl) replace
-}
+export excel interview__key HH2 HH12 HH13 M24C__1 M24B membre_id_v1 V1MODINTR commentaire rgmen using "$folderpath/document/comp_menage_assurance_CMU" if M24C__1 == 1 & (M24B==2 | M24B == 3 ) , firstrow(varl) replace
 **
 
 ***etape de correction 
@@ -1696,14 +1332,11 @@ if r(N)>0 {
 replace M24B = 3 if M24C__1 == 1 & M24C__2==0 & M24C__3==0 & M24C__4==0 & M24C__7==0  & AgeAnnee<=16 // nous considerons que toutes les personnes agé de moins de 16 ans ayant une CMU sont sous assurance parent 
 
 
-*---------------------------------------------------------------
-*M24B_Aut. Veuillez préciser l'autre Couverture en Assurance maladie ?
-*---------------------------------------------------------------
 
-* 1. Valeurs manquantes
+// M24B_Aut. Veuillez préciser l'autre Couverture en Assurance maladie ?
+
 count if missing(M24B_Aut) & M24C__7 == 7 // tous les individus devant répondre ont répondus
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 count if !missing(M24B_Aut) & M24C__7 != 1 // les individus ayant répondu avait le droit de répondre. 
 
 ta M24B_Aut, miss // certains agent on renseigné "Assurance Conjoint/parent" au lieu de mentionné l'assurance en question
@@ -1721,6 +1354,8 @@ save  "$standard_menage\QM_S1_composition_menage.dta", replace
 
 
 
+
+**** J'AIME LA CAE :
 
 
 
