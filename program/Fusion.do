@@ -46,7 +46,7 @@ if `fichiers_absents' > 0 {
 }
 
 *-------------* BASE MENAGE *--------------*
-// QM_S0_identification non apuré pour T1 2026 — à intégrer ultérieurement
+// QM_S0_identification : section contrôlée (01-QM_S0_identification.do) mais sans correction
 use "$datain_standard\QM_S0_identification.dta", clear
 cap drop _merge
 merge 1:1 interview__key using "$standard_menage\QM_S7_logement.dta"
@@ -65,13 +65,24 @@ foreach d of global menage {
 	merge 1:1 interview__key membres__id using "$standard_menage/`d'.dta", keep(master match) nogen
 }
 
-// INDIV_S15_disponibilite retiré : section non apurée pour T1 2026
+// INDIV_S15_disponibilite retiré : section non apurée (T1 et T3 2026)
 global individu INDIV_S1_autres_formes_travail INDIV_S2_situation_emploi INDIV_S3_emploi_principal INDIV_S4_competences_qualifications INDIV_S5_pluriactivite INDIV_S6_emploi_secondaire INDIV_S7_temps_travail INDIV_S8_emploi_inadequat INDIV_S9_recherche_emploi INDIV_S10_recherche_emploi_disponibilite INDIV_S11_chomage INDIV_S12_emploi_anterieur INDIV_S13_revenu_hors_emploi INDIV_S14_activite_parents
 
 
 foreach d of global individu {
 	merge 1:1 interview__key membres__id using "$standard_individu/`d'.dta", keep(master match) nogen
 }
+
+* Contrôle : EN_EMP final = formule du questionnaire sur les réponses SE finales (00-en_emploi.do)
+include "$dofiles/00-en_emploi.do"
+rename EN_EMP EN_EMP_sections
+calcul_en_emploi
+quietly count if EN_EMP != EN_EMP_sections
+if r(N) > 0 {
+	display as error r(N) " personne(s) dont EN_EMP ne correspond pas aux réponses SE finales. Fusion interrompue."
+	exit 459
+}
+drop EN_EMP_sections
 
 
 

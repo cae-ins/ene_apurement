@@ -1,7 +1,7 @@
 *=========================================================
 * DIFFICULTES FONCTIONNELLES
 
-* RESPONSABLE: DIABATE BEN ISMAEL
+* RESPONSABLE: KOUADIO BROU YVES
 *========================================================
 
 **********************LES ETAPES DE L'APUREMENT**********************************
@@ -32,14 +32,14 @@ gen commentaire =""
 
 *1. Valeurs manquantes
 count if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
-//428 individus n'ont pas repondus 
+ 
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF1A" if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF1A" if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
 
 *Exportation des agents concernés par les manquants 
-count if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
+quietly count if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF1A using "$folderpath/document/Err_DIF1A" if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##", firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF1A using "$folderpath/document/Err_DIF1A" if missing(DIF1A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##", firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
@@ -56,14 +56,14 @@ count if !inlist(DIF1A,1,2,3,4,9997,9998) & !missing(DIF1A)
 
 *1. Valeurs manquantes
 count if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
-//428 individus n'ont pas repondus 
+//6 individus n'ont pas repondus 
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF2A" if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF2A" if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
 
 *Exportation des agents concernés par les manquants 
-count if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
+quietly count if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF2A using "$folderpath/document/Err_DIF2A" if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##", firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF2A using "$folderpath/document/Err_DIF2A" if missing(DIF2A) & AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##", firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
@@ -82,18 +82,18 @@ count if !inlist(DIF2A,1,2,3,4,9997,9998) & !missing(DIF2A)
 egen nb_pas_manquant_DIF3 = rownonmiss(DIF3__1-DIF3__9)
 gen valeure_manquante1 = (nb_pas_manquant_DIF3 == 0)
 count if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
-*428 individus n'ont pas repondus 
+*6 individus n'ont pas repondus 
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF3" if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF3" if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 
 *Exportation des agents concernés par les manquants 
-count if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+quietly count if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3__1-DIF3__9 using "$folderpath/document/Err_DIF3" if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3__1-DIF3__9 using "$folderpath/document/Err_DIF3" if valeure_manquante1 ==1 & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
-count if valeure_manquante1 ==0 & (AgeAnnee <5 | Statut_Res !=1 & membre_id_v1 !="##N/A##")
+count if valeure_manquante1 ==0 & ((AgeAnnee<5 & !missing(AgeAnnee)) | Statut_Res !=1 | membre_id_v1 !="##N/A##") 
 //RAS
 
 *3. les valeurs renseignées sont elles permises ?
@@ -120,14 +120,14 @@ count if !missing(DIF3_Aut) & DIF3__9 !=1
 
 *1. Valeurs manquantes
 count if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
-//428 individus n'ont pas repondus 
+//6 individus n'ont pas repondus 
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF3B" if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF3B" if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 
 *Exportation des agents concernés par les manquants 
-count if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+quietly count if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3B using "$folderpath/document/Err_DIF3B" if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3B using "$folderpath/document/Err_DIF3B" if missing(DIF3B) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
@@ -144,14 +144,14 @@ count if !inlist(DIF3B,1,2,3,4,9997,9998) & !missing(DIF3B)
 
 *1. Valeurs manquantes
 count if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
-//428 individus n'ont pas repondus
+//6 individus n'ont pas repondus
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF3B" if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF3D" if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 
 *Exportation des agents concernés par les manquants 
-count if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+quietly count if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3D using "$folderpath/document/Err_DIF3D" if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF3D using "$folderpath/document/Err_DIF3D" if missing(DIF3D) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
@@ -168,14 +168,14 @@ count if !inlist(DIF3D,1,2,3,4,9997,9998) & !missing(DIF3D)
 
 *1. Valeurs manquantes
 count if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
-//428 individus n'ont pas repondus
+//6 individus n'ont pas repondus
 
-replace commentaire="Il y a 428 individus qui n'ont pas repondus à la question DIF5" if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+replace commentaire="Il y a 6 individus qui n'ont pas repondus à la question DIF5" if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 
 *Exportation des agents concernés par les manquants 
-count if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
+quietly count if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##")
 if r(N)>0 {
-    export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF5 using "$folderpath/document/Err_DIF5" if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
+export excel interview__key HH2 HH3 HH4 HH12 HH13 AgeAnnee Statut_Res membre_id_v1 DIF5 using "$folderpath/document/Err_DIF5" if missing(DIF5) & (AgeAnnee>=5 & !missing(AgeAnnee) & Statut_Res==1 & membre_id_v1=="##N/A##"), firstrow(varlabels) replace
 }
 
 *2. Vérification des sauts : Ceux qui ont repondu devaient ils repondre ? 
@@ -183,7 +183,7 @@ count if !missing(DIF5) & (AgeAnnee<5 | Statut_Res !=1 | membre_id_v1 !="##N/A##
 //RAS
 
 *3. les valeurs renseignées sont elles permises ?
-count if !inlist(DIF5,1,2,3,4,9997,9998) & !missing(DIF3B)
+count if !inlist(DIF5,1,2,3,4,9997,9998) & !missing(DIF5) 
 //RAS
 
 

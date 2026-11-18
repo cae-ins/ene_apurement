@@ -1,9 +1,9 @@
 
 
 *================================================
-*********EMPLOI PRINCIPALE 
+*********EMPLOI PRINCIPAL 
 
-****RESPONSABLE: ABDOUL KADER
+****RESPONSABLE: AMINE
 *=============================================
 
 use "$datain_standard\INDIV_S3_emploi_principal.dta", clear 
@@ -12,17 +12,23 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 SE9A SE9B SE10 SE11)
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND) // CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 cap drop _merge
 
 merge m:1 interview__key using "$brute_menage_work", keepusing(annee HH13)
 drop if _merge!=3
 cap drop _merge
+
+* Statut d'emploi reconstruit sur les réponses SE apurées (00-en_emploi.do).
+* La valeur de collecte (Survey Solutions) est gardée pour documenter les reclassements.
+rename EN_EMP EN_EMP_collecte
+calcul_en_emploi
+gen motif_reclassement = ""
 
 
 
@@ -57,15 +63,15 @@ count if  !missing(EP1a) & EN_EMP==0 & M4Confirm <15 // tous ceux qui ont répon
 ta EP1a,miss 
 
 **
-count if EP1a == "##N/A##" // Certains individu dans il est renseigné "##N/A##". 
-* 
+count if EP1a == "##N/A##" & EN_EMP==1 // Certains individu dans il est renseigné "##N/A##". 
+
 * br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP1a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 *exportation des individus potentiellement concernés
 
-count if EP1a == "##N/A##"
+quietly count if EP1a == "##N/A##"
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1a" if EP1a == "##N/A##", firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1a" if EP1a == "##N/A##", firstrow(varl) replace
 }
 *
 
@@ -91,9 +97,9 @@ count if EP1b == "##N/A##" // Certains individus (09) dans il est encore renseig
 
 *exportation des individus potentiellement concernés
 
-count if EP1b == "##N/A##" 
+quietly count if EP1b == "##N/A##"
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1b" if EP1b == "##N/A##" , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1b" if EP1b == "##N/A##" , firstrow(varl) replace
 }
 *
 
@@ -107,9 +113,9 @@ count if missing(EP1b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)  
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP1b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
+quietly count if missing(EP1b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1b1" if missing(EP1b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP3 EP11 using "$folderpath/document/Emploi_prin_EP1b1" if missing(EP1b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 }
 *
 
@@ -145,16 +151,16 @@ count if !missing(EP2a) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant r
 
 //3)
 
-count if EP2a == "##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // Certains individu (45) dans il est renseigné "##N/A##". 
-* 
+count if EP2a == "##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // Certains individu (11) dans il est renseigné "##N/A##". 
+
 * br SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 EN_EMP M4Confirm membre_id_v1_IND membre_id_v1  EP1a EP1b  EP2a EP3 EP11 if EP2a == "##N/A##" // il s'agirait d'individus pour qui une bonne partie de la section EP n'a pas été renseignées. 
 
 
 *exportation des individus potentiellement concernés
 
-count if EP2a == "##N/A##" 
+quietly count if EP2a == "##N/A##"
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP3 EP11   using "$folderpath/document/Emploi_prin_EP2a" if EP2a == "##N/A##" , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP3 EP11   using "$folderpath/document/Emploi_prin_EP2a" if EP2a == "##N/A##" , firstrow(varl) replace
 }
 *
 
@@ -166,13 +172,13 @@ if r(N)>0 {
 
 //1)
 
-count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 55 individus pour qui la question n'a pas été répondu
+count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 12 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
+quietly count if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2a1" if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2a1" if missing(EP2a1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 }
 *
 
@@ -207,9 +213,9 @@ count if EP2b == "##N/A##" // Certains individu (51) dans il est renseigné "##N
 
 *exportation des individus potentiellement concernés
 
-count if EP2b == "##N/A##" 
+quietly count if EP2b == "##N/A##"
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP2b EP3 EP11   using "$folderpath/document/Emploi_prin_EP2b" if EP2b == "##N/A##" , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b EP1b1  EP2a EP2b EP3 EP11   using "$folderpath/document/Emploi_prin_EP2b" if EP2b == "##N/A##" , firstrow(varl) replace
 }
 * 
 
@@ -221,13 +227,13 @@ if r(N)>0 {
 
 //1)
 
-count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 58 individus pour qui la question n'a pas été répondu
+count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 13 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
+quietly count if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2b1" if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP3 EP11 using "$folderpath/document/Emploi_prin_EP2b1" if missing(EP2b1) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 }
 *
 
@@ -244,13 +250,10 @@ count if !missing(EP2b1) & (EN_EMP==0 | M4Confirm < 15) // tous individus ayant 
 
 //1) 
 
-count if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 40 individus pour qui la question n'a pas été répondu
+count if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 9 individus pour qui la question n'a pas été répondu
 
 *exportation des individus potentiellement concernés
-count if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP2c EP3 EP11 using "$folderpath/document/Emploi_prin_EP2c" if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP2c EP3 EP11 using "$folderpath/document/Emploi_prin_EP2c" if missing(EP2c) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 *
 
 *proposition de correction
@@ -284,10 +287,7 @@ count if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) //
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP2c EP2e EP3 EP11 using "$folderpath/document/Emploi_prin_EP2e" if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP1a EP1b  EP1b1 EP2a EP2a1 EP2b1 EP2c EP2e EP3 EP11 using "$folderpath/document/Emploi_prin_EP2e" if missing(EP2e) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) , firstrow(varl) replace
 *
 *proposition de correction 
 
@@ -340,10 +340,7 @@ count if missing(EP2f_loc) & !missing(EP2f) & EN_EMP==1 & M4Confirm >=15 & !inli
 count if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 346 individus pour qui la question n'a pas été répondu
 
 * Exportation
-count if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2g1_miss" if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2g1_miss" if missing(EP2g1) & membre_id_v1_IND =="##N/A##" & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
 *
 
 *Proposition de correction : remplacer par le mode selon l'emplacement du lieu ded travail
@@ -453,6 +450,14 @@ count if EP2h <= 0 // la valeur renseigné ne peut pas etre inférieure ou égal
 * 
 * br EP2h EP2g1 EP2e EP2i if EP2h <=0 
 
+*** Correction : remplacement par la médiane
+cap drop med_EP2h
+egen med_EP2h = median(EP2h) if EP2i ==9998 & EP2e == 1 
+ta med_EP2h
+replace EP2h = med_EP2h if EP2h <= 0
+drop med_EP2h
+
+
 //4) 
 
 ta EP2h
@@ -463,10 +468,7 @@ count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1
 * br EP2h EP2g1 EP2e EP2i if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // un individu qui declare parcourir  plus de 120 min pour moins de 15 Km dans la meme localité
 
 *exportation des individus potentiellement concernés
-count if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) 
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_120" if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) , firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_120" if EP2h > 120 & EP2i <=15 & !inlist(EP2h,.,.a) & EP2e == 1 & !inlist(EP2g1,5,.,.a) , firstrow(varl) replace
 
 *proposition de correction (non ponctuelle)
 cap drop med_EP2h_1
@@ -483,17 +485,16 @@ count if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a) //
 *br EP2h EP2g1 EP2e EP2i if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a) // aucun individu qui declare faire plus de 180 min pour moins de 30 Km dans la meme localité
 
 *exportation des individus potentiellement concernés
-
 *export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_180" if EP2h >=180 & inrange(EP2i,16,30) & EP2e == 1 & !inlist(EP2g1,5,.,.a), firstrow(varl) replace
-*
 
-/*proposition de correction (non ponctuelle)
+
+*proposition de correction (non ponctuelle)
 
 cap drop med_EP2h_3
 egen med_EP2h_3 = median(EP2h) if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h < 180 & EP2e == 1 // la median est de 40 minutes pour les individus utilisant les memes moyens de transport et parcourant les memes nombres de Km
 
-replace EP2h = 40 if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h >= 180 & EP2e == 1 // nous imputons la median
-*/
+replace EP2h = med_EP2h_3 if inrange(EP2i,16,30) & EP2g1 == 4 & EP2h >= 180 & EP2e == 1 // nous imputons la median
+
 
 
 * iv-Pour les valeurs beaucoup trop grande
@@ -503,10 +504,7 @@ count if EP2h >= 180 & !inlist(EP2h,.,.a) //7 individus ont déclaré des valeur
 
 *exportation des individus potentiellement concernés
 
-count if EP2h >= 180 & !inlist(EP2h,.,.a)
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_trop" if EP2h >= 180 & !inlist(EP2h,.,.a), firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2h_trop" if EP2h >= 180 & !inlist(EP2h,.,.a), firstrow(varl) replace
 *
 
 *proposition de correction (non ponctuelle)
@@ -515,11 +513,11 @@ if r(N)>0 {
 * br EP2h EP2g1 EP2e EP2i EP2i_unit if EP2g1 == 5 & EP2h >= 180 & EP2h !=.a & EP2e == 1
   
 cap drop med_EP2h_4
-egen med_EP2h_4 = median(EP2h) if EP2g1 == 5 & EP2h < 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1 //, by(code_citp_emp_principal) // la mediane est de 30 min pour les personnes se deplaçant à pieds dans la meme localité 
+egen med_EP2h_4 = median(EP2h) if EP2h < 180  & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1 //, by(code_citp_emp_principal) // la mediane est de 30 min pour les personnes se deplaçant à pieds dans la meme localité 
 ta med_EP2h_4 
 
-replace EP2h = 30 if EP2g1 == 5 & EP2h >= 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1
-replace EP2h = 30 if EP2g1 == 5 & EP2h >= 180 & EP2e == 1 & EP2i == 9998
+replace EP2h = med_EP2h_4 if EP2g1 == 5 & EP2h >= 180 & EP2e == 1 & inrange(EP2i,1,30) & EP2i_unit==1
+replace EP2h = med_EP2h_4 if EP2h >= 180 & !inlist(EP2h,.,.a)
 drop med_EP2h_4
 
 
@@ -535,11 +533,11 @@ replace EP2h = 15 if EP2h >= 180 & !inlist(EP2h,.,.a) & inlist(EP2g1,2,3) & EP2e
 * 
 * br EP2h EP2g1 EP2e EP2i if EP2h >= 180 & inlist(EP2g1,2,3,4) & EP2e == 2 // 
 
-*cap drop med_EP2h_5
-*egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3,4) & EP2e == 2 & EP2h < 180 //, by(code_citp_emp_principal) // la mediane est de 25 min pour les personnes se deplaçant dans une autre localité 
-*ta med_EP2h_5
-*replace EP2h = 30 if EP2h >= 180 & EP2e == 2 & inlist(EP2g1,2,3,4)
-*drop med_EP2h_5
+cap drop med_EP2h_5
+egen med_EP2h_5 = median(EP2h) if inlist(EP2g1,2,3,4) & EP2e == 2 & EP2h < 180 //, by(code_citp_emp_principal) // la mediane est de 25 min pour les personnes se deplaçant dans une autre localité 
+ta med_EP2h_5
+replace EP2h = 30 if EP2h >= 180 & EP2e == 2 & inlist(EP2g1,2,3,4)
+drop med_EP2h_5
 
 
 * Pour les personnes marchant plus de trois heures, on les ramènes à ttrois heures
@@ -707,10 +705,7 @@ count if EP2i >= 75 & EP2i_unit == 1 & EP2e == 1 & inlist(EP2g1,1,2,3,4) // 5 pe
 
 
 *exportation des individus potentiellement concernés
-count if EP2i > 75 & EP2i_unit == 1 & EP2e == 1
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_75km" if EP2i > 75 & EP2i_unit == 1 & EP2e == 1, firstrow(varl) replace
-}
+*export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_75km" if EP2i > 75 & EP2i_unit == 1 & EP2e == 1, firstrow(varl) replace
 
 
 *On remplace les valeurs invraisemblables du temps et de la distance par les médianes
@@ -736,9 +731,9 @@ count if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit =
 
 
 *exportation des individus potentiellement concernés
-count if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
+quietly count if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_metre" if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1, firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP2h EP2g1 EP2e EP2i EP2i_unit using "$folderpath/document/Emploi_prin_EP2i_metre" if (EP2h>120 & !missing(EP2h) | EP2i >=200 & !missing(EP2i)) & EP2i_unit == 1, firstrow(varl) replace
 }
 
 *proposition de correction 
@@ -783,20 +778,23 @@ replace EP2i = 10 if EP2h==120 & EP2g1 == 5 & inrange(EP2i,10,50) & EP2i_unit ==
 ////// EP2j.Comment avez-vous accédé à votre travail /emploi principal dans cette entreprise ? 
 //1)
 
-count if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) //  46 individus pour qui la question n'a pas été répondu
-* 
-* br EP1b EP2j if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+count if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b != "##N/A##" //  46 individus pour qui la question n'a pas été répondu
+
+* br if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b != "##N/A##"
 
 
 *exportation des individus potentiellement concernés
-
-count if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+quietly count if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EP2j  using "$folderpath/document/Emploi_prin_EP2j_NA" if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EP2j  using "$folderpath/document/Emploi_prin_EP2j_NA" if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
 }
 *
 
+*Correction : remplacement par le mode
 
+replace EP2j = 9 if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b == "fabrication et vente d'atieke"
+
+replace EP2j = 8 if missing(EP2j) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b == "EDUCATION DES ENFANTS"
 
 //2) 
 
@@ -833,9 +831,9 @@ count if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) // 
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
+quietly count if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EN_EMP EP3 using "$folderpath/document/Emploi_prin_EP3_NA" if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EN_EMP EP3 using "$folderpath/document/Emploi_prin_EP3_NA" if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
 }
 *
 
@@ -843,11 +841,9 @@ if r(N)>0 {
 * 
 * br EP1a EP1b EP3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) 
 
-replace EP3 = 1 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP1a,"OUVRIER DANS UNE BOULANGERIE", "INSTITUTRICE")
+replace EP2j = 3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b == "fabrication et vente d'atieke"
 
-replace EP3 = 3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP1a, "PLANTEUR DE PALMIER", "CULTIVATEUR DE IGNAME;MANIOC ET RIZ", "CULTUVATRICE DE IGNAME", "CULTIVATRICE D'IGNAME", "HEVEACULTEUR", "CULTIVATEUR D IGNAME,ANACARDE;PALMIER A L HUILE; MAIS", "CULTIVATEUR D IGNAME")
-
-replace EP3 = 3 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & inlist(EP1a,"AGRICULTEUR DE MANIOC", "CULTIVATEUR D IGNAME;ARACHIDE,ANACARDE ET CAFE", "TAXI MOTO", "CULTIVATRICE D'ARRACHIDE", "PLANTEUR D HEVEA,ANACARDE,PALMIER A HUILE,ARACHIDE ET IGNAME", "COUTURE DAME", "CULTIVATEUR D ANACARDE ET IGNAME", "COMMERCANTE DE BOISSONS")
+replace EP2j = 1 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & EP1b == "EDUCATION DES ENFANTS"
 
 replace EP3 = 10 if missing(EP3) & EN_EMP==1 & M4Confirm >=15 & !inlist(M4Confirm,.,.a) & (EP1a =="##N/A##")
 
@@ -942,14 +938,15 @@ ta EP3_Aut // nous regardons chaque reponse pour s'assurer de la vraissemblance
 
 // nous les exportons d'abord pour correction
 
-count if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") 
+quietly count if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ")
 if r(N)>0 {
-    export excel interview__key membres__id HH13 M4Confirm EN_EMP EP1a EP1b EP3 using "$folderpath/document/Emploi_prin_pas_emploi" if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") , firstrow(varl) replace
+export excel interview__key membres__id HH13 M4Confirm EN_EMP EP1a EP1b EP3 using "$folderpath/document/Emploi_prin_pas_emploi" if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") , firstrow(varl) replace
 }
 
 // ensuite Nous avons retirer toutes ces personnes de la population en emploi car elle ne le sont pas 
 
 
+gen byte _en_avant = EN_EMP
 replace EN_EMP = 0  if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ")
  	
 
@@ -964,6 +961,9 @@ replace SE4 = 2  if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPREN
 replace SE5 = 2  if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ")
 
 replace SE8 = 2  if regexm(EP3_Aut,"APPRENT NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRETI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE SANS SALAIRE") | regexm(EP3_Aut,"APPRENTI SANS SALAIRE") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI COIFFEUSE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"apprentie coiffeuse") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYÉ") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APRRENTI NON PAYE") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ") | regexm(EP3_Aut,"APPRENTIE NON PAYE") | regexm(EP3_Aut,"APPRENTI MAÇON NON PAYER") | regexm(EP3_Aut,"APPRENTI NON PAYER") | regexm(EP3_Aut,"STAGIAIRE NON PAYE") | regexm(EP3_Aut,"APPRENTI NON-PAYE") | regexm(EP3_Aut,"APPRENTI NON PAYÉ")
+calcul_en_emploi
+replace motif_reclassement = "S3 : apprenti ou stagiaire non payé (EP3_Aut)" if _en_avant == 1 & EN_EMP == 0
+drop _en_avant
 
 replace EP3_Aut = "" if EN_EMP ==0
 
@@ -997,14 +997,14 @@ ta EP4,miss
 count if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) // 41 individu pour qui la question est manquante
 
 *exportation des individus potentiellement concernés
-count if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)
+quietly count if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 M4Confirm EN_EMP EP5 using "$folderpath/document/EP5_NA" if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
+export excel interview__key HH13 M4Confirm EN_EMP EP5 using "$folderpath/document/EP5_NA" if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a), firstrow(varl) replace
 }
 *
 
 *proposition de correction
-
+* br EP3 EP3_Aut EP5 if missing(EP5) & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)
 
 /*
 * br EP1a EP1b EP3 EP5 if EP5==.a
@@ -1103,16 +1103,13 @@ forvalues i = 1/12 {
 
     * Si des individus correspondent à cette condition, exporter leurs données
     if r(N) > 0 {
-        count if missing(EP6__`i') & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)
-        if r(N)>0 {
-            export excel interview__key HH13 EP6__`i' using "$folderpath/document/EP6__`i'.xlsx" if missing(EP6__`i') & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
-        }
+        export excel interview__key HH13 EP6__`i' using "$folderpath/document/EP6__`i'.xlsx" if missing(EP6__`i') & EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a), firstrow(variables) replace
         display "Exportation terminée pour EP6__`i avec " r(N) " individus"
     }
     else {
         display "Pas de résultats pour EP6__`i"
     }
-} // 15 individus concernés
+} // 10 individus concernés
 
 *proposition de correction 
 * 
@@ -1140,10 +1137,7 @@ forvalues i = 1/12 {
     count if !missing(EP6__`i') & !(EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a))  
 
     if r(N) > 0 {
-        count if !missing(EP6__`i') & !(EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a))
-        if r(N)>0 {
-            export excel interview__key HH13 EP6__`i' using "$folderpath/document/EP6__`i'_saut.xlsx" if !missing(EP6__`i') & !(EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)), firstrow(variables) replace
-        }
+        export excel interview__key HH13 EP6__`i' using "$folderpath/document/EP6__`i'_saut.xlsx" if !missing(EP6__`i') & !(EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a)), firstrow(variables) replace
         display "Exportation terminée pour EP6__`i avec " r(N) " individus"
     }
     else {
@@ -1172,9 +1166,9 @@ replace EP6__`i' =. if !missing(EP6__`i') & !(EN_EMP == 1 & M4Confirm >= 15 & !i
 count if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 // 15 personnes qui percoivent un salaire sans etre salarié
 
 *exportation des individus potentiellement concernés
-count if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1
+quietly count if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1
 if r(N)>0 {
-    export excel interview__key HH13 EP6__1 using "$folderpath/document/EP6__1.xlsx" if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1, firstrow(variables) replace
+export excel interview__key HH13 EP6__1 using "$folderpath/document/EP6__1.xlsx" if EP6__1 == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1, firstrow(variables) replace
 }
 
 *proposition de correction
@@ -1182,11 +1176,13 @@ if r(N)>0 {
 
 gen EP6__1_ = EP6__1
 
-replace EP6__1 = 0 if EP6__1_ == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 & (EP3 == 4 | EP3==6 | EP3==5 | EP3==3)
+* EP3 = 5 et 6 retirés : le questionnaire T3 prévoit des travailleurs familiaux payés en salaire
+* (EP10a et EP10c si EP3 = 5, EP28 si EP3 = 5 ou 6) ; leur déclaration est conservée.
+replace EP6__1 = 0 if EP6__1_ == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 & (EP3 == 4 | EP3==3)
 
 replace EP6__8 = 1 if EP6__1_ == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 & (EP3 == 4 | EP3 == 3)
 
-replace EP6__10 = 1 if EP6__1_ == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 & (EP3 == 6 | EP3==5)
+* replace EP6__10 = 1 if EP6__1_ == 1 & !inlist(EP3,.,.a,1,8,9,10) & EN_EMP == 1 & (EP3 == 6 | EP3==5)
 
 drop EP6__1_
 
@@ -1198,9 +1194,9 @@ count if EP3 == 1 & EP6__1 == 0 // 166 déclare etre salarié sans recevoir de s
 
 
 *exportation des individus potentiellement concerné
-count if EP3 == 1 & EP6__1 == 0
+quietly count if EP3 == 1 & EP6__1 == 0
 if r(N)>0 {
-    export excel interview__key HH13 EP3 EP6__1 using "$folderpath/document/EP6__1_EP3.xlsx" if EP3 == 1 & EP6__1 == 0, firstrow(variables) replace
+export excel interview__key HH13 EP3 EP6__1 using "$folderpath/document/EP6__1_EP3.xlsx" if EP3 == 1 & EP6__1 == 0, firstrow(variables) replace
 }
 
 *
@@ -1277,24 +1273,18 @@ count if EP3==1 & EP6a !=1 // Des salariés dont la forme principale de remunera
 
 *exportation des individus potentiellement concernés
 
-count if EP3==1 & EP6a !=1
+quietly count if EP3==1 & EP6a !=1
 if r(N)>0 {
-    export excel interview__key HH13 EP3  EP6a using "$folderpath/document/EP6a_1.xlsx" if EP3==1 & EP6a !=1, firstrow(variables) replace
+export excel interview__key HH13 EP3  EP6a using "$folderpath/document/EP6a_1.xlsx" if EP3==1 & EP6a !=1, firstrow(variables) replace
 }
 
 
-* Les SE recodées ci-dessus (personnes sorties de l'emploi) sont reportées dans la
-* base S2 : Fusion.do et la tabulation lisent SE* dans S2, pas dans S3.
-preserve
-keep interview__key membres__id SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9
-tempfile se_corr
-save `se_corr'
-use "$standard_individu\INDIV_S2_situation_emploi.dta", clear
-merge 1:1 interview__key membres__id using `se_corr', update replace keep(1 3 4 5) nogen
-save "$standard_individu\INDIV_S2_situation_emploi.dta", replace
-restore
+* Report des SE recodées et du statut reconstruit dans la sortie S2 (lue par les sections suivantes)
+nettoyer_sauts_se
+calcul_en_emploi
+reporter_se_dans_s2
 
-drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 membre_id_v1_IND annee HH13
+drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 SE9A SE9B SE10 SE11 membre_id_v1_IND annee HH13 // CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 cap drop med_EP2h_1 med_EP2h_4 med_EP2h_5 med_EP2h
 
@@ -1333,15 +1323,12 @@ count if missing(EP7) & EP3!=5 & EP6__7 == 0 & EP6__10==0 // 0 individu pour qui
 
 *proposition de correction 
 
-/*br EP1a EP1b EP3 EP7 if missing(EP7) & EP6__7 == 0 & EP6__10==0 
+*br EP1a EP1b EP3 EP7 if missing(EP7) & EP6__7 == 0 & EP6__10==0 
 
-replace EP7 = 7 if (EP1a == "VENDEUR DE CAOUTCHOUC" | EP1a == "CULTIVATEUR DE COTON" | EP1a == "CULTIVATEUR" | EP1a == "AGRICULTEUR DE MAÏS") & missing(EP7) & EP6__7 == 0 & EP6__10==0
+replace EP7 = 7 if (EP1a == "CULTIVATRICE DE HARICOTS, ARACHIDES, GOMBO, MIL") & missing(EP7) & EP6__7 == 0 & EP6__10==0
 
-replace EP7 = 1 if (EP1a == "COMMERCANTE") & missing(EP7) & EP6__7 == 0 & EP6__10==0
+replace EP7 = 1 if (EP1a == "COMMERCANT") & missing(EP7) & EP6__7 == 0 & EP6__10==0
 
-replace EP7 = 4 if (EP1a == "INSPECTEUR PÉDAGOGIQUE" | EP1a == "INSPECTEUR PÉDAGOGIQUE" )  & missing(EP7) & EP6__7 == 0 & EP6__10==0
-
-replace EP7 = 1 if (EP1a == "VENDEUSE DE LÉGUMES") & missing(EP7) & EP6__7 == 0 & EP6__10==0*/
 
 
 
@@ -1361,9 +1348,9 @@ replace EP7=. if !missing(EP7) & (EP6__10==1)
 count if EP3 == 1 & (EP7==9 | EP7==8) // 59 personnes qui sont salarié mais qui declarent recovoir leur revenu de façon occassionnelle
 
 *exportation des individus concernés
-count if EP3 == 1 & (EP7==9 | EP7==8)
+quietly count if EP3 == 1 & (EP7==9 | EP7==8)
 if r(N)>0 {
-    export excel interview__key HH13 EP3 EP7 using "$folderpath/document/EP7_EP3.xlsx" if EP3 == 1 & (EP7==9 | EP7==8), firstrow(variables) replace
+export excel interview__key HH13 EP3 EP7 using "$folderpath/document/EP7_EP3.xlsx" if EP3 == 1 & (EP7==9 | EP7==8), firstrow(variables) replace
 }
 
 *
@@ -1376,9 +1363,9 @@ if r(N)>0 {
 count if missing(EP7B) & EP7 < 8 // tous les individus ont répondus
 
 *exportation des individus concernés 
-count if missing(EP7B) & EP7 < 8
+quietly count if missing(EP7B) & EP7 < 8
 if r(N)>0 {
-    export excel interview__key HH13 EP3 EP7 EP7B  using "$folderpath/document/EP7B.xlsx" if missing(EP7B) & EP7 < 8, firstrow(variables) replace
+export excel interview__key HH13 EP3 EP7 EP7B  using "$folderpath/document/EP7B.xlsx" if missing(EP7B) & EP7 < 8, firstrow(variables) replace
 }
 
 *proposition de correction 
@@ -1393,6 +1380,11 @@ egen med_EP7B = median(EP7B) if !missing(EP7B) & EP7==1
 ta med_EP7B
 replace EP7B = 6 if missing(EP7B) & EP7==1
 
+cap drop med_EP7B
+egen med_EP7B = median(EP7B) if !missing(EP7B) & EP7==7
+ta med_EP7B
+replace EP7B = 2 if missing(EP7B) & EP7==7
+cap drop med_EP7B
 
 
 //2)
@@ -1429,9 +1421,9 @@ count if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a) // 2 indi
 
 *exportation des individus concernés
 
-count if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a)
+quietly count if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a)
 if r(N)>0 {
-    export excel interview__key HH13 EP3 EP6a EP7 EP7B  EP8 using "$folderpath/document/EP8_NA.xlsx" if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a), firstrow(variables) replace
+export excel interview__key HH13 EP3 EP6a EP7 EP7B  EP8 using "$folderpath/document/EP8_NA.xlsx" if missing(EP8) & inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6a), firstrow(variables) replace
 }
 
 
@@ -1442,15 +1434,15 @@ if r(N)>0 {
 *proposition de correction 
 
 cap drop med_EP8_1
-egen med_EP8_1 = median(EP8) if EP7 == 1 & EP3 == 3 &  EP7B==6 & !missing(EP6a)
-ta med_EP8_1
-
-replace EP8 = 1000000 if missing(EP8) & EP7 == 1 & EP3 == 3 & !missing(EP6a)
+egen med_EP8_1 = median(EP8) if EP7 == 1 & EP3 == 3  & EP6a==8 & !inlist(EP8,.,99999998,99999999)
+ta med_EP8_1 
+replace EP8 = 1000000 if missing(EP8) & EP7 == 1 & EP3 == 3 & EP6a==8
+cap drop med_EP8_1
 
 cap drop med_EP8_2	
-egen med_EP8_2 = median(EP8) if EP7 == 4 & EP3 == 1 & EP7B==12 & !missing(EP6a)
+egen med_EP8_2 = median(EP8) if EP7 == 7
 ta med_EP8_2
-replace EP8 = 400000 if missing(EP8) & EP7 == 4 & EP3 == 1 & EP7B==12 & !missing(EP6a) 
+replace EP8 = med_EP8_2 if missing(EP8) & EP7 == 7 & EP3 == 3 
 
 
 /*
@@ -1497,9 +1489,9 @@ replace EP8 =. if !missing(EP8) & !(inlist(EP7,1,2,3,4,5,6,7,8,9) & !missing(EP6
 count if EP8 < 500 & !inlist(EP8,.,.a) // quelque soit la frequence, un montant de moins de 1000 est trop petit. 24 individus sont concernés
 
 *
-count if EP8 < 500 & !inlist(EP8,.,.a)
+quietly count if EP8 < 500 & !inlist(EP8,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 EP3 EP6a EP7 EP7B EP8 using "$folderpath/document/EP8_1.xlsx" if EP8 < 500 & !inlist(EP8,.,.a), firstrow(variables) replace
+export excel interview__key HH13 EP3 EP6a EP7 EP7B EP8 using "$folderpath/document/EP8_1.xlsx" if EP8 < 500 & !inlist(EP8,.,.a), firstrow(variables) replace
 }
 
 *proposition de correction
@@ -1598,10 +1590,7 @@ count if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,999
 
 *exportation des individus potentiellement concernés
 
-count if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10)
-if r(N)>0 {
-    export excel interview__key HH13 EP9 EP8 EP8a EP7 using "$folderpath/document/EP9.xlsx" if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP9 EP8 EP8a EP7 using "$folderpath/document/EP9.xlsx" if missing(EP9) & (inlist(EP8,99999998,99999999) |inlist(EP8a,99999998,99999999) | EP7==10), firstrow(variables) replace
 
 *proposition de correction 
 * 
@@ -1646,7 +1635,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9)
+merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S2_situation_emploi.dta", keepus(SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 SE9A SE9B SE10 SE11)
 
 cap drop _merge
 
@@ -1669,25 +1658,25 @@ drop  _merge
 
 
 ///////////// EP10a. Qui vous rémunère pour ce travail ? 
+* Condition du questionnaire T3 : EP3 = 1, 8 ou 9, ou EP3 = 5 payé en argent (EP6 = 1 à 6 ou 12).
+* L'ancienne condition (EP6 = 1 à 5 ou 9) imputait EP10a à des travailleurs familiaux payés en nature.
 
 //1) 
 
-count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
 * 
-* br EP1b EP3 EP10a if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+* br EP1b EP3 EP10a if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
 * 
 
 * br EP1b EP3 EP10a if EP3==5 & !missing(EP10a)
 *exportation des individus potentiellement concernés
-count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+quietly count if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
 if r(N)>0 {
-    export excel interview__key HH13 EP10a using "$folderpath/document/EP10a.xlsx" if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9))), firstrow(variables) replace
+export excel interview__key HH13 EP10a using "$folderpath/document/EP10a.xlsx" if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12))), firstrow(variables) replace
 }
 
 *proposition de correction
-
-
-replace EP10a = 1 if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__9)))
+replace EP10a = 1 if missing(EP10a) & (inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
 
 
 
@@ -1731,9 +1720,9 @@ count if missing(EP10b) & inlist(EP3,2,3,4) & (inlist(1,EP6__1,EP6__2,EP6__3,EP6
 
 *exportation des individus concernés 
 *
-count if missing(EP10b) & inlist(EP3,2,3,4) & !inlist(EP6__1,.,.a) & !inlist(EP6__2,.,.a) & !inlist(EP6__3,.,.a) & !inlist(EP6__4,.,.a) & !inlist(EP6__5,.,.a) & !inlist(EP6__6,.,.a) & !inlist(EP6__7,.,.a) & !inlist(EP6__8,.,.a) & !inlist(EP6__9,.,.a) & !inlist(EP6__10,.,.a,1) & !inlist(EP6__11,.,.a) & !inlist(EP6__12,.,.a)
+quietly count if missing(EP10b) & inlist(EP3,2,3,4) & !inlist(EP6__1,.,.a) & !inlist(EP6__2,.,.a) & !inlist(EP6__3,.,.a) & !inlist(EP6__4,.,.a) & !inlist(EP6__5,.,.a) & !inlist(EP6__6,.,.a) & !inlist(EP6__7,.,.a) & !inlist(EP6__8,.,.a) & !inlist(EP6__9,.,.a) & !inlist(EP6__10,.,.a,1) & !inlist(EP6__11,.,.a) & !inlist(EP6__12,.,.a)
 if r(N)>0 {
-    export excel interview__key HH13 EP10b using "$folderpath/document/EP10b.xlsx" if missing(EP10b) & inlist(EP3,2,3,4) & !inlist(EP6__1,.,.a) & !inlist(EP6__2,.,.a) & !inlist(EP6__3,.,.a) & !inlist(EP6__4,.,.a) & !inlist(EP6__5,.,.a) & !inlist(EP6__6,.,.a) & !inlist(EP6__7,.,.a) & !inlist(EP6__8,.,.a) & !inlist(EP6__9,.,.a) & !inlist(EP6__10,.,.a,1) & !inlist(EP6__11,.,.a) & !inlist(EP6__12,.,.a), firstrow(variables) replace
+export excel interview__key HH13 EP10b using "$folderpath/document/EP10b.xlsx" if missing(EP10b) & inlist(EP3,2,3,4) & !inlist(EP6__1,.,.a) & !inlist(EP6__2,.,.a) & !inlist(EP6__3,.,.a) & !inlist(EP6__4,.,.a) & !inlist(EP6__5,.,.a) & !inlist(EP6__6,.,.a) & !inlist(EP6__7,.,.a) & !inlist(EP6__8,.,.a) & !inlist(EP6__9,.,.a) & !inlist(EP6__10,.,.a,1) & !inlist(EP6__11,.,.a) & !inlist(EP6__12,.,.a), firstrow(variables) replace
 }
 
 * 6 individus doivent faire l'objet d'une imputation
@@ -1764,7 +1753,9 @@ count if missing(EP10c) & EP10b==1 // la condition d'activation de la question e
 *proposition de correction
 * br EP1b EP3 EP6a EP10b EP10c if missing(EP10c) & EP10b==1
 
-replace EP10c =1 if missing(EP10c) & EP10b==1
+* replace EP10c =1 if missing(EP10c) & EP10b==1
+* Retiré : EP10b est posée si EP3 = 2, 3 ou 4 et EP10c si EP3 = 1, 9, 10 ou 5 (questionnaire T3) ;
+* cette ligne inscrivait « l'employeur » pour des indépendants et des employeurs.
 
 
 //2) 
@@ -1782,25 +1773,17 @@ count if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15 
 
 *exportation des individus concernés
 
-count if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
+quietly count if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 if r(N)>0 {
-    export excel interview__key HH13 EP11 using "$folderpath/document/EP11.xlsx" if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
+export excel interview__key HH13 EP11 using "$folderpath/document/EP11.xlsx" if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
 }
 
 *on essaie de voir si on peut retrouver l'information de ses individus on se referent à leur information en EP1a EP1b etc 
 * 
 * br EP1a EP1b EP3 EP11 if missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
-replace EP11 = 3 if inlist(EP1a,"CHAUFFEUR DE TAXI","OUVRIER DANS UNE BOULANGERIE", "COIFFEUSE", "CHARBONNIER", "VENDEUSE DE JUS ET GÂTEAU", "VENDEUSE DE BEIGNET", "VENDEUSE DE PRODUIT COSMETIQUE") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
+replace EP11 = 3 if inlist(EP1a,"Vendeur de l'atieke","commerçante", "EDUCATEUR") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
-replace EP11 = 3 if inlist(EP1a, "AGENT DE SECURITE", "INSTITUTRICE", "VENDEUSE DE VIVRIER TOMATE OIGNON CHOUX AUBERGINE", "VENDEUSE D ATTIEKE ET POISSON") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
-
-
-replace EP11 = 3 if inlist(EP1a, "VENDEUSE DE DRAP", "VENDEUSE DE BEIGNET", "EBENISTE", "AIDE-RAMASSEUR DE COCO", "VENDEUSE DE LEGUMES", "Vendeur de nourriture", "COURSIER") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
-
-replace EP11 = 3 if inlist(EP1a, "VENDEUSE DE PAGNE", "VENDEUSE DE DRAP FRIPERIE", "vendeuse d'alloco", "COUTURE DAME", "PATISSIERE", "AUXILIAIRE DE SOIN") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
-
-replace EP11=4 if inlist(EP1a, "HEVEACULTEUR", "AGRICULTRICE DE CACAO", "CULTIVATRICE D'HARICOTS", "ELEVEUR DE BOEUF", "CULTIVATEUR DE L'IGNAME", "PLANTEUR D HEVEA,ANACARDE,PALMIER A HUILE,ARACHIDE ET IGNAME") &  missing(EP11) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
 
 //2)
@@ -1820,7 +1803,7 @@ replace EP11 =. if !missing(EP11) & (EN_EMP == 0 | M4Confirm <15)
 * 
 * br EP11 EP1a EP1b EP3 EP2d if EP11==1
 
-*proposition de correction
+/*proposition de correction
 
 replace EP11 = 4 if EP1a == "AGRICULTEUR DR RIZ"
 replace EP11 = 3 if EP1a == "VIGIL"
@@ -1828,16 +1811,16 @@ replace EP11 = 2 if EP2d == "PORT AUTONOME D’ABIDJAN"
 replace EP11 = 2 if EP2d == "ECOMAF"
 replace EP11 = 3 if EP2d == "AGENCE MTN"
 replace EP11 = 3 if EP2d == "ZYDUS PHARMA"
-
+*/
 
 
 count if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 ) // les personnes à leurs propre compte ne peuvent pas etre dans une administration publique ou parapublique, une organisation internationale, un ménage etc
 
 *exportation des individus concernés
 
-count if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 )
+quietly count if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 )
 if r(N)>0 {
-    export excel interview__key HH13 EP11 EP3 using "$folderpath/document/EP11_4.xlsx" if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 ), firstrow(variables) replace
+export excel interview__key HH13 EP11 EP3 using "$folderpath/document/EP11_4.xlsx" if EP3 == 3 & (EP11 == 1 | EP11 == 2 | EP11 == 5 | EP11 == 8 ), firstrow(variables) replace
 }
 
 *
@@ -1846,12 +1829,21 @@ if r(N)>0 {
 
 *proposition de correction
 
-replace EP11 = 4 if EP3==3 & EP11==8
-replace EP11 = 3 if EP3 == 3 & EP11 == 2 & inlist(EP1a,"FERRONIER", "GERANT DE CABINE DE TRASFERT D’ARGENT")
-replace EP11 = 8 if EP3==3 &  EP11 == 2 & EP1a == "VENDEUSE DE JUS"
-replace EP3 = 1 if EP3 == 3 & inlist(EP11,1,2) & inlist(EP1a, "ENSEIGNEMENT", "ARTISANS", "MENUISIER", "AIDE-MENAGE", "OUVIER GRADEUR")
+replace EP11 = 4 if EP3==3 & EP11==8 & inlist(EP1a, "AGRICULTEUR DE MAIS", "AGRICULTEUR DE MAÏS", "COTON RIZ MAIS ARACHIDES", "PLANTEUSE D'ARACHIDE", "PRODUCTRICE DE MANIOC", "CULTIVATRICE")
 
+replace EP11 = 3 if EP3==3 &  EP11 == 8 & inlist(EP1a, "COMMERCE", "COMMERÇANTE","Commerçante de légumes", "DEMARCHEUR DANS L'IMMOBILIER", "EBENISTRE", "ENTRETIEN DE MAISON", "MENAGERE", "PRESTATIONS DE CÉRÉMONIE", "RESTAURATRICE")
 
+replace EP11 = 3 if EP3==3 &  EP11 == 8 & inlist(EP1a, "VENDEUR DE PRODUITS PHYTOSANITAIRES", "VENDEUSE DE VIVRIERS", "VENDEUSE DE VIVRIERS", "VENDEUSE DES JUS NATURELS", "VENTE D'ATTIEKE POISSON")
+
+replace EP11 = 3 if EP3==3 &  EP11 == 8 & inlist(EP1a, "commerçante de légumes", "couturier", "couturière", "mécanicien", "vendeur de poulets")
+
+replace EP11 = 3 if EP3==3 &  EP11 == 8 & inlist(EP1a, "commerçante de légumes", "couturier", "couturière", "mécanicien", "vendeur de poulets")
+
+replace EP11 = 3 if EP3==3 &  EP11 == 2 & inlist(EP1a, "RESTAURATRICE")
+
+replace EP3 = 1 if EP3==3 &  EP11 == 2 & inlist(EP1a, "AIDE SOIGNANTE")
+
+replace EP3 = 3 if EP3 == .a & EP11==3 & inlist(EP1a, "Vendeur de l'atieke")
 
 /////////////EP12. Etes-vous fonctionnaire dans votre emploi principale ? 
 
@@ -1927,9 +1919,9 @@ count if inlist(EP3,8,9) & !inlist(EP13,.,.a,6) // un individu identifié
 
 *exportation 
 
-count if inlist(EP3,8,9) & !inlist(EP13,.,.a,6)
+quietly count if inlist(EP3,8,9) & !inlist(EP13,.,.a,6)
 if r(N)>0 {
-    export excel interview__key HH13 EP13 EP3 using "$folderpath/document/EP13_6.xlsx" if inlist(EP3,8,9) & !inlist(EP13,.,.a,6), firstrow(variables) replace
+export excel interview__key HH13 EP13 EP3 using "$folderpath/document/EP13_6.xlsx" if inlist(EP3,8,9) & !inlist(EP13,.,.a,6), firstrow(variables) replace
 }
 
 *correction 
@@ -1953,11 +1945,6 @@ count if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1 // des individus pour qu
 * br EP3 EP13 EP1a EP1b EP11 EP12 EP13a if missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
 
 
-replace EP13a = 10 if inlist(EP1a, "ENSEIGNANT STAGIAIRE D'ÉCOLE PRIMAIRE", "ENSEIGNEMENT", "ENSEIGNANTE Du PRIMAIRE") & missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
-
-replace EP13a = 3 if EP1b == "INSPECTEUR DETECTEUR DE DROGUES ET STUPEFIANTS" & missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
-
-replace EP13a = 11 if EP1a == "AIDE SOIGNANT" & missing(EP13a) & inlist(EP3,1,8,9) & EP12 == 1
 
 
 //2)
@@ -1979,9 +1966,9 @@ count if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
 *exportation 
 
-count if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
+quietly count if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 if r(N)>0 {
-    export excel interview__key HH13 EP2jb using "$folderpath/document/EP2jb.xlsx" if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
+export excel interview__key HH13 EP2jb using "$folderpath/document/EP2jb.xlsx" if missing(EP2jb) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
 }
 
 *
@@ -2014,9 +2001,9 @@ count if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 
 *exportation
 
-count if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
+quietly count if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15
 if r(N)>0 {
-    export excel interview__key HH13 EP2ka using "$folderpath/document/EP2ka.xlsx" if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
+export excel interview__key HH13 EP2ka using "$folderpath/document/EP2ka.xlsx" if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15, firstrow(variables) replace
 }
 
 *
@@ -2025,13 +2012,13 @@ if r(N)>0 {
 * br EP1a EP1b EP3 EP11 EP2k EP2ka if missing(EP2ka) & EN_EMP == 1 & !inlist(M4Confirm,.,.a) & M4Confirm >=15 // 20 individus pour qui l'info est manquante, s'agissant tous d'individus en réintérrogation 
 
 // On s'aide des infos données en T3 pour les individus en réintérrogation
-
+/*
 replace EP2ka = 2010 if V1interviewkey == "21-29-23-96" & membre_id_v1 == "1"
 
 replace EP2ka = 2023 if V1interviewkey == "98-18-66-84" & membre_id_v1 == "2"
 
 replace EP2ka = 2021 if V1interviewkey == "26-27-28-98" & membre_id_v1 == "1"
-
+*/
 
 *replace EP2ka = 9998 if EP2ka ==.a
 
@@ -2053,9 +2040,9 @@ count if (EP2ka < 1920 | EP2ka > 2026) & !inlist(EP2ka,.,.a,9998) // certaines v
 
 *exportation
 
-count if (EP2ka < 1920 | EP2ka > 2025) & !inlist(EP2ka,.,.a,9998)
+quietly count if (EP2ka < 1920 | EP2ka > 2025) & !inlist(EP2ka,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH13 EP2ka using "$folderpath/document/EP2ka_1.xlsx" if (EP2ka < 1920 | EP2ka > 2025) & !inlist(EP2ka,.,.a,9998), firstrow(variables) replace
+export excel interview__key HH13 EP2ka using "$folderpath/document/EP2ka_1.xlsx" if (EP2ka < 1920 | EP2ka > 2025) & !inlist(EP2ka,.,.a,9998), firstrow(variables) replace
 }
 
 
@@ -2070,11 +2057,11 @@ count if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,
 
 *exportation
 
-count if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998)
+quietly count if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH13 EP2ka annee_naiss using "$folderpath/document/EP2ka_2.xlsx" if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998), firstrow(variables) replace
+export excel interview__key HH13 EP2ka annee_naiss using "$folderpath/document/EP2ka_2.xlsx" if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998), firstrow(variables) replace
 }
-* 
+
 * br EP2ka annee_naiss M4Confirm if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,9998) & !inlist(annee_naiss,.,.a,9998)
 
 *proposition de correction 
@@ -2087,14 +2074,11 @@ replace EP2ka = annee_naiss + 16 if annee_naiss > EP2ka & !inlist(EP2ka,.,.a,999
 
 //1) 
 
-count if missing(EP2k1_m) & !inlist(EP2ka,.,.a,9998) // un individu pour qui l'info est manquante 
+count if missing(EP2k1_m) & !inlist(EP2ka,.,.a,9998) // zéro individu pour qui l'info est manquante 
 
 *exportation
 
-count if missing(EP2k1_m) & !inlist(EP2ka,.,.a,9998)
-if r(N)>0 {
-    export excel interview__key HH13 EP2ka EP2k1_m using "$folderpath/document/EP2k1_m.xlsx" if missing(EP2k1_m) & !inlist(EP2ka,.,.a,9998), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP2ka EP2k1_m using "$folderpath/document/EP2k1_m.xlsx" if missing(EP2k1_m) & !inlist(EP2ka,.,.a,9998), firstrow(variables) replace
 
 *proposition de correction 
 
@@ -2137,9 +2121,9 @@ count if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,999
 
 *exportation
 
-count if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998)
+quietly count if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH13 EP2k M4Confirm using "$folderpath/document/EP2k.xlsx" if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998), firstrow(variables) replace
+export excel interview__key HH13 EP2k M4Confirm using "$folderpath/document/EP2k.xlsx" if EP2k > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(EP2k,.,.a,9998), firstrow(variables) replace
 }
 
 *proposition de correction
@@ -2212,11 +2196,10 @@ count if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998) /
 
 *exportation
 
-count if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
+quietly count if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH13 EP2k2a EP2ka EP2jb using "$folderpath/document/EP2k2a_1.xlsx" if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998), firstrow(variables) replace
+export excel interview__key HH13 EP2k2a EP2ka EP2jb using "$folderpath/document/EP2k2a_1.xlsx" if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998), firstrow(variables) replace
 }
-* 
 
 * br EP2ka EP2k2a EP2jb if EP2ka > EP2k2a & !inlist(EP2ka,.,.a,9998) & !inlist(EP2k2a,.,.a,9998)
 
@@ -2255,9 +2238,9 @@ count if EP2k2 > 50 & !missing(EP2k2)
 
 *exportation
 
-count if EP2k2 < 1920
+quietly count if EP2k2 < 1920
 if r(N)>0 {
-    export excel interview__key HH13 EP2k2 using "$folderpath/document/EP2k2.xlsx" if EP2k2 < 1920, firstrow(variables) replace
+export excel interview__key HH13 EP2k2 using "$folderpath/document/EP2k2.xlsx" if EP2k2 < 1920, firstrow(variables) replace
 }
 
 *proposition de correction 
@@ -2296,9 +2279,9 @@ count if missing(EP14B) & inlist(EP11,3,4,6,7) // RAS car il s'agit pour la plup
 
 *exportation
 
-count if missing(EP14B) & inlist(EP11,3,4,6,7)
+quietly count if missing(EP14B) & inlist(EP11,3,4,6,7)
 if r(N)>0 {
-    export excel interview__key HH13 EP14B using "$folderpath/document/EP14B.xlsx" if missing(EP14B) & inlist(EP11,3,4,6,7), firstrow(variables) replace
+export excel interview__key HH13 EP14B using "$folderpath/document/EP14B.xlsx" if missing(EP14B) & inlist(EP11,3,4,6,7), firstrow(variables) replace
 }
 
 *proposition de correction 
@@ -2356,8 +2339,14 @@ count if !missing(EP15_aut) &  !inlist(EP15,.,.a,14)
 //1)
 
 count if missing(EP16) & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##") //RAS
-* 
+
 * br EP1a EP1b EP3 EP11 EP16 if missing(EP16) & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##") //RAS
+
+
+*Correction 
+replace EP16 = 1 if missing(EP16) & EP3 == 3 & ((!inlist(EP15,11,12,13,.,.a) |(inlist(EP14B,2,9998))) & membre_id_v1_IND== "##N/A##")
+
+
 //2) 
 
 count if !missing(EP16) & ((inlist(EP15,11,12,13) & !inlist(EP14B,2,9998,.,.a)) | (membre_id_v1_IND!= "##N/A##" & membre_id_v1_IND!= "")) // RAS
@@ -2374,18 +2363,18 @@ count if missing(EP17) & inlist(EP11,3,4,6,7) // la plupart sont des individus p
 
 *exportation
 
-count if missing(EP17) & inlist(EP11,3,4,6,7)
+quietly count if missing(EP17) & inlist(EP11,3,4,6,7)
 if r(N)>0 {
-    export excel interview__key HH13 EP17 using "$folderpath/document/EP17.xlsx" if missing(EP17) & inlist(EP11,3,4,6,7), firstrow(variables) replace
+export excel interview__key HH13 EP17 using "$folderpath/document/EP17.xlsx" if missing(EP17) & inlist(EP11,3,4,6,7), firstrow(variables) replace
 }
 
 *proposition de correction 
-* 
-* br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==.a // au vu des informations sur l'activité et le mode de revenu, la reponse à EP17 est sensé etre "entièrement à la vente"
 
-replace EP17 = 1 if EP1a== "##N/A##" & EP17 ==.a
-replace EP17 = 1 if EP1a== "agriculteur d'anacarde" & EP17 ==.a
-* 
+* br EP1a EP1b EP3 EP11 EP6a EP17 if missing(EP17) & inlist(EP11,3,4,6,7) // au vu des informations sur l'activité et le mode de revenu, la reponse à EP17 est sensé etre "entièrement à la vente"
+
+replace EP17 = 1 if missing(EP17) & EP3 == 3 & inlist(EP11, 3,4)
+
+
 * br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3
 
 //2) 
@@ -2418,9 +2407,9 @@ replace EP17 = 1 if EP1a == "MECANICIEN"
 
 *exportation
 
-count if EP17==3
+quietly count if EP17==3
 if r(N)>0 {
-    export excel interview__key membres__id HH13 EP1a EP1b EP3 EP11 EP6a EP17 using "$folderpath/document/EP17_incoherent.xlsx" if EP17==3, firstrow(variables) replace
+export excel interview__key membres__id HH13 EP1a EP1b EP3 EP11 EP6a EP17 using "$folderpath/document/EP17_incoherent.xlsx" if EP17==3, firstrow(variables) replace
 }
 
 
@@ -2440,19 +2429,23 @@ replace SE5 = 2 if (interview__key == "02-08-16-11" & membres__id==1)
 replace SE8 = 2 if (interview__key == "02-08-16-11" & membres__id==1)*/
 
 
+gen byte _en_avant = EN_EMP
 replace EN_EMP = 0 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)   // au vu des autres informations il s'agit de "travailleur familiaux" n'étant pas en emploi 
 
-replace SE1 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE1 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
 
-replace SE2 = 10 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE2 = 10 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
 
-replace SE3 = 5 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE3 = 5 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
 
-replace SE4 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE4 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
 
-replace SE5 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE5 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
 
-replace SE8 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
+replace SE8 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6)
+calcul_en_emploi
+replace motif_reclassement = "S3 : aide familial agricole, production non vendue (EP17)" if _en_avant == 1 & EN_EMP == 0
+drop _en_avant
 * 
 * br EP1a EP1b EP3 EP11 EP6a EP17 if EP17==3 & EN_EMP ==1
 
@@ -2463,7 +2456,9 @@ replace SE8 = 2 if EP17 == 3 & EP11 == 4 & (EP3==5 | EP3==6) & EP6a ==.
 
 //1)
 
-count if missing(EP18) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) // RAS car il s'agit des individus dont nous avons corrigé l'info à EP11 
+count if missing(EP18) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) 
+
+* br EP1a EP1b EP3 EP11 EP6a EP17 EP18 if  missing(EP18) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7) 
 
 //2)
 
@@ -2586,8 +2581,17 @@ replace EP25 = 10 if missing(EP25) & membre_id_v1_IND == "##N/A##" & EP11==4
 
 
 replace EP25=6 if EP1a=="VENDEUSE DE JUS" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
-replace EP25=8 if EP1a=="VENDEUSE DE VÊTEMENTS DE FEMME" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
-replace EP25=8 if EP1a=="COMMERCE DE PIMENT EN POUDRE" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+
+replace EP25=8 if inlist(EP1a, "VENTE D'ATTIEKE POISSON", "Vendeur de l'atieke", "vendeur de poulets") & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+
+replace EP25=8 if EP1a=="VENDEUSE DES JUS NATURELS" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+
+
+replace EP25=8 if inlist(EP1a, "commerçante", "COMMERÇANTE", "COMMERCE", "commerçante de légumes") & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+
+replace EP25=9 if inlist(EP1a, "mécanicien", "couturier", "couturière", "mécanicien") & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+
+/*
 replace EP25=8 if EP1a=="VENDEUSE DE PRODUITS COSMETIQUES" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=9 if EP1a=="PROFESSEUR D HISTOIRE GEOGRAPHIE" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=4 if EP1a=="CHAUFFEUR DE TAXI" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
@@ -2684,7 +2688,6 @@ replace EP25=8 if EP1a=="VENDEUSE DE MEDICAMENTS TRADITIONNELS" & missing(EP25) 
 replace EP25=4 if EP1a=="CHAUFFEUR DE TAXI MOTO" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=9 if EP1a=="COIFFEUR" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=9 if EP1a=="restauratrice" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
-replace EP25=8 if EP1a=="VENDEUSE D ATTIEKE" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="vendeuse de condiments" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=9 if EP1a=="mécanicien" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=4 if EP1a=="CHAUFFEUR DE GROS CAMION" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
@@ -2701,6 +2704,7 @@ replace EP25=8 if EP1a=="VENDEUSE D'HABITS" & missing(EP25) & membre_id_v1_IND==
 replace EP25=8 if EP1a=="COMMERÇANTE DE PAGNES" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENDEUSE DE NOURRITURE (FOUTOU)" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=9 if EP1a=="LAVEUR DE MOTO" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+replace EP25=8 if EP1a=="##N/A##" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="COMMERCANTE" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=5 if EP1a=="ENTREPRENEUR EN ELECTRICITE BATIMENT" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENDEUSE DE TCHAPALO" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
@@ -2716,6 +2720,7 @@ replace EP25=9 if EP1a=="CAISSIER" & missing(EP25) & membre_id_v1_IND=="##N/A##"
 replace EP25=8 if EP1a=="VENDEUSE DE LEGUMES" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENDEUSE DE CONDIMENTS" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENDEUR D'HABITS" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
+replace EP25=8 if EP1a=="##N/A##" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="COMMERCANTE DE PLACALI" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENDEUR D�HUILE AMBULANT" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
 replace EP25=8 if EP1a=="VENTE DE LEGUMES AU MARCHE" & missing(EP25) & membre_id_v1_IND=="##N/A##" & inlist(EP11,3,4,6,7)
@@ -2819,7 +2824,7 @@ replace EP25 = 9 if EP1a == "AGRICULTEUR D ANACARDE" & missing(EP25) & membre_id
 replace EP25 = 10 if EP1a == "PLANTEUR" & missing(EP25) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7)
 
 replace EP25 = 10 if EP1a == "PLANTEUR" & missing(EP25) & membre_id_v1_IND == "##N/A##" & inlist(EP11,3,4,6,7)
-
+*/
 replace EP25 = 13 if EP25 ==.a
 
 //2)
@@ -2835,9 +2840,9 @@ count if !inlist(EP25,.,.a,10) & EP11==4 // les personnes ayant repondu EP11 = 4
 
 *exportation
 
-count if !inlist(EP25,.,.a,10) & EP11==4
+quietly count if !inlist(EP25,.,.a,10) & EP11==4
 if r(N)>0 {
-    export excel interview__key HH13 EP25 EP11 using "$folderpath/document/EP25.xlsx" if !inlist(EP25,.,.a,10) & EP11==4, firstrow(variables) replace
+export excel interview__key HH13 EP25 EP11 using "$folderpath/document/EP25.xlsx" if !inlist(EP25,.,.a,10) & EP11==4, firstrow(variables) replace
 }
 
 *correction 
@@ -2867,9 +2872,9 @@ count if missing(EP26A) & inlist(EP3,2,3,4) // certains indivivu concernés
 
 *exportation
 
-count if missing(EP26A) & inlist(EP3,2,3,4)
+quietly count if missing(EP26A) & inlist(EP3,2,3,4)
 if r(N)>0 {
-    export excel interview__key HH13 EP26A EP3 using "$folderpath/document/EP26A.xlsx" if missing(EP26A) & inlist(EP3,2,3,4), firstrow(variables) replace
+export excel interview__key HH13 EP26A EP3 using "$folderpath/document/EP26A.xlsx" if missing(EP26A) & inlist(EP3,2,3,4), firstrow(variables) replace
 }
 
 *proposition de correction 
@@ -3036,10 +3041,7 @@ count if missing(EP28) & ((inlist(EP3,1,8,9) | ( inlist(EP3,5,6)  & (EP6__1 == 1
 
 *exportation
 
-count if missing(EP28) & ((inlist(EP3,1,8,9) | ( inlist(EP3,5,6)  & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1)) | EP12 == 2 ))
-if r(N)>0 {
-    export excel interview__key HH13 EP28 EP3 EP6__1 EP6__2 EP6__3 EP6__5 EP6__6 EP6__7 EP6__9 EP6__11 EP6__12 EP12 using "$folderpath/document/EP28.xlsx" if missing(EP28) & ((inlist(EP3,1,8,9) | ( inlist(EP3,5,6)  & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1)) | EP12 == 2 )), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP28 EP3 EP6__1 EP6__2 EP6__3 EP6__5 EP6__6 EP6__7 EP6__9 EP6__11 EP6__12 EP12 using "$folderpath/document/EP28.xlsx" if missing(EP28) & ((inlist(EP3,1,8,9) | ( inlist(EP3,5,6)  & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1)) | EP12 == 2 )), firstrow(variables) replace
 
 *proposition de correction 
 * 
@@ -3136,9 +3138,9 @@ count if EP30b == 3 & EP30 < 10 & !inlist(EP30,.,.a,9998) // il est peut probabl
 
 *exportation
 
-count if EP30b == 3 & EP30 < 10 & !inlist(EP30,.,.a,9998)
+quietly count if EP30b == 3 & EP30 < 10 & !inlist(EP30,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH13 EP30b EP30 using "$folderpath/document/EP30b.xlsx" if EP30b == 3 & EP30 < 10 & !inlist(EP30,.,.a,9998), firstrow(variables) replace
+export excel interview__key HH13 EP30b EP30 using "$folderpath/document/EP30b.xlsx" if EP30b == 3 & EP30 < 10 & !inlist(EP30,.,.a,9998), firstrow(variables) replace
 }
 
 
@@ -3310,9 +3312,9 @@ count if missing(`var') & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 |
 
 *exportation
 
-count if missing(`var') & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))
+quietly count if missing(`var') & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))
 if r(N)>0 {
-    export excel interview__key HH13 `var' EP3 using "$folderpath/document/`var'.xlsx" if missing(`var') & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))), firstrow(variables) replace
+export excel interview__key HH13 `var' EP3 using "$folderpath/document/`var'.xlsx" if missing(`var') & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))), firstrow(variables) replace
 }
 
 }
@@ -3356,10 +3358,7 @@ count if missing(EP40) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (i
 
 *exportation
 
-count if missing(EP40) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 ))))
-if r(N)>0 {
-    export excel interview__key HH13 EP40 EP3 using "$folderpath/document/`var'.xlsx" if missing(EP40) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 )))), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP40 EP3 using "$folderpath/document/`var'.xlsx" if missing(EP40) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 )))), firstrow(variables) replace
 
 //2)
 
@@ -3380,13 +3379,10 @@ foreach var of varlist EP41-EP43 {
 
 count if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
 
-*exportation
+/*exportation
 
-count if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
-if r(N)>0 {
-    export excel interview__key HH13 `var' EP3 using "$folderpath/document/`var'.xlsx" if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
-}
-
+export excel interview__key HH13 `var' EP3 using "$folderpath/document/`var'.xlsx" if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
+*/
 }
 
 //2)
@@ -3434,10 +3430,7 @@ count if missing(EP44) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (i
 
 *exportation
 
-count if missing(EP44) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
-if r(N)>0 {
-    export excel interview__key HH13 EP44 EP3 using "$folderpath/document/EP44.xlsx" if missing(EP44) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP44 EP3 using "$folderpath/document/EP44.xlsx" if missing(EP44) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
 
 
 
@@ -3463,13 +3456,10 @@ foreach var of varlist EP45__1 EP45__2 EP45__3 EP45__4 EP45__5 {
 
 count if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
 
-*exportation
+/*exportation
 
-count if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
-if r(N)>0 {
-    export excel interview__key HH13 `var' EP3 using "$folderpath/document/EP44.xlsx" if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
-}
-
+export excel interview__key HH13 `var' EP3 using "$folderpath/document/EP44.xlsx" if missing(`var') & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
+*/
 
 } 
 
@@ -3509,10 +3499,7 @@ count if !missing(EP45_autre) & EP45__5 == 0 // RAS
 
 count if missing(EP47) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))) 
 
-count if missing(EP47) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 ))))
-if r(N)>0 {
-    export excel interview__key HH13 EP47 EP3 using "$folderpath/document/EP44.xlsx" if missing(EP47) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
-}
+*export excel interview__key HH13 EP47 EP3 using "$folderpath/document/EP44.xlsx" if missing(EP47) & (membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 |  EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1 )))), firstrow(variables) replace
 
 
 
@@ -3526,17 +3513,50 @@ count if !missing(EP47) & !(membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | 
 //4)
 
 
-* Report des SE recodées dans la base S2 (voir la première partie de S3).
+* Questions EP devenues hors champ après les recodages d'EP3, EP4, EP6 et EP12 :
+* conditions du questionnaire T3, dans l'ordre des questions (EP10a, EP10c, EP28 à EP32, EP33 à EP35).
+vider_si EP10a if !(inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
+vider_si EP10a_aut if EP10a != 3
+local paye_ep10 (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__4 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__12 == 1)
+vider_si EP10c if !((inlist(EP3,1,9,10) & `paye_ep10') | (EP3 == 5 & inlist(EP4,1,2) & `paye_ep10'))
+local champ_ep28 (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 | EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1)) | EP12 == 2)
+vider_si EP28 EP33 if !`champ_ep28'
+vider_si EP29 if !inlist(EP28,1,2)
+vider_si EP29a if !inlist(EP29,1,2,4)
+vider_si EP30 if !inlist(EP29,1,2)
+vider_si EP30b if !(EP30 < . & EP30 != 9998)
+vider_si EP30c if !(EP29 == 4 | EP30 == 9998)
+vider_si EP31__1 EP31__2 EP31__3 EP31__4 EP31__5 if !(EP28 == 9998 | inlist(EP29,1,2,4))
+vider_si EP31_Aut if EP31__5 != 1
+vider_si EP32 if !(EP29 == 1 & (EP31__2 == 1 | EP31__3 == 1 | EP31__4 == 1 | EP31__5 == 1))
+vider_si EP34 if EP33 != 1
+vider_si EP35 if EP33 != 2
+
+* Report des SE recodées et du statut reconstruit dans la sortie S2 (source unique de EN_EMP)
+nettoyer_sauts_se
+calcul_en_emploi
+reporter_se_dans_s2
+
+* Documentation des changements de statut d'emploi entre la collecte et l'apurement
+replace motif_reclassement = "réponses SE corrigées (S2, autres à préciser)" if motif_reclassement == "" & EN_EMP != EN_EMP_collecte & M4Confirm >= 15 & M4Confirm < .
+quietly count if EN_EMP != EN_EMP_collecte & M4Confirm >= 15 & M4Confirm < .
+if r(N)>0 {
+export excel interview__key membres__id HH13 EN_EMP_collecte EN_EMP motif_reclassement SE1 SE2 SE3 SE4 SE5 SE8 SE9 EP1a EP3 EP11 EP17 using "$folderpath/document/Reclassement_EN_EMP.xlsx" if EN_EMP != EN_EMP_collecte & M4Confirm >= 15 & M4Confirm < ., firstrow(variables) replace
+}
+
+* Roster Revenu (EP7-EP9) : lignes des personnes qui ne sont plus en emploi retirées
 preserve
-keep interview__key membres__id SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9
-tempfile se_corr
-save `se_corr'
-use "$standard_individu\INDIV_S2_situation_emploi.dta", clear
-merge 1:1 interview__key membres__id using `se_corr', update replace keep(1 3 4 5) nogen
-save "$standard_individu\INDIV_S2_situation_emploi.dta", replace
+use "$dataout\Revenu.dta", clear
+charger_en_emploi
+drop if EN_EMP != 1
+drop EN_EMP
+save "$dataout\Revenu.dta", replace
 restore
 
-drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 annee HH13 V1interviewkey annee_naiss
+* Questions EP hors champ : vidées pour les personnes qui ne sont pas en emploi
+vider_section hha_EMP-hhavf_EMP if EN_EMP != 1
+
+drop M4Confirm SE1 SE2 SE3 SE4 SE5 SE6 SE7 SE8 SE9 SE9A SE9B SE10 SE11 EN_EMP_collecte annee HH13 V1interviewkey annee_naiss
 order hhavf_EMP, after(membre_id_v1_IND)
 
 save "$standard_individu\INDIV_S3_emploi_principal.dta", replace

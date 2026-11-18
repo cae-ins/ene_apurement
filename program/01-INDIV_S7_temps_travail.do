@@ -22,10 +22,13 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S3_emploi_pr
 
 keep if _merge == 3
 drop  _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
+vider_section hha_WKT-hhavf_WKT if EN_EMP != 1 // questions hors champ pour le statut reconstruit
 
 *merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND )
 
 
 keep if _merge == 3
@@ -64,6 +67,9 @@ drop  _merge
 ***//////////////Etape1: Valeurs manquantes 
 count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT1) & !inlist(M4Confirm,.,.a) 
 
+*br WKT* if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT1) & !inlist(M4Confirm,.,.a) 
+
+
 if r(N) > 0 {
 export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_0.xlsx" if  EN_EMP == 1 & M4Confirm >= 15 & missing(WKT1) ,firstrow(variables) replace
 }
@@ -72,14 +78,10 @@ export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_0.xlsx
 
    *** imputation par la mediane croisant Métier (CITP) et Secteur (Branche)
 cap drop med_WKT1
-egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11), by(EP3 EP11 code_citp_emp_principal branche1)
+*egen med_WKT1 = median(WKT1) if !missing(EP3) & !missing(EP11) , by(EP3 EP11 code_citp_emp_principal)
+egen med_WKT1 = median(cond(WKT1 < 9998, WKT1, .)), by(EP3 EP11) // sans le code 9998 (NE SAIT PAS)
 
-* Si la médiane par métier/secteur est vide, on utilise une médiane plus large (Secteur uniquement)
-cap drop med_WKT1_large
-egen med_WKT1_large = median(WKT1) if !missing(EP3) & !missing(EP11), by(EP3 EP11 branche1)
-
-replace WKT1 = med_WKT1 if missing(WKT1) & !missing(med_WKT1)
-replace WKT1 = med_WKT1_large if missing(WKT1) & !missing(med_WKT1_large)
+replace WKT1 = med_WKT1 if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT1) & !inlist(M4Confirm,.,.a) 
 
 
 *replace WKT1 =.a if interview__key == "40-68-68-30" & membres__id == 1 // pour cet individu, toutes la section emploi est manquantes donc nous renvoyons sa valeurs WKT1 à une valeurs manquantes 
@@ -95,10 +97,16 @@ replace WKT1 =. if !missing(WKT1) & (EN_EMP == 0 |(M4Confirm<15 & !inlist(M4Conf
 
 
 ***Etape3: Coherence des reponses attendues 
-count if !missing(WKT1) & WKT1==0 
-*RAS
+count if !missing(WKT1) & WKT1==0 ///RAS
+
+*Correction
+replace WKT1 = med_WKT1 if !missing(WKT1) & WKT1==0
+cap drop med_WKT1
+
 
 count if !missing(WKT1) & WKT1>168 & WKT1!=9998
+
+quietly count if !missing(WKT1) & WKT1==0
 
 *br EP3 EP11 WKT1 if !missing(WKT1) & WKT1==0
 *exportation des individus concernées
@@ -114,8 +122,9 @@ export excel interview__key HH13 WKT1  using "$folderpath/document/E_WKT1_Cohere
 ////*WKT2. Combien de jours par semaine travaillez-vous habituellement dans votre emploi principal ?
 ***Etape1: Valeurs manquantes et corrrection
 
-count if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 ==9998  
+count if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998  // WKT2 posée seulement si WKT1 == 9998
 
+* br WKT* if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & !missing(WKT1)  
 ***COrrection: imputation par la mediane 
 
 	*************Generalisation
@@ -123,7 +132,11 @@ cap drop med_WKT2
 egen med_WKT2 = median(WKT2), by(EP3 EP11)
 *egen med_WKT2 = median(WKT2), by(EP3 EP11 code_citp_emp_principal)
 
-replace WKT2 = med_WKT2 if WKT2 == .a
+replace WKT2 = med_WKT2 if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998
+
+cap drop med_WKT2
+egen med_WKT2 = median(WKT2)
+replace WKT2 = med_WKT2 if missing(WKT2) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998
 cap drop med_WKT2
 
 
@@ -134,47 +147,55 @@ count if !missing(WKT2) & ( M4Confirm < 15 | EN_EMP==0 | (!inlist(WKT1,9998,.,.a
 replace WKT2=. if !missing(WKT2) & ( M4Confirm < 15 | EN_EMP==0 | (!inlist(WKT1,9998,.,.a)))
 
 ***Etape3: Coherence des reponses attendues 
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 > 7
+count if EN_EMP==1 & M4Confirm >= 15 & !missing(WKT2) &  WKT1 == 9998 & WKT2 > 7
 
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT2) &  WKT1 == 9998 & WKT2 <= 0 
+count if EN_EMP==1 & M4Confirm >= 15 & !missing(WKT2) &  WKT1 == 9998 & WKT2 <= 0 
 
 *WKT3. Combien d’heures par jour travaillez-vous habituellement dans votre emploi principal ?
 
 ***Etape1: Valeurs manquantes et corrrection
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & !inlist(M4Confirm,.,.a) 
+count if missing(WKT3) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998  // WKT3 posée seulement si WKT1 == 9998
 
    ***Correction: imputation par la mediane 
 
 	*************Generalisation
 cap drop med_WKT3
-egen med_WKT3 = median(WKT3), by(EP3 EP11 )
+egen med_WKT3 = median(WKT3), by(EP3 EP11)
 *egen med_WKT3 = median(WKT3), by(EP3 EP11 code_citp_emp_principal)
 
-replace WKT3 = med_WKT3 if WKT3 == .a
+replace WKT3 = med_WKT3 if missing(WKT3) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998
+
+cap drop med_WKT3
+egen med_WKT3 = median(WKT3)
+replace WKT3 = med_WKT3 if missing(WKT3) & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & EN_EMP==1 & WKT1 == 9998
 cap drop med_WKT3
 
 
 ***Etape2: coherence des sauts
 count if !missing(WKT3) & (EN_EMP==0 | M4Confirm < 15 | WKT1 != 9998 )
 
+replace WKT3=. if !missing(WKT3) & ( M4Confirm < 15 | EN_EMP==0 | (!inlist(WKT1,9998,.,.a)))
+
 
 ***Etape3: Coherence des reponses attendues
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & WKT3 > 24
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT3) &  WKT1 == 9998 & WKT3 <= 0 
+count if EN_EMP==1 & M4Confirm >= 15 & !missing(WKT3) &  WKT1 == 9998 & WKT3 > 24
+count if EN_EMP==1 & M4Confirm >= 15 & !missing(WKT3) &  WKT1 == 9998 & WKT3 <= 0 
 ***Etape4: Vraisemblance 
 
 *WKT4. Pour la semaine allant du %DateJ7% au %DateJ0% , avez-vous eu des absences ou pris congé de votre emploi principal pour une raison quelconque, par exemple, vacances, maladie, raisons familiales ?
 
 ***Etape1: Valeurs manquantes et corrrection
-count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT4) & !inlist(M4Confirm,.,.a) 
+count if missing(WKT4) & EN_EMP==1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & !inlist(WKT1,.,.a,9998)
+
+*br WKT* if missing(WKT4) & EN_EMP==1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & WKT1!=.a
 
 if r(N) > 0 {
 export excel interview__key HH13 WKT4  using "$folderpath/document/WKT4_Manquants.xlsx" if EN_EMP==1 & M4Confirm >= 15 & missing(WKT4) & !inlist(M4Confirm,.,.a), firstrow(variables) replace
 }
 
-*Correction:
+*Correction :
 
-*replace WKT4 = 1 if (EN_EMP==1 & M4Confirm >= 15 & missing(WKT4) & !inlist(M4Confirm,.,.a))& !missing(WKT4A)
+replace WKT4 = 2 if (EN_EMP==1 & M4Confirm >= 15 & missing(WKT4) & !inlist(M4Confirm,.,.a))
 
 ***Etape2: coherence des sauts
 
@@ -251,7 +272,7 @@ export excel interview__key HH13 WKT5  using "$folderpath/document/WKT5.xlsx" if
 
 ***Correction:  necessite de revenir aux agents 
 
-*replace WKT5 = 1 if (EN_EMP==1 & M4Confirm >= 15 & missing(WKT5) )& !missing(WKT6)
+replace WKT5 = 2 if (EN_EMP==1 & M4Confirm >= 15 & missing(WKT5) )
 
 ***Etape2: coherence des sauts
 count if !missing(WKT5) & (EN_EMP==0 | M4Confirm < 15) // RAS comme mentionné plus haut, il s'agit d'individus qui ne sont pas en emploi en réalité
@@ -271,7 +292,15 @@ count if EN_EMP==1 & M4Confirm >= 15 & missing(WKT6) & WKT5 == 1
 ***Etape2: coherence des sauts
 count if (EN_EMP==0 | M4Confirm < 15 |   WKT5 != 1) & !missing(WKT6) 
 ***Etape3: Coherence des reponses attendues RAS
-count if !missing(WKT6) & WKT6<=0 // RAS
+count if !missing(WKT6) & WKT6<=0 // 3 cas déclarant zéro
+
+
+* Correction : Répondre à "Non" à WKT5 pour les personnes ayant déclaré zéro à WKT6.
+replace WKT5 = 2 if !missing(WKT6) & WKT6<=0
+replace WKT6 = . if !missing(WKT6) & WKT6<=0
+
+
+
 
 * WKT7 : Heures habituelles travaillées la semaine dernière
 ***Etape1: Valeurs manquantes et corrrection
@@ -279,11 +308,7 @@ count if EN_EMP==1 & M4Confirm >= 15 & missing( WKT7) &  WKT5==2 & WKT4==2
 
 ********Correction: 
 
-cap drop med_WKT7
-egen med_WKT7 = median(WKT7), by(EP3 EP11)
-replace WKT7 = med_WKT7 if WKT7 ==.a
-cap drop med_WKT7
-
+replace WKT7 = 1 if EN_EMP==1 & M4Confirm >= 15 & missing( WKT7) &  WKT5==2 & WKT4==2
 
 ***Etape2: coherence des sauts
 count if !missing( WKT7) & (EN_EMP==0 | M4Confirm < 15 |  WKT5!=2 | WKT4!=2) // comme plus haut il s'agit des personnes n'étant pas en emploi
@@ -313,23 +338,23 @@ export excel interview__key HH13 WKT4  WKT5 WKT7 WKT7A using "$folderpath/docume
 
 *br WKT4  WKT5 WKT7 WKT7A EP3 EP11 if !missing(WKT7A) & WKT7A <=0 
 
-cap drop med_WKT7A_1
+*cap drop med_WKT7A_1
 *egen  med_WKT7A_1 = median(WKT7A) if !missing(WKT7A) & WKT7A > 0 & inlist(EP3,3), by(code_citp_emp_principal)
 
 *replace WKT7A = med_WKT7A_1 if !missing(WKT7A) & WKT7A <= 0 & inlist(EP3,3) & WKT7==1
 
-cap drop med_WKT7A_2
+*cap drop med_WKT7A_2
 *egen  med_WKT7A_2 = median(WKT7A) if !missing(WKT7A) & WKT7A > 0 & inlist(EP3,1,10), by(code_citp_emp_principal)
 
 *replace WKT7A = med_WKT7A_2 if !missing(WKT7A) & WKT7A <= 0 & inlist(EP3,1,10) & WKT7==1
-
+/*
 cap drop med_WKT7A_3
 egen med_WKT7A_3 = median(WKT7A), by(EP3 EP11)
 replace WKT7A = med_WKT7A_3 if WKT7A == 0 & WKT7==1
 cap drop med_WKT7A_3
+*/
 
-
-cap drop med_WKT7A_1 med_WKT7A_2 med_WKT7A_3
+*cap drop med_WKT7A_1 med_WKT7A_2 med_WKT7A_3
 
 *WKT8.Plus tôt, vous m’avez dit que vous étiez absent de votre emploi, juste pour confirmer, la semaine dernière (( %DateJ7% au %DateJ0% )) n’avez-vous pas travaillé des heures du tout dans votre emploi principal ?
 ***Etape1: Valeurs manquantes et corrrection
@@ -398,6 +423,7 @@ cap drop med_WKT10
 egen med_WKT10 = median(WKT10) if !missing(WKT10) & WKT10>0 & inlist(EP3,3), by(EP3 EP11) // la median est de 16H pour les personnes à propre compte 
 
 replace WKT10 = 16 if !missing(WKT10) & WKT10<=0 & inlist(EP3,3)
+cap drop med_WKT10
 
 /*
 cap drop med_WKT10_1
@@ -412,15 +438,15 @@ drop med_WKT10_1 med_WKT10
 
 *WKT11. Est-ce le nombre d’heures dont vous av ez travaillé la semaine allant du %DateJ7% au % DateJ0% dans votre 1er emploi secondaire ? *******************************************
 *Etape1: valeurs manquantes et corrrection
-count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT11) & WKT10!=9998 & WKT10!=. & WKT10!=.a
+count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT11) & !inlist(WKT10,9998,.,.a) /// RAS
 
-***Corrrection
+/***Corrrection
 cap drop med_WKT11
 *egen med_WKT11 = median(WKT11), by(EP3 EP11 code_citp_emp_principal)
 egen med_WKT11 = median(WKT11), by(EP3 EP11 )
 replace WKT11 = med_WKT11 if WKT11 ==.a
 cap drop med_WKT11
-
+*/
 
 ***Etape2: coherence des sauts
 count if !missing(WKT11) & (WKT10==9998 | WKT10==. | WKT10==.a )
@@ -534,21 +560,33 @@ export excel interview__key HH13 WKT17  using "$folderpath/document/WKT17.xlsx" 
 
 count if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT17A) & (!(WKT10==9998|WKT10==9998)& !(WKT6==9998|WKT4A==9998))
 
+
+* br WTK_S WTK_1S  WTK_HAB NB_HEURE_TRAVAIL_TOTAL if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT17A) & (!(WKT10==9998|WKT10==9998)& !(WKT6==9998|WKT4A==9998))
+
 if r(N) > 0 {
 export excel interview__key HH13 WKT17A  using "$folderpath/document/WKT17A.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT17A) & (!(WKT10==9998|WKT10==9998)& !(WKT6==9998|WKT4A==9998)) ,firstrow(variables) replace
 }
 
 
+* br WKT17A if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT17A) & (!(WKT10==9998|WKT10==9998)& !(WKT6==9998|WKT4A==9998))
+
+cap drop med_WKT17A
+egen med_WKT17A = median(WKT17A), by(EP3 EP11)
+replace WKT17A = med_WKT17A if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT17A) & (!(WKT10==9998|WKT10==9998)& !(WKT6==9998|WKT4A==9998))
+cap drop med_WKT17A 
+
+
 **Correction pour NB_HEURE_TRAVAIL_TOTAL
-* 
-* br NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // visualisation des caractéristiques de l'individus
+
+count if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) & NB_HEURE_TRAVAIL_TOTAL !=9999 // visualisation des caractéristiques de l'individus
 
 cap drop med_NB_HEURE_TRAVAIL_TOTAL
-egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 EP11) // la median est de 54H pour les individus avec les memes caracteristiques
+egen med_NB_HEURE_TRAVAIL_TOTAL = median(cond(NB_HEURE_TRAVAIL_TOTAL <= 168, NB_HEURE_TRAVAIL_TOTAL, .)), by(EP3 EP11) // sans les valeurs à corriger (> 168) ni le code 9999
+*egen med_NB_HEURE_TRAVAIL_TOTAL = median(NB_HEURE_TRAVAIL_TOTAL) if NB_HEURE_TRAVAIL_TOTAL <= 168, by(EP3 EP11) // la median est de 54H pour les individus avec les memes caracteristiques
 
 
 
-replace NB_HEURE_TRAVAIL_TOTAL = 54 if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) // il faut toujours actualiser cette ligne en fonction des individus problématiques
+replace NB_HEURE_TRAVAIL_TOTAL = med_NB_HEURE_TRAVAIL_TOTAL if NB_HEURE_TRAVAIL_TOTAL > 168 & !missing(NB_HEURE_TRAVAIL_TOTAL) & NB_HEURE_TRAVAIL_TOTAL !=9999 // il faut toujours actualiser cette ligne en fonction des individus problématiques
 cap drop med_NB_HEURE_TRAVAIL_TOTAL
 
 
@@ -609,7 +647,12 @@ count if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT18
 if r(N) > 0 {
 export excel interview__key HH13 WKT18A  using "$folderpath/document/WKT18A.xlsx"  if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT18A) & (membre_id_v1_IND=="##N/A##"),firstrow(variables) replace
 }
-***Correction: Elle necessite de revenir aux agents
+***Correction: Remplacement par le mode
+
+cap drop mod_WKT18A
+egen mod_WKT18A = mode(WKT18A), by(EP3 EP11)
+replace WKT18A = mod_WKT18A if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT18A) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT18A
 
 ***Etape2: coherence des sauts
 count if !missing(WKT18A) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // RAS car il s'agit des personnes n'étant pas en emploi identifié en EP
@@ -630,7 +673,12 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT18B  using "$folderpath/document/WKT18B.xlsx"  if EN_EMP == 1 & M4Confirm >= 15 & missing(WKT18B) & (membre_id_v1_IND=="##N/A##"),firstrow(variables) replace
 }
 
-***Correction: Elle necessite de revenir aux agents
+***Correction: Remplacement par le mode
+cap drop mod_WKT18B
+egen mod_WKT18B = mode(WKT18B), by(EP3 EP11)
+replace WKT18B = mod_WKT18B if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT18B) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT18B
+
 
 ***Etape2: coherence des sauts
 count if !missing(WKT18B) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // idem que WKT18B 
@@ -650,6 +698,13 @@ export excel interview__key HH13 WKT18B  using "$folderpath/document/WKT19.xlsx"
 }
 
 **Correction: Elle necessite de revenir aux agents
+
+
+cap drop mod_WKT19
+egen mod_WKT19 = mode(WKT19), by(EP3 EP11)
+replace WKT19 = mod_WKT19 if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT19) & membre_id_v1_IND=="##N/A##" 
+cap drop mod_WKT19
+
 
 ***Etape2: coherence des sauts
 count if !missing(WKT19) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // // idem que WKT18B 
@@ -702,7 +757,13 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT24  using "$folderpath/document/WKT24.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT24) & membre_id_v1_IND=="##N/A##", firstrow(variables) replace
 }
 
-**Correction: Elle necessite de revenir aux agents
+***Correction: Remplacement par le mode
+cap drop mod_WKT24
+egen mod_WKT24 = mode(WKT24), by(EP3 EP11)
+replace WKT24 = mod_WKT24 if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT24) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT24
+
+
 
 ***Etape2: coherence des sauts
 count if !missing(WKT24) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // // idem que WKT18B 
@@ -722,7 +783,11 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT25  using "$folderpath/document/WKT25.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT25) & membre_id_v1_IND=="##N/A##", firstrow(variables) replace
 }
 
-****Correction Elle necessite de revenir aux agents
+***Correction: Remplacement par le mode
+cap drop mod_WKT25
+egen mod_WKT25 = mode(WKT25), by(EP3 EP11)
+replace WKT25 = mod_WKT25 if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT25) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT25
 
 
 ***Etape2: coherence des sauts
@@ -742,7 +807,12 @@ count if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT26
 if r(N) > 0 {
 export excel interview__key HH13 WKT26  using "$folderpath/document/WKT26.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT26) & membre_id_v1_IND=="##N/A##", firstrow(variables) replace
 }
-****Correction: Elle necessite de revenir aux agents
+
+***Correction: Remplacement par le mode
+cap drop mod_WKT26
+egen mod_WKT26 = mode(WKT26), by(EP3 EP11)
+replace WKT26 = mod_WKT26 if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT26) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT26
 
 
 ***Etape2: Coherence des reponses attendues: RAS
@@ -765,7 +835,11 @@ if r(N) > 0 {
 export excel interview__key HH13 WKT27  using "$folderpath/document/WKT27.xlsx" if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT27) & membre_id_v1_IND=="##N/A##", firstrow(variables) replace
 }
 
-****Correction: elle necessite de revenir aux agents
+***Correction: Remplacement par le mode
+cap drop mod_WKT27
+egen mod_WKT27 = mode(WKT27), by(EP3 EP11)
+replace WKT27 = mod_WKT27 if EN_EMP == 1 & M4Confirm >= 15 & !inlist(M4Confirm,.,.a) & missing(WKT27) & (membre_id_v1_IND=="##N/A##")
+cap drop mod_WKT27
 
 ***Etape2: coherence des sauts
 count if !missing(WKT27) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND !="") | (M4Confirm < 15 )| (EN_EMP != 1)) // idem que WKT18B  
@@ -782,7 +856,7 @@ count if !missing(WKT27) & !inrange(WKT27,1,3)
 
 *****Saving********************
 
-cap drop HH12 HH13 M4Confirm EN_EMP EP3 EP11 membre_id_v1_IND SE8 PL1 PL2 PL3
+cap drop HH12 HH13 M4Confirm EN_EMP EP3 EP11 membre_id_v1_IND SE8 PL1 PL2 PL3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 cap drop med_WKT1 med_WKT7A_1 med_WKT7A_2 med_WKT10
 

@@ -30,6 +30,9 @@ drop if _merge!=3
 cap drop _merge
 
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
+vider_section hha_R-hhavf_R if EN_EMP != 1 // questions hors champ pour le statut reconstruit
 merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(membre_id_v1_IND) 
 drop if _merge!=3
 cap drop _merge
@@ -70,18 +73,18 @@ foreach var of varlist `r(varlist)'{
 *********R1. L’emploi que vous recherchez ou êtes dispo nible à exercer est –il un emploi salarié ou indé pendant ou peu importe?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* br if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
-count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+quietly count if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 if r(N)>0 {
-    export excel interview__key HH13 R1  using "$folderpath/document/WKI7_Aut_Incoherants" if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+export excel interview__key HH13 R1  using "$folderpath/document/WKI7_Aut_Incoherants" if missing(R1) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##")), firstrow(variables) replace
 }
 
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R1) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
+count if !missing(R1) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R1) & !inrange(R1,1,3) 
@@ -90,17 +93,17 @@ count if !missing(R1) & !inrange(R1,1,3)
 
 ****R2.L’emploi que vous recherchez ou êtes dispo nible à exercer est –il un emploi permanent ou temporaire ou peu importe?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* br if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
-count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+quietly count if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 if r(N)>0 {
-    export excel interview__key HH13 R2  using "$folderpath/document/R2_Manquants" if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+export excel interview__key HH13 R2  using "$folderpath/document/R2_Manquants" if missing(R2) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##")), firstrow(variables) replace
 }
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R2) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
+count if !missing(R2) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R2) & !inrange(R2,1,4) 
@@ -111,17 +114,17 @@ count if R2 == 1 & WKI3 == 2
 
 *****R3. Dans quel type d’organisation souhaitez-vous travailler? 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+* br if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
-count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == "")
+quietly count if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 if r(N)>0 {
-    export excel interview__key HH13 R3  using "$folderpath/document/R3_Manquants" if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+export excel interview__key HH13 R3  using "$folderpath/document/R3_Manquants" if missing(R3) & (EN_EMP == 1 & inlist(WKI3,1,2) & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)) & inlist(membre_id_v1_IND, "", "##N/A##")), firstrow(variables) replace
 }
 
 *Etape2: Cohérence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(R3) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
+count if !missing(R3) & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
 
 *Etape3: Est ce que les reponses données sont celles qu'on attendait?
 count if !missing(R3) & !inrange(R3,1,11) 
@@ -138,28 +141,28 @@ count if R1 ==  2 & (inrange(R3, 1,4) | R3 == 7)
 
 forvalues i = 1/19 {
     * Compter les réponses manquantes pour les personnes qui devaient répondre
-    count if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+    count if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
     
     * Si des réponses manquantes existent, exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_manquants.xlsx" if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == ""), firstrow(variables) replace
+        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_manquants.xlsx" if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##")), firstrow(variables) replace
         display "Exportation terminée pour R4__`i' avec " r(N) " réponses manquantes"
     }
     else {
         display "Toutes les réponses sont présentes pour R4__`i'"
     }
-* br if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+* br if missing(R4__`i') & (EN_EMP == 1 & inlist(WKI3, 1, 2) & (M4Confirm >= 15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 
 forvalues i = 1/19 {
     * Compter les réponses fournies par des personnes qui ne devaient pas répondre
-    count if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != ""))
+    count if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
     
     * Si des réponses incohérentes existent, exporter les individus dans un fichier Excel
     if r(N) > 0 {
-        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_coherence_sauts.xlsx" if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "")), firstrow(variables) replace
+        export excel interview__key HH13 R4__`i' using "$folderpath/document/R4__`i'_coherence_sauts.xlsx" if !missing(R4__`i') & (EN_EMP == 0 | !inlist(WKI3,1,2) | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##"))), firstrow(variables) replace
         display "Exportation terminée pour R4__`i' avec " r(N) " réponses incohérentes"
     }
     else {

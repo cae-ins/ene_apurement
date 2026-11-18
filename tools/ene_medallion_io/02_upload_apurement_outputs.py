@@ -61,7 +61,7 @@ def main() -> None:
         base_dir,
         "dataout/menage/qx_eec_vf.dta",
         "silver",
-        f"enem/{args.quarter}/menage/qx_eec_vf.dta",
+        f"enem/{args.quarter}/menage/menage_{args.quarter}.dta",
         args,
     )
     upload_output_file(

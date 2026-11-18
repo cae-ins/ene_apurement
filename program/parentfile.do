@@ -1,7 +1,7 @@
 /*                          *                      ENQUETE NATIONALE SUR L'EMPLOI  -  VOLET MENAGE                  *
 
-							----------------------------------PHASE APUREMENT DES DONNEES T1   2026-------------------------------------------------------
-							-------------------------DATE: MAI 2026  -------------------------------------------------------
+							----------------------------------PHASE APUREMENT DES DONNEES T3   2026-------------------------------------------------------
+							-------------------------DATE: NOVEMBRE 2026-------------------------------------------------------
 							-----------------------------------------------------------------------------------------
 																																						*/
 clear all
@@ -48,6 +48,12 @@ if !regexm("$ene_quarter", "^T[1-4]_[0-9][0-9][0-9][0-9]$") {
 	exit 198
 }
 display as text "Racine : $folderpath | trimestre : $ene_quarter"
+
+* Module CQ (compétences, section S4) : 0 pour les trimestres où le questionnaire
+* le désactive (T3 2026 : condition 1==2 dans Survey Solutions). S4 saute alors ses
+* contrôles et imputations et sauvegarde la section telle que collectée.
+global module_cq 1
+if inlist("$ene_quarter", "T3_2026") global module_cq 0
 ****Création des dossiers de travail ( lancer uniquement la première fois)
 
 /*
@@ -83,10 +89,17 @@ global dofiles "$folderpath/program"
 global datain_staging "$folderpath/datain/staging"
 global datain_brute  "$folderpath/datain/brute"
 * Export ménage Survey Solutions du trimestre : ENE_MENAGE_EXPORT si défini,
-* sinon ENEM_<TX><YYYY>.dta (T1_2026 -> ENEM_T12026.dta).
+* sinon ENEM_<TX><YYYY>.dta (T1_2026 -> ENEM_T12026.dta), ou à défaut
+* ENEM_<YYYY><TX>.dta s'il est seul présent dans datain/staging (T3_2026 -> ENEM_2026T3.dta).
 global brute_menage_source_name : env ENE_MENAGE_EXPORT
 if "$brute_menage_source_name" == "" {
 	global brute_menage_source_name = "ENEM_" + subinstr("$ene_quarter", "_", "", .) + ".dta"
+	local nom_inverse = "ENEM_" + substr("$ene_quarter", 4, 4) + substr("$ene_quarter", 1, 2) + ".dta"
+	capture confirm file "$folderpath/datain/staging/$brute_menage_source_name"
+	if _rc {
+		capture confirm file "$folderpath/datain/staging/`nom_inverse'"
+		if !_rc global brute_menage_source_name "`nom_inverse'"
+	}
 }
 global brute_menage_source "$datain_brute/$brute_menage_source_name"
 global brute_menage_work "$datain_brute/QX_EEC_VF.dta"

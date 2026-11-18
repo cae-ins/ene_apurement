@@ -15,7 +15,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND) //CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 drop if _merge!=3
 cap drop _merge
@@ -24,6 +24,7 @@ merge 1:1 interview__key membres__id  using "$standard_individu\INDIV_S5_pluriac
 
 drop if _merge!=3
 cap drop _merge
+vider_section hha_ES-hhavf_ES if !(PL3 >= 1 & PL3 < .) // section ES hors champ (PL3 apuré)
 
 * Normaliser uniquement les textes de la section ES.
 * membre_id_v1_IND conserve sa sentinelle ##N/A## pour le filtre d'eligibilite.
@@ -273,25 +274,6 @@ count if !inrange(ES2g,1,8) & !missing(ES2g)
 * 
 * br ES1a ES1b ES2g if !inlist(ES2g,.,.a) // on observe la coherence entre le type de l'entreprise et les taches effectués
 
-replace ES2g = 4 if ES1b == "SEMER ENTRETIEN RECOLTER VENDRE" 
-replace ES2g = 4 if ES1b == "PÊCHE ARTISANALE"
-replace ES2g = 2 if ES2d == "ANADER"
-replace ES2g = 4 if ES1b == "ELEVER ET VENDRE DES OVINS"
-replace ES2g = 3 if ES1b == "MONTER MUR"
-replace ES2g = 3 if ES1b == "ACHAT DE PRODUITS AGRICOLE"
-replace ES2g = 4 if ES1a == "CULTIVATRICE DE HARICOT"
-replace ES2g = 3 if ES1b == "ACHAT DE PRODUITS AGRICOLE"
-replace ES2g = 3 if ES1b == "ACHAT DE PRODUITS AGRICOLE"
-replace ES2g = 3 if ES1b == "VENTE DE BOISSONS"
-replace ES2g = 3 if ES1b == "PREPARE ET VENDRE"
-replace ES2g = 4 if ES1b == "ELEVER ET VENDRE DES POULETS"
-replace ES2g = 3 if ES1b == "ACHETER ET REVENDRE"
-replace ES2g = 4 if ES1b == "NOURRIR ET ENTRETENIR LES SUJETS"
-replace ES2g = 3 if ES1b == "FAIRE CONGELER L'EAU ET VENDRE AUX CLIENTS"
-replace ES2g = 4 if ES1b == "CULTUVER L'IGNAME ET LA BANANE"
-replace ES2g = 4 if ES1a == "AGRICULTEUR DE CACAO"
-replace ES2g = 4 if ES1b == "SUIVIS ET ENTRETIEN DU CHAMP"
-
 
 *===========================
 *ES3. L’unité économique que vous dirigez ou dans laquelle vous travaillez est-elle érigée est société ou a-t-elle une existence légale ?
@@ -364,8 +346,7 @@ count if ES4_2__6==1 & ES4_2__10==1
 
 
 
-* Retirer les variables ajoutees avant de recharger la section pour la suite des controles.
-drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1 membre_id_v1_IND PL3
+drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3 //CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 save "$datain_standard\INDIV_S6_emploi_secondaire.dta", replace
 
@@ -374,7 +355,7 @@ use "$datain_brute\Revenu_es.dta" , clear
 
 cap drop _merge
 
-merge m:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(ES4_2__7 ES4_2__9 ES4_2__10 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge m:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(ES4_2__7 ES4_2__9 ES4_2__10) // CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 keep if _merge == 3
 
@@ -385,6 +366,10 @@ merge m:1 interview__key using "$brute_menage_work" , keepus(HH13 HH2)
 keep if _merge == 3
 
 cap drop _merge
+* Roster Revenu_es : seulement les personnes dans le champ de la section ES (PL3 apuré)
+merge m:1 interview__key membres__id using "$standard_individu\INDIV_S5_pluriactivite.dta", keepus(PL3) keep(master match) nogen
+drop if !(PL3 >= 1 & PL3 < .)
+drop PL3
 
 * Le roster des revenus est charge separement : normaliser aussi ses textes ES.
 ds ES*, has(type string)
@@ -406,9 +391,9 @@ count if missing(ES4_3) & (`eligible_es43')
 
 
 *Problem 2: ceux qui ont repondus devaient ils repondre 
-count if !missing(ES4_3) & !(`eligible_es43')
+count if missing(ES4_3) & (ES4_2__7!=1 & ES4_2__10!=1 ) 
 
-
+*br if missing(ES4_3) & !(ES4_2__7==1 & ES4_2__10==1 ) 
 
 *Identification des agents ayant fait des erreurs 
 *export excel interview__key HH13 ES4_3 using "$folderpath/document/Erreur_L1_NA" if !missing(ES4_3) & (ES4_2__7==0|  ES4_2__10==0), firstrow(varlabels) replace 
@@ -477,8 +462,8 @@ count if ES4_4<100
 *on corrige avec la valeur en lettre 
 * br ES4_4 ES4_5 if ES4_4<100 // la valeur en lettre n'est pas non claire
 
-*Correction confirmee a partir du montant renseigne en lettres
-replace ES4_4 = 60000 if interview__key == "16-85-77-85" & membres__id == 2 & ES4_4 == 60 & ES4_5 == "SOIXANTE MILLE FRANCS CFA"
+* Correction : se servir du montant renseigné en lettre pour corriger la valeur de ES4_4
+replace ES4_4 = 8000 if ES4_5 == "HUIT MILLES" & ES4_4<100
 
 
 *Identification des agents ayant encore des montants inferieurs a 100
@@ -517,9 +502,6 @@ count if (missing(ES4_4)| inlist(ES4_4,99999999,99999998)) & !missing(ES4_5)
 * 
 * br ES4_4 ES4_5 if !missing(ES4_4) & ES4_4 !=99999999 & ES4_4 !=99999998
 
-replace ES4_4 = 150000 if ES4_5 == "CENT CINQUANTE MILLES"
-
-
 
 
 *==========================
@@ -549,7 +531,7 @@ export excel interview__key HH13 ES4_3 ES4_4 ES4_6 using "$folderpath/document/E
 *Problem 4 : Vraisemblance des reponses  
 *RAS
 
-drop ES4_2__7 ES4_2__9 ES4_2__10 HH2 HH13
+drop ES4_2__7 ES4_2__9 ES4_2__10 HH2 HH13 //CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 save "$dataout\Revenu_es.dta" , replace
 
 use "$datain_standard\INDIV_S6_emploi_secondaire.dta", clear
@@ -563,7 +545,7 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND) // CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 drop if _merge!=3
 cap drop _merge
@@ -918,7 +900,7 @@ count if !missing(ES15) & inlist(ES10_1,5) & (ES4_2__2==0 & ES4_2__3==0 & ES4_2_
 if r(N) > 0 {
 export excel interview__key HH13 ES15 using "$folderpath/document/Erreur_ES15_coh2" if !missing(ES15) & inlist(ES10_1,5) & (ES4_2__2==0 & ES4_2__3==0 & ES4_2__6==0 & ES4_2__5==0 & ES4_2__9==0), firstrow(varlabels) replace 
 }
-*replace ES15=. if !missing(ES15) & inlist(ES10_1,5) & (ES4_2__2==0 & ES4_2__3==0 & ES4_2__6==0 & ES4_2__5==0 & ES4_2__9==0)
+replace ES15=. if !missing(ES15) & inlist(ES10_1,5) & (ES4_2__2==0 & ES4_2__3==0 & ES4_2__6==0 & ES4_2__5==0 & ES4_2__9==0)
 
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -941,7 +923,7 @@ count if missing(ES16) & inlist(ES10_1,5) & (ES4_2__2==1 | ES4_2__3==1 |ES4_2__6
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
 
 count if !missing(ES16) & !inlist(ES10_1,1,8,9)
-* 454 individus sont concernés: tous les individus repondre finalement à cette question. Il semblerait que une décision a été prise pour ne pas les exclus dans le questionnaire contrairement à ce qui est indicateurs en commentaire dans le questionnaire
+* 479 individus sont concernés: tous les individus repondre finalement à cette question. Il semblerait que une décision a été prise pour ne pas les exclus dans le questionnaire contrairement à ce qui est indicateurs en commentaire dans le questionnaire
 
 *Identification des agents ayant fait des erreurs
 if r(N) > 0 {
@@ -1012,24 +994,24 @@ count if !inlist(ES18,1,2,9998) & !missing(ES18)
 *=============================
 
 *Problem 1: ceux qui devaient repondre ont ils repondus 
-count if missing(ES19) & inlist(ES10_1,1,8,9) // Stagiaires, salariés et apprenti
+count if missing(ES19) & inlist(ES10_1,5,8,9) // Stagiaires, salariés et apprenti
 
 count if missing(ES19) & inlist(ES10_1,5) & (ES4_2__2==1 | ES4_2__3==1 |ES4_2__6==1 & ES4_2__5==1 | ES4_2__9==1) // Travailleurs familiaux percevant un salaire 
 
 *RAS
 *Problem 2: Ceux qui ont repondus devaient ils repondre 
 
-/*count if !missing(ES19) & inlist(ES10_1,2,3,4,6,10)
+count if !missing(ES19) & inlist(ES10_1,2,3,4,6,10)
 * 485 individus sont concernés  
 
 *Identification des agents ayant fait des erreurs
 if r(N) > 0 {
 export excel interview__key HH13 ES19 using "$folderpath/document/Erreur_ES18_coh1" if !missing(ES19) & !inlist(ES10_1,1,8,9,5), firstrow(varlabels) replace 
 }
-*/
+
 
 *Correction 
-*replace ES19=. if !missing(ES19) & !inlist(ES10_1,1,8,9,5)
+*replace ES19=. if !missing(ES19) & inlist(ES10_1,5,8,9,5)
 
 
 *Problem 3: les valeurs renseignées sont elles permises
@@ -1082,6 +1064,6 @@ count if !inlist(ES20,1,2,9998) & !missing(ES20)
 *RAS
 
 
-drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3
+drop HH2 HH3 HH4 annee HH12 HH13 M4Confirm membre_id_v1_IND PL3 //CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 save "$standard_individu\INDIV_S6_emploi_secondaire.dta", replace

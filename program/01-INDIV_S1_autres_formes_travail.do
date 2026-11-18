@@ -2,7 +2,7 @@
 *================================================
 *********AUTRE FORMES DE TRAVAIL
 
-****RESPONSABLE: DIABATE BEN ISMAEL
+****RESPONSABLE: KOUADIO BROU YVES
 *=============================================
 
 ********************
@@ -40,7 +40,7 @@ merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(h
 keep if _merge == 3
 drop  _merge
 
-
+gen commentaire =""
 **************Fin appel de variables*****************
 
 
@@ -52,45 +52,25 @@ drop  _merge
 4) Les valeurs renseignées sont vraissembables
 **************************************/
 
-
-*=============================================================================
-*M4Confir : Quel est votre âge ?
-*=============================================================================
-
-* 1. Valeurs manquantes
-count if missing(M4Confirm) & (AgeAnnee >=13 & Statut_Res==1 & hhaa != "" & hhaa != "##N/A##") 
-// 9 personne pour qui la question n'a pas été repondu
-
-*br M4Confirm AgeAnnee hhaa if missing(M4Confirm) & (AgeAnnee >=13 & Statut_Res==1 & hhaa != "" & hhaa != "##N/A##" )
-
-*exportation des individus potentiellement concernés
-count if missing(M4Confirm) & (AgeAnnee >=13 & Statut_Res==1 & hhaa != "" & hhaa != "##N/A##")
-if r(N)>0 {
-    export excel interview__key HH13 M4Confirm AgeAnnee MODINTR using "$folderpath/document/autres_formes_trav_M4Confirm_NA" if missing(M4Confirm) & (AgeAnnee >=13 & Statut_Res==1 & hhaa != "" & hhaa != "##N/A##"), firstrow(varl) replace
-}
-**
-*****Correction: On ne peut corriger l'age manquantes
-
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
-count if !missing(M4Confirm) & (AgeAnnee <13 | Statut_Res==0 | hhaa == "" | hhaa == "##N/A##") 
-// RAS
-
-* 3. Valeurs légales
-
-ta M4Confirm,miss 
-// Les valeurs renseignées sembles non abérantes avec un max de 101 ans
-
-
 *=============================================================================
 *FT1A1. Avez-vous rassemblé et/ou transformé, en vue du stockage, les produits de la mine ou forêt, y compris le bois à brûler et autres combustibles pour la consommation de votre ménage ?
 *=============================================================================
 
-* 1. Valeurs manquantes 
+* Probleme 1: Valeurs manquantes 
 count if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-// 4368 non réponse
-*br FT1A1 M4Confirm AgeAnnee membre_id_v1_IND if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
+// 13 non réponse
+* br if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
 
-* 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT1A1" if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT1A1 using "$folderpath/document/Erreur_FT1A1_NA" if missing(FT1A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
+
+
+* Probleme 2: Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT1A1) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND != "")| M4Confirm<15) 
 //RAS
 
@@ -103,38 +83,42 @@ count if !inlist(FT1A1,1,2) & !missing(FT1A1) //RAS
 
 * 1. Valeurs manquantes
 count if missing(FT1H) & FT1A1 == 1 
-// 2 non-réponses
+
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 count if !missing(FT1H) & FT1A1 != 1 
 //RAS
 
 * 3. Valeurs légales 
-ta FT1H, miss
+count if !missing(FT1H) & FT1A1 == 1 & (FT1H < 0 | FT1H > 168) 
 //RAS
 
 *=============================================================================
 *FT1M. %FT1H% Heure(s) et Combien de minute
 *=============================================================================
+//la question demande le nombre de minute par semaine consacré à l'activité par semaine. or les condition des cohérences se font sur le nombre de minute par heure accordé à l'activité. 
 
 * 1. Valeurs manquantes
 count if missing(FT1M) & FT1A1 == 1 
-// 2 non-réponses
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 count if !missing(FT1M) & FT1A1 != 1 
 // RAS
 
 * 3. Valeurs légales 
-ta FT1M, miss
-count if FT1M >60 & FT1M !=. & FT1M !=.a 
-// RAS. Les valeurs renseignées semblent consistantes car inferieures au nombre total de minute dans une heure (60)
+count if FT1M >=60 & FT1M !=. & FT1M !=.a 
 
-count if FT1M ==60 & FT1M !=. & FT1M !=.a // 2 valeurs sont égales à 60. ce qui est inconsistent.   Les valeurs égales à 60 minutes doivent etre convertir directement en une heure. 
 
-*proposition de correction : 
-*br interview__key membres__id FT1H FT1M if FT1M ==60 & FT1M !=. & FT1M !=.a
+//1 cas de 180min revient au 3h declarer dans FT1H. ici le nombre de minute correspond exactement au nombre d'heure travaillé, on peut donc considerer que l'individu travaille 3h plein.
 
+*Correction
+replace FT1M = 00 if FT1M >60 & FT1M !=. & FT1M !=.a 
+
+//toutes les minutes >= 60min, nous allons les ramener en heure.
+ 
+* br interview__key membres__id FT1H FT1M if FT1M ==60 & FT1M !=. & FT1M !=.a
+
+cap drop FT1M_
 gen FT1M_ = FT1M
 replace FT1H = FT1H + 1 if FT1M_ ==60 & FT1M_ !=. & FT1M_ !=.a
 drop FT1M_
@@ -150,7 +134,15 @@ count if FT1H == 0 & FT1M == 0
 *============================================================================= 
 * 1. Valeurs manquantes 
 count if missing(FT1B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
-//4370 non-réponse
+//13 non-réponse
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT1B1" if missing(FT1B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT1B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT1B1 using "$folderpath/document/Erreur_FT1B1_NA" if missing(FT1B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT1B1) & (M4Confirm <15 | missing(M4Confirm) | membre_id_v1_IND !="##N/A##")
@@ -174,8 +166,7 @@ count if !missing(FT1BH) & FT1B1 != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT1BH, miss
-count if FT1BH >60 & !missing(FT1BH)
+count if !missing(FT1BH) & FT1B1 == 1 & (FT1BH < 0 | FT1BH > 168) 
 //RAS
 
 *=============================================================================
@@ -196,7 +187,7 @@ count if FT1BM >60 & !missing(FT1BM)
 //RAS
 
 count if FT1BM == 60 & !missing(FT1BM) 
-// 2 valeurs sont égales à 60. ce qui est inconsistent.   Les valeurs égales à 60 minutes doivent etre convertir directement en une heure. 
+// 51 valeurs sont égales à 60. ce qui est inconsistent.   Les valeurs égales à 60 minutes doivent etre convertir directement en une heure. 
 
 
 *correction : 
@@ -215,7 +206,16 @@ count if FT1BH == 0 & FT1BM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT1C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-// 4730 non-réponses
+// 13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT1C1" if missing(FT1C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT1C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT1C1 using "$folderpath/document/Erreur_FT1C1_NA" if missing(FT1C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
+
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT1C1) & ((membre_id_v1_IND !="##N/A##" & membre_id_v1_IND != "")| M4Confirm<15) 
@@ -261,10 +261,15 @@ ta FT1CM, miss
 count if FT1CM >60 & !missing(FT1CM) 
 // les valeurs renseignées semblent consistantes car inferieures au nombre total de minute dans une heure (60)
 
-count if FT1CM == 60 & FT1CM !=. & FT1CM !=.a 
-// 0 valeurs en minutes sont égales à 60. ce qui est consistent.   
-*proposition de correction : 
+count if FT1CM == 60 & FT1CM !=. & FT1CM !=.a
+* br if FT1CM == 60 & FT1CM !=. & FT1CM !=.a 
 
+// 1 valeurs en minutes sont égales à 60. ce qui est consistent.   
+*proposition de correction : 
+gen FT1CM_ = FT1CM
+replace FT1CH = FT1CH + 1 if FT1CM_ ==60 & FT1CM_ !=. & FT1CM_ !=.a
+drop FT1CM_
+replace FT1CM = 0 if FT1CM == 60
 
 *4. Cohérence
 count if FT1CH == 0 & FT1CM == 0 
@@ -276,7 +281,16 @@ count if FT1CH == 0 & FT1CM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT1D1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-// 4730 non-réponses
+// 13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT1D1" if missing(FT1D1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT1D1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT1D1 using "$folderpath/document/Erreur_FT1D1_NA" if missing(FT1D1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
+
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT1D1) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -324,8 +338,8 @@ count if FT1DM == 60 & !missing(FT1DM)
 // RAS   
 
 **correction 
-*replace FT1DH = FT1DH + 1 if FT1DM == 60 & FT1DM !=. & FT1DM !=.a
-*replace FT1DM = 0 if FT1DM == 60 & FT1DM !=. & FT1DM !=.a
+replace FT1DH = FT1DH + 1 if FT1DM == 60 & FT1DM !=. & FT1DM !=.a
+replace FT1DM = 0 if FT1DM == 60 & FT1DM !=. & FT1DM !=.a
 
 *4. Cohérence
 count if FT1DH == 0 & FT1DM == 0 
@@ -338,7 +352,15 @@ count if FT1DH == 0 & FT1DM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT1E1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-// 4369 non-réponses
+// 13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT1E1" if missing(FT1E1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT1E1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT1E1 using "$folderpath/document/Erreur_FT1E1_NA" if missing(FT1E1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT1E1) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -383,7 +405,7 @@ count if FT1E1M >60 & !missing(FT1E1M)
 //RAS 
 
 count if FT1E1M == 60 & !missing(FT1E1M)
-//5 observations 
+//61 observations 
 
 *correction 
 replace FT1E1H = FT1E1H + 1 if FT1E1M == 60 & FT1E1M !=. & FT1E1M !=.a
@@ -400,7 +422,15 @@ count if FT1E1H == 0 & FT1E1M == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-// 4368 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2A1" if missing(FT2A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT2A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2A1 using "$folderpath/document/Erreur_FT2A1_NA" if missing(FT2A1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2A1) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -448,8 +478,8 @@ count if FT2AM == 60 & !missing(FT2AM)
 //RAS
 
 **correction 
-*replace FT2AH = FT2AH + 1 if FT2AM == 60 & FT2AM !=. & FT2AM !=.a
-*replace FT2AM = 0 if FT2AM == 60 & FT2AM !=. & FT2AM !=.a
+replace FT2AH = FT2AH + 1 if FT2AM == 60 & FT2AM !=. & FT2AM !=.a
+replace FT2AM = 0 if FT2AM == 60 & FT2AM !=. & FT2AM !=.a
 
 *4. Cohérence
 count if FT2AH == 0 & FT2AM == 0 
@@ -462,7 +492,15 @@ count if FT2AH == 0 & FT2AM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-//4369 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2B1" if missing(FT2B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT2B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2B1 using "$folderpath/document/Erreur_FT2B1_NA" if missing(FT2B1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2B1) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -485,7 +523,6 @@ count if !missing(FT2BH) & FT2B1 != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2BH, miss
 count if FT2BH >60 & !missing(FT2BH) 
 //RAS
 
@@ -502,12 +539,11 @@ count if !missing(FT2BM) & FT2B1 != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2BM, miss
 count if FT2BM >60 & !missing(FT2BM) 
 //RAS 
 
 count if FT2BM == 60 & !missing(FT2BM) 
-//17 observations pour lesquelles on a 60 minutes. On doit les convertir en heure
+//31 observations pour lesquelles on a 60 minutes. On doit les convertir en heure
 
 *correction 
 replace FT2BH = FT2BH + 1 if FT2BM == 60 & FT2BM !=. & FT2BM !=.a
@@ -524,10 +560,20 @@ count if FT2BH == 0 & FT2BM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
+//13 non-réponses
+
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2C1" if missing(FT2C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable FT2C1 n'a pas été renseignée 
+quietly count if missing(FT2C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2C1 using "$folderpath/document/Erreur_FT2C1_NA" if missing(FT2C1) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2C1) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
-//4368 non-réponses
+
 
 * 3. Valeurs légales 
 count if !inlist(FT2C1,1,2) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" & !missing(FT2C1)
@@ -546,7 +592,6 @@ count if !missing(FT2CH) & FT2C1 != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2CH, miss
 count if FT2CH >60 & !missing(FT2CH) 
 //RAS
 
@@ -563,12 +608,11 @@ count if !missing(FT2CM) & FT2C1 != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2CM, miss
 count if FT2CM >60 & !missing(FT2CM) 
 //RAS 
 
 count if FT2CM == 60 & !missing(FT2CM) 
-//2 observations
+//30 observations
 
 **correction 
 replace FT2CH = FT2CH + 1 if FT2CM == 60 & FT2CM !=. & FT2CM !=.a
@@ -585,7 +629,15 @@ count if FT2CH == 0 & FT2CM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2D1a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-//4368 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2D1a" if missing(FT2D1a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT2D1a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2D1a using "$folderpath/document/Erreur_FT2D1a_NA" if missing(FT2D1a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2D1a) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -625,12 +677,11 @@ count if !missing(FT2D1aM) & FT2D1a != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2D1aM, miss
 count if FT2D1aM >60 & !missing(FT2D1aM)  
 //RAS
 
 count if FT2D1aM == 60 & !missing(FT2D1aM) 
-//4 observations
+//22 observations
 
 **correction 
 replace FT2D1aH = FT2D1aH + 1 if FT2D1aM == 60 & FT2D1aM !=. & FT2D1aM !=.a
@@ -647,7 +698,15 @@ count if FT2D1aH == 0 & FT2D1aM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2D1b) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-//4369 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2D1b" if missing(FT2D1b) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT2D1b) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2D1b using "$folderpath/document/Erreur_FT2D1b_NA" if missing(FT2D1b) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2D1b) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -670,7 +729,6 @@ count if !missing(FT2D1bH) & FT2D1b != 1
 //RAS 
 
 * 3. Valeurs légales 
-ta FT2D1bH, miss
 count if FT2D1bH >60 & !missing(FT2D1bH) 
 //RAS
 
@@ -687,12 +745,11 @@ count if !missing(FT2D1bM) & FT2D1b != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT2D1bM, miss
 count if FT2D1bM >60 & !missing(FT2D1bM)  
 //RAS
 
 count if FT2D1bM == 60 & !missing(FT2D1bM) 
-// 1 observation
+// 10 observation
 
 **correction 
 replace FT2D1bH = FT2D1bH + 1 if FT2D1bM == 60 & FT2D1bM !=. & FT2D1bM !=.a
@@ -709,7 +766,15 @@ count if FT2D1bH == 0 & FT2D1bM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT2D1d) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-//4368 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT2D1d" if missing(FT2D1d) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT2D1d) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT2D1d using "$folderpath/document/Erreur_FT2D1d_NA" if missing(FT2D1d) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT2D1d) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -725,14 +790,13 @@ count if !inlist(FT2D1d,1,2) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v
 
 * 1. Valeurs manquantes
 count if missing(FT2DH) & FT2D1d == 1 
-// 1 valeur manquante
+
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 count if !missing(FT2DH) & FT2D1d != 1 
 //RAS
 
 * 3. Valeurs légales 
-ta FT2DH, miss
 count if FT2DH >60 & !missing(FT2DH) 
 //RAS
 
@@ -742,14 +806,12 @@ count if FT2DH >60 & !missing(FT2DH)
 
 * 1. Valeurs manquantes
 count if missing(FT2DM) & FT2D1d == 1
-// 1 valeur manquante 
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre
 count if !missing(FT2DM) & FT2D1d != 1 
 //RAS
 
 * 3. Valeurs légales 
-ta FT2DM, miss
 count if FT2DM >60 & !missing(FT2DM)  
 //RAS
 
@@ -757,8 +819,8 @@ count if FT2DM == 60 & !missing(FT2DM)
 //RAS
 
 **correction 
-*replace FT2DH = FT2DH + 1 if FT2DM == 60 & FT2DM !=. & FT2DM !=.a
-*replace FT2DH = 0 if FT2DM == 60 & FT2DM !=. & FT2DM !=.a
+replace FT2DH = FT2DH + 1 if FT2DM == 60 & FT2DM !=. & FT2DM !=.a
+replace FT2DM = 0 if FT2DM == 60 & FT2DM !=. & FT2DM !=.a
 
 *4. Cohérence
 count if FT2DH == 0 & FT2DM == 0 
@@ -771,7 +833,15 @@ count if FT2DH == 0 & FT2DM == 0
 
 * 1. Valeurs manquantes 
 count if missing(FT3a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##" 
-//4368 non-réponses
+//13 non-réponses
+
+replace commentaire="Il y a 13 individus qui n'ont pas repondus à la question FT3a" if missing(FT3a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+
+*Exportation des observations pour lesquelles la variable L1 n'a pas été renseignée 
+quietly count if missing(FT3a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##"
+if r(N)>0 {
+export excel interview__key HH13 FT3a using "$folderpath/document/Erreur_FT3a_NA" if missing(FT3a) & M4Confirm>=15 & !missing(M4Confirm) & membre_id_v1_IND =="##N/A##", firstrow(varlabels) replace
+}
 
 * 2. Vérifier que tous ceux qui ont répondu avait le droit de répondre 
 count if !missing(FT3a) & (membre_id_v1_IND !="##N/A##"| missing(M4Confirm)| M4Confirm<15) 
@@ -794,7 +864,6 @@ count if !missing(FT3a1H) & FT3a != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT3a1H, miss
 count if FT3a1H >60 & !missing(FT3a1H) 
 //RAS
 
@@ -811,7 +880,6 @@ count if !missing(FT3a1M) & FT3a != 1
 //RAS
 
 * 3. Valeurs légales 
-ta FT3a1M, miss
 count if FT3a1M >60 & !missing(FT3a1M)  
 //RAS
 
@@ -819,13 +887,30 @@ count if FT3a1M == 60 & !missing(FT3a1M)
 //RAS
 
 **correction 
-*replace FT3a1H = FT3a1H + 1 if FT3a1M == 60 & FT3a1M !=. & FT3a1M !=.a
-*replace FT3a1M = 0 if FT3a1M == 60 & FT3a1M !=. & FT3a1M !=.a
+replace FT3a1H = FT3a1H + 1 if FT3a1M == 60 & FT3a1M !=. & FT3a1M !=.a
+replace FT3a1M = 0 if FT3a1M == 60 & FT3a1M !=. & FT3a1M !=.a
 
 *4. Cohérence
 count if FT3a1H == 0 & FT3a1M == 0 
 //RAS
 
+
+*=============================================================================
+* Cohérence globale : volume horaire hebdomadaire total des autres formes de travail
+*=============================================================================
+cap drop FT_tot_h
+egen FT_tot_h = rowtotal(FT1H FT1BH FT1CH FT1DH FT1E1H FT2AH FT2BH FT2CH FT2D1aH FT2D1bH FT2DH FT3a1H)
+count if FT_tot_h > 112 & !missing(FT_tot_h)
+// 8 cas (max 160h)
+cap export excel interview__key membres__id HH13 FT1H FT1BH FT1CH FT1DH FT1E1H FT2AH FT2BH FT2CH FT2D1aH FT2D1bH FT2DH FT3a1H FT_tot_h using "$folderpath/document/Erreur_FT_total_heures" if FT_tot_h > 112 & !missing(FT_tot_h), firstrow(variables) replace
+
+// Correction : total ramené à 112 h au prorata de chaque activité (heures arrondies à l'entier inférieur)
+foreach v of varlist FT1H FT1BH FT1CH FT1DH FT1E1H FT2AH FT2BH FT2CH FT2D1aH FT2D1bH FT2DH FT3a1H {
+	replace `v' = max(1, floor(`v' * 112 / FT_tot_h)) if FT_tot_h > 112 & !missing(FT_tot_h, `v') & `v'>=1 // au moins 1h conservée pour une activité déclarée
+}
+egen FT_tot_h2 = rowtotal(FT1H FT1BH FT1CH FT1DH FT1E1H FT2AH FT2BH FT2CH FT2D1aH FT2D1bH FT2DH FT3a1H)
+count if FT_tot_h2 > 112 // 0 attendu (au plus quelques heures d'écart dues au minimum d'1h)
+drop FT_tot_h FT_tot_h2
 
 *****Saving********************
 

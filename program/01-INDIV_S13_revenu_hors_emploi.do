@@ -1,7 +1,7 @@
 
 *					SECTION REVENU HORS EMPLOI (RHE)
 *+==============================================================
-** BROU
+** Amine
 *--------------------------------------------------------
 * Condition d'entrer dans la section emploi antérieur
 * membre_id_v1_IND == null && M4Confirm>=15 && C2 !=2
@@ -30,6 +30,8 @@ merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S3_emploi_pri
 
 drop if _merge!=3
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
 
 merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S1_autres_formes_travail.dta", keepus(M4Confirm)
 
@@ -41,7 +43,8 @@ merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S11_chomage.d
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepusing(membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal branche1)
+merge 1:1 interview__key membres__id using "$datain_brute\membres.dta", keepusing(membre_id_v1_IND EP3 EP11)
+//CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire Utilisation de la base membres parce que la variable membre_id_v1_IND n'existe pas dans les bases standardiser
 
 drop if _merge!=3
 cap drop _merge
@@ -99,9 +102,9 @@ restore*/
 
 *Probleme 1: Ceux qui devaient repondre ont ils repondu 
 foreach var of varlist  RHE__1-RHE__10   {
-    count if missing(`var') & (membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
-* 	
-* 	br if missing(`var') & (membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
+    count if missing(`var') & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
+	
+*	br if missing(`var') & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm>=15 & !inlist(M4Confirm,.,.a)))
 	
 }
 
@@ -125,11 +128,11 @@ drop nb_rhe_na
 
 * Problème2: Ceux qui ont repondu devaient ils repondre 
 foreach var of varlist RHE__1-RHE__10{
-    count if !missing(`var') & !(membre_id_v1_IND == "" & (M4Confirm>=15 & !inlist(M4Confirm,.,.a))) & membre_id_v1_IND != ""
+    count if !missing(`var') & !(inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm>=15 & !inlist(M4Confirm,.,.a))) & !inlist(membre_id_v1_IND, "", "##N/A##")
 }
 
 foreach var of varlist RHE__1-RHE__10{
-    count if !missing(`var') & (membre_id_v1_IND == "" & (M4Confirm<15 & !inlist(M4Confirm,.,.a)))
+    count if !missing(`var') & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm<15 & !inlist(M4Confirm,.,.a)))
 }
 
 
@@ -162,17 +165,24 @@ cap drop _merge
 *===========================
 
 *Problem 1: Ceux qui devaient repondre ont ils repondu 
-count if missing(RHE1_2) & (membre_id_v1_IND == "" & (M4Confirm >= 15 & !inlist(M4Confirm,.,.a)))
+count if missing(RHE1_2) & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm >= 15 & !inlist(M4Confirm,.,.a)))
 
-/*
+
 *Idebtification des agents ayant fait des erreurs 
 if r(N) > 0 {
 export excel interview__key HH13 RHE1_2 using "$folderpath/document/Erreur_RHE1_2_NA" if missing(RHE1_2), firstrow(varlabels) replace 
 }
-*/
+
+*br if missing(RHE1_2) & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm >= 15 & !inlist(M4Confirm,.,.a)))
+
+*** Correction
+cap drop mod_RHE1_2
+egen mod_RHE1_2 = mode(RHE1_2)
+replace RHE1_2 = mod_RHE1_2 if missing(RHE1_2) & (inlist(membre_id_v1_IND, "", "##N/A##") & (M4Confirm >= 15 & !inlist(M4Confirm,.,.a)))
+cap drop mod_RHE1_2
 
 * Problème2: Ceux qui ont repondu devaient ils repondre 
-count if !missing(RHE1_2) & !(membre_id_v1_IND == "" | (M4Confirm >= 15 | !inlist(M4Confirm,.,.a)))
+count if !missing(RHE1_2) & !(inlist(membre_id_v1_IND, "", "##N/A##") | (M4Confirm >= 15 | !inlist(M4Confirm,.,.a)))
 
 *Problem 3: les valeurs renseignées sont elles permises 
 count if !inrange(RHE1_2,1,10) & !missing(RHE1_2)
@@ -183,8 +193,14 @@ count if !inrange(RHE1_2,1,10) & !missing(RHE1_2)
 *=======================
 
 *Problem 1: Ceux qui ont repondu devaient ils repondre 
-count if missing(RHE1_3)& RHE1_2 < 8
-*RAS
+count if missing(RHE1_3) & RHE1_2 < 8
+*1 cas
+
+*** Correction
+cap drop mod_RHE1_3
+egen mod_RHE1_3 = mode(RHE1_3)
+replace RHE1_3 = mod_RHE1_3 if missing(RHE1_3)& RHE1_2 < 8
+cap drop mod_RHE1_3
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(RHE1_3)& RHE1_2>=8
@@ -216,7 +232,15 @@ count if RHE1_2==8 & RHE1_3>1 & !missing(RHE1_3) // Sachant que le revenu est an
 *============================
 *Problem 1: ceux qui ont repondu devaient ils repondre 
 count if missing(RHE1_4) & inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
-*RAS
+*1 cas
+
+*** Correction
+cap drop med_RHE1_4
+egen med_RHE1_4 = median(RHE1_4), by(EP3 EP11 RHE1_2)
+replace RHE1_4 = med_RHE1_4 if missing(RHE1_4) & inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
+cap drop mod_RHE1_3
+
+
 
 *Problem 2: Ceux qui ont repondu devaient ils repondre 
 count if !missing(RHE1_4) & !inlist(RHE1_2,1,2,3,4,5,6,7,8,9)
@@ -249,7 +273,7 @@ replace RHE1_4 = 25000 if RHE1_4<100  & inlist(RHE1_2,1,2,3,4,5,6,7,8,9) & RHE1_
 
 
 *Probem 4: Vraisemblance des reponses
-violin RHE1_4
+ta RHE1_4
 graph box RHE1_4 
 *RAS 
 
@@ -292,7 +316,7 @@ count if (RHE1_4!=99999998 & RHE1_4!=99999999 & RHE1_2!=10) & !missing(RHE1_6)
 *RAS
 
 
-drop HH2 HH3 HH4 HH12 HH13  label_RH1 RHE__1 RHE__2 RHE__3 RHE__4 RHE__5 RHE__6 RHE__7 RHE__8 RHE__9 RHE__10 EN_EMP EP1a M4Confirm C2 membre_id_v1_IND
+drop HH2 HH3 HH4 HH12 HH13  label_RH1 RHE__1 RHE__2 RHE__3 RHE__4 RHE__5 RHE__6 RHE__7 RHE__8 RHE__9 RHE__10 EN_EMP EP1a M4Confirm C2 membre_id_v1_IND EP3 EP11
 
 save "$dataout\r_revenu_h_emp.dta" , replace
 

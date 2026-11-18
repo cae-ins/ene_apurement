@@ -13,6 +13,9 @@ merge 1:1 interview__key membres__id using "$datain_standard/INDIV_S3_emploi_pri
 
 drop if _merge!=3
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
+vider_section hha_PL-hhavf_PL if EN_EMP != 1 // questions hors champ pour le statut reconstruit
 
 merge m:1 interview__key  using "$datain_standard\QM_S0_identification.dta", keepusing(HH2 HH13)
 
@@ -24,13 +27,14 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 drop if _merge!=3
 cap drop _merge
 
-merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
+merge 1:1 interview__key membres__id  using "$datain_brute\membres.dta", keepus(membre_id_v1 membre_id_v1_IND )
+*CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire)
 
 drop if _merge!=3
 cap drop _merge
 
 
-*merge m:1 interview__key using "$datain_brute\qx_eec_vf.dta", keepus(HH2 HH3 HH13 HH4 HH6 HH8B)
+*merge m:1 interview__key using "$brute_menage_work", keepus(HH2 HH3 HH13 HH4 HH6 HH8B)
 *drop if _merge!=3
 *cap drop _merge
 ////////////////////////////////////////////
@@ -68,7 +72,11 @@ if r(N) > 0 {
 export excel interview__key HH13 PL1  using "$folderpath/document/PL1_Manquants" if  missing(PL1) & EN_EMP == 1, firstrow(variables) replace
 }
 
-// La section semble vide pour ces individus
+// Correction : La section semble vide pour ces individus donc on leur attribue la modalite "Non"
+
+replace PL1 = 2 if missing(PL1) & EN_EMP == 1
+
+
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
 count if !missing(PL1) & EN_EMP ==0 // RAS car il s'agit des personnes qui sont en réalité pas en emploi et qui ont été identifiés dans la section emploi principal
@@ -161,7 +169,7 @@ forvalues i = 0/19 {
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 *cap drop EN_EMP HH13 M4Confirm membre_id_v1_IND 
-drop HH2
+*drop HH2 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 save "$standard_individu\INDIV_S5_pluriactivite.dta", replace 
 
@@ -173,6 +181,7 @@ cap drop merge
 merge 1:m  interview__key membres__id  using "$datain_brute\r_activite_s.dta"
 drop if _merge != 3
 cap drop _merge
+drop if EN_EMP != 1 // roster r_activite_s : seulement les personnes en emploi (section PL)
 /*
 use "$datain_brute\r_activite_s.dta", clear
 merge m:1 interview__key using "$brute_menage_work", keepus(HH2 HH3 HH13 HH4 HH6 HH8B)
@@ -200,8 +209,8 @@ count if !missing(PL3_C) & EN_EMP == 0
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 
-count if length(PL3_C) <2 & !missing(PL3_C) 
-* br if length(PL3_C) <2 & !missing(PL3_C)
+count if length(PL3_C) <2 & !missing(PL3_C) & PL3_C!=".a"
+* br if length(PL3_C) <2 & !missing(PL3_C) & PL3_C!=".a"
 
 ** informations pas claires
 if r(N) > 0 {
@@ -276,8 +285,8 @@ count if !missing(PL3_F) & EN_EMP==0
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
 count if  missing(PL3_F1a) & EN_EMP==1
-* 
-* br if missing(PL3_F1a) & EN_EMP==1
+
+*br if missing(PL3_F1a) & EN_EMP==1
 
 if r(N) > 0 {
 export excel interview__key HH13 PL3_F1a  using "$folderpath/document/PL3_F1a_Manquants" if missing(PL3_F1a), firstrow(variables) replace
@@ -326,12 +335,20 @@ count if !missing(PL3_H) & EN_EMP==0
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(PL3_H) & PL3_H >168
-count if !missing(PL3_H) & PL3_H ==0 
+count if !missing(PL3_H) & PL3_H ==0
+* br if !missing(PL3_H) & PL3_H ==0 
+
+* Correction : remplacement par la moyenne
+cap drop med_PL3_H
+egen med_PL3_H = median(PL3_H)
+replace PL3_H = med_PL3_H if !missing(PL3_H) & PL3_H ==0
+cap drop med_PL3_H
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ***************Effacement des variables ajoutées
 cap drop HH2 HH3 HH4 HH6 HH8B HH13 EN_EMP EP11 EP3 CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
+*CodeCIAPactivité code_citp_emp_principal code_citp_emp_secondaire
 
 save "$dataout\r_activite_s.dta", replace
 

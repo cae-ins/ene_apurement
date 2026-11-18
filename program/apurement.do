@@ -18,6 +18,8 @@ include "$dofiles/00-initialisation_brute_depuis_staging.do"  //Copie des versio
 
 include "$dofiles/00-protections_sauvegarde_brute.do" // Définition des commandes de sauvegarde sécurisée (save_safe)
 
+include "$dofiles/00-en_emploi.do" // Commandes du statut d'emploi reconstruit (calcul_en_emploi, charger_en_emploi, vider_section)
+
 include "$dofiles/00-suppression_doublons.do" // Suppression des entretiens doublons
 
 include "$dofiles/00-suppression_non_residents.do" // Suppression centralisee des individus et menages non residents
@@ -37,6 +39,7 @@ include "$dofiles/00-codification_brute.do" // Intégration des codes CIAP dans 
 include "$dofiles/standard_db.do" // Stardisation de la base prenant en compte les autres à préciser
 
 ***section 0:IDENTIFICATION ET RENSEIGNEMENTS DE CONTROLE
+include "$dofiles/01-QM_S0_identification.do"
 
 ***section 1:COMPOSITION DU MÉNAGE ET CARACTÉRISTIQUES
 include "$dofiles/01-QM_S1_composition_menage.do"

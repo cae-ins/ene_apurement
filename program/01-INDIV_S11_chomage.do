@@ -29,6 +29,9 @@ cap drop _merge
 
 
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
+vider_section hha_C-hhavf_C if EN_EMP != 0 // questions hors champ pour le statut reconstruit
 merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S1_autres_formes_travail.dta", keepus(M4Confirm)
 drop if _merge!=3
 cap drop _merge
@@ -71,18 +74,18 @@ foreach var of varlist `r(varlist)'{
 **C2. Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours), étiez-vous à la recherche d’un premier emploi ou avez-vous déjà travaillé pour une rémunération en espèce ou en nature (y compris le revenu obtenu de votre propre affaire ou champ ou celle ou celui de votre famille) ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a)
+count if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & inlist(membre_id_v1_IND, "", "##N/A##")) & !inlist(M4Confirm, ., .a)
 * 
-* br if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a)
+* br if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & inlist(membre_id_v1_IND, "", "##N/A##")) & !inlist(M4Confirm, ., .a)
 
 
 *Exportation 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C2  using "$folderpath/document/C2_Manquants" if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C2  using "$folderpath/document/C2_Manquants" if missing(C2) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & inlist(membre_id_v1_IND, "", "##N/A##")) & !inlist(M4Confirm, ., .a),  firstrow(variables) replace
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C2) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C2) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C2) & !inrange(C2,1,2)
@@ -91,18 +94,18 @@ count if !missing(C2) & !inrange(C2,1,2)
 
 *****C6e. Si la durée de chômage venait à se prolonger, seriez-vous prêt à exercer une activité agricole (champ, élevage) ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C6e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15  & membre_id_v1_IND == "") & !inlist(M4Confirm,.,.a)
+count if missing(C6e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15  & inlist(membre_id_v1_IND, "", "##N/A##")) & !inlist(M4Confirm,.,.a)
 
 
 *Exportation:
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C6e  using "$folderpath/document/C6e_Manquants" if missing(C6e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & membre_id_v1_IND == "") & !inlist(M4Confirm, ., .a),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C6e  using "$folderpath/document/C6e_Manquants" if missing(C6e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & inlist(membre_id_v1_IND, "", "##N/A##")) & !inlist(M4Confirm, ., .a),  firstrow(variables) replace
 }
 
 ***Correction: RAS
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C6e) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C6e) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C6e) & !inrange(C6e,1,2)
@@ -125,18 +128,18 @@ count if C6e1 ==0 // on peut supposer que l'individu est prêt à travailler imm
 
 ****C7a.Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours), recherchiez-vous un emploi salarié ou indépendant ou peu importe ?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+* br if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 *Exportation: 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C7a  using "$folderpath/document/C7a_Manquants" if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C7a  using "$folderpath/document/C7a_Manquants" if missing(C7a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 **Correction: RAS  
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7a) & !inrange(C7a,1,3)
@@ -149,19 +152,19 @@ count if C2==2 & missing(C7a) //RAS
 ****C7b.Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours) recherchiez-vous un emploi permanent ou temporaire ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+count if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == "")
+* br if missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 *Exportation
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C7b  using "$folderpath/document/C7b_Manquants" if !missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C7b  using "$folderpath/document/C7b_Manquants" if !missing(C7b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & ( M4Confirm>=15 & !inlist(M4Confirm, ., .a)) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 **Correction: RAS
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7b) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7b) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7b) & !inrange(C7b,1,4)
@@ -174,16 +177,16 @@ count if C2==2 & missing(C7b) //RAS
 ***C7c.Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours), recherchiez-vous un emploi correspondant à votre métier ou pas ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7c) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C7c) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C7c  using "$folderpath/document/C7c_Manquants" if !missing(C7c) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C7c  using "$folderpath/document/C7c_Manquants" if !missing(C7c) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 ****Correction: RAS 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7c) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7c) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7c) & !inrange(C7c,1,3)
@@ -197,18 +200,18 @@ count if C2==2 & missing(C7c) //RAS
 ****C7c_A.Au cours de la période allant du %DateJ30% au %DateJ0% (30 jours), dans quel type d’organisation souhaitiez-vous travailler principalement ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7c_A) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C7c_A) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C7c_A  using "$folderpath/document/C7c_A_Manquants" if missing(C7c_A) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C7c_A  using "$folderpath/document/C7c_A_Manquants" if missing(C7c_A) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 ***Correction: RAS
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7c_A) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7c_A) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7c_A) & !inrange(C7c_A,1,11)
@@ -224,17 +227,17 @@ count if C2==2 & missing(C7c_A) //RAS
 ******C7d. Dans quel domaine d’activité souhaitiez-vous travailler principalement au cours de la période allant du %DateJ30% au %DateJ0% (30 jours) ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7d) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & membre_id_v1_IND == "")
+count if missing(C7d) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C7d  using "$folderpath/document/C7d_Manquants" if missing(C7d) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C7d  using "$folderpath/document/C7d_Manquants" if missing(C7d) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 **Correction :RAS
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7d) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7d) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7d) & !inrange(C7d,1,5)
@@ -247,16 +250,16 @@ count if C2==2 & missing(C7d) //RAS
 ******C7e. Quelle profession aimeriez-vous exercez principalement ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 * 
-* br  if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+* br  if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 if r(N) > 0 {
-export excel interview__key HH13  C7e  using "$folderpath/document/C7e_Manquant" if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH13  C7e  using "$folderpath/document/C7e_Manquant" if missing(C7e) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C7e) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C7e) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C7e) & !inrange(C7b,1,4)
@@ -269,51 +272,68 @@ count if C2==2 & missing(C7e) //RAS
 ***************************************************************
 *****C9. Pendant combien d'heures désirez-vous travailler par semaine ? 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 *Afficher ces valeurs 
-*br interview__key C9 if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+*br interview__key C9 if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C9 using "$folderpath/document/C9" if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C9 using "$folderpath/document/C9" if missing(C9) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
+
+* Calculer le 95e percentile de C9
+summarize C9, detail
+local q95 = r(p95)
+
+* Remplacer les valeurs supérieures au 95e percentile
+replace C9 = `q95' if C9 > `q95' & !missing(C9)
+
 ***Correction: RAS: Il s'agit du même individu
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C9) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" ))
+count if !missing(C9) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
-count if  !missing(C9) & C9 > 56 
+*count if  !missing(C9) & C9 > 56 
 count if !missing(C9) & C9 <=0
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 
 *****C10b1. Quel était le montant du salaire ou reve nu mensuel minimum acceptable (en FCFA) pour vous cours de la période allant du %DateJ30% au %DateJ0% (30 jours)?
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C10b1) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C10b1) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 *Afficher ces valeurs 
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C10b1 using "$folderpath/document/C10b1" if missing(C10b1) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C10b1 using "$folderpath/document/C10b1" if missing(C10b1) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 ***Correction: RAS
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C10b1) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C10b1) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C10b1) & C10b1 <=0
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
+* Calculer le 95e percentile de C9
+summarize C10b1, detail
+local q5 = r(p5)
+
+* Remplacer les valeurs supérieures au 95e percentile
+replace C10b1 = `q5' if C10b1 < `q5' & !missing(C10b1)
+
+
+
 
 *C10b1a. Quel était le montant du salaire ou rev enu mensuel minimum acceptable (en FCFA) po ur vous cours de la période allant du %DateJ30 % au %DateJ0% (30 jours)?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C10b1a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C10b1a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C10b1a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C10b1a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 
@@ -324,15 +344,15 @@ count if !missing(C10b1a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) 
 **** C10b. Etes-vous disposé à revoir à la baisse vos prétentions si la période de chômage se prolon ge ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C10b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C10b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 if r(N) > 0 {
-export excel interview__key HH13 C10b using "$folderpath/document/C10b" if missing(C10b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH13 C10b using "$folderpath/document/C10b" if missing(C10b) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 **Correction: RAS: Il s'agit du même individu dont les valeurs sont manquantes 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C10b) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != "" & membre_id_v1_IND != "" ))
+count if !missing(C10b) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##") ))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C10b) & !inrange(C10b,1,2)
@@ -351,7 +371,17 @@ count if !missing(C10c) &  C10b == 2
 count if !missing(C10c)& C10c<=0
 
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
-count if C10c >= C10b1 & C10c != .
+
+* Calculer le 95e percentile de C9
+summarize C10c, detail
+local q5 = r(p5)
+
+* Remplacer les valeurs supérieures au 95e percentile
+replace C10c = `q5' if C10c < `q5' & !missing(C10c)
+
+count if C10c > C10b1 & C10c != .
+replace C10c= C10b1 if C10c > C10b1 & C10c != .
+
 
 ***C10c1. Si vous deviez revoir vos prétentions à l a baisse, quel serait le salaire ou revenu mensu el minimum acceptable ( en FCFA)
 
@@ -368,15 +398,15 @@ count if !missing(C10c1) & C10b == 2
 
 *******C11. Avez-vous déjà eu de l'expérience par rapport à cet emploi? 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C11) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C11) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C11 using "$folderpath/document/C11_Manquants" if missing(C11) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C11 using "$folderpath/document/C11_Manquants" if missing(C11) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C11) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != ""))
+count if !missing(C11) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C11) & !inrange(C11,1,2)
@@ -388,16 +418,16 @@ count if !missing(C11) & missing(C7e)
 *******C12a. Etes-vous inscrit auprès d’une structure de promotion de l'emploi ?
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(C12a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == "")
+count if missing(C12a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##"))
 
 if r(N) > 0 {
-export excel interview__key HH12 HH13 C12a using "$folderpath/document/C12a_Manquants" if missing(C12a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & membre_id_v1_IND == ""),  firstrow(variables) replace
+export excel interview__key HH12 HH13 C12a using "$folderpath/document/C12a_Manquants" if missing(C12a) & (EN_EMP == 0 & (SRH1 == 1 | SRH2 == 1 | SRH2A == 1) & SRH11== 1 & M4Confirm>=15 & !inlist(M4Confirm, ., .a) & inlist(membre_id_v1_IND, "", "##N/A##")),  firstrow(variables) replace
 }
 
 **Correction: RASS 
 
 *Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
-count if !missing(C12a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (membre_id_v1_IND != ""))
+count if !missing(C12a) & (EN_EMP == 1 | (SRH1 != 1 & SRH2 != 1 & SRH2A != 1) | SRH11!= 1 | (M4Confirm<15 & !inlist(M4Confirm,.,.a)) | (!inlist(membre_id_v1_IND, "", "##N/A##")))
 
 *Etape3: Est ce que les reponses données sont celles qu'on atendait? 
 count if !missing(C12a) & !inrange(C12a,1,2)

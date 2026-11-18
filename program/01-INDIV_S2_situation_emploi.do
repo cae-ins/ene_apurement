@@ -26,10 +26,8 @@ merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S1_autres_fo
 keep if _merge == 3
 drop  _merge
 
-merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S3_emploi_principal.dta", keepus(EN_EMP  ) 
-
-keep if _merge == 3
-drop  _merge
+* EN_EMP reconstruit sur les réponses SE (00-en_emploi.do), pas la variable de collecte
+calcul_en_emploi
 
 *merge 1:1 interview__key membres__id  using "$datain_standard\INDIV_S15_disponibilite.dta", keepus(membre_id_v1 membre_id_v1_IND )
 
@@ -230,7 +228,11 @@ count if !missing(SE11) & !inrange(SE11,1,2)
 ****Etape4: Verification de la vraisemblance des reponses:
 
 
-drop  Statut_Res AgeAnnee HH12 HH13 MODINTR M4Confirm EN_EMP
+* Questions SE devenues hors champ après correction, puis statut d'emploi reconstruit
+nettoyer_sauts_se
+calcul_en_emploi
+
+drop  Statut_Res AgeAnnee HH12 HH13 MODINTR M4Confirm
 
 *drop membre_id_v1_IND
 

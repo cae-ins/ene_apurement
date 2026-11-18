@@ -33,6 +33,8 @@ drop if _merge!=3
 cap drop _merge
 
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
 merge m:1 interview__key using "$datain_standard\QM_S0_identification.dta", keepus(HH2 HH3 HH12 HH13 HH4 HH6 HH8B rgmen)
 drop if _merge!=3
 cap drop _merge
@@ -57,6 +59,10 @@ gen annee = 2026
 *=================================
 cap drop commentaire_competence
 gen commentaire_competence=""
+
+* Module CQ non collecté ce trimestre ($module_cq == 0, voir parentfile.do) :
+* aucun contrôle ni imputation, la section est sauvegardée telle que collectée.
+if "$module_cq" != "0" {
 
 
 *Problem 1: Ceux qui devaient repondre à la question et n'ont pas repondu
@@ -207,7 +213,7 @@ replace CQ3=anne - 2025 if CQ3==2025
 
 
 *replace CQ3=. if CQ3==320 & CQ3U==3
-ed CQ3 CQ3U  EN_EMP CQ1 if  CQ3==9998 & EN_EMP == 1 & M4Confirm >= 15
+list CQ3 CQ3U  EN_EMP CQ1 if  CQ3==9998 & EN_EMP == 1 & M4Confirm >= 15
 count if CQ3==9998
 
 
@@ -273,7 +279,7 @@ ta CQ3 if EN_EMP==1 & CQ3U==3 & !inlist(CQ3,9998),m
 
 ******** La avleur du 99ieme percentile est CQ3==12 pour CQ3U==3
 
-replace CQ3=12  if EN_EMP ==1 & CQ3U==3 & CQ3 >= 12
+replace CQ3=12  if EN_EMP ==1 & CQ3U==3 & inrange(CQ3,12,9997)
 
 *********************
 * IMPUTATION MOIS	*
@@ -471,9 +477,9 @@ ta CQ3 CQ3U
 replace commentaire_competence="La durée minimale pour bien exerer son travail ne peut exceder 10ans. Ce n'est pas tres raisonnable" if CQ3U==3 & CQ3>10  
 
 *Identification des agents ayant fait des erreurs 
-count if CQ3U==3 & CQ3>10 
+quietly count if CQ3U==3 & CQ3>10
 if r(N)>0 {
-    export excel interview__key HH12 HH13 CQ3U  commentaire_competence using "$folderpath/document/Erreur_CQ3_coh" if CQ3U==3 & CQ3>10 , firstrow(varlabels) replace
+export excel interview__key HH12 HH13 CQ3U  commentaire_competence using "$folderpath/document/Erreur_CQ3_coh" if CQ3U==3 & CQ3>10 , firstrow(varlabels) replace
 }
 
 
@@ -591,9 +597,9 @@ count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
 
 replace commentaire_competence="Le nombre d'année d'expérience est supérieur a son âge" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
 
-count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
+quietly count if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998)
 if r(N)>0 {
-    export excel interview__key HH12 HH13 CQ4 CQ4U M4Confirm commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh_2" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998), firstrow(varlabels) replace 
+export excel interview__key HH12 HH13 CQ4 CQ4U M4Confirm commentaire_competence using "$folderpath/document/Erreur_CQ4U_coh_2" if CQ4 > M4Confirm & !inlist(M4Confirm,.,.a,9998) & !inlist(CQ4,.,.a,9998), firstrow(varlabels) replace 
 }
 
 *correction 
@@ -664,9 +670,9 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des Agents ayant fait des erreurs 
 foreach var of varlist CQ6__1-CQ6__12{ 
-	count if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
+	quietly count if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm)
 	if r(N)>0 {
-	    export excel interview__key HH12 HH13 `var' using "$folderpath/document/Erreur_CQ6_NA" if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm), firstrow(varlabels) replace 
+	export excel interview__key HH12 HH13 `var' using "$folderpath/document/Erreur_CQ6_NA" if missing(`var') & EN_EMP==1 & M4Confirm>=15 & membre_id_v1_IND=="##N/A##" & !missing(M4Confirm), firstrow(varlabels) replace 
 	}
 }
 
@@ -734,6 +740,9 @@ cap drop _merge
 
 */
 
+}
+* fin du bloc conditionnel $module_cq
+
 drop M4Confirm membre_id_v1_IND EN_EMP EP2ka EP2k HH2 HH3 HH4 HH6 HH8B HH12 HH13 EP1b1 EP1a1 rgmen annee commentaire_competence 
 
 save "$standard_individu\INDIV_S4_competences_qualifications.dta", replace 
@@ -745,6 +754,8 @@ merge m:1 interview__key membres__id using "$datain_brute\membres.dta", keepus(C
 keep if _merge == 3
 
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
 
 merge m:1 interview__key using "$brute_menage_work" , keepus(MODINTR HH13)
 
@@ -776,9 +787,9 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des agents ayant fait des erreurs : Cette synthase est mal formulé
 foreach var of varlist CQ6__1-CQ6__12{ 
-	count if `var'==0 & !missing(CQ7)
+	quietly count if `var'==0 & !missing(CQ7)
 	if r(N)>0 {
-	    export excel interview__key HH13 `var' CQ7 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ7), firstrow(varlabels) replace 
+	export excel interview__key HH13 `var' CQ7 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ7), firstrow(varlabels) replace 
 	}
 }
 
@@ -816,9 +827,9 @@ foreach var of varlist CQ6__1-CQ6__12{
 
 *Identification des agents ayant fait des erreurs 
 foreach var of varlist CQ6__1-CQ6__12{ 
-	count if `var'==0 & !missing(CQ8)
+	quietly count if `var'==0 & !missing(CQ8)
 	if r(N)>0 {
-	    export excel interview__key HH13 `var' CQ8 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ8), firstrow(varlabels) replace 
+	export excel interview__key HH13 `var' CQ8 using "$folderpath/document/Erreur_CQ7_coh" if `var'==0 & !missing(CQ8), firstrow(varlabels) replace 
 	}
 }
 

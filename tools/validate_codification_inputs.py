@@ -25,32 +25,32 @@ class SpreadsheetSpec:
 
 SPECS = (
     SpreadsheetSpec(
-        "codification_emploi_principal_T1_2026_cp.xlsx",
-        "Sheet1",
+        "codification_emploi_principal_T3_2026_v3.xlsx",
+        "Emploi_principal",
         {
-            "Interview key (identifier in XX-XX-XX-XX format)": "interview__key",
-            "Id in membres": "membres__id",
+            "interview__key": "interview__key",
+            "membres__id": "membres__id",
         },
         "code_citp_emp_principal",
         "membres.dta",
     ),
     SpreadsheetSpec(
-        "codification_emploi_secondaire_T1_2026_cp.xlsx",
-        "Sheet1",
+        "codification_emploi_secondaire_T3_2026.xlsx",
+        "Emploi_secondaire",
         {
-            "Interview key (identifier in XX-XX-XX-XX format)": "interview__key",
-            "Id in membres": "membres__id",
+            "interview__key": "interview__key",
+            "membres__id": "membres__id",
         },
         "code_citp_emp_secondaire",
         "membres.dta",
     ),
     SpreadsheetSpec(
-        "codification_autre_emploi_T1_2026_cp.xlsx",
-        "Sheet1",
+        "codification_autre_emploi_T3_2026.xlsx",
+        "Autre_emploi",
         {
-            "Interview key (identifier in XX-XX-XX-XX format)": "interview__key",
-            'Id in "membres"': "membres__id",
-            "Id in r_activite_s": "r_activite_s__id",
+            "interview__key": "interview__key",
+            "membres__id": "membres__id",
+            "r_activite_s__id": "r_activite_s__id",
         },
         "code_citp_autre_emploi",
         "r_activite_s.dta",

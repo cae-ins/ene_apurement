@@ -10,18 +10,20 @@
 * (= $document/codification, sous-dossier dédié
 * pour ne pas les mélanger aux exports d'erreurs).
 * Noms attendus :
-*   codification_emploi_principal_T1_2026_cp.xlsx
-*   codification_emploi_secondaire_T1_2026_cp.xlsx
-*   codification_autre_emploi_T1_2026_cp.xlsx
+*   codification_emploi_principal_T3_2026_v3.xlsx
+*   codification_emploi_secondaire_T3_2026.xlsx
+*   codification_autre_emploi_T3_2026.xlsx
+*   (Codification_V1_V2_V3_08112026.rar, ENEM-Suite ;
+*    en-têtes en noms de variables, une feuille nommée)
 *   Activite_secondaire_T126.xlsx
 *   Pluriactivite_AllT126.xls
 *   referentiel_citp_codes.xlsx
 *================================================
 
 foreach fichier in ///
-    "codification_emploi_principal_T1_2026_cp.xlsx" ///
-    "codification_emploi_secondaire_T1_2026_cp.xlsx" ///
-    "codification_autre_emploi_T1_2026_cp.xlsx" ///
+    "codification_emploi_principal_T3_2026_v3.xlsx" ///
+    "codification_emploi_secondaire_T3_2026.xlsx" ///
+    "codification_autre_emploi_T3_2026.xlsx" ///
     "Activite_secondaire_T126.xlsx" ///
     "Pluriactivite_AllT126.xls" ///
 	"Codif_activite_principales_T126.xlsx" ///
@@ -47,11 +49,9 @@ end
 * ---- 1. Emploi principal : code_citp_emp_principal ----
 
 preserve
-    import excel "$codification\codification_emploi_principal_T1_2026_cp.xlsx", ///
-        sheet("Sheet1") firstrow clear
+    import excel "$codification\codification_emploi_principal_T3_2026_v3.xlsx", ///
+        sheet("Emploi_principal") firstrow clear
 
-    rename InterviewkeyidentifierinXX interview__key
-    rename Idinmembres membres__id
     destring membres__id, replace force
     drop if missing(interview__key)
     keep interview__key membres__id code_citp_emp_principal
@@ -71,11 +71,9 @@ cap drop _merge
 * ---- 2. Emploi secondaire : code_citp_emp_secondaire ----
 
 preserve
-    import excel "$codification\codification_emploi_secondaire_T1_2026_cp.xlsx", ///
-        sheet("Sheet1") firstrow clear
+    import excel "$codification\codification_emploi_secondaire_T3_2026.xlsx", ///
+        sheet("Emploi_secondaire") firstrow clear
 
-    rename InterviewkeyidentifierinXX interview__key
-    rename Idinmembres membres__id
     destring membres__id, replace force
     drop if missing(interview__key)
     keep interview__key membres__id code_citp_emp_secondaire
@@ -95,17 +93,15 @@ cap drop _merge
 * ---- 3. Pluriactivité : code_citp_autre_emploi → reshape wide ----
 
 preserve
-    import excel "$codification\codification_autre_emploi_T1_2026_cp.xlsx", ///
-        sheet("Sheet1") firstrow clear
+    import excel "$codification\codification_autre_emploi_T3_2026.xlsx", ///
+        sheet("Autre_emploi") firstrow clear
 
-    rename InterviewkeyidentifierinXX interview__key
-    rename Idinmembres membres__id
-    destring membres__id, replace force
+    destring membres__id r_activite_s__id, replace force
     drop if missing(interview__key)
-    keep interview__key membres__id Idinr_activite_s code_citp_autre_emploi
-    isid interview__key membres__id Idinr_activite_s
+    keep interview__key membres__id r_activite_s__id code_citp_autre_emploi
+    isid interview__key membres__id r_activite_s__id
 
-    reshape wide code_citp_autre_emploi, i(interview__key membres__id) j(Idinr_activite_s)
+    reshape wide code_citp_autre_emploi, i(interview__key membres__id) j(r_activite_s__id)
 
     cap rename code_citp_autre_emploi1 pluriactivite1_codif
     cap rename code_citp_autre_emploi2 pluriactivite2_codif

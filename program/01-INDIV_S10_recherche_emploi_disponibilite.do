@@ -33,6 +33,9 @@ drop if _merge!=3
 cap drop _merge
 
 cap drop _merge
+* EN_EMP reconstruit (sortie S2, 00-en_emploi.do) à la place de la variable de collecte
+charger_en_emploi
+vider_section hha_SRH-hhavf_SRH if EN_EMP != 0 // questions hors champ pour le statut reconstruit
 merge 1:1 interview__key membres__id using "$datain_standard\INDIV_S1_autres_formes_travail.dta", keepus(M4Confirm)
 drop if _merge!=3
 cap drop _merge
@@ -74,7 +77,7 @@ foreach var of varlist `r(varlist)'{
 *count if missing(SRH1) & EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a)
 
 list EN_EMP M4Confirm SRH1 if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
-* 
+
 * br if EN_EMP == 0 & M4Confirm>=15 & !inlist(M4Confirm,.,.a) & missing(SRH1)
 
 if r(N) > 0 {
@@ -528,9 +531,8 @@ count if !missing(SRH13) & !inrange(SRH13,1,8)
 
 *** SRH13_Aut. Veuillez préciser ?
 
-count if !missing(SRH13_Aut) & SRH13 == 8
 if r(N) > 0 {
-export excel interview__key HH13 SRH13_Aut using "$folderpath/document/SRH13_Aut.xlsx" if !missing(SRH13_Aut) & SRH13 == 8, firstrow(variables) replace
+export excel interview__key HH13 SRH13_Aut  using "$folderpath/document/SRH13_Aut.xlsx" if !missing(SRH13_Aut) &  SRH13 == 8 ) ,firstrow(variables) replace
 }
 
 *Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
