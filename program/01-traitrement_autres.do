@@ -9029,7 +9029,7 @@ replace SRH7=26  if SRH7_Aut =="très âgé"
 
 
 ****vider
-replace SRH7_Aut = "" if !inlist(SRH7,.,.a,27) 
+replace SRH7_Aut = "" if !inlist(SRH7,.,.a,24,27) 
 
 
 replace SRH7=13 if regexm(SRH7_Aut,"GROSSESSE|ENCEINTE|MATERNITÉ")
@@ -9464,7 +9464,7 @@ replace SRH7 = 26 if SRH7_Aut =="TROP ÂGE"
 replace SRH7 = 26 if SRH7_Aut =="Trop âgée, plus en bonne santé"
 
 *****Vider la variable
-replace SRH7_Aut = "" if !inlist(SRH7,.,.a,27) 
+replace SRH7_Aut = "" if !inlist(SRH7,.,.a,24,27) 
 					  
 						  
 ***SRH7A
