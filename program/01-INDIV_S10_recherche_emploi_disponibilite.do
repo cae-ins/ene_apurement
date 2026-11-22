@@ -257,23 +257,28 @@ count if !missing(SRH5) & !inlist(SRH5,1,2)
 *Etape4: Les reponses données sont elles coherentes au regard des precedentes? RAS
 
 ******SRH7
-*Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu? 
-count if missing(SRH7) & SRH2== 2
-* 
+* Au T3, le questionnaire pose SRH7 si SRH2==2, donc aussi à ceux qui répondent ensuite SRH2A==1
+* (recherche d'une exploitation agricole). Ces personnes sont des chercheurs : on garde SRH2A==1
+* et on vide SRH7 et ses questions dépendantes, qui ne les concernent pas.
+* Les contrôles portent sur la condition logique SRH2A==2.
+*Etape1: Valeurs manquantes: Est ce que ceux qui devaient repondre ont veritablement repondu?
+count if missing(SRH7) & SRH2A== 2
+*
 
-* br if missing(SRH7) & SRH2== 2
-
-***correction
-replace SRH7 = 26 if missing(SRH7) & SRH2== 2 // l'individus déclare à la question SRH7A qu'il se considère trop âgé pour travailler.
+* br if missing(SRH7) & SRH2A== 2
 
 
-*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre? 
+*Etape2: Coherence des sauts: Est ce que ceux qui ont repondu devaient repondre?
 count if !missing(SRH7) & SRH2A!=2
-* 
+*
 * br SRH2A SRH7 if !missing(SRH7) & SRH2A==1
 
-replace SRH2A=2 if !missing(SRH7) & SRH2A==1
-* 
+***correction
+replace SRH7_Aut = "" if !missing(SRH7) & SRH2A==1
+replace SRH8 = . if !missing(SRH7) & SRH2A==1
+replace SRH9 = . if !missing(SRH7) & SRH2A==1
+replace SRH7 = . if !missing(SRH7) & SRH2A==1
+*
 * br SRH1 SRH7 if !missing(SRH7) & SRH1==1
 * 
 * br SRH2 SRH7 if !missing(SRH7) & SRH2==1
