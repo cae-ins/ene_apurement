@@ -76,7 +76,7 @@ replace M22 = 6 if M22_Aut == "BRANAMISSE"
 replace M22 = 3 if M22_Aut == "BAPTISTE"
 
 ***Vider la variable 
-replace M22_Aut = "" if !inlist(M22,.,.a,9998) 
+replace M22_Aut = "" if !inlist(M22,.,.a,13) 
 
 
 *--------------------------------------------------------------*
@@ -852,7 +852,7 @@ replace EF5=13 if EF5_AUTRE=="GROSSESSE DE LA MERE"
 replace EF5=16 if EF5_AUTRE=="APPRENTISSAGE DE MÉCANIQUE"
 
 **Vider la variable
-replace EF5_AUTRE = "" if !inlist(EF5,.,.a,21) 
+replace EF5_AUTRE = "" if !inlist(EF5,.,.a,20)
 
 *** Autre a preciser
 * Ecole coranique, crise, madrassa
@@ -1062,7 +1062,7 @@ replace EF5= 4 if EF5_AUTRE =="son âge n'est pas encore arrivé"
 replace EF5= 19 if EF5_AUTRE =="Ne voulait pas"
 
 /// Vider la variable
-replace EF5_AUTRE = "" if !inlist(EF5,.,.a,21)
+replace EF5_AUTRE = "" if !inlist(EF5,.,.a,20)
 
 *------------------------------------------------------------------------*
 ***EF9. Pourquoi %rostertitle% a-t-il/elle arrêté les études pour l’année: :%anneeScolaireEnCours% ? ?
@@ -1389,7 +1389,7 @@ replace EF9 = 9 if EF9_Aut =="DÉCÈS DU PERE ET MANQUE DE MOYENS"
 
 
 *Vider la variable
-replace EF9_Aut = "" if !inlist(EF9,.,.a,21)
+replace EF9_Aut = "" if !inlist(EF9,.,.a,20)
 
 *-------------------------------------------------------------------*
 //////////////////////////EF15_Aut
@@ -1708,7 +1708,7 @@ replace EF15 = 9 if EF15_Aut =="PAR MANQUE DE MOYENS"
 replace EF15 = 19 if EF15_Aut =="DÉCISION PERSONNELLE"
 
 ***Vider la variable: 
-replace EF15_Aut = "" if !inlist(EF15,.,.a,21) 
+replace EF15_Aut = "" if !inlist(EF15,.,.a,20)
 
 *---------------------------------------------------------------------*
 //////EF16E_Aut :
@@ -3620,7 +3620,7 @@ replace ME8=7 if ME8_Aut=="VOYAGER POUR LE BURKINA POUR RENDRE VISITE À SA FAMI
 
 
 ***Vider la variable
-replace ME8_Aut ="" if !inlist(ME8,.,.a,998) 
+replace ME8_Aut ="" if !inlist(ME8,.,.a,9) 
 
 
 *--------------------------------------------------------------*
@@ -4719,7 +4719,7 @@ replace EP2g1 =5 if EP2g1_Aut =="Je me promène"
 replace EP2g1 =2 if EP2g1_Aut =="TRICYCLE"
 
 ****Vider la variable
-replace EP2g1_Aut = "" if !inlist(EP2g1,.,.a,16) 
+replace EP2g1_Aut = "" if !inlist(EP2g1,.,.a,6) 
 
 ********////////////EP2g_aut
 *export excel  EP2g_aut  using "D:\CAE\Appurément\Export.xlsx", firstrow(variables) replace
@@ -9777,6 +9777,7 @@ replace SRH7A = 6 if SRH7A_Aut == "VOUS SUIVEZ UNE FORMATION DE COUTURE"
 replace SRH7A = 6 if SRH7A_Aut == "VOUS SUIVEZ UNE FORMATION NON PAYÉ"
 replace SRH7A = 6 if SRH7A_Aut == "Vous suiviez (ou aviez le projet de suivre) des études"
 replace SRH7A = 6 if SRH7A_Aut == "Vous suiviez des formations"
+replace SRH7A = 6 if SRH7A_Aut == "Vous suiviez (ou aviez le projet de suivre) des formations"
 
 
 replace SRH7A=6 if regexm(lower(SRH7A_Aut),"formation|etudes|études|etude|étude|élève|eleve|metier|apprendre")
@@ -11466,6 +11467,7 @@ replace SRH13=5 if SRH13_Aut =="VIEILLESSE ET MALADIE"
 replace SRH13=5 if SRH13_Aut =="Vous aviez des problèmes de santé"
 replace SRH13=5 if SRH13_Aut =="Vous étiez en situation de handicap"
 replace SRH13=5 if SRH13_Aut =="Vous vous considérer trop jeune/trop âgé pour travailler"
+replace SRH13=5 if SRH13_Aut =="Vous vous considérez trop jeune/trop âgé pour travailler"
 replace SRH13=6 if SRH13_Aut =="AIDE UN PROCHE MALADE"
 replace SRH13=6 if SRH13_Aut =="APPRENTI DE MENUISERIE NON PAYE"
 replace SRH13=6 if SRH13_Aut =="APPRENTI FERRONIER  NON PAYÉ"
@@ -12873,7 +12875,7 @@ replace HH14a = 4 if HH14a_Aut =="ABSENT POUR TRAVAUX CHAMPETRE"
 replace HH14a = 4 if HH14a_Aut =="ABSENT EN ZONE MINIÈRE"
 
 ******** vider la variables****
-replace HH14a_Aut = "" if !inlist(HH14a,.,.a,19) 
+replace HH14a_Aut = "" if !inlist(HH14a,.,.a,9) 
 
 
 save_brute_membres_safe
