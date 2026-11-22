@@ -3533,6 +3533,10 @@ vider_si EP34 if EP33 != 1
 vider_si EP35 if EP33 != 2
 
 * Report des SE recodées et du statut reconstruit dans la sortie S2 (source unique de EN_EMP)
+* Cas isolé T3 2026 : élève de 17 ans entré par erreur dans SE1=1 (EP1a="élève", EP2a="rien je ne travaille pas", EP6_Aut="ne travaille pas")
+replace SE1 = 2 if interview__key == "48-46-35-16" & membres__id == 3
+replace motif_reclassement = "faux actif : élève ne travaillant pas (SE1=1 erroné)" if interview__key == "48-46-35-16" & membres__id == 3
+
 nettoyer_sauts_se
 calcul_en_emploi
 reporter_se_dans_s2
