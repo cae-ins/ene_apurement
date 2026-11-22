@@ -1061,6 +1061,31 @@ replace EF5= 4 if EF5_AUTRE =="L'AGE INSUFFISANT"
 replace EF5= 4 if EF5_AUTRE =="son âge n'est pas encore arrivé"
 replace EF5= 19 if EF5_AUTRE =="Ne voulait pas"
 
+* Recodages complémentaires T3 2026 (EF5_AUTRE)
+replace EF5 = 4 if EF5_AUTRE == "L’AGE INSUFFISANT"
+replace EF5 = 4 if EF5_AUTRE == "son âge n’est pas encore arrivé"
+replace EF5 = 4 if EF5_AUTRE == "PAS ENCORE INSCRIT MAIS ELLE IRA A CETTE RENTREE SCOLAIRE 2026-2027"
+replace EF5 = 6 if EF5_AUTRE == "DECISION PRISE PAR LE PERE"
+replace EF5 = 6 if EF5_AUTRE == "NEGLIGENSE DES PARENTS"
+replace EF5 = 6 if EF5_AUTRE == "DECICION DES PARENTS"
+replace EF5 = 6 if EF5_AUTRE == "DÉCISION PARENTALE"
+replace EF5 = 6 if EF5_AUTRE == "VOLONTE PARENTS"
+replace EF5 = 6 if EF5_AUTRE == "LE PERE NE L’A PAS FAIT"
+replace EF5 = 6 if EF5_AUTRE == "LE PERE NE L’A PAS INSCRITE"
+replace EF5 = 6 if EF5_AUTRE == "LE PERE NE L’A PAS MIS A L'ECOLE"
+replace EF5 = 6 if EF5_AUTRE == "LES PARENTS NE L ONT PAS MISE A L ECOLE POUR AUCUNE RAISON"
+replace EF5 = 6 if EF5_AUTRE == "LES PARENTS NE L’ONT PAS MIS A L’ECOLE"
+replace EF5 = 6 if EF5_AUTRE == "IGNORANCE"
+replace EF5 = 9 if EF5_AUTRE == "MANQUE DE MOYENS FINANCIERS DES PARENTS"
+replace EF5 = 9 if EF5_AUTRE == "FAUTE DE MOYENS FINANCIERS DES PARENTS"
+replace EF5 = 9 if EF5_AUTRE == "MANQUE DE FINANCEMENT"
+replace EF5 = 9 if EF5_AUTRE == "MA’QUE DE MOYEN DES PARENTS"
+replace EF5 = 9 if EF5_AUTRE == "DECES DE SON PERE"
+replace EF5 = 9 if EF5_AUTRE == "DÉCÈS DE LA MÈRE DE L'INDIVIDU"
+replace EF5 = 11 if EF5_AUTRE == "SOURDE ET MUETTE"
+replace EF5 = 19 if EF5_AUTRE == "l'individu a refusé de fréquenter"
+replace EF5 = 19 if EF5_AUTRE == "VOLONTE PERSONNELLE"
+
 /// Vider la variable
 replace EF5_AUTRE = "" if !inlist(EF5,.,.a,20)
 
@@ -1387,6 +1412,28 @@ replace EF9 = 9 if EF9_Aut =="MANQUE D'ARGENT"
 replace EF9 = 19 if EF9_Aut =="DÉCISION PERSONNELLE"
 replace EF9 = 9 if EF9_Aut =="DÉCÈS DU PERE ET MANQUE DE MOYENS"
 
+* Recodages complémentaires T3 2026 (EF9_Aut)
+replace EF9 = 1 if EF9_Aut == "S OCCUPE DE L ENFANT"
+replace EF9 = 1 if EF9_Aut == "S OCCUPER DE MON ENFANT"
+replace EF9 = 1 if EF9_Aut == "S OCCUPER DE SON ENFANT"
+replace EF9 = 1 if EF9_Aut == "S’OCCUPER DE LA FAMILLE"
+replace EF9 = 2 if EF9_Aut == "A LA RECHERCHE DE L'EMPLOI ET PASSER LES CONCOURS"
+replace EF9 = 2 if EF9_Aut == "A LA RECHERCHE DE TRAVAIL"
+replace EF9 = 2 if EF9_Aut == "ENSEIGNANTE"
+replace EF9 = 9 if EF9_Aut == "MANQUE DE MOYENS FINANCIERS DES PARENTS"
+replace EF9 = 9 if EF9_Aut == "MANQUE D’ARGENT"
+replace EF9 = 9 if EF9_Aut == "PROBLÈMES DE MOYENS FINANCIERS"
+replace EF9 = 9 if EF9_Aut == "manque de moyens par le père"
+replace EF9 = 9 if EF9_Aut == "DÉCÈS DU PÈRE DE L'INDIVIDU, MANQUE DE MOYENS FINANCIERS"
+replace EF9 = 9 if EF9_Aut == "DÉCÈS DU PÈRE DE L'INDIVIDU"
+replace EF9 = 11 if EF9_Aut == "ACCIDENT DE MOTO"
+replace EF9 = 11 if EF9_Aut == "VICTIME D’UN ACCIDENT DE MOTO"
+replace EF9 = 12 if EF9_Aut == "MANQUE DE MOYENS FINANCIERS ALORS L'INDIVIDU À ÉTÉ DONNÉ EN MARIAGE"
+replace EF9 = 12 if EF9_Aut == "Pour se marier"
+replace EF9 = 12 if EF9_Aut == "ENGAGER DANS LE MARIAGE"
+replace EF9 = 16 if EF9_Aut == "STAGIAIRE INFAS"
+replace EF9 = 16 if EF9_Aut == "STAGIAIRE INFIRMIERE INFAS"
+replace EF9 = 16 if EF9_Aut == "STAGIAIRE INFIRMIÈRE INFAS"
 
 *Vider la variable
 replace EF9_Aut = "" if !inlist(EF9,.,.a,20)
@@ -1706,6 +1753,24 @@ replace EF15 = 9 if EF15_Aut =="L'INDIVIDU A DU ARRÊTER PAR FAUTE DE MOYENS POU
 replace EF15 = 9 if EF15_Aut =="DÉCÈS DU PERE ET MANQUE DE MOYENS"
 replace EF15 = 9 if EF15_Aut =="PAR MANQUE DE MOYENS"
 replace EF15 = 19 if EF15_Aut =="DÉCISION PERSONNELLE"
+
+* Recodages complémentaires T3 2026 (EF15_Aut)
+replace EF15 = 1 if EF15_Aut == "S OCCUPE DE L ENFANT"
+replace EF15 = 1 if EF15_Aut == "S OCCUPER DE SON ENFANT"
+replace EF15 = 1 if EF15_Aut == "S’OCCUPER DE LA FAMILLE"
+replace EF15 = 2 if EF15_Aut == "A LA RECHERCHE DE L'EMPLOI ET PASSER LES CONCOURS"
+replace EF15 = 2 if EF15_Aut == "RECHERCHE D’EMPLOI"
+replace EF15 = 2 if EF15_Aut == "ENSEIGNANTE"
+replace EF15 = 4 if EF15_Aut == "ELLE N ETAIT PAS ENCORE A L ECOLE"
+replace EF15 = 4 if EF15_Aut == "il n'a pas encore l'âge"
+replace EF15 = 9 if EF15_Aut == "MANQUE DE MOYENS FINANCIERS DES PARENTS"
+replace EF15 = 9 if EF15_Aut == "PROBLÈMES DE MOYENS FINANCIERS"
+replace EF15 = 9 if EF15_Aut == "DÉCÈS DU PÈRE DE L'INDIVIDU, MANQUE DE MOYENS FINANCIERS"
+replace EF15 = 9 if EF15_Aut == "DÉCÈS DU PÈRE DE L'INDIVIDU"
+replace EF15 = 12 if EF15_Aut == "MANQUE DE MOYEN FINANCIER ALORS  L'INDIVIDU À ÉTÉ DONNÉ EN MARIAGE"
+replace EF15 = 12 if EF15_Aut == "Pour se marier"
+replace EF15 = 12 if EF15_Aut == "ENGAGER DANS LE MARIAGE"
+replace EF15 = 16 if EF15_Aut == "EN APPRENTISSAGE"
 
 ***Vider la variable: 
 replace EF15_Aut = "" if !inlist(EF15,.,.a,20)
@@ -4718,6 +4783,29 @@ replace EP2g1 =7 if EP2g1_Aut =="devant la cour"
 replace EP2g1 =5 if EP2g1_Aut =="Je me promène"
 replace EP2g1 =2 if EP2g1_Aut =="TRICYCLE"
 
+* Recodages complémentaires T3 2026 (EP2g1_Aut)
+replace EP2g1 = 3 if EP2g1_Aut == "MINI CAR DE TRANSPORT EN COMMUN"
+replace EP2g1 = 3 if EP2g1_Aut == "TAXIS COMMUNAL"
+replace EP2g1 = 3 if EP2g1_Aut == "TAXI-MOTO"
+replace EP2g1 = 4 if EP2g1_Aut == "moto"
+replace EP2g1 = 4 if EP2g1_Aut == "MOTO DE SON CONJOINT"
+replace EP2g1 = 4 if EP2g1_Aut == "L'INDIVIDU EST CHAUFFEUR DE MOTO MOTO"
+replace EP2g1 = 4 if EP2g1_Aut == "L'INDIVIDU EST LUI MÊME CHAUFFEUR DE MINI CAR"
+replace EP2g1 = 4 if EP2g1_Aut == "AVEC LE TAXI QUIL CONDUIT"
+replace EP2g1 = 7 if EP2g1_Aut == "AUCUN PUISQUE CEST A DOMICILE"
+replace EP2g1 = 7 if EP2g1_Aut == "DORMIR SUR PLACE"
+replace EP2g1 = 7 if EP2g1_Aut == "TRAVAIL A DOMICILE"
+replace EP2g1 = 7 if EP2g1_Aut == "a domicile"
+replace EP2g1 = 8 if EP2g1_Aut == "JE N AI PAS D INSTALLATION FIXE"
+replace EP2g1 = 8 if EP2g1_Aut == "promener pour vendre"
+
+* Si EP2g1 passe à 7 (domicile) ou 8 (ambulant), EP2g, EP2h et EP2i deviennent hors champ
+replace EP2g = . if inlist(EP2g1, 7, 8)
+replace EP2g_aut = "" if inlist(EP2g1, 7, 8)
+replace EP2h = . if inlist(EP2g1, 7, 8)
+replace EP2i = . if inlist(EP2g1, 7, 8)
+replace EP2i_unit = . if inlist(EP2g1, 7, 8)
+
 ****Vider la variable
 replace EP2g1_Aut = "" if !inlist(EP2g1,.,.a,6) 
 
@@ -6317,7 +6405,18 @@ replace EP6_Aut = "" if EP6__2 == 1 & inlist(EP6_Aut, ///
  "PAIEMENT APRÈS VENTE DE LA RÉCOLTE", ///
  "PAIEMENT APRES VENTE DU PRODUIT")
 
+* Recodages complémentaires T3 2026 (EP6_Aut)
+replace EP6__2 = 1 if EP6_Aut == "PAIEMENT A LA RECOLTE"
+replace EP6__5 = 1 if inlist(EP6_Aut, "DONS DES FIDELES", "SOUTIEN PASTORALE", "REVENUS A PARTIR DES OFFRANDES ET DES DIMES")
+replace EP6__8 = 1 if inlist(EP6_Aut, "PAIEMENT A CHAQUE VENTE", "A CHAQUE VENTE", "PAIEMENT A LA VENTE", "PAIEMENT APRES LA VENTE", "PAIEMENT APRES VENTE DE SA RÉCOLTE")
+replace EP6__8 = 1 if inlist(EP6_Aut, "PAYEMENT APRES CHAQUE VENTE", "PAYEMENT CASH APRES CHAQUE VENTE", "PAYEMENT PAR VENTE", "APRES DE VENTE", "VENTE TEMPS DE RECOLTE", "APRES LA CONDUITE")
 
+replace EP6_Aut = "" if EP6_Aut == "PAIEMENT A LA RECOLTE"
+replace EP6_Aut = "" if inlist(EP6_Aut, "DONS DES FIDELES", "SOUTIEN PASTORALE", "REVENUS A PARTIR DES OFFRANDES ET DES DIMES")
+replace EP6_Aut = "" if inlist(EP6_Aut, "PAIEMENT A CHAQUE VENTE", "A CHAQUE VENTE", "PAIEMENT A LA VENTE", "PAIEMENT APRES LA VENTE", "PAIEMENT APRES VENTE DE SA RÉCOLTE")
+replace EP6_Aut = "" if inlist(EP6_Aut, "PAYEMENT APRES CHAQUE VENTE", "PAYEMENT CASH APRES CHAQUE VENTE", "PAYEMENT PAR VENTE", "APRES DE VENTE", "VENTE TEMPS DE RECOLTE", "APRES LA CONDUITE")
+
+replace EP6__6 = 0 if EP6_Aut == "" & EP6__6 == 1
 
 save_brute_membres_safe
 
@@ -9470,22 +9569,30 @@ replace SRH7 = 5 if SRH7_Aut == "POURSUIVRE LES ETUDES"
 replace SRH7 = 5 if SRH7_Aut == "VIENTD’OBTENIR LE BAC"
 replace SRH7 = 5 if SRH7_Aut == "pour suivre les études"
 replace SRH7 = 5 if SRH7_Aut == "ÉLÈVE EN CLASSE DE 5èm"
+replace SRH7 = 5 if SRH7_Aut == "élève en troisième année d’école kouranique9"
+replace SRH7 = 5 if SRH7_Aut == "PROFITER DE MES VACANCES"
 replace SRH7 = 6 if SRH7_Aut == "Elle suis une formation de couture chez une dame."
 replace SRH7 = 7 if SRH7_Aut == "L'INDIVIDU EST RETRAITÉ ET A DES PROBLÈMES DE SANTÉ"
 replace SRH7 = 7 if SRH7_Aut == "QUELQUES TROUBLES MENTAUX"
 replace SRH7 = 7 if SRH7_Aut == "malade mental, trouble mentale"
 replace SRH7 = 9 if SRH7_Aut == "LES EMPLOIS SE FONT RARES DANS MA LOCALITE"
 replace SRH7 = 14 if SRH7_Aut == "EN VOYAGE POUR AIDER SA MERE"
+replace SRH7 = 14 if SRH7_Aut == "EN DEPLACEMENT PPOUR DES CEREMONIES FUNERAIRES"
 replace SRH7 = 18 if SRH7_Aut == "JE SUIS DEJA ADMIS A MON CONCOURS,  JE SERAI EN FONCTION A LA RENTREE SCOLAIRE 2026-2027"
+replace SRH7 = 18 if SRH7_Aut == "EN ATTENTE DE LA RENTRÉE SCOLAIRE PROCHAINE"
 replace SRH7 = 20 if SRH7_Aut == "EN ATTENTE DE L'APPROBATION DE MON CONJOINT"
 replace SRH7 = 20 if SRH7_Aut == "LE CONJOINT REFUSE"
-replace SRH7 = 24 if SRH7_Aut == "Absence ou insuffisance des moyens financiers"
+replace SRH7 = 21 if SRH7_Aut == "Absence ou insuffisance des moyens financiers"
+replace SRH7 = 21 if SRH7_Aut == "EN FAILLITE PAR MANQUE DE MOYEN FINANCIER"
+replace SRH7 = 21 if SRH7_Aut == "JE N AI PAS DE FONDS"
+replace SRH7 = 21 if SRH7_Aut == "MANQUE DE MOYEN FINANCIER POUR DEBUTER UNE ACTIVITE"
+replace SRH7 = 21 if SRH7_Aut == "MANQUE DE MOYENS FINANCIER"
+replace SRH7 = 21 if SRH7_Aut == "PAS DE MOYEN POUR DEBUTER UNE ACTIVITE"
 replace SRH7 = 24 if SRH7_Aut == "BARRIÈRE DE LANGUE"
 replace SRH7 = 24 if SRH7_Aut == "FAIS LE VEUVAGE"
-replace SRH7 = 24 if SRH7_Aut == "JE N AI PAS DE FONDS"
-replace SRH7 = 24 if SRH7_Aut == "MANQUE DE MOYEN FINANCIER POUR DEBUTER UNE ACTIVITE"
-replace SRH7 = 24 if SRH7_Aut == "PAS DE MOYEN POUR DEBUTER UNE ACTIVITE"
 replace SRH7 = 25 if SRH7_Aut == "DÉCISION PERSONNELLE"
+replace SRH7 = 25 if SRH7_Aut == "Elle a décidé de se consacrer à sa communauté religieuse et elle vit de don"
+replace SRH7 = 25 if SRH7_Aut == "PROFITEZ DES VACANCES"
 replace SRH7 = 26 if SRH7_Aut == "VIEILLE"
 replace SRH7 = 26 if SRH7_Aut == "AGEE"
 replace SRH7 = 26 if SRH7_Aut == "L'INDIVIDU EST BEAUCOUP ÂGÉ"
@@ -10189,6 +10296,26 @@ replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "PERSONNE MALADE"
 
 replace SRH12A_Aut1 = "" if SRH12A__7 == 1 & SRH12A_Aut1 == "CAS DE MALADIE"
 
+* Recodages complémentaires T3 2026 (SRH12A_Aut1)
+replace SRH12A__5 = 1 if SRH12A_Aut1 == "Etude"
+replace SRH12A__5 = 1 if SRH12A_Aut1 == "SUIVRE DES COURS  DANS UNE ECOLE CORANIQUE"
+replace SRH12A__5 = 1 if SRH12A_Aut1 == "élève en troisième année d’école kouranique"
+replace SRH12A__14 = 1 if SRH12A_Aut1 == "SOCCUPER DE LA FAMILLE"
+replace SRH12A__14 = 1 if SRH12A_Aut1 == "ASSISTANTE FAMILLIALE"
+replace SRH12A__14 = 1 if SRH12A_Aut1 == "EN VOYAGE"
+replace SRH12A__21 = 1 if SRH12A_Aut1 == "EN FAILLITE PAR MANQUE DE MOYEN FINANCIER"
+replace SRH12A__21 = 1 if SRH12A_Aut1 == "MANQUE DE MOYEN FINANCIER"
+replace SRH12A__21 = 1 if SRH12A_Aut1 == "PAS DE MOYEN FINANCIER"
+replace SRH12A__21 = 1 if SRH12A_Aut1 == "PAS DE MOYEN POUR DEBUTER UNE ACTIVITE"
+replace SRH12A__23 = 1 if SRH12A_Aut1 == "TRAVAIL DANS LAVAGE"
+replace SRH12A__26 = 1 if SRH12A_Aut1 == "L AGE"
+replace SRH12A__26 = 1 if SRH12A_Aut1 == "L'INDIVIDU EST BEAUCOUP ÂGÉ"
+
+replace SRH12A_Aut1 = "" if inlist(SRH12A_Aut1, "Etude", "SUIVRE DES COURS  DANS UNE ECOLE CORANIQUE", "élève en troisième année d’école kouranique")
+replace SRH12A_Aut1 = "" if inlist(SRH12A_Aut1, "SOCCUPER DE LA FAMILLE", "ASSISTANTE FAMILLIALE", "EN VOYAGE", "TRAVAIL DANS LAVAGE")
+replace SRH12A_Aut1 = "" if inlist(SRH12A_Aut1, "EN FAILLITE PAR MANQUE DE MOYEN FINANCIER", "MANQUE DE MOYEN FINANCIER", "PAS DE MOYEN FINANCIER", "PAS DE MOYEN POUR DEBUTER UNE ACTIVITE")
+replace SRH12A_Aut1 = "" if inlist(SRH12A_Aut1, "L AGE", "L'INDIVIDU EST BEAUCOUP ÂGÉ")
+
 *
 replace SRH12A__24 = 0 if SRH12A_Aut1 == "" & SRH11==2
 
@@ -10775,30 +10902,70 @@ replace SRH12A_Aut2 ="" if SRH12A_Aut2 ==  "TROP AGEE"
 replace SRH12A_Aut2 ="" if SRH12A_Aut2 ==  "TROP AGEE"
 replace SRH12A_Aut2 ="" if SRH12A_Aut2 ==  "TROP AGEE POUR FAIRE LES TRAVAUX CHAMPETRE"
 ***************
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="CHERCHE UN EMPLOI"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="JE VEUX PLUS FAIRE LA COUTURE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="L'INDIVIDU NE PENSE PAS TROUVER UN EMPLOI PARCE QU'IL N'A PAS DE COMPÉTENCE. IL FERAIT LE MÉTIER DE SOUDEUR ET TRAVAILLAIT A SON PROPRE COMPTE."
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="ÉLÈVE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="JE SUIS ELEVE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="poursuivre mes études"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="OCCUPÉ PAR LES ÉTUDES DE MADRASSA"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="TERMINER MES ETUDES"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="Souhaite reprendre les études"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="DESIRE REPRENDRE LES ETUDES"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="L'INDIVIDU EST OCCUPÉ PAR L'ÉTUDE DU CORAN"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="EN STAGE A LUBRIFIANT CÔTE D'IVOIRE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="MALADE ACTUELLEMENT"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="PERIODE DE GROSSESSE VIENT A PEINE D ACCOUCHE LE VENDREDI 24 JUILLET 2026"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="FEMME AU FOYER"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="REPOS APRES LE MARIAGE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="MANQUE DE MOYENS FINANCIERS"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="MANQUE DE MOYEN"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="MON CHAMP"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="TRAVAIL EN FAMILLE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="PERSONNE TROP ÂGÉE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="TROP ÂGÉE"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="vieillesse"
-replace SRH12A_Aut2 =" " if SRH12A_Aut2 =="Vieille"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="CHERCHE UN EMPLOI"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="JE VEUX PLUS FAIRE LA COUTURE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="L'INDIVIDU NE PENSE PAS TROUVER UN EMPLOI PARCE QU'IL N'A PAS DE COMPÉTENCE. IL FERAIT LE MÉTIER DE SOUDEUR ET TRAVAILLAIT A SON PROPRE COMPTE."
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="ÉLÈVE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="JE SUIS ELEVE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="poursuivre mes études"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="OCCUPÉ PAR LES ÉTUDES DE MADRASSA"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="TERMINER MES ETUDES"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="Souhaite reprendre les études"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="DESIRE REPRENDRE LES ETUDES"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="L'INDIVIDU EST OCCUPÉ PAR L'ÉTUDE DU CORAN"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="EN STAGE A LUBRIFIANT CÔTE D'IVOIRE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="MALADE ACTUELLEMENT"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="PERIODE DE GROSSESSE VIENT A PEINE D ACCOUCHE LE VENDREDI 24 JUILLET 2026"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="FEMME AU FOYER"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="REPOS APRES LE MARIAGE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="MANQUE DE MOYENS FINANCIERS"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="MANQUE DE MOYEN"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="MON CHAMP"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="TRAVAIL EN FAMILLE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="PERSONNE TROP ÂGÉE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="TROP ÂGÉE"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="vieillesse"
+replace SRH12A_Aut2 ="" if SRH12A_Aut2 =="Vieille"
+
+* Recodages complémentaires T3 2026 (SRH12A_Aut2)
+replace SRH12A__5 = 1 if SRH12A_Aut2 == "ENCORE ÉLÈVE"
+replace SRH12A__5 = 1 if SRH12A_Aut2 == "pour suivre les études"
+replace SRH12A__5 = 1 if SRH12A_Aut2 == "PROFITER DE MES VACANCES"
+replace SRH12A__6 = 1 if SRH12A_Aut2 == "Elle suis une formation de couture chez une dame."
+replace SRH12A__6 = 1 if SRH12A_Aut2 == "FORMATION INFAS"
+replace SRH12A__7 = 1 if SRH12A_Aut2 == "QUELQUES TROUBLES MENTAUX"
+replace SRH12A__13 = 1 if SRH12A_Aut2 == "MATERNITÉ"
+replace SRH12A__14 = 1 if SRH12A_Aut2 == "S'OCCUPE DE SON MARI MALADE"
+replace SRH12A__14 = 1 if SRH12A_Aut2 == "EN DEPLACEMENT PPOUR DES CEREMONIES FUNERAIRES"
+replace SRH12A__17 = 1 if SRH12A_Aut2 == "FAIT UNE PAUSE"
+replace SRH12A__18 = 1 if SRH12A_Aut2 == "JE SUIS DEJA ADMIS A MON CONCOURS"
+replace SRH12A__18 = 1 if SRH12A_Aut2 == "VENTE DE BERGNET NE MARCHE PLUS DONC J'AI ARRETE"
+replace SRH12A__18 = 1 if SRH12A_Aut2 == "EN ATTENTE DE LA RENTRÉE SCOLAIRE PROCHAINE"
+replace SRH12A__20 = 1 if SRH12A_Aut2 == "L'APPROBATION DU CONJOINT"
+replace SRH12A__21 = 1 if SRH12A_Aut2 == "Absence ou insuffisance des moyens financiers"
+replace SRH12A__21 = 1 if SRH12A_Aut2 == "MANQUE DE MOYEN FINANCIER POUR DEBUTER UNE ACTIVITE"
+replace SRH12A__21 = 1 if SRH12A_Aut2 == "cause de moyens financiers"
+replace SRH12A__21 = 1 if SRH12A_Aut2 == "SOUHAITE TRAVAILLER A MON PROPRE COMPTE"
+replace SRH12A__25 = 1 if SRH12A_Aut2 == "JE N'ENVISAGE PAS AUTRE CHOSE"
+replace SRH12A__25 = 1 if SRH12A_Aut2 == "Elle a décidé de se consacrer à sa communauté religieuse et elle vit de don"
+replace SRH12A__25 = 1 if SRH12A_Aut2 == "PROFITEZ DES VACANCES"
+replace SRH12A__25 = 1 if SRH12A_Aut2 == "DEVAIT EFFECTUER UN PETIT VOYAGE"
+replace SRH12A__26 = 1 if SRH12A_Aut2 == "VIEILLE"
+replace SRH12A__26 = 1 if SRH12A_Aut2 == "JE SUIS TROP AGEE"
+replace SRH12A__26 = 1 if SRH12A_Aut2 == "TROP ÂGE"
+
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "ENCORE ÉLÈVE", "pour suivre les études", "PROFITER DE MES VACANCES", "Elle suis une formation de couture chez une dame.", "FORMATION INFAS")
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "QUELQUES TROUBLES MENTAUX", "MATERNITÉ", "S'OCCUPE DE SON MARI MALADE", "EN DEPLACEMENT PPOUR DES CEREMONIES FUNERAIRES", "FAIT UNE PAUSE")
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "JE SUIS DEJA ADMIS A MON CONCOURS", "VENTE DE BERGNET NE MARCHE PLUS DONC J'AI ARRETE", "EN ATTENTE DE LA RENTRÉE SCOLAIRE PROCHAINE", "L'APPROBATION DU CONJOINT")
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "Absence ou insuffisance des moyens financiers", "MANQUE DE MOYEN FINANCIER POUR DEBUTER UNE ACTIVITE", "cause de moyens financiers", "SOUHAITE TRAVAILLER A MON PROPRE COMPTE")
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "JE N'ENVISAGE PAS AUTRE CHOSE", "Elle a décidé de se consacrer à sa communauté religieuse et elle vit de don", "PROFITEZ DES VACANCES", "DEVAIT EFFECTUER UN PETIT VOYAGE")
+replace SRH12A_Aut2 = "" if inlist(SRH12A_Aut2, "VIEILLE", "JE SUIS TROP AGEE", "TROP ÂGE")
+
+replace SRH12A__24 = 1 if SRH12A_Aut2 == "LE DÉCÈS DE MON FILS"
+replace SRH12A_Aut1 = "LE DÉCÈS DE MON FILS" if SRH12A_Aut2 == "LE DÉCÈS DE MON FILS" & SRH12A_Aut1 == ""
+replace SRH12A_Aut2 = "" if SRH12A_Aut2 == "LE DÉCÈS DE MON FILS"
+
+replace SRH12A__27 = 0 if SRH12A_Aut2 == "" & SRH11==2
 
 *-----------------------------------------------------------------------*
 
