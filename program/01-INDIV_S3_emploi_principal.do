@@ -582,6 +582,7 @@ count if missing(EP2i) & membre_id_v1_IND == "##N/A##" & inlist(EP2g1,1,2,3,4,5,
 cap drop med_EP2i_1
 egen med_EP2i_1 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2g1 == 5 & EP2h == 20 // la médiane est de 2 km
 ta med_EP2i_1
+replace EP2i_unit = 1 if missing(EP2i) & EP2g1 == 5 & EP2h == 20 & missing(EP2i_unit)
 replace EP2i = 2 if missing(EP2i) & EP2g1 == 5 & EP2h == 20
 drop med_EP2i_1
 
@@ -590,6 +591,7 @@ drop med_EP2i_1
 cap drop med_EP2i_2
 egen med_EP2i_2 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2e==2 & EP2g1 == 2 & EP2h == 45 
 ta med_EP2i_2
+replace EP2i_unit = 1 if missing(EP2i) & EP2e==2 & EP2g1 == 2 & EP2h == 45 & missing(EP2i_unit)
 replace EP2i = 20 if missing(EP2i) & EP2e==2 & EP2g1 == 2 & EP2h == 45
 drop med_EP2i_2
 
@@ -604,6 +606,7 @@ drop med_EP2i_3
 cap drop med_EP2i_4
 egen med_EP2i_4 = median(EP2i) if !inlist(EP2i,.,.a,9998) & EP2e==1 & EP2g1 == 3 & EP2g == 4 
 ta med_EP2i_4
+replace EP2i_unit = 1 if missing(EP2i) & EP2e==1 & EP2g1 == 3 & EP2h == 47.5 & missing(EP2i_unit)
 replace EP2i = 2 if missing(EP2i) & EP2e==1 & EP2g1 == 3 & EP2h == 47.5
 drop med_EP2i_4
 
@@ -641,6 +644,8 @@ ta EP2h if !missing(EP2h) & EP2i==9998
 
 *Le traitement se fait au cas par cas selon le moyen de déplacement et le temps estimé du parcours.
 *Porcédure : on remplace la distance par la mediane selon le moyen de déplacement et l'intervalle de temps.
+* Les imputations ci-dessous sont en km : renseigner l'unité (EP2i_unit = 1) quand EP2i valait 9998 (où EP2i_unit n'est pas posée)
+replace EP2i_unit = 1 if EP2i == 9998 & inlist(EP2g1, 1, 2, 3, 4, 5, 6) & missing(EP2i_unit)
 
 cap drop med_EP2i
 egen med_EP2i = median(EP2i) if !inlist(EP2i,.,9998) & EP2g1==1
@@ -3518,7 +3523,9 @@ count if !missing(EP47) & !(membre_id_v1_IND =="##N/A##" & (inlist(EP3,1,8,9) | 
 vider_si EP10a if !(inlist(EP3,1,8,9) | (EP3==5 & inlist(1,EP6__1,EP6__2,EP6__3,EP6__4,EP6__5,EP6__6,EP6__12)))
 vider_si EP10a_aut if EP10a != 3
 local paye_ep10 (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__4 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__12 == 1)
+vider_si EP10b if !(inlist(EP3,2,3,4) & EP6__10 != 1)
 vider_si EP10c if !((inlist(EP3,1,9,10) & `paye_ep10') | (EP3 == 5 & inlist(EP4,1,2) & `paye_ep10'))
+vider_si EP25_Aut if EP25 != 13
 local champ_ep28 (inlist(EP3,1,8,9) | (inlist(EP3,5,6) & (EP6__1 == 1 | EP6__2 == 1 | EP6__3 == 1 | EP6__5 == 1 | EP6__6 == 1 | EP6__7 == 1 | EP6__9 == 1 | EP6__11 == 1 | EP6__12 == 1)) | EP12 == 2)
 vider_si EP28 EP33 if !`champ_ep28'
 vider_si EP29 if !inlist(EP28,1,2)
