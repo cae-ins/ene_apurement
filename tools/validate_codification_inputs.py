@@ -56,8 +56,8 @@ SPECS = (
         "r_activite_s.dta",
     ),
     SpreadsheetSpec(
-        "Activite_secondaire_T126.xlsx",
-        "Feuil1",
+        "codification_emploi_secondaire_T3_2026__ciap_activite_secondaire_final.xlsx",
+        "Sheet1",
         {
             "interview__key": "interview__key",
             "membres__id": "membres__id",
@@ -66,8 +66,8 @@ SPECS = (
         "membres.dta",
     ),
     SpreadsheetSpec(
-        "Codif_activite_principales_T126.xlsx",
-        "Feuil1",
+        "codification_emploi_principal_T3_2026__ciap_activite_principale_final.xlsx",
+        "Sheet1",
         {
             "interview__key": "interview__key",
             "membres__id": "membres__id",
@@ -76,7 +76,7 @@ SPECS = (
         "membres.dta",
     ),
     SpreadsheetSpec(
-        "Pluriactivite_AllT126.xls",
+        "codification_autre_emploi_T3_2026__ciap_pluriactivite_final.xlsx",
         "Sheet1",
         {
             "interview__key": "interview__key",

@@ -15,8 +15,10 @@
 *   codification_autre_emploi_T3_2026.xlsx
 *   (Codification_V1_V2_V3_08112026.rar, ENEM-Suite ;
 *    en-têtes en noms de variables, une feuille nommée)
-*   Activite_secondaire_T126.xlsx
-*   Pluriactivite_AllT126.xls
+*   codification_emploi_principal_T3_2026__ciap_activite_principale_final.xlsx
+*   codification_emploi_secondaire_T3_2026__ciap_activite_secondaire_final.xlsx
+*   codification_autre_emploi_T3_2026__ciap_pluriactivite_final.xlsx
+*   (CIAP T3 2026, feuille Sheet1 ; colonnes « Code activité » / « Code »)
 *   referentiel_citp_codes.xlsx
 *================================================
 
@@ -24,9 +26,9 @@ foreach fichier in ///
     "codification_emploi_principal_T3_2026_v3.xlsx" ///
     "codification_emploi_secondaire_T3_2026.xlsx" ///
     "codification_autre_emploi_T3_2026.xlsx" ///
-    "Activite_secondaire_T126.xlsx" ///
-    "Pluriactivite_AllT126.xls" ///
-	"Codif_activite_principales_T126.xlsx" ///
+    "codification_emploi_principal_T3_2026__ciap_activite_principale_final.xlsx" ///
+    "codification_emploi_secondaire_T3_2026__ciap_activite_secondaire_final.xlsx" ///
+    "codification_autre_emploi_T3_2026__ciap_pluriactivite_final.xlsx" ///
     "referentiel_citp_codes.xlsx" {
     capture confirm file "$codification\\`fichier'"
     if _rc {
@@ -122,7 +124,8 @@ cap drop _merge
 
 * ---- 4. CIAP emploi secondaire ----
 preserve
-    import excel "$codification\Activite_secondaire_T126.xlsx", sheet("Feuil1") firstrow clear
+    import excel "$codification\codification_emploi_secondaire_T3_2026__ciap_activite_secondaire_final.xlsx", ///
+        sheet("Sheet1") firstrow clear
     cap rename Codeactivité CodeCIAPactivite_sec
     cap rename CodeactivitÃ© CodeCIAPactivite_sec
     keep interview__key membres__id CodeCIAPactivite_sec
@@ -140,10 +143,11 @@ cap drop _merge
 
 * ---- 5. CIAP pluriactivite ----
 preserve
-    import excel "$codification\Pluriactivite_AllT126.xls", sheet("Sheet1") firstrow clear
+    import excel "$codification\codification_autre_emploi_T3_2026__ciap_pluriactivite_final.xlsx", ///
+        sheet("Sheet1") firstrow clear
     cap rename Code CodeCIAPactivite_pluri
     keep interview__key membres__id r_activite_s__id CodeCIAPactivite_pluri
-    destring membres__id, replace force
+    destring membres__id r_activite_s__id, replace force
     drop if missing(interview__key)
     isid interview__key membres__id r_activite_s__id
     reshape wide CodeCIAPactivite_pluri, i(interview__key membres__id) j(r_activite_s__id)
@@ -156,47 +160,18 @@ report_codif_merge "CIAP pluriactivite"
 drop if _merge == 2
 cap drop _merge
 
-* ---- 6. CIAP emploi principal a activer a reception du fichier ----
+* ---- 6. CIAP emploi principal ----
 preserve
-    import excel "$codification\Codif_activite_principales_T126.xlsx", sheet("Feuil1") firstrow clear
-    cap rename Codeactivité CodeCIAPactivité // Ajuster le nom de la colonne si besoin
+    import excel "$codification\codification_emploi_principal_T3_2026__ciap_activite_principale_final.xlsx", ///
+        sheet("Sheet1") firstrow clear
+    cap rename Codeactivité CodeCIAPactivité
+    cap rename CodeactivitÃ© CodeCIAPactivité
     keep interview__key membres__id CodeCIAPactivité
     destring membres__id, replace force
     drop if missing(interview__key)
     isid interview__key membres__id
     save "$datatemp\codif_ciap_principal.dta", replace
 restore
-* ---- 3b. CIAP Emploi secondaire ----
-preserve
-    import excel "$codification\\Activite_secondaire_T126.xlsx", sheet("Feuil1") firstrow clear
-    cap rename Codeactivité CodeCIAPactivite_sec
-    cap rename CodeactivitÃ© CodeCIAPactivite_sec
-    keep interview__key membres__id CodeCIAPactivite_sec
-    destring membres__id, replace force
-    drop if missing(interview__key)
-    save "$datatemp\\codif_ciap_secondaire.dta", replace
-restore
-cap drop CodeCIAPactivite_sec
-cap drop _merge
-merge 1:1 interview__key membres__id using "$datatemp\\codif_ciap_secondaire.dta", keepus(CodeCIAPactivite_sec)
-drop if _merge == 2
-cap drop _merge
-
-* ---- 3c. CIAP Pluriactivité ----
-preserve
-    import excel "$codification\\Pluriactivite_AllT126.xls", sheet("Sheet1") firstrow clear
-    cap rename Code CodeCIAPactivite_pluri
-    keep interview__key membres__id r_activite_s__id CodeCIAPactivite_pluri
-    destring membres__id, replace force
-    drop if missing(interview__key)
-    reshape wide CodeCIAPactivite_pluri, i(interview__key membres__id) j(r_activite_s__id)
-    save "$datatemp\\codif_ciap_pluri.dta", replace
-restore
-cap drop CodeCIAPactivite_pluri*
-cap drop _merge
-merge 1:1 interview__key membres__id using "$datatemp\\codif_ciap_pluri.dta"
-drop if _merge == 2
-cap drop _merge
 
 cap drop CodeCIAPactivité
 cap drop _merge
